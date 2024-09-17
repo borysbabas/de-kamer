@@ -1,0 +1,16 @@
+Samenwerkingscontact
+
+- Bespreek persoonlijke problemen. Direct met de persoon waar het over gaat en daarna met de groep.
+- Bespreek goed taakverdeling.
+- Planning voor de week: "Ik wil dit af hebben." Geef het een fair try, als het niet lukt is dat niet erg.
+- Blijf communiceren
+- Als je een grote feature maakt, vertel iedereen.
+- Als je ergens mee zit, zeg het op tijd.
+- Wees niet bang om elkaar om hulp te vragen.
+- Maak een eigen branch, het maakt niet uit als je een persoonlijke of een feature branch gebruikt.
+- Laat weten als je te laat of niet op school komt.
+- Zorg ervoor dat de commit message informatief en beknopt is.
+- CHATGPT, gebruik alleen als je begrijpt wat er staat.
+
+Getekend door:
+Sjoerd, Mathijs, Senna, Borys, Tom
