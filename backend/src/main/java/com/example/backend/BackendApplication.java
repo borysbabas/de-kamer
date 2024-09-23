@@ -15,6 +15,8 @@ import java.util.Map;
 @SpringBootApplication
 @RestController
 public class BackendApplication {
+	private List<Map<String,Object>> registrations = new ArrayList<>();
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
@@ -26,7 +28,13 @@ public class BackendApplication {
 		response.put( "status","active");
 		return response;
 	}
-	private List<Map<String,Object>> registrations = new ArrayList<>();
+	@GetMapping(path="/login" ,produces="application/json")
+	public List<Map<String,Object>> getRegistrations(){
+		System.out.println(this.registrations);
+		return this.registrations;
+
+
+	}
 
 	@PostMapping(path="/register")
 	private List<Map<String, Object>> registerUser(@RequestBody Map<String,Object>userData){
@@ -34,5 +42,7 @@ public class BackendApplication {
 		System.out.println(userData);
 		return registrations;
 	}
+
+
 
 }

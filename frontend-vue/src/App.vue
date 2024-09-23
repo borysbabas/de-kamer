@@ -12,10 +12,10 @@ export default{
       isClicked: false,
     }
   },
-  mounted(){
-    fetch("http://localhost:8080/test").then(res=>res.json()).then(data=>this.getData(data))
-
-  },
+  // mounted(){
+  //   fetch("http://localhost:8080/test").then(res=>res.json()).then(data=>this.getData(data))
+  //
+  // },
   methods:{
     receiveEmit(status){
       console.log("received emit", status)
