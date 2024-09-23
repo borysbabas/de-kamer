@@ -7,7 +7,7 @@
     <div class="wrapper">
     <label>Enter your credentials.</label>
     <input placeholder="E-mail or username">
-    <input placeholder="Password">
+    <input placeholder="Password" type="password">
       <button>Log in</button>
       <a href="">Create account.</a>
     </div>

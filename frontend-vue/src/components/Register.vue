@@ -1,16 +1,48 @@
 <script setup lang="ts">
+import {onMounted, ref} from "vue"
+const postMethod=async ()=>{
+  try{
+    const response= await fetch("http://localhost:8080/register",{
+      method: "POST",
+      headers:{
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify(formData.value)
+    });
+    if (response.ok){
+      const result= await response.json();
+      console.log("data succesvol verstuurd", result)
 
+    }else{
+      console.error("data niet succesvol verstuurd.",reponse.statusText)
+    }
+  }catch(error){
+    console.log(error)
+
+  }
+
+}
+const formData=ref({
+  email:"",
+  username:"",
+  dateOfBirth:"",
+  password:"",
+
+})
+const registerData=()=>{
+console.log(formData.value)
+}
 </script>
 
 <template>
-  <form>
+  <form @submit.prevent>
     <div class="wrapper">
       <label>Enter your personal information.</label>
-      <input placeholder="E-mail">
-      <input placeholder="Username">
-      <input type="date" placeholder="date of birth.">
-      <input type="password" placeholder="Password">
-      <button>Submit</button>
+      <input v-model="formData.email" placeholder="E-mail">
+      <input v-model="formData.username" placeholder="Username">
+      <input v-model="formData.dateOfBirth" type="date" placeholder="date of birth.">
+      <input v-model="formData.password" type="password" placeholder="Password">
+      <button type="submit" @click= "postMethod">Submit</button>
     </div>
   </form>
 

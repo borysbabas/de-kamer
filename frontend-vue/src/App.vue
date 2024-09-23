@@ -1,7 +1,6 @@
 <script>
 import Navbar from "./components/Navbar.vue"
 import Hero from "@/components/Hero.vue";
-import {ref} from "vue"
 export default{
   name: "App",
   components:{
@@ -10,13 +9,21 @@ export default{
   },
   data(){
     return{
-      isClicked: false
+      isClicked: false,
     }
+  },
+  mounted(){
+    fetch("http://localhost:8080/test").then(res=>res.json()).then(data=>this.getData(data))
+
   },
   methods:{
     receiveEmit(status){
       console.log("received emit", status)
       this.isClicked = status
+
+    },
+    getData(data){
+      console.log(data)
 
     }
 
