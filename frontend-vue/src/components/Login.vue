@@ -5,10 +5,7 @@ const loginCredentials=ref({
   password: "",
 })
 const submitLogin=async ()=>{
-   const response = await fetch("/register",{
-     method:"GET",
-
-   })
+   const response = await fetch("http://localhost:8080/login")
   if(response.ok){
     const result = await response.json()
     console.log("succesvol get request", result)
