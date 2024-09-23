@@ -1,14 +1,29 @@
 <script setup lang="ts">
+import{ref} from  "vue"
+const loginCredentials=ref({
+  email: "",
+  password: "",
+})
+const submitLogin=async ()=>{
+   const response = await fetch("/register",{
+     method:"GET",
+
+   })
+  if(response.ok){
+    const result = await response.json()
+    console.log("succesvol get request", result)
+  }
+}
 
 </script>
 
 <template>
-  <form>
+  <form @submit.prevent>
     <div class="wrapper">
     <label>Enter your credentials.</label>
-    <input placeholder="E-mail or username">
-    <input placeholder="Password" type="password">
-      <button>Log in</button>
+    <input v-model="loginCredentials.email" placeholder="E-mail">
+    <input v-model="loginCredentials.password" placeholder="Password" type="password">
+      <button @click="submitLogin">Log in</button>
       <a href="">Create account.</a>
     </div>
   </form>
