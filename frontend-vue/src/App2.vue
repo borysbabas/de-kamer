@@ -1,0 +1,97 @@
+
+<script xmlns="http://www.w3.org/1999/html">
+import{ref} from  "vue"
+export default{
+  data(){
+    return{
+      name: "John Doe",
+      status:   "active",
+      tasks: ["task one","task two","task three"],
+      link:  "https://google.com"
+    }
+  },
+  methods: {
+    toggleStatus(){
+      if(this.status==="active"){
+        this.status= "inactive"
+      }else if(this.status==="inactive"){
+        this.status= "active"
+      }
+
+    }
+
+  }
+}
+</script>
+<template>
+  <h1>{{name}}</h1>
+  <p v-if="status==='active'  ">User is active</p>
+  <p v-else>User is inactive</p>
+  <h3>Tasks:</h3>
+  <ul>
+    <li v-for="task in tasks" :key="task">{{task}}</li>
+  </ul>
+  <a v-bind:href="link">Click for google</a>
+  <br>
+  <button v-on:click="toggleStatus">Change status</button>
+</template>
+<style scoped>
+</style>
+
+<script setup>
+import {ref, onMounted} from "vue"
+const name = ref("John Doe")
+const status = ref("active")
+const tasks=ref(["task1", "task2", "task3"])
+const newTask = ref("");
+
+const toggleStatus = ()=>{
+  if(status.value==="active"){
+    status.value= "inactive"
+  }else if(status.value==="inactive"){
+    status.value= "active"
+  }
+}
+const addTask = ()=>{
+  if(newTask.value.trim()!==""){
+    tasks.value.push(newTask.value)
+    newTask.value=""}
+
+}
+const deleteTask=(index)=>{
+  tasks.value.splice(index,1)
+
+}
+onMounted(async()=>{
+  try{
+    const response = await fetch( "http://jsonplaceholder.typicode.com/todos")
+    const data = await response.json()
+    tasks.value=data.map((task)=>task.title)
+  }catch(Error){
+    console.log("error fetching.")
+
+  }
+});
+</script>
+<template>
+  <h1>{{name}}</h1>
+  <p v-if="status==='active'  ">User is active</p>
+  <p v-else>User is inactive</p>
+  <form @submit.prevent="addTask">
+    <label for="newTask">add task</label>
+    <input type="text" id="newTask" name="newtask" v-model="newTask">
+    <button @click="addTask">Submit</button>
+  </form>
+  <h3>Tasks:</h3>
+  <ul>
+    <li v-for="(task, index) in tasks" :key="task">
+      <span>{{task}}</span>
+      <button @click="deleteTask(index)">X</button>
+    </li>
+  </ul>
+  <a v-bind:href="link">Click for google</a>
+  <br>
+  <button v-on:click="toggleStatus">Change status</button>
+</template>
+<style scoped>
+</style>
