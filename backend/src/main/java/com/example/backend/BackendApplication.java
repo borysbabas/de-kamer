@@ -2,6 +2,9 @@ package com.example.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,9 +32,15 @@ public class BackendApplication {
 		return response;
 	}
 	@GetMapping(path="/login" ,produces="application/json")
-	public List<Map<String,Object>> getRegistrations(){
-		System.out.println(this.registrations);
-		return this.registrations;
+	public ResponseEntity<Boolean> loginUser(@RequestBody Map<String, Object>loginCredentials){
+		System.out.println(loginCredentials);
+		if(registrations.contains(loginCredentials)){
+			return ResponseEntity.ok(true);
+
+		}else{
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+		}
+
 
 
 	}
