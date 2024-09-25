@@ -5,10 +5,14 @@ const loginCredentials=ref({
   password: "",
 })
 const submitLogin=async ()=>{
-   const response = await fetch("http://localhost:8080/login")
+   const response = await fetch("http://localhost:8080/login",{
+     method: "POST",
+     headers:{"Content-type":"application/json"},
+     body:JSON.stringify(loginCredentials.value),
+   })
   if(response.ok){
     const result = await response.json()
-    console.log("succesvol get request", result)
+    console.log("succesvol POST request.", result)
   }
 }
 
