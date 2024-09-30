@@ -14,7 +14,7 @@ const submitLogin=async ()=>{
   if(response.ok){
     const result = await response.json()
     loginEmit("logged-in", true)
-    console.log("succesvol POST request.", result)
+    console.log("Succesvol POST request.", result)
   }
 }
 
@@ -66,10 +66,10 @@ button{
 width: 100%;
 padding: 10px;
 background-color: #444;
-color: white; /* Tekstkleur van de knop */
+color: white;
 border: none;
 border-radius: 4px;
-cursor: pointer; /* Cursor verandert naar pointer */
+cursor: pointer;
 font-size: 16px;
 }
 a{
