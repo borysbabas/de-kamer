@@ -7,19 +7,10 @@ const state = ref(null)
 const emit = defineEmits(["toggle-state"])
 let loginStatus=ref(false)
 
-//searchbar
-const search = ref("")
-
-
-
-
-
 const login=()=>{
   state.value=Login
   if(state.value){
-    if(state.value!==null && state.value !== undefined){
-      emit("toggle-state", true)
-    }
+    emit("toggle-state", true)
   }else{
     console.log("error")
   }
@@ -27,10 +18,7 @@ const login=()=>{
 const register=()=>{
   state.value=Register
   if(state.value){
-  if(state.value!==null && state.value !== undefined){
     emit("toggle-state", true)
-
-  }
   }else{
     console.log("error")
   }
@@ -39,7 +27,7 @@ const register=()=>{
 
 </script>
 <template>
-  <div class="navigatie">
+  <div class="nav">
     <ul>
       <li id="Home"><a>Home</a></li>
       <li id="Home"><input id="search-bar" type="search" placeholder="Search..." v-model="search"></li>
@@ -53,7 +41,7 @@ const register=()=>{
 
 <style>
 
-.navigatie {
+.nav {
   background-color: #333;
   padding: 10px 20px;
 }
@@ -97,7 +85,7 @@ a:hover {
   color: darkgray;
 }
 
-.navigatie ul li:hover {
+.nav ul li:hover {
   background-color: #444;
   border-radius: 8px;
 }
