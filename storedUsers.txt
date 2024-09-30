@@ -1,0 +1,1 @@
+{email=test@gmail.com, username=gebruikersnaamtest, dateOfBirth=2003-07-09, password=wachtwoord1234}
