@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -31,33 +33,70 @@ public class BackendApplication {
 	}
 	@PostMapping(path="/login")
 	public ResponseEntity<Boolean> loginUser(@RequestBody Map<String, Object>loginCredentials){
-		try{
-			System.out.println(loginCredentials);
-			String inputEmail =(String)loginCredentials.get("email");
-			String inputPassword=(String)loginCredentials.get("password");
-			Scanner myScanner = new Scanner(storedUsersPath);
-			while(myScanner.hasNextLine()){
-				String variable = myScanner.nextLine();
-				String[] storedUser = variable.split(",");
-				String storedEmail = storedUser[0];
-				String storedPassword=storedUser[1];
+		String emailInput = (String) loginCredentials.get("email");
+		String passwordInput = (String) loginCredentials.get("password");
 
-				if(storedEmail.equals(inputEmail)&& storedPassword.equals(inputPassword)){
-					myScanner.close();
-					return ResponseEntity.ok(true);
+		try {
+			File file = new File(storedUsersPath);
+			if (!file.exists()) {
+				System.out.println("The storedUsers.txt file does not exist.");
+				return ResponseEntity.status(404).body(false);
+			}
+
+			Scanner myScanner = new Scanner(file);
+			while (myScanner.hasNextLine()) {
+				String line = myScanner.nextLine().trim();
+
+				System.out.println("Reading line: " + line);
+
+				if (!line.isEmpty()) {
+					Map<String, String> storedUserData = parseUserData(line);
+					System.out.println("Parsed data: " + storedUserData);
+
+					String storedEmail = storedUserData.get("email");
+					String storedPassword = storedUserData.get("password");
+
+					System.out.println("Stored email: " + storedEmail);
+					System.out.println("Stored password: " + storedPassword);
+
+					if (storedEmail != null && storedEmail.equals(emailInput) &&
+							storedPassword != null && storedPassword.equals(passwordInput)) {
+						myScanner.close();
+						System.out.println("Login successful!");
+						return ResponseEntity.ok(true);
+					}
 				}
 			}
 			myScanner.close();
+
 			return ResponseEntity.status(401).body(false);
 
-		}
-		catch(Exception E){
-			System.out.println("An error occured");
-			E.printStackTrace();
+		} catch (FileNotFoundException e) {
+			System.out.println("Error: File not found.");
+			e.printStackTrace();
 			return ResponseEntity.status(500).body(false);
+		} catch (Exception e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+			return ResponseEntity.status(500).body(false);
+		}
+	}
 
+
+	private Map<String, String> parseUserData(String userData) {
+		Map<String, String> parsedData = new HashMap<>();
+		String[] keyValuePairs = userData.replace("{", "").replace("}", "").split(", ");
+
+		for (String pair : keyValuePairs) {
+			String[] entry = pair.split("=", 2);
+			if (entry.length == 2) {
+				parsedData.put(entry[0], entry[1]);
+			} else {
+				System.out.println("Invalid key-value pair: " + pair);
+			}
 		}
 
+		return parsedData;
 	}
 
 	@PostMapping(path="/register")

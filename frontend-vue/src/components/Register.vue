@@ -29,9 +29,6 @@ const formData=ref({
   password:"",
 
 })
-const registerData=()=>{
-console.log(formData.value)
-}
 </script>
 
 <template>
