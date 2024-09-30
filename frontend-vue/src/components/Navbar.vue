@@ -8,6 +8,7 @@ const emit = defineEmits(["toggle-state"])
 let loginStatus=ref(false)
 
 //searchbar
+const search = ref("")
 
 
 
