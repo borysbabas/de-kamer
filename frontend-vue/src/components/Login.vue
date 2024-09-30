@@ -6,7 +6,7 @@ const loginCredentials=ref({
 })
 const loginEmit = defineEmits(["logged-in"])
 const submitLogin=async ()=>{
-   const response = await fetch("http://localhost:8080/login",{
+   const response = await fetch("http://localhost:3001/login",{
      method: "POST",
      headers:{"Content-type":"application/json"},
      body:JSON.stringify(loginCredentials.value),
