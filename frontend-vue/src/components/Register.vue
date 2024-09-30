@@ -79,10 +79,10 @@ button{
   width: 100%;
   padding: 10px;
   background-color: #444;
-  color: white; /* Tekstkleur van de knop */
+  color: white;
   border: none;
   border-radius: 4px;
-  cursor: pointer; /* Cursor verandert naar pointer */
+  cursor: pointer;
   font-size: 16px;
 }
 a{

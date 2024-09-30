@@ -13,10 +13,10 @@
 
 <style scoped>
 .learn-more {
-  position: absolute; /* Absoluut gepositioneerd binnen de hero */
-  right: 20px; /* Afstand van de rechterkant */
-  bottom: 20px; /* Afstand van de onderkant */
-  background-color: #90ee90; /* Achtergrondkleur van de knop */
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  background-color: #90ee90;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -28,7 +28,7 @@
 }
 
 .learn-more:hover {
-  background-color: #008000; /* Kleurverandering bij hover */
+  background-color: #008000;
 }
 .wrapper {
   position: relative;

@@ -1,0 +1,1 @@
+INSERT INTO `party` (`partyId`, ``)
