@@ -6,7 +6,7 @@ const loginCredentials=ref({
 })
 const loginEmit = defineEmits(["logged-in"])
 const submitLogin=async ()=>{
-   const response = await fetch("http://localhost:8080/login",{
+   const response = await fetch("http://localhost:3001/login",{
      method: "POST",
      headers:{"Content-type":"application/json"},
      body:JSON.stringify(loginCredentials.value),
@@ -14,7 +14,7 @@ const submitLogin=async ()=>{
   if(response.ok){
     const result = await response.json()
     loginEmit("logged-in", true)
-    console.log("succesvol POST request.", result)
+    console.log("Succesvol POST request.", result)
   }
 }
 
@@ -66,10 +66,10 @@ button{
 width: 100%;
 padding: 10px;
 background-color: #444;
-color: white; /* Tekstkleur van de knop */
+color: white;
 border: none;
 border-radius: 4px;
-cursor: pointer; /* Cursor verandert naar pointer */
+cursor: pointer;
 font-size: 16px;
 }
 a{
