@@ -1,14 +1,32 @@
 <script setup lang="ts">
+import{ref} from  "vue"
+const loginCredentials=ref({
+  email: "",
+  password: "",
+})
+const loginEmit = defineEmits(["logged-in"])
+const submitLogin=async ()=>{
+   const response = await fetch("http://localhost:8080/login",{
+     method: "POST",
+     headers:{"Content-type":"application/json"},
+     body:JSON.stringify(loginCredentials.value),
+   })
+  if(response.ok){
+    const result = await response.json()
+    loginEmit("logged-in", true)
+    console.log("succesvol POST request.", result)
+  }
+}
 
 </script>
 
 <template>
-  <form>
+  <form @submit.prevent>
     <div class="wrapper">
     <label>Enter your credentials.</label>
-    <input placeholder="E-mail or username">
-    <input placeholder="Password">
-      <button>Log in</button>
+    <input v-model="loginCredentials.email" placeholder="E-mail">
+    <input v-model="loginCredentials.password" placeholder="Password" type="password">
+      <button @click="submitLogin">Log in</button>
       <a href="">Create account.</a>
     </div>
   </form>

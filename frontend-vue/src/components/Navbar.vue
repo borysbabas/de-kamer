@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import{ref, defineEmits} from  "vue"
+import {ref, defineEmits} from "vue"
 import Login from "./Login.vue"
 import Register from "@/components/Register.vue";
 
 const state = ref(null)
 const emit = defineEmits(["toggle-state"])
+let loginStatus=ref(false)
+
+//searchbar
+
+
+
+
 
 const login=()=>{
   state.value=Login
@@ -27,25 +34,40 @@ const register=()=>{
     console.log("error")
   }
 }
+
+
 </script>
 <template>
   <div class="navigatie">
     <ul>
       <li id="Home"><a>Home</a></li>
-        <li v-on:click="login"><a>Login</a></li>
-        <li v-on:click="register"><a>Register</a></li>
+      <li id="Home"><input id="search-bar" type="search" placeholder="Search..." v-model="search"></li>
+      <li v-on:click="login"><a>Login</a></li>
+      <li v-on:click="register"><a>Register</a></li>
       </ul>
   </div>
  <component :is="state"></component>
+
 </template>
 
 <style>
+
 .navigatie {
   background-color: #333;
   padding: 10px 20px;
 }
 #Home{
   margin-right:auto;
+}
+ #search-bar{
+  width: 800px;
+  height: 0px;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+  transition: all 0.3s ease;
 }
 ul {
   list-style: none;
