@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import{ref, defineEmits} from  "vue"
+import {ref, defineEmits} from "vue"
 import Login from "./Login.vue"
 import Register from "@/components/Register.vue";
 
 const state = ref(null)
 const emit = defineEmits(["toggle-state"])
 let loginStatus=ref(false)
-const receiveLoginEmit=(status)=>{
-  console.log(status)
-  loginStatus.value=receiveLoginEmit(status)
+
+//searchbar
 
 
-}
 
 
 
@@ -43,7 +41,7 @@ const register=()=>{
   <div class="navigatie">
     <ul>
       <li id="Home"><a>Home</a></li>
-      <li id="Home"><input id="search-bar" type="search" placeholder="Search..." v-model="searchQuery"></li>
+      <li id="Home"><input id="search-bar" type="search" placeholder="Search..." v-model="search"></li>
       <li v-on:click="login"><a>Login</a></li>
       <li v-on:click="register"><a>Register</a></li>
       </ul>
