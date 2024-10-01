@@ -3,51 +3,58 @@
 </script>
 
 <template>
-  <div class="wrapper">
-<h1>Dit is de hero van de webpagina</h1>
-    <div class="btn-container">
-    <button class="learn-more">Learn More</button>
-    </div>
-  </div>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Beiruti:wght@200..900&display=swap" rel="stylesheet">
+    <section class="main">
+      <h1>
+        Meest verkozen partijen
+      </h1>
+      <div class="parties">
+        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+      </div>
+    </section>
 </template>
 
 <style scoped>
-.learn-more {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
-  background-color: #90ee90;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.main {
+  background: #212D39;
+  color: #ECECEC;
+}
+.parties {
+  display: grid;
+  gap: 50px 50px;
+  grid-template-areas:
+    "party party party party party party"
+    "party party party party party party";
+  padding: 0 128px;
 }
 
-.learn-more:hover {
-  background-color: #008000;
-}
-.wrapper {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60vh;
-  background-color: #f5f5f5;
-  margin-top: 60px;
-  text-align: center;
-  padding: 20px;
+.party {
+  width: 200px;
+  height: 200px;
+  border-radius: 20px;
+  object-fit: cover;
 }
 
 h1 {
   font-size: 3rem;
-  color: #333;
-  font-weight: bold;
   line-height: 1.2;
+  font-weight: normal;
   margin: 0;
+  font-family: Beiruti, sans-serif;
+  padding: 0 128px 50px 128px;
 }
 
 @media (min-width: 768px) {

@@ -29,5 +29,3 @@ export default{
   <Navbar @toggle-state="receiveEmit"></Navbar>
   <Hero v-if="!isClicked"></Hero>
 </template>
-<styles>
-</styles>
