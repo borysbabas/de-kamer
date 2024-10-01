@@ -6,39 +6,52 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Beiruti:wght@200..900&display=swap" rel="stylesheet">
-    <section class="main">
-      <h1>
-        Meest verkozen partijen
-      </h1>
-      <div class="parties">
-        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
-      </div>
-    </section>
+  <section class="first main">
+    <h1>
+      Meest verkozen partijen
+    </h1>
+    <div class="parties">
+      <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+      <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+      <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+      <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+      <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+      <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+      <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+      <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+      <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+      <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+      <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+      <img class="party" alt="party" src="../assets/img/Dummy%20200x200%20temp.jpg">
+    </div>
+  </section>
+  <section class="main">
+
+  </section>
 </template>
 
 <style scoped>
 .main {
-  background: #212D39;
-  color: #ECECEC;
+  height: calc(100vh - 200px);
+  object-fit: cover;
+  background-color: var(--dark-primary);
+  color: var(--light-secondary);
+  padding-left: 128px;
+  padding-right: 128px;
 }
+
+.first {
+  padding-top: 200px;
+  border-bottom: 1px solid var(--light-secondary);
+}
+
 .parties {
   display: grid;
   gap: 50px 50px;
   grid-template-areas:
     "party party party party party party"
     "party party party party party party";
-  padding: 0 128px;
+  max-width: fit-content;
 }
 
 .party {
@@ -54,7 +67,7 @@ h1 {
   font-weight: normal;
   margin: 0;
   font-family: Beiruti, sans-serif;
-  padding: 0 128px 50px 128px;
+  padding-bottom: 50px;
 }
 
 @media (min-width: 768px) {

@@ -1,24 +1,26 @@
 <script>
 import Navbar from "./components/Navbar.vue"
 import Hero from "@/components/Hero.vue";
-export default{
+import "@/assets/main.css";
+
+export default {
   name: "App",
-  components:{
+  components: {
     Navbar: Navbar,
     Hero: Hero
   },
-  data(){
-    return{
+  data() {
+    return {
       isClicked: false,
     }
   },
-  methods:{
-    receiveEmit(status){
+  methods: {
+    receiveEmit(status) {
       console.log("received emit", status)
       this.isClicked = status
 
     },
-    getData(data){
+    getData(data) {
       console.log(data)
 
     }
