@@ -67,41 +67,41 @@ erDiagram
 title: Elections EERD V2
 ---
 erDiagram
-    constituency ||--|{ municipality : "consists of"
-    municipality ||--|{ polling_station : has
-    party ||--|{ candidate : has
-    constituency ||--|{ constituency_candidate : "consists of"
-    constituency_candidate }|--|| candidate : is
-    constituency ||--|{ constituency_votes : collects
-    municipality ||--|{ municipality_votes : collects
-    polling_station ||--|{ polling_station_votes : collects
-    candidate ||--|{ constituency_votes : has
-    candidate ||--|{ municipality_votes : has
-    candidate ||--|{ polling_station_votes : has
+    constituencies ||--|{ municipalities : "consists of"
+    municipalities ||--|{ polling_stations : has
+    parties ||--|{ candidates : has
+    constituencies ||--|{ constituency_candidates : "consists of"
+    constituency_candidates }|--|| candidates : is
+    constituencies ||--|{ constituency_votes : collects
+    municipalities ||--|{ municipality_votes : collects
+    polling_stations ||--|{ polling_station_votes : collects
+    candidates ||--|{ constituency_votes : has
+    candidates ||--|{ municipality_votes : has
+    candidates ||--|{ polling_station_votes : has
     
-    constituency {
+    constituencies {
         int consituency_id PK
         string constituency_name
     }
     
-    municipality {
+    municipalities {
         int municipality_id PK
         int constituency_id FK
         string constituency_name
     }
     
-    polling_station {
+    polling_stations {
         int polling_station_id PK
         int municipality_id FK
-        string pollingStation_name
+        string polling_station_name
     }
     
-    party {
+    parties {
         int party_id PK
         string party_name
     }
     
-    candidate {
+    candidates {
         int candidate_id PK
         int party_id FK
         int member_id
@@ -112,7 +112,7 @@ erDiagram
         string locality
     }
     
-    constituency_candidate {
+    constituency_candidates {
         int constituency_id FK
         int member_id FK
     }
