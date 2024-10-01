@@ -13,5 +13,4 @@ public class ApiConfig implements WebMvcConfigurer {
                         "http://localhost:3000", "http://*.hva.nl:*"
                 ).allowedMethods("GET", "POST", "PUT", "DELETE");
     }
-
 }
