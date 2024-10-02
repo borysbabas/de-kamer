@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import {ref, defineEmits} from "vue"
+import {defineEmits, ref} from "vue"
 import Login from "./Login.vue"
 import Register from "@/components/Register.vue";
 
 const state = ref(null)
 const emit = defineEmits(["toggle-state"])
-let loginStatus=ref(false)
+let loginStatus = ref(false)
 
-const login=()=>{
-  state.value=Login
-  if(state.value){
+const login = () => {
+  state.value = Login
+  if (state.value) {
     emit("toggle-state", true)
-  }else{
+  } else {
     console.log("error")
   }
 }
-const register=()=>{
-  state.value=Register
-  if(state.value){
+const register = () => {
+  state.value = Register
+  if (state.value) {
     emit("toggle-state", true)
-  }else{
+  } else {
     console.log("error")
   }
 }
@@ -33,22 +33,30 @@ const register=()=>{
       <li id="Home"><input id="search-bar" type="search" placeholder="Search..." v-model="search"></li>
       <li v-on:click="login"><a>Login</a></li>
       <li v-on:click="register"><a>Register</a></li>
-      </ul>
+    </ul>
   </div>
- <component :is="state"></component>
+  <component :is="state"></component>
 
 </template>
 
 <style>
 
 .nav {
-  background-color: #333;
-  padding: 10px 20px;
+  background-color: var(--button-important);
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  right: 50px;
+  height: 50px;
+  padding: 25px 0;
+  border-radius: 20px;
 }
-#Home{
-  margin-right:auto;
+
+#Home {
+  margin-right: auto;
 }
- #search-bar{
+
+#search-bar {
   width: 800px;
   height: 0px;
   padding: 10px;
@@ -58,6 +66,7 @@ const register=()=>{
   outline: none;
   transition: all 0.3s ease;
 }
+
 ul {
   list-style: none;
   margin: 0;
