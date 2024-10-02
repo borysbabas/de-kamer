@@ -28,22 +28,28 @@ const register = () => {
 <template>
   <div class="nav">
     <ul>
-      <li class="Home"><a class="no-animation">DeKamer.</a></li>
-      <li class="buttons">
+      <li><a class="no-animation home">DeKamer.</a></li>
+      <div class="right-container">
         <li v-on:click="login"><a>Login</a></li>
         <li v-on:click="register"><a>Register</a></li>
-        <svg xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
-             viewBox="0 0 512 512">
-          <path
-              d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
-        </svg>
-      </li>
+        <li>
+          <svg xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
+               viewBox="0 0 512 512">
+            <path
+                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
+          </svg>
+        </li>
+      </div>
     </ul>
   </div>
   <component :is="state"></component>
 </template>
 
 <style>
+:root {
+  --animation-duration: 0.3s; /* Define the animation duration variable */
+}
+
 .nav {
   background-color: var(--button-important);
   position: fixed;
@@ -57,10 +63,6 @@ const register = () => {
   justify-content: center;
   font-family: var(--font), sans-serif;
   z-index: 1;
-}
-
-.Home {
-  font-size: 3rem;
 }
 
 ul {
@@ -77,24 +79,30 @@ li {
   padding: 10px 15px;
 }
 
-.buttons {
+.right-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-size: 1.5rem;
+  margin-left: auto;
 }
 
 .magnifying-glass-icon {
   fill: white;
   width: 2rem;
   cursor: pointer;
+  transition-duration: var(--animation-duration);
+}
+
+.magnifying-glass-icon:hover {
+  fill: var(--dark-primary);
+  animation: rotate-shake 0.5s;
+}
+
+.home {
+  font-size: 36px;
 }
 
 a {
   cursor: pointer;
-  text-decoration: none;
-  color: white;
-  font-weight: normal;
   position: relative;
 }
 
@@ -123,4 +131,26 @@ a.no-animation:hover::after {
   width: 0;
 }
 
+@keyframes rotate-shake {
+  0% {
+    transform: rotate(0deg) translateX(0);
+  }
+  25% {
+    transform: rotate(2deg) translateX(-2px);
+  }
+  50% {
+    transform: rotate(-2deg) translateX(2px);
+  }
+  75% {
+    transform: rotate(2deg) translateX(-2px);
+  }
+  100% {
+    transform: rotate(0deg) translateX(0);
+  }
+}
+
+.magnifying-glass-icon:hover {
+  fill: var(--dark-primary);
+  animation: rotate-shake 0.5s;
+}
 </style>
