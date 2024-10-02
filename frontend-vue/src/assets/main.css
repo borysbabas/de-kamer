@@ -11,7 +11,7 @@ body {
     font-family: var(--font), sans-serif;
     font-weight: normal;
     background-color: var(--light-primary);
-    color: var(--dark-primary);
+    color: var(--light-primary);
 }
 
 

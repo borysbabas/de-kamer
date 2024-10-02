@@ -103,7 +103,7 @@
       <img class="desc-img" alt="desc" src="../assets/img/tweede-kamer-720p.jpg">
     </div>
   </section>
-  <section class="main">
+  <section class="last main">
     <div class="graph">
       <h1 id="graph-title">
         Stemmenverdeling Tweede Kamer
@@ -228,6 +228,11 @@
 }
 
 /** Styling for the graph section */
+.last {
+  padding-bottom: 50px;
+  border-bottom: none;
+}
+
 .graph {
   display: flex;
   flex-direction: column;
