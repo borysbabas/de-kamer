@@ -102,9 +102,19 @@
       </div>
       <img class="desc-img" alt="desc" src="../assets/img/tweede-kamer-720p.jpg">
     </div>
-
   </section>
   <section class="main">
+    <div class="graph">
+      <h1 id="graph-title">
+        Stemmenverdeling Tweede Kamer
+      </h1>
+      <h2 id="graph-subtitle">
+        Laatste update: 12-09-2021
+      </h2>
+      <div class="graph-img-container">
+        <img class="graph-img" alt="graph" src="../assets/img/zetelverdeling-tk.png">
+      </div>
+    </div>
   </section>
 </template>
 
@@ -217,4 +227,32 @@
   border-radius: 20px;
 }
 
+/** Styling for the graph section */
+.graph {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding-top: 50px;
+}
+
+#graph-title {
+  padding-bottom: 20px;
+}
+
+#graph-subtitle {
+  padding-bottom: 50px;
+}
+
+.graph-img-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.graph-img {
+  max-height: 500px;
+  width: 1000px;
+  border-radius: 20px;
+}
 </style>
