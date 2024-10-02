@@ -1,5 +1,5 @@
 ## Guerilla test
-In this file the answers and first impressions of the selected student peers are gathered. Moreover there will be a short summary of what the key points of improving are.
+In this file the answers and first impressions of the selected student peers are gathered. There will be a short summary of what the key points of improving are.
 ### Analysis
 **Allif** :
 1. There is missing a concrete Welcome when first visiting the page.
@@ -21,4 +21,11 @@ In this file the answers and first impressions of the selected student peers are
 7. Yes, the navigation is sufficient for the current data.
 8. The buttons and links are clear.
 
-### Rapportage
+### Report
+Both candidates where positive about the current design. However there were a few subjects that needed improving.
+
+Allif gave us as feedback to add a more concrete welmcoming page.
+Also it was mentioned that there must be a toggle switch between light and dark mode as it is preference based.
+Furthermore the users want to see more navigation buttons as this smooths the user performance. Lastly it was mentioned in the answers given that there must be place for new feautures in the navbar for navigation purposes or to filter the data.
+
+In conclusion, the current design is viable and will be a good product with some improvements.
