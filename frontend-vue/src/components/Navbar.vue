@@ -23,13 +23,12 @@ const register = () => {
     console.log("error")
   }
 }
-
-
 </script>
+
 <template>
   <div class="nav">
     <ul>
-      <li class="Home"><a>DeKamer.</a></li>
+      <li class="Home"><a class="no-animation">DeKamer.</a></li>
       <li class="buttons">
         <li v-on:click="login"><a>Login</a></li>
         <li v-on:click="register"><a>Register</a></li>
@@ -42,11 +41,9 @@ const register = () => {
     </ul>
   </div>
   <component :is="state"></component>
-
 </template>
 
 <style>
-
 .nav {
   background-color: var(--button-important);
   position: fixed;
@@ -98,20 +95,32 @@ a {
   text-decoration: none;
   color: white;
   font-weight: normal;
+  position: relative;
 }
 
-
-@media (max-width: 768px) {
-  ul {
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-  }
-
-  li {
-    margin: 10px 0;
-  }
+a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--light-primary);
+  width: 0;
+  transition: width var(--animation-duration);
 }
 
+a:hover::after {
+  width: 100%;
+}
+
+a:hover {
+  color: var(--light-primary);
+}
+
+a.no-animation::after,
+a.no-animation:hover::after {
+  width: 0;
+}
 
 </style>
