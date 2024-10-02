@@ -2,12 +2,14 @@
 import Navbar from "./components/Navbar.vue"
 import Hero from "@/components/Hero.vue";
 import "@/assets/main.css";
+import "@/assets/reset.css";
 
 export default {
   name: "App",
   components: {
     Navbar: Navbar,
-    Hero: Hero
+    Hero: Hero,
+    Footer: Footer
   },
   data() {
     return {
@@ -18,10 +20,6 @@ export default {
     receiveEmit(status) {
       console.log("received emit", status)
       this.isClicked = status
-
-    },
-    getData(data) {
-      console.log(data)
 
     }
   }

@@ -29,10 +29,16 @@ const register = () => {
 <template>
   <div class="nav">
     <ul>
-      <li id="Home"><a>Home</a></li>
-      <li id="Home"><input id="search-bar" type="search" placeholder="Search..." v-model="search"></li>
-      <li v-on:click="login"><a>Login</a></li>
-      <li v-on:click="register"><a>Register</a></li>
+      <li class="Home"><a>DeKamer.</a></li>
+      <li class="buttons">
+        <li v-on:click="login"><a>Login</a></li>
+        <li v-on:click="register"><a>Register</a></li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
+             viewBox="0 0 512 512">
+          <path
+              d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
+        </svg>
+      </li>
     </ul>
   </div>
   <component :is="state"></component>
@@ -48,23 +54,16 @@ const register = () => {
   left: 50px;
   right: 50px;
   height: 50px;
-  padding: 25px 0;
   border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: var(--font), sans-serif;
+  z-index: 1;
 }
 
-#Home {
-  margin-right: auto;
-}
-
-#search-bar {
-  width: 800px;
-  height: 0px;
-  padding: 10px;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 20px;
-  outline: none;
-  transition: all 0.3s ease;
+.Home {
+  font-size: 3rem;
 }
 
 ul {
@@ -72,7 +71,7 @@ ul {
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -81,22 +80,24 @@ li {
   padding: 10px 15px;
 }
 
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.magnifying-glass-icon {
+  fill: white;
+  width: 2rem;
+  cursor: pointer;
+}
+
 a {
   cursor: pointer;
   text-decoration: none;
   color: white;
-  font-size: 1.1rem;
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: darkgray;
-}
-
-.nav ul li:hover {
-  background-color: #444;
-  border-radius: 8px;
+  font-weight: normal;
 }
 
 
