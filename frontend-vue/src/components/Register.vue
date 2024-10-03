@@ -14,7 +14,7 @@ const postMethod=async ()=>{
       console.log("data succesvol verstuurd", result)
 
     }else{
-      console.error("data niet succesvol verstuurd.",reponse.statusText)
+      console.error("data niet succesvol verstuurd.",response.statusText)
     }
   }catch(error){
     console.log(error)

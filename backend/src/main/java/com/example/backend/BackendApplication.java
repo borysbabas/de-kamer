@@ -2,6 +2,7 @@ package com.example.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 @RestController
 public class BackendApplication {
 	private List<Map<String,Object>> registrations = new ArrayList<>();
@@ -24,6 +25,7 @@ public class BackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
 	}
+
 	@GetMapping(path="/test", produces = "application/json")
 	public Map<String,String> getTest(){
 		Map<String, String> response = new HashMap<>();
