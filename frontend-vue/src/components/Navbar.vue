@@ -5,7 +5,7 @@ import Register from "@/components/Register.vue";
 import Hero from  "@/components/Hero.vue";
 import Searchbar from "@/components/Searchbar.vue";
 
-const state = ref(null)
+const state = ref()
 const emit = defineEmits(["toggle-state"])
 const home =()=>{
   state.value= Hero
