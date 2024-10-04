@@ -3,7 +3,7 @@ import {defineEmits, ref} from "vue"
 import Login from "./Login.vue"
 import Register from "@/components/Register.vue";
 
-const state = ref(null)
+const state = ref()
 const emit = defineEmits(["toggle-state"])
 let loginStatus = ref(false)
 
