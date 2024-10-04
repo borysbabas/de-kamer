@@ -9,7 +9,7 @@
     <li>PVV</li>
     <li>D66</li>
     <li>VVD</li>
-    <li>TEST</li>
+    <li>NSC</li>
   </ul>
 </template>
 
