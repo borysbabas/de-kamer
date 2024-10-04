@@ -1,35 +1,40 @@
-@import './base.css';
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+:root {
+    --dark-primary: #212D39;
+    --light-primary: #ECECEC;
+    --button-important: #E74C3C;
+    --button: #20638F;
+    --font: Beiruti, sans-serif;
+    --animation-duration: 0.3s;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+body {
+    font-family: var(--font), sans-serif;
+    font-weight: normal;
+    background-color: var(--light-primary);
+    color: var(--light-primary);
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+
+h1 {
+    font-size: 38px;
+    line-height: 1.2;
+    font-weight: normal;
+    font-family: Beiruti, sans-serif;
+    padding-bottom: 50px;
+    width: fit-content;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+h2 {
+    font-size: 26px;
+    font-weight: normal;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+p, a {
+    font-size: 16px;
+    font-weight: normal;
+    text-align: justify;
+}
+
+strong {
+    font-weight: bold;
 }
