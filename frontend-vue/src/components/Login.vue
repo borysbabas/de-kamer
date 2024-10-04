@@ -40,7 +40,7 @@ form{
   flex-direction: column;
 }
 .wrapper{
-  margin-top: 50px;
+  margin-top: 150px;
   display: flex;
   flex-direction: column;
   padding: 32px 32px;

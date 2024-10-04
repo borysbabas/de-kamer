@@ -1,25 +1,26 @@
 <script>
 import Navbar from "./components/Navbar.vue"
 import Hero from "@/components/Hero.vue";
-export default{
+import Footer from "@/components/Footer.vue";
+import "@/assets/main.css";
+import "@/assets/reset.css";
+
+export default {
   name: "App",
-  components:{
+  components: {
     Navbar: Navbar,
-    Hero: Hero
+    Hero: Hero,
+    Footer: Footer
   },
-  data(){
-    return{
+  data() {
+    return {
       isClicked: false,
     }
   },
-  methods:{
-    receiveEmit(status){
+  methods: {
+    receiveEmit(status) {
       console.log("received emit", status)
       this.isClicked = status
-
-    },
-    getData(data){
-      console.log(data)
 
     }
   }
@@ -28,6 +29,10 @@ export default{
 <template>
   <Navbar @toggle-state="receiveEmit"></Navbar>
   <Hero v-if="!isClicked"></Hero>
+  <Footer @toggle-state="receiveEmit"></Footer>
 </template>
-<styles>
-</styles>
+<style>
+body{
+  background-color: var(--dark-primary);
+}
+</style>
