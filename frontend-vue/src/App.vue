@@ -31,3 +31,8 @@ export default {
   <Hero v-if="!isClicked"></Hero>
   <Footer @toggle-state="receiveEmit"></Footer>
 </template>
+<style>
+body{
+  background-color: var(--dark-primary);
+}
+</style>

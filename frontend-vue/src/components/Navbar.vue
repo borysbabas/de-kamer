@@ -2,11 +2,17 @@
 import {defineEmits, ref} from "vue"
 import Login from "./Login.vue"
 import Register from "@/components/Register.vue";
+import Hero from  "@/components/Hero.vue";
+import Searchbar from "@/components/Searchbar.vue";
 
 const state = ref(null)
 const emit = defineEmits(["toggle-state"])
-let loginStatus = ref(false)
-
+const home =()=>{
+  state.value= Hero
+  if(state.value){
+  emit("toggle-state", true)
+  }
+}
 const login = () => {
   state.value = Login
   if (state.value) {
@@ -23,17 +29,22 @@ const register = () => {
     console.log("error")
   }
 }
+const searchBarState=ref(false)
+const toggleSearchBar=()=>{
+  searchBarState.value = !searchBarState.value;
+}
 
 
 </script>
 <template>
   <div class="nav">
     <ul>
-      <li class="Home"><a>DeKamer.</a></li>
+      <li v-on:click="home" class="Home"><a>DeKamer.</a></li>
       <li class="buttons">
+        <Searchbar v-if="searchBarState" class="searchbar"></Searchbar>
         <li v-on:click="login"><a>Login</a></li>
         <li v-on:click="register"><a>Register</a></li>
-        <svg xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
+        <svg v-on:click="toggleSearchBar" xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
              viewBox="0 0 512 512">
           <path
               d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
@@ -60,6 +71,10 @@ const register = () => {
   justify-content: center;
   font-family: var(--font), sans-serif;
   z-index: 1;
+}
+.searchbar{
+  display: flex;
+  justify-content: left;
 }
 
 .Home {

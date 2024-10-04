@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue"
+import {ref} from "vue"
 const postMethod=async ()=>{
   try{
     const response= await fetch("http://localhost:3001/register",{
@@ -53,7 +53,7 @@ form{
   flex-direction: column;
 }
 .wrapper{
-  margin-top: 50px;
+  margin-top: 150px;
   display: flex;
   flex-direction: column;
   padding: 32px 32px;
