@@ -5,7 +5,9 @@ import Register from "@/components/Register.vue"
 import Hero from "@/components/Hero.vue"
 import Searchbar from "@/components/Searchbar.vue"
 
-const state = ref(Hero)
+type ComponentType = typeof Hero | typeof Login | typeof Register;
+
+const state = ref<ComponentType>(Hero)
 const emit = defineEmits(["toggle-state"])
 
 const home = () => {
