@@ -1,61 +1,61 @@
 <script setup lang="ts">
-import {defineEmits, onMounted, onUnmounted, ref} from "vue"
-import Login from "./Login.vue"
-import Register from "@/components/Register.vue"
-import Hero from "@/components/Hero.vue"
-import Searchbar from "@/components/Searchbar.vue"
+import {defineEmits, onMounted, onUnmounted, ref} from "vue";
+import Login from "./Login.vue";
+import Register from "@/components/Register.vue";
+import Hero from "@/components/Hero.vue";
+import Searchbar from "@/components/Searchbar.vue";
 
 type ComponentType = typeof Hero | typeof Login | typeof Register;
 
-const state = ref<ComponentType>(Hero)
-const emit = defineEmits(["toggle-state"])
+const state = ref<ComponentType>(Hero);
+const emit = defineEmits(["toggle-state"]);
 
 const home = () => {
-  state.value = Hero
+  state.value = Hero;
   if (state.value) {
-    emit("toggle-state", true)
+    emit("toggle-state", "");
   }
-}
+};
 
 const login = () => {
-  state.value = Login
+  state.value = Login;
   if (state.value) {
-    emit("toggle-state", true)
+    emit("toggle-state", "login");
   } else {
-    console.log("error")
+    console.log("error");
   }
-}
+};
 
 const register = () => {
-  state.value = Register
+  state.value = Register;
   if (state.value) {
-    emit("toggle-state", true)
+    emit("toggle-state", "register");
   } else {
-    console.log("error")
+    console.log("error");
   }
-}
+};
 
-const searchBarState = ref(false)
+const searchBarState = ref(false);
 const toggleSearchBar = () => {
-  searchBarState.value = !searchBarState.value
-}
+  searchBarState.value = !searchBarState.value;
+};
 
 const handleScroll = () => {
-  const navbar = document.getElementById("navbar")
+  const navbar = document.getElementById("navbar");
   if (window.scrollY > 50) {
-    navbar?.classList.add("fixed-top")
+    navbar?.classList.add("fixed-top");
   } else {
-    navbar?.classList.remove("fixed-top")
+    navbar?.classList.remove("fixed-top");
   }
-}
+};
 
 onMounted(() => {
-  window.addEventListener("scroll", handleScroll)
-})
+  window.addEventListener("scroll", handleScroll);
+});
 
 onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll)
-})
+  window.removeEventListener("scroll", handleScroll);
+});
 </script>
 
 <template>
