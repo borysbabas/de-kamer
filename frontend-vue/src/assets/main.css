@@ -29,10 +29,19 @@ h2 {
     font-weight: normal;
 }
 
-p, a {
+p{
     font-size: 16px;
     font-weight: normal;
     text-align: justify;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    text-align: justify;
+    font-weight: normal;
+    position: relative;
 }
 
 strong {
