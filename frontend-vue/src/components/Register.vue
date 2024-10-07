@@ -2,7 +2,7 @@
 import {ref} from "vue"
 const postMethod=async ()=>{
   try{
-    const response= await fetch("http://localhost:3001register",{
+    const response= await fetch("http://localhost:3001/register",{
       method: "POST",
       headers:{
         "Content-Type" : "application/json"
