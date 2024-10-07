@@ -18,5 +18,5 @@ We already have a running demo page, which can be accessed on our domain at http
 
 The most significant point for improvement is the lack of a clear vision regarding what we will focus on in the upcoming sprints. Without a defined roadmap, it’s challenging to ensure consistent progress.
 
-In conclusion, we need to refine our planning to better outline our goals and priorities for the future development of the application.s
+In conclusion, we need to refine our planning to better outline our goals and priorities for the future development of the application.
 
