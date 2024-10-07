@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import{ref} from  "vue"
-const loginCredentials=ref({
+import {ref} from "vue"
+
+const loginCredentials = ref({
   email: "",
   password: "",
 })
 const loginEmit = defineEmits(["logged-in"])
-const submitLogin=async ()=>{
-   const response = await fetch("http://localhost:3001/login",{
-     method: "POST",
-     headers:{"Content-type":"application/json"},
-     body:JSON.stringify(loginCredentials.value),
-   })
-  if(response.ok){
+const submitLogin = async () => {
+  const response = await fetch("http://localhost:3001/login", {
+    method: "POST",
+    headers: {"Content-type": "application/json"},
+    body: JSON.stringify(loginCredentials.value),
+  })
+  if (response.ok) {
     const result = await response.json()
     loginEmit("logged-in", true)
     console.log("Succesvol POST request.", result)
@@ -21,35 +22,46 @@ const submitLogin=async ()=>{
 </script>
 
 <template>
-  <form @submit.prevent>
-    <div class="wrapper">
-    <label>Enter your credentials.</label>
-    <input v-model="loginCredentials.email" placeholder="E-mail">
-    <input v-model="loginCredentials.password" placeholder="Password" type="password">
-      <button @click="submitLogin">Log in</button>
-      <a href="">Create account.</a>
-    </div>
-  </form>
+  <section class="login">
+    <form @submit.prevent>
+      <div class="wrapper">
+        <h2>Enter your credentials</h2>
+        <input v-model="loginCredentials.email" placeholder="E-mail">
+        <input v-model="loginCredentials.password" placeholder="Password" type="password">
+        <button @click="submitLogin">Log in</button>
+        <a href="">Create account</a>
+      </div>
+    </form>
+  </section>
 </template>
 
 <style scoped>
-form{
-  display:flex;
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 56px);
+  background-color: var(--dark-primary);
+}
+
+form {
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 100%;
 }
-.wrapper{
-  margin-top: 150px;
+
+.wrapper {
   display: flex;
   flex-direction: column;
   padding: 32px 32px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--button);
+  border-radius: 10px;
   width: 30%;
 }
-input{
+
+input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -57,25 +69,26 @@ input{
   box-sizing: border-box;
   margin-bottom: 20px;
 }
-label{
-  display: block;
-  margin-bottom: 5px;
-  color: #555;
-}
-button{
-width: 100%;
-padding: 10px;
-background-color: #444;
-color: white;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-font-size: 16px;
-}
-a{
-  margin-top:8px;
-  color: blue;
 
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--button-important);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: var(--button-important-hover);
+}
+
+a {
+  margin-top: 8px;
+  color: var(--light-primary);
+  text-decoration: underline;
 }
 
 </style>
