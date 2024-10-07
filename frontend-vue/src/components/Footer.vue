@@ -6,9 +6,9 @@
   <footer>
     <div class="footer-container">
       <p>© 2024 - All rights reserved</p>
-      <p><a>Algemene voorwaarden</a></p>
-      <p><a>Privacyverklaring</a></p>
-      <p><a>Sitemap</a></p>
+      <p><a class="footer-text">Algemene voorwaarden</a></p>
+      <p><a class="footer-text">Privacyverklaring</a></p>
+      <p><a class="footer-text">Sitemap</a></p>
       <p>Made with love by Team 3</p>
     </div>
   </footer>
@@ -36,14 +36,14 @@ p:first-child {
   border-right: var(--light-primary) 1px solid;
 }
 
-a {
+.footer-text {
   position: relative;
   border-right: var(--light-primary) 1px solid;
   padding-right: 10px;
   padding-left: 10px;
 }
 
-a::after {
+.footer-text::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -55,12 +55,12 @@ a::after {
   transition: width var(--animation-duration);
 }
 
-a:hover::after {
+.footer-text:hover::after {
   width: 100%;
 }
 
-a:hover {
-  color: var(--light-primary);
+.footer-text:hover {
+  cursor: pointer;
 }
 
 p:last-child {
