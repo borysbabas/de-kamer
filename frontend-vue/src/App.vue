@@ -34,5 +34,7 @@ export default {
 <style>
 body{
   background-color: var(--dark-primary);
+
 }
+
 </style>
