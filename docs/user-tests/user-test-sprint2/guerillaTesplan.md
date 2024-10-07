@@ -1,15 +1,15 @@
-# Testplan
+# Test plan
 ### Objective.
 The objective with this guerilla is to test te user for its preferences about the interface/design we have made so far. 
 ### Preparations.
-- **Prototype**: The protype in this test will be the figma design located in the design directory.
+- **Prototype**: The prototype in this test will be the figma design located in the design directory.
 - **Location**: I will be performing the test in the wibauthuis with random peer students.
 - **first impression**: the test will exist off 2 parts. The first one being a paragraph containing the first impressions of the candidate. 
 - **Questions**:The second part will be a formulated list of questions related to the design choices.
 ### Execution
 1. **Selection**:We will be picking random peer students from one of the hva buildings.
 2. **Introduction**: After the candidate has been picked we will commence the test by asking them firstly what their first impressions are and give them a brief introduction what we will be doing.
-3. **Test phasse**:We will be showing them the figma design and with that the prepared question.
+3. **Test phase**:We will be showing them the figma design and with that the prepared question.
 4. **Time**: We keep the tests short(around 10-15 minutes)
 
 ### Question list
