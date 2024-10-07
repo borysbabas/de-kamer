@@ -1,68 +1,79 @@
 <script setup lang="ts">
 import {ref} from "vue"
-const postMethod=async ()=>{
-  try{
-    const response= await fetch("http://localhost:3001register",{
+
+const postMethod = async () => {
+  try {
+    const response = await fetch("http://localhost:3001/register", {
       method: "POST",
-      headers:{
-        "Content-Type" : "application/json"
+      headers: {
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(formData.value)
     });
-    if (response.ok){
-      const result= await response.json();
+    if (response.ok) {
+      const result = await response.json();
       console.log("data succesvol verstuurd", result)
 
-    }else{
-      console.error("data niet succesvol verstuurd.",response.statusText)
+    } else {
+      console.error("data niet succesvol verstuurd.", response.statusText)
     }
-  }catch(error){
+  } catch (error) {
     console.log(error)
 
   }
 
 }
-const formData=ref({
-  email:"",
-  username:"",
-  dateOfBirth:"",
-  password:"",
+const formData = ref({
+  email: "",
+  username: "",
+  dateOfBirth: "",
+  password: "",
 
 })
 </script>
 
 <template>
-  <form @submit.prevent>
-    <div class="wrapper">
-      <label>Enter your personal information.</label>
-      <input v-model="formData.email" placeholder="E-mail">
-      <input v-model="formData.username" placeholder="Username">
-      <input v-model="formData.dateOfBirth" type="date" placeholder="date of birth.">
-      <input v-model="formData.password" type="password" placeholder="Password">
-      <button type="submit" @click= "postMethod">Submit</button>
-    </div>
-  </form>
-
+  <section class="register">
+    <form @submit.prevent>
+      <div class="wrapper">
+        <h2>Enter your information</h2>
+        <input v-model="formData.email" placeholder="E-mail">
+        <input v-model="formData.username" placeholder="Username">
+        <input v-model="formData.dateOfBirth" type="date" placeholder="date of birth.">
+        <input v-model="formData.password" type="password" placeholder="Password">
+        <button type="submit" @click="postMethod">Submit</button>
+      </div>
+    </form>
+  </section>
 </template>
 
 <style scoped>
-form{
-  display:flex;
+.register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 56px);
+  background-color: var(--dark-primary);
+}
+
+form {
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 100%;
 }
-.wrapper{
-  margin-top: 150px;
+
+.wrapper {
   display: flex;
   flex-direction: column;
   padding: 32px 32px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--button);
+  border-radius: 10px;
   width: 30%;
 }
-input{
+
+input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -70,25 +81,20 @@ input{
   box-sizing: border-box;
   margin-bottom: 20px;
 }
-label{
-  display: block;
-  margin-bottom: 5px;
-  color: #555;
-}
-button{
+
+button {
   width: 100%;
   padding: 10px;
-  background-color: #444;
+  background-color: var(--button-important);
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
 }
-a{
-  margin-top:8px;
-  color: blue;
 
+button:hover {
+  background-color: var(--button-important-hover);
 }
 
 </style>

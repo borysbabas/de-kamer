@@ -159,7 +159,7 @@
   grid-template-areas:
     "party party party party party party"
     "party party party party party party";
-  max-width: fit-content;
+  max-width: 100%;
 }
 
 .party-img {

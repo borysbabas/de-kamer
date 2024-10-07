@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-
 </script>
 
 <template>
@@ -33,7 +32,7 @@ input{
 .search-results {
   position: absolute;
   top: 100%;
-  left:25%;
+  left:27.9%;
   width: 620px;
   max-height:200px;
   display: flex;
