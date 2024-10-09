@@ -31,11 +31,7 @@ export default {
 </script>
 
 <template>
-  <Navbar @toggle-state="receiveEmit"></Navbar>
-  <Hero v-if="isClicked === ''"></Hero>
-  <Login v-if="isClicked === 'login'"></Login>
-  <Register v-if="isClicked === 'register'"></Register>
-  <Footer @toggle-state="receiveEmit"></Footer>
+  <router-view></router-view>
 </template>
 
 <style scoped>

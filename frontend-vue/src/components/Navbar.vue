@@ -1,39 +1,6 @@
 <script setup lang="ts">
-import {defineEmits, onMounted, onUnmounted, ref} from "vue";
-import Login from "./Login.vue";
-import Register from "@/components/Register.vue";
-import Hero from "@/components/Hero.vue";
+import {onMounted, onUnmounted, ref} from "vue";
 import Searchbar from "@/components/Searchbar.vue";
-
-type ComponentType = typeof Hero | typeof Login | typeof Register;
-
-const state = ref<ComponentType>(Hero);
-const emit = defineEmits(["toggle-state"]);
-
-const home = () => {
-  state.value = Hero;
-  if (state.value) {
-    emit("toggle-state", "");
-  }
-};
-
-const login = () => {
-  state.value = Login;
-  if (state.value) {
-    emit("toggle-state", "login");
-  } else {
-    console.log("error");
-  }
-};
-
-const register = () => {
-  state.value = Register;
-  if (state.value) {
-    emit("toggle-state", "register");
-  } else {
-    console.log("error");
-  }
-};
 
 const searchBarState = ref(false);
 const toggleSearchBar = () => {
@@ -56,16 +23,21 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
+
+const navbar = ref({
+  margin: '50px',
+})
+
 </script>
 
 <template>
   <div id="navbar" class="nav">
     <ul>
-      <li @click="home" class="Home">DeKamer.</li>
+      <li class="navbar-logo"><router-link to="/">DeKamer.</router-link></li>
       <li class="buttons">
         <Searchbar v-if="searchBarState" class="searchbar"></Searchbar>
-        <li @click="login"><a class="nav-text">Login</a></li>
-        <li @click="register"><a class="nav-text">Register</a></li>
+        <router-link  to="/login"><p class="nav-text">Login</p></router-link>
+        <router-link to="/register"><p class="nav-text">Register</p></router-link>
         <svg @click="toggleSearchBar" xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
              viewBox="0 0 512 512">
           <path
@@ -80,24 +52,24 @@ onUnmounted(() => {
 .nav {
   background-color: var(--button-important);
   position: fixed;
-  top: 50px;
-  left: 50px;
-  right: 50px;
-  height: 50px;
-  border-radius: 20px;
+  width: calc(100% - (v-bind(navbar.margin) * 2));
+  margin: v-bind(navbar.margin);
+  box-sizing: border-box;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   font-family: var(--font), sans-serif;
   z-index: 1;
-  transition: top 0.3s;
+  height: 50px;
+  transition-duration: 0.3s;
 }
 
 .fixed-top {
-  top: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
+  margin: 0;
   border-radius: 0;
+  height: 70px;
 }
 
 .searchbar {
@@ -105,7 +77,7 @@ onUnmounted(() => {
   justify-content: left;
 }
 
-.Home {
+.navbar-logo * {
   font-size: 36px;
   cursor: pointer;
 }
@@ -149,6 +121,7 @@ li {
   justify-content: space-between;
   align-items: center;
   font-size: 1.5rem;
+  gap: 20px;
 }
 
 .magnifying-glass-icon {
