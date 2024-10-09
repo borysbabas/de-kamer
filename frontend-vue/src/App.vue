@@ -7,6 +7,8 @@ import "@/assets/reset.css";
 import Login from "@/components/Login.vue";
 import Register from "@/components/Register.vue";
 
+import ChartTemplate from "@/components/tools/Chart-Template.vue";
+
 export default {
   name: "App",
   components: {
@@ -14,7 +16,8 @@ export default {
     Hero,
     Footer,
     Login,
-    Register
+    Register,
+    ChartTemplate,
   },
   data() {
     return {
@@ -36,6 +39,7 @@ export default {
   <Login v-if="isClicked === 'login'"></Login>
   <Register v-if="isClicked === 'register'"></Register>
   <Footer @toggle-state="receiveEmit"></Footer>
+  <ChartTemplate chartType="bar" :chartData="chartData" />c
 </template>
 
 <style scoped>
