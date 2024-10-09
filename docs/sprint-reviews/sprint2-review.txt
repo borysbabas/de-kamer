@@ -9,13 +9,13 @@ Point of feedback:
 - More improvements on the product and sprintbacklog.
 - The userstory's must be more defined.
 - We plan to use  an automatic deployment script using ci/cd.
-- There was made an EERD by Sjoerd however the riewers preffered a UML classdiagram.
+- There was made an EERD by Sjoerd however the reviewers preffered a UML classdiagram.
 - the reviewers would like to see more  of a vision in the project. so the questions: what size? what data? etc.
 
 Summary:
 In this sprint, we laid the foundation for our web application.
 This was accomplished by creating a Figma design, developing an Entity-Relationship Diagram (EERD), conducting user testing, and setting up the project architecture.
-We used Vue for the frontend and Spring Boot for the backend, establishing a cohesive framework for the application.
+We used Vue for the frontend and Spring Boot for the backend, establishing a framework for the application.
 
 We already have a running demo page, which can be accessed on our domain at https://www.de-kamer.eu.
 However, there are some areas for improvement, which have been outlined in the list above.

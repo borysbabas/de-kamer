@@ -29,7 +29,7 @@ const submitLogin = async () => {
         <input v-model="loginCredentials.email" placeholder="E-mail">
         <input v-model="loginCredentials.password" placeholder="Password" type="password">
         <button @click="submitLogin">Log in</button>
-        <a href="">Create account</a>
+        <router-link to="/register"><a>Create account</a></router-link>
       </div>
     </form>
   </section>
