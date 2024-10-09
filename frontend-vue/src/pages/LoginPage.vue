@@ -2,7 +2,6 @@
   <Navbar></Navbar>
   <Login></Login>
   <Footer></Footer>
-<!--  Testing-->
 </template>
 
 <script setup lang="ts">

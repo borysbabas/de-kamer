@@ -1,7 +1,6 @@
 <template>
   <Navbar></Navbar>
   <Hero></Hero>
-  <p>My page</p>
   <Footer></Footer>
 </template>
 
