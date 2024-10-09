@@ -52,7 +52,7 @@ const navbar = ref({
 .nav {
   background-color: var(--button-important);
   position: fixed;
-  width: calc(100% - (v-bind(navbar.margin) * 2));
+  width: calc(100vw - (v-bind(navbar.margin) * 2));
   margin: v-bind(navbar.margin);
   box-sizing: border-box;
   border-radius: 10px;

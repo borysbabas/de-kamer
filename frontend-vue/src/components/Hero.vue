@@ -154,12 +154,9 @@
 }
 
 .parties {
-  display: grid;
-  gap: 50px 50px;
-  grid-template-areas:
-    "party party party party party party"
-    "party party party party party party";
-  max-width: 100%;
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
 }
 
 .party-img {
