@@ -3,9 +3,9 @@ import { createApp } from 'vue'
 import App from "./App.vue"
 import type {Router} from "vue-router";
 import {createRouter, createWebHistory} from "vue-router";
-import HomePage from "@/pages/HomePage.vue";
-import LoginPage from "@/pages/LoginPage.vue";
-import RegisterPage from "@/pages/RegisterPage.vue";
+import HomePage from "@/components/pages/HomePage.vue";
+import LoginPage from "@/components/pages/LoginPage.vue";
+import RegisterPage from "@/components/pages/RegisterPage.vue";
 
 const router: Router = createRouter({
     history: createWebHistory(),
