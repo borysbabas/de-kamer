@@ -53,8 +53,8 @@ const navbar = ref({
 .nav {
   background-color: var(--button-important);
   position: fixed;
-  width: calc(100vw - (v-bind(navbar.margin) * 2));
-  margin: v-bind(navbar.margin);
+  width: calc(100vw - (var(--page-padding) * 2));
+  margin: v-bind(navbar.margin) var(--page-padding);
   box-sizing: border-box;
   border-radius: 10px;
   display: flex;
@@ -69,8 +69,14 @@ const navbar = ref({
 .fixed-top {
   width: 100%;
   margin: 0;
+  padding: 0 var(--page-padding);
   border-radius: 0;
   height: 70px;
+}
+
+.fixed-top li {
+  margin: 0;
+  padding: 0;
 }
 
 .searchbar {
