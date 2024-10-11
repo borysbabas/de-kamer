@@ -3,6 +3,7 @@ package com.example.backend;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,17 +23,7 @@ public class BackendApplication {
 	public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
 
 
-	public static void main(String[] args) {
-		SpringApplication.run(BackendApplication.class, args);
-		ArrayList<String> cars = new ArrayList<>();
-		cars.add("volvo");
-		cars.add("range-rover");
-		int arraySize = cars.size();
-		for(int i =0; i < arraySize; i++){
-			System.out.println("car:"+cars.get(i));
-		}
-
-	}
+	public static void main(String[] args) {SpringApplication.run(BackendApplication.class, args);}
 
 	@GetMapping(path="/test", produces = "application/json")
 	public Map<String,String> getTest(){
@@ -42,15 +33,15 @@ public class BackendApplication {
 		return response;
 	}
 	@PostMapping(path="/login")
-	public ResponseEntity<Boolean> loginUser(@RequestBody Map<String, Object>loginCredentials){
+	public ResponseEntity<HashMap<String,String>> loginUser(@RequestBody Map<String, Object>loginCredentials){
+		HashMap<String,String> emailJSON = new HashMap<>();
 		String emailInput = (String) loginCredentials.get("email");
 		String passwordInput = (String) loginCredentials.get("password");
 
 		try {
 			File file = new File(storedUsersPath);
 			if (!file.exists()) {
-				System.out.println("The storedUsers.txt file does not exist.");
-				return ResponseEntity.status(404).body(false);
+				return ResponseEntity.status(404).body(emailJSON);
 			}
 
 			Scanner myScanner = new Scanner(file);
@@ -73,22 +64,23 @@ public class BackendApplication {
 							storedPassword != null && storedPassword.equals(passwordInput)) {
 						myScanner.close();
 						System.out.println("Login successful!");
-						return ResponseEntity.ok(true);
+						emailJSON.put("email",storedEmail);
+						return ResponseEntity.status(HttpStatus.OK).body(emailJSON);
 					}
 				}
 			}
 			myScanner.close();
-
-			return ResponseEntity.status(401).body(false);
+			emailJSON.put("email","not found");
+			return ResponseEntity.status(401).body(emailJSON);
 
 		} catch (FileNotFoundException e) {
 			System.out.println("Error: File not found.");
 			e.printStackTrace();
-			return ResponseEntity.status(500).body(false);
+			return ResponseEntity.status(500).body(emailJSON);
 		} catch (Exception e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
-			return ResponseEntity.status(500).body(false);
+			return ResponseEntity.status(500).body(emailJSON);
 		}
 	}
 

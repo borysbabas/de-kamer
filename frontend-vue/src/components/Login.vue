@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import {ref} from "vue"
-
 const loginCredentials = ref({
   email: "",
   password: "",
 })
-const loginEmit = defineEmits(["logged-in"])
 const submitLogin = async () => {
   const response = await fetch("http://localhost:3001/login", {
     method: "POST",
@@ -14,7 +12,7 @@ const submitLogin = async () => {
   })
   if (response.ok) {
     const result = await response.json()
-    loginEmit("logged-in", true)
+
     console.log("Succesvol POST request.", result)
   }
 }

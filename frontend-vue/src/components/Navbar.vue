@@ -3,6 +3,7 @@ import {onMounted, onUnmounted, ref} from "vue";
 import Searchbar from "@/components/Searchbar.vue";
 
 const searchBarState = ref(false);
+
 const toggleSearchBar = () => {
   searchBarState.value = !searchBarState.value;
 };
@@ -36,7 +37,7 @@ const navbar = ref({
       <li class="navbar-logo"><router-link to="/">DeKamer.</router-link></li>
       <li class="buttons">
         <Searchbar v-if="searchBarState" class="searchbar"></Searchbar>
-        <router-link  to="/login"><p class="nav-text">Login</p></router-link>
+        <router-link to="/login"><p class="nav-text">Login</p></router-link>
         <router-link to="/register"><p class="nav-text">Register</p></router-link>
         <svg @click="toggleSearchBar" xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
              viewBox="0 0 512 512">
