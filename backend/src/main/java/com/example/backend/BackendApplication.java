@@ -24,6 +24,14 @@ public class BackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
+		ArrayList<String> cars = new ArrayList<>();
+		cars.add("volvo");
+		cars.add("range-rover");
+		int arraySize = cars.size();
+		for(int i =0; i < arraySize; i++){
+			System.out.println("car:"+cars.get(i));
+		}
+
 	}
 
 	@GetMapping(path="/test", produces = "application/json")

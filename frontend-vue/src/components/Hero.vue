@@ -122,12 +122,11 @@
 
 /** Styling for the main page and layout of the hero section */
 .main {
-  height: calc(100vh - 150px);
+  min-height: calc(100vh - 150px);
   object-fit: cover;
   background-color: var(--dark-primary);
   color: var(--light-primary);
-  padding-left: 128px;
-  padding-right: 128px;
+  padding: 0 var(--page-padding);
   position: relative;
   border-bottom: var(--light-primary) 1px solid;
   z-index: 0;
@@ -154,12 +153,9 @@
 }
 
 .parties {
-  display: grid;
-  gap: 50px 50px;
-  grid-template-areas:
-    "party party party party party party"
-    "party party party party party party";
-  max-width: 100%;
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
 }
 
 .party-img {
@@ -257,7 +253,8 @@
 
 .graph-img {
   max-height: 500px;
-  width: 1000px;
+  max-width: 1000px;
+  width: 100%;
   border-radius: 20px;
 }
 </style>

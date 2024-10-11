@@ -3,13 +3,13 @@
 ## Retrospective
 
 Wij hebben gebruik gemaakt van de well, not so well, new ideas retrospective.
-Ook hebben we feedback voor elk teamlid individuele feedback opgeschreven.
+Ook hebben we feedback voor elk teamlid individuele  opgeschreven.
 
 ### Well
 
-- Liggen goed op schema
-- Jaigoat
-- Takenverdeling was goed
+- We Liggen goed op schema.
+- We hadden positieve feedback van docent Jairo gekregen.
+- Takenverdeling was goed gedaan via het scrumboard en onderling overleg.
 
 ### Not so well
 
