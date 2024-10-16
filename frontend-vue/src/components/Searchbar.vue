@@ -1,22 +1,57 @@
 <script setup lang="ts">
-import {ref, computed, onMounted} from "vue"
-
+import {ref, computed, onMounted, onUnmounted} from "vue"
+const isFixed=ref(false)
 const input =ref("");
 const partyList=ref([])
-onMounted(()=>fetch("https://jsonplaceholder.typicode.com/users").then(response=>response.json().then(json=> partyList.value=json)))
+//fetches data from an  API and displays the values that are similar
+onMounted(()=>fetch("https://jsonplaceholder.typicode.com/todos").then(response=>response.json().then(json=> partyList.value=json)))
 const filteredList= computed(()=>{
-  return partyList.value.filter((party)=>party.name.toLowerCase().includes(input.value.toLowerCase()));
+  return partyList.value.filter((party)=>party.title.toLowerCase().includes(input.value.toLowerCase()));
 })
+//gets value of clicked LI item and redirects user to designated endpoint.
+function routeAssigner(event){
+const clickedLi = event.target.innerHTML;
+let reqValue = clickedLi.split("-")[0]
+
+}
+const handleScroll = () => {
+  if(window.scrollY > 50){
+    isFixed.value=true;
+  }
+  else{
+    isFixed.value=false;
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
+
 </script>
 
 <template>
   <li class="searchbar-container"><input v-model="input" type="text" placeholder="Search..."></li>
-  <ul v-if="input.length > 0 && filteredList.length > 0" class="search-results" >
-    <li v-for="party in filteredList" :key="party.name">{{ party.name}} - {{party.votes}}</li>
+  <ul v-if="input.length > 0 && filteredList.length > 0" :class="{'fixed-searchbar' : isFixed, 'search-results': !isFixed}">
+    <li v-on:click="routeAssigner" v-for="party in filteredList" :key="party.title">{{ party.title }} - {{party.id}}</li>
   </ul>
 </template>
 
 <style scoped>
+.fixed-searchbar{
+  top:60px;
+  right:35.7vw;
+  width:600px;
+  background-color:white;
+  color:black;
+  position: absolute;
+  flex-direction:column;
+
+
+}
 .searchbar-container{
   display:flex;
   justify-content: flex-start;
@@ -28,7 +63,7 @@ const filteredList= computed(()=>{
 
 }
 .search-results{
-  right:31.9vw;
+  right:32.1vw;
   width:600px;
   background-color:white;
   color:black;
@@ -51,9 +86,18 @@ li{
 
 .search-results li {
   border:solid white 0.5px;
+  cursor:pointer;
 }
 .search-results li:hover{
   border-color: #20638F;
+}
+.fixed-searchbar li{
+  border:solid white 0.5px;
+  cursor:pointer;
+
+}
+.fixed-searchbar li:hover{
+  border-color: #20638F
 }
 
 

@@ -32,6 +32,7 @@ public class BackendApplication {
 		response.put( "status","active");
 		return response;
 	}
+
 	@PostMapping(path="/login")
 	public ResponseEntity<HashMap<String,String>> loginUser(@RequestBody Map<String, Object>loginCredentials){
 		HashMap<String,String> emailJSON = new HashMap<>();
