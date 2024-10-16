@@ -18,5 +18,5 @@ public class PollingStation {
     private Municipality municipality;
 
     @Column(name = "polling_station_id")
-    private name pollingStationName;
+    private String pollingStationName;
 }
