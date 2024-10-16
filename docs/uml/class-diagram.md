@@ -1,6 +1,6 @@
 ```mermaid
 ---
-title: Elections Class Diagram V1
+title: Elections Entity Class Diagram V1
 ---
 
 classDiagram
@@ -27,12 +27,12 @@ classDiagram
     }
     class Municipality {
         -int municipalityId
-        -int constituencyId
+        -Constituency constituency
         -String municipalityName
     }
     class PollingStation {
         -int pollingStationId
-        -int municpalityId
+        -Municipality municpality
         -String pollingStationName
     }
     
@@ -42,7 +42,7 @@ classDiagram
     }
     class Candidate {
         -int candidateId
-        -int partyId
+        -Party party
         -int memberId
         -String initials
         -String firstName
@@ -52,24 +52,23 @@ classDiagram
     }
     
     class ConstituencyVotes {
-        -int constituencyId
-        -int partyId
-        -int candidateId
+        -Constituency constituency
+        -Party party
+        -Candidate candidate
         -int totalVotes
     }
     class MunicipalityVotes {
-        -int municipalityId
-        -int partyId
-        -int candidateId
+        -Municipality municipality
+        -Party party
+        -Candidate candidate
         -int totalVotes
     }
     class PollingStationVotes {
-        -int pollingStationId
-        -int partyId
-        -int candidateId
+        -PollingStation pollingStation
+        -Party party
+        -Candidate candidate
         -int totalVotes
     }
-    
 ```
 
 Note: Link-table between Candidate and Constituency has been removed due to the ConstituencyVotes class linking these two classes as well as keeping track of the votes.
