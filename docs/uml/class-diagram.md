@@ -52,19 +52,19 @@ classDiagram
     }
     
     class ConstituencyVotes {
-        -int constituencyId
+        -Constituency constituency
         -Party party
         -Candidate candidate
         -int totalVotes
     }
     class MunicipalityVotes {
-        -int municipalityId
+        -Municipality municipality
         -Party party
         -Candidate candidate
         -int totalVotes
     }
     class PollingStationVotes {
-        -int pollingStationId
+        -PollingStation pollingStation
         -Party party
         -Candidate candidate
         -int totalVotes
