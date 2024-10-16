@@ -154,7 +154,7 @@
 
 .parties {
   display: flex;
-  gap: 50px;
+  gap: 40px;
   flex-wrap: wrap;
 }
 
