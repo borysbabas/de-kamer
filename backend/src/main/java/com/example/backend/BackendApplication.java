@@ -1,14 +1,17 @@
 package com.example.backend;
 
+import com.example.backend.entities.Candidate;
+import com.example.backend.repositories.CandidateRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,12 +19,31 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+@EnableJpaRepositories(basePackages = "com.example.backend.repositories")
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class , HibernateJpaAutoConfiguration.class})
+@EntityScan(basePackages = "com.example.backend.entities")
 @RestController
 public class BackendApplication {
 	private List<Map<String,Object>> registrations = new ArrayList<>();
 	public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
 
+	private final CandidateRepository candidateRepository;
+
+	@Autowired
+	public BackendApplication(CandidateRepository candidateRepository) {
+		this.candidateRepository = candidateRepository;
+	}
+
+	@GetMapping(path="/add")
+	public String addNewUser () {
+		// @ResponseBody means the returned String is the response, not a view name
+		// @RequestParam means it is a parameter from the GET or POST request
+
+		Candidate n = new Candidate();
+		n.setFirstName("name");
+		candidateRepository.save(n);
+		return "Saved";
+	}
 
 	public static void main(String[] args) {SpringApplication.run(BackendApplication.class, args);}
 
