@@ -4,7 +4,7 @@ const isFixed=ref(false)
 const input =ref("");
 const partyList=ref([])
 //fetches data from an  API and displays the values that are similar
-onMounted(()=>fetch("https://jsonplaceholder.typicode.com/todos").then(response=>response.json().then(json=> partyList.value=json)))
+onMounted(()=>fetch("https://jsonplaceholder.typicode.com/todos").then(response=>response.json().then(json=> partyList.value=json.slice(0,20))))
 const filteredList= computed(()=>{
   return partyList.value.filter((party)=>party.title.toLowerCase().includes(input.value.toLowerCase()));
 })
