@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.*;
 
 @EnableJpaRepositories(basePackages = "com.example.backend.repositories")
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class , HibernateJpaAutoConfiguration.class})
+@SpringBootApplication()
 @EntityScan(basePackages = "com.example.backend.entities")
 @RestController
 public class BackendApplication {

@@ -23,21 +23,21 @@ public class ApiConfig implements WebMvcConfigurer {
                 ).allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactory.setDataSource(dataSource);
-        entityManagerFactory.setPackagesToScan("com.example.backend.entities"); // Adjust to your entity package
-        entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-
-        return entityManagerFactory;
-    }
-
-    @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory);
-
-        return transactionManager;
-    }
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+//        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
+//        entityManagerFactory.setDataSource(dataSource);
+//        entityManagerFactory.setPackagesToScan("com.example.backend.entities"); // Adjust to your entity package
+//        entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+//
+//        return entityManagerFactory;
+//    }
+//
+//    @Bean
+//    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+//        JpaTransactionManager transactionManager = new JpaTransactionManager();
+//        transactionManager.setEntityManagerFactory(entityManagerFactory);
+//
+//        return transactionManager;
+//    }
 }
