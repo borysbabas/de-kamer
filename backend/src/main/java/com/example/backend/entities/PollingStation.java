@@ -17,6 +17,6 @@ public class PollingStation {
     @JoinColumn(name = "municipality_id", referencedColumnName = "municipality_id")
     private Municipality municipality;
 
-    @Column(name = "polling_station_id")
+    @Column(name = "polling_station_name")
     private String pollingStationName;
 }

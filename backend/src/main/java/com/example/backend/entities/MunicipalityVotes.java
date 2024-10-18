@@ -7,8 +7,13 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name = "munipality_votes")
+@Table(name = "municipality_votes")
 public class MunicipalityVotes {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @ManyToOne
     @JoinColumn(name = "municipality_id", referencedColumnName = "municipality_id")
     private Municipality municipality;
