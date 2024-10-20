@@ -10,6 +10,7 @@ import lombok.Setter;
 @Table(name = "polling_stations")
 public class PollingStation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "polling_station_id")
     private int pollingStationId;
 

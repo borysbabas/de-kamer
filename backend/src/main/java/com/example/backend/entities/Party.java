@@ -9,7 +9,17 @@ import lombok.Setter;
 @Entity
 @Table(name = "parties")
 public class Party {
+    public Party() {
+
+    }
+
+    public Party(String partyName) {
+        super();
+        this.partyName = partyName;
+    }
+
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "party_id")
     private Long partyId;
 
