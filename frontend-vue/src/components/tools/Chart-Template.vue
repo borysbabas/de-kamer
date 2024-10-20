@@ -1,99 +1,79 @@
 <template>
   <div class="chart-container">
-    <Doughnut
-        v-if="chartType === 'doughnut'"
-        id="my-chart-id"
-        :options="chartOptions"
-        :data="testData"
-        ref="chart"
-    />
-    <Bar
-        v-else="chartType === 'bar'"
-        id="my-chart-id"
-        :options="chartOptions"
-        :data="testData"
-        ref="chart"
-    />
-  </div>
-  <div>
-    <div v-for="(data, index) in testData.datasets[0].data" :key="index">
-      <button @click="hideValue(index)">Highlight segment {{index}}</button>
+    <h1>Chart Template</h1>
+    <div v-for="item in testDataSet" :key="item.title">
+      <h2>{{ item.title }}</h2>
+      <div v-for="data in item.data" :key="data.label" class="chart-data">
+        <p>{{ data.label }}: {{ data.value }}</p>
+        <button @click="toggleData(data.label)">Toggle</button>
+      </div>
     </div>
+  </div>
+  <div style="height: 400px">
+    <Bar :data="data" :options="options" />
   </div>
 </template>
 
-<script lang="ts">
-import { Bar, Doughnut } from 'vue-chartjs'
+<script lang="ts" setup>
+import { ref, onMounted } from 'vue'
 import {
   Chart as ChartJS,
-  ArcElement,
   Title,
   Tooltip,
   Legend,
   BarElement,
   CategoryScale,
   LinearScale,
+  ChartData
 } from 'chart.js'
+import { Bar } from 'vue-chartjs'
+import * as chartConfig from '@/components/tools/chartConfig/chartConfig'
+import {generateData} from "@/components/tools/chartConfig/chartConfig";
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement)
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
-export default {
-  name: 'ChartTemplate',
-  components: { Bar, Doughnut },
-  props: {
-    chartType: {
-      type: String,
-      required: true
-    },
-    chartData: {
-      type: Object,
-      required: true
-    }
-  },
-  data() {
-    return {
-      chartOptions: {
-        responsive: true
-      },
-      testData: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-          {
-            label: 'Monthly Data',
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FF6384'],
-            data: [65, 59, 80, 81, 56, 55, 40]
-          }
-        ]
-      }
-    }
-  },
-  methods: {
-    hideValue(index: number) {
-      const chart = this.$refs.chart?.chart
-      console.log('hideValue', index)
-      if (chart) {
-        chart.data.datasets[0].data = chart.data.datasets[0].data.map((value, i) => {
-          return i === index ? null : value
-        })
-        chart.update()
-      } else {
-        console.log('chart not found')
-      }
-    }
+const options = chartConfig.options
+const data = ref<ChartData<'bar'>>({
+  datasets: [],
+})
+const testDataSet = [
+  {
+    data: [
+      { label: "test 1", value: 10 },
+      { label: "test 2", value: 20 },
+      { label: "test 3", value: 30, color: "blue" },
+      { label: "test 4", value: 40, color: "red" },
+    ],
+    title: "test",
   }
-}
+]
+let datashow = JSON.parse(JSON.stringify(testDataSet));
+
+
+onMounted(() => {
+  data.value = chartConfig.generateData(datashow)
+})
 </script>
 
 <style scoped>
 .chart-container {
-  height: 400px;
-  width: 400px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: #f0f0f0;
+  padding: 20px;
   border-radius: 8px;
+  color: #000000; /* Set text color to black */
+}
+
+.chart-item {
+  margin-bottom: 20px;
+}
+
+.chart-data {
+  background-color: #ffffff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  color: #000000; /* Set text color to black */
+  display: flex; /* Align text and button horizontally */
 }
 </style>
