@@ -17,6 +17,11 @@ public class Party {
         super();
         this.partyName = partyName;
     }
+    public Party(Long id, String partyName) {
+        super();
+        this.partyId = id;
+        this.partyName = partyName;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

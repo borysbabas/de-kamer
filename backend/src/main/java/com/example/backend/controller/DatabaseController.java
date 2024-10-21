@@ -8,9 +8,6 @@ import java.util.Map;
 
 @RestController
 public class DatabaseController {
-//    @Autowired
-//    private UserRepository userRepository;
-
     @GetMapping(path="/", produces = "application/json")
     public Map<String,String> getRoot(){
 

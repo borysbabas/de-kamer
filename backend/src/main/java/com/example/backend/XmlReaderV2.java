@@ -1,5 +1,7 @@
 package com.example.backend;
 
+import com.example.backend.entities.Party;
+import com.example.backend.services.PartyService;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -11,7 +13,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 public class XmlReaderV2 {
-        private static final String FILENAME = "backend/src/test/resources/test2.xml";
+        private static final String FILENAME = "res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml";
         private static final String OUTPUT_FILENAME = "backend/src/test/resources/output.txt";
 
         public static void main(String[] args) {
@@ -43,6 +45,10 @@ public class XmlReaderV2 {
                         Element affiliaitionElement = (Element) affiliationNode;
 
                         String affiliationIdentifier = affiliaitionElement.getElementsByTagName("AffiliationIdentifier").item(0).getTextContent().trim();
+                        Party party = new Party((long) i, affiliationIdentifier);
+
+
+
                         writer.write("Affiliation Identifier: " + affiliationIdentifier + "\n");
                         System.out.println("Affiliation Identifier: " + affiliationIdentifier);
 

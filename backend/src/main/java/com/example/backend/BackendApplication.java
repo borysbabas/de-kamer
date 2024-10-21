@@ -4,6 +4,7 @@ import com.example.backend.entities.Candidate;
 import com.example.backend.entities.Party;
 import com.example.backend.repositories.CandidateRepository;
 import com.example.backend.repositories.PartyRepository;
+import com.example.backend.services.PartyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,22 +29,18 @@ public class BackendApplication {
 	public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
 
 	private final CandidateRepository candidateRepository;
-	private final PartyRepository partyRepository;
+	private final PartyService partyService;
 
 	@Autowired
-	public BackendApplication(CandidateRepository candidateRepository, PartyRepository partyRepository) {
+	public BackendApplication(CandidateRepository candidateRepository, PartyService partyService) {
 		this.candidateRepository = candidateRepository;
-		this.partyRepository = partyRepository;
+		this.partyService = partyService;
 	}
 
-	@GetMapping(path="/add")
-	public String addNewUser () {
-		Party p = new Party("PVV");
-		partyRepository.save(p);
-		// @ResponseBody means the returned String is the response, not a view name
-		// @RequestParam means it is a parameter from the GET or POST request
-
-		return "Saved";
+	@PostMapping(path="/party/add")
+	public Party addNewParty (@RequestBody Party party) {
+		partyService.addParty(party);
+		return party;
 	}
 
 	public static void main(String[] args) {SpringApplication.run(BackendApplication.class, args);}
