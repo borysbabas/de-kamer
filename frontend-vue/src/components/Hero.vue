@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 const options = [
-  { label: 'Meest verkozen partijen', value: 'most_parties' },
-  { label: 'Minst verkozen partijen', value: 'least_parties' },
-  { label: 'Meest verkozen kandidaten', value: 'most_candidates' },
-  { label: 'Minst verkozen kandidaten', value: 'least_candidates' }
+  {label: 'Meest verkozen partijen', value: 'most_parties'},
+  {label: 'Minst verkozen partijen', value: 'least_parties'},
+  {label: 'Meest verkozen kandidaten', value: 'most_candidates'},
+  {label: 'Minst verkozen kandidaten', value: 'least_candidates'}
 ];
 
 const selectedOption = ref(options[0].value);
@@ -19,39 +19,39 @@ const triggerDropdown = () => {
 
 // Define the party data and visible blocks
 const allParties = ref([
-  { id: 1, votes: 24000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 2, votes: 22000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 3, votes: 20000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 4, votes: 18000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 5, votes: 16000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 6, votes: 14000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 7, votes: 12000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 8, votes: 10000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 9, votes: 8000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 10, votes: 6000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 11, votes: 4000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 12, votes: 2000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 13, votes: 1000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 14, votes: 500, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 15, votes: 250, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 16, votes: 100, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 17, votes: 50, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 18, votes: 25, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 19, votes: 10, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 20, votes: 5, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 21, votes: 2, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 22, votes: 1, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 23, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 24, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 25, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 26, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 27, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 28, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 29, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 30, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 31, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 32, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
-  { id: 33, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href },
+  {id: 1, votes: 24000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 2, votes: 22000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 3, votes: 20000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 4, votes: 18000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 5, votes: 16000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 6, votes: 14000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 7, votes: 12000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 8, votes: 10000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 9, votes: 8000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 10, votes: 6000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 11, votes: 4000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 12, votes: 2000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 13, votes: 1000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 14, votes: 500, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 15, votes: 250, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 16, votes: 100, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 17, votes: 50, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 18, votes: 25, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 19, votes: 10, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 20, votes: 5, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 21, votes: 2, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 22, votes: 1, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 23, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 24, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 25, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 26, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 27, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 28, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 29, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 30, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 31, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 32, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 33, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
 ]);
 
 // Number of initially visible blocks
@@ -73,7 +73,7 @@ const loadLess = () => {
   visibleBlocks.value = 12; // Reset to initial number of blocks
   isMoreVisible.value = true; // Show 'Load more' button
   isLessVisible.value = false; // Hide 'Load less' button
-  window.scrollTo({ top: 0, behavior: 'smooth' }); // Smooth scroll to top
+  window.scrollTo({top: 0, behavior: 'smooth'}); // Smooth scroll to top
 };
 </script>
 
@@ -84,7 +84,8 @@ const loadLess = () => {
   <section class="first main">
     <div class="dropdown">
       <select v-model="selectedOption" class="dropdown-select" ref="dropdownSelect">
-        <option v-for="option in options" :key="option.value" :value="option.value" v-html="option.label">
+        <option v-for="option in options" :key="option.value" :value="option.value"
+                v-html="option.label">
         </option>
       </select>
       <svg xmlns="http://www.w3.org/2000/svg" class="angle-down-icon" viewBox="0 0 448 512" @click="triggerDropdown">
@@ -201,6 +202,7 @@ const loadLess = () => {
   margin-bottom: 30px;
 }
 
+/* Styling for the dropdown */
 .dropdown-select {
   font-size: 38px;
   appearance: none;
@@ -216,6 +218,21 @@ const loadLess = () => {
   outline: none;
 }
 
+.dropdown-select option {
+  padding: 20px;
+  border-radius: 0;
+}
+
+.dropdown-select option:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.dropdown-select option:first-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 .angle-down-icon {
   fill: var(--button-important);
   width: 2rem;
@@ -226,11 +243,6 @@ const loadLess = () => {
   fill: var(--button-important);
   width: 2rem;
   cursor: pointer;
-}
-
-.custom-option {
-  color: var(--button-important);
-  font-weight: bold;
 }
 
 /** Styling for the parties display section */
