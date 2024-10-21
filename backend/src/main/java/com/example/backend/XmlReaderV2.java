@@ -2,6 +2,8 @@ package com.example.backend;
 
 import com.example.backend.entities.Party;
 import com.example.backend.services.PartyService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -12,9 +14,17 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.FileWriter;
 
+@Component
 public class XmlReaderV2 {
         private static final String FILENAME = "res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml";
         private static final String OUTPUT_FILENAME = "backend/src/test/resources/output.txt";
+
+        private static PartyService partyService;
+
+        @Autowired
+        public XmlReaderV2(PartyService partyService) {
+            this.partyService = partyService;
+        }
 
         public static void main(String[] args) {
             try {
@@ -106,6 +116,8 @@ public class XmlReaderV2 {
                                     writer.write("Gender: " + gender + "\n");
                                     writer.write("Locality: " + locality + "\n");
                                     writer.write("\n");
+
+                                    partyService.addParty(party);
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
