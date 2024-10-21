@@ -1,7 +1,9 @@
 package com.example.backend;
 
 import com.example.backend.entities.Candidate;
+import com.example.backend.entities.Party;
 import com.example.backend.repositories.CandidateRepository;
+import com.example.backend.repositories.PartyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,29 +21,28 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-@EnableJpaRepositories(basePackages = "com.example.backend.repositories")
 @SpringBootApplication()
-@EntityScan(basePackages = "com.example.backend.entities")
 @RestController
 public class BackendApplication {
 	private List<Map<String,Object>> registrations = new ArrayList<>();
 	public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
 
 	private final CandidateRepository candidateRepository;
+	private final PartyRepository partyRepository;
 
 	@Autowired
-	public BackendApplication(CandidateRepository candidateRepository) {
+	public BackendApplication(CandidateRepository candidateRepository, PartyRepository partyRepository) {
 		this.candidateRepository = candidateRepository;
+		this.partyRepository = partyRepository;
 	}
 
 	@GetMapping(path="/add")
 	public String addNewUser () {
+		Party p = new Party("PVV");
+		partyRepository.save(p);
 		// @ResponseBody means the returned String is the response, not a view name
 		// @RequestParam means it is a parameter from the GET or POST request
 
-		Candidate n = new Candidate();
-		n.setFirstName("name");
-		candidateRepository.save(n);
 		return "Saved";
 	}
 

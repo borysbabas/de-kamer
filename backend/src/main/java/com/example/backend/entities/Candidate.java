@@ -9,7 +9,12 @@ import lombok.Setter;
 @Entity
 @Table(name = "candidates")
 public class Candidate {
+    public Candidate() {
+
+    }
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "candidate_id")
     private Long candidateId;
 
@@ -34,4 +39,5 @@ public class Candidate {
 
     @Column(name = "locality")
     private String locality;
+
 }
