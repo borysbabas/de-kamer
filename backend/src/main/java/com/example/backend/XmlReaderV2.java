@@ -19,7 +19,7 @@ public class XmlReaderV2 {
         private static final String FILENAME = "res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml";
         private static final String OUTPUT_FILENAME = "backend/src/test/resources/output.txt";
 
-        private static PartyService partyService;
+        private final PartyService partyService;
 
         @Autowired
         public XmlReaderV2(PartyService partyService) {
@@ -117,7 +117,6 @@ public class XmlReaderV2 {
                                     writer.write("Locality: " + locality + "\n");
                                     writer.write("\n");
 
-                                    partyService.addParty(party);
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
