@@ -43,10 +43,12 @@ public class BackendApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);
-
 		XmlReaderV2 xmlReader = new XmlReaderV2(applicationContext);
 
-		xmlReader.parseAndInsert();
+		String FILENAME = "res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml";
+
+		xmlReader.parseAndInsert("res/Kandidatenlijsten_TK2021_Bonaire.eml.xml");
+		xmlReader.parseAndInsert("res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml");
 	}
 
 	@GetMapping(path="/test", produces = "application/json")
