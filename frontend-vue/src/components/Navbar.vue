@@ -85,7 +85,6 @@ const navbar = ref({
   height: 70px;
 }
 
-
 .fixed-top li {
   margin: 0;
   padding: 0;
