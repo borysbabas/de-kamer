@@ -12,11 +12,11 @@ Each municipality uses a specific electoral district, and each electoral distric
 
 ### Full Seats
 
-Full seats are directly distributed to each party. This is done by first determining the electoral quota, which is the number of votes needed for one seat. This is calculated by dividing the total number of votes by 150. Parties receive full seats for the number of times they meet this electoral quota. In practice, these full seats almost never add up to 150, so the remaining seats still need to be distributed. These are called residual seats.
+Full seats are directly distributed to each affiliation. This is done by first determining the electoral quota, which is the number of votes needed for one seat. This is calculated by dividing the total number of votes by 150. Parties receive full seats for the number of times they meet this electoral quota. In practice, these full seats almost never add up to 150, so the remaining seats still need to be distributed. These are called residual seats.
 
 ### Residual Seats
 
-The distribution of residual seats works slightly differently. It is determined by calculating how many votes a party would have on average per seat if they received an extra seat. The party with the highest average votes per seat receives the extra residual seat, and the calculation is repeated for the next residual seat.
+The distribution of residual seats works slightly differently. It is determined by calculating how many votes a affiliation would have on average per seat if they received an extra seat. The affiliation with the highest average votes per seat receives the extra residual seat, and the calculation is repeated for the next residual seat.
 
 ### Example
 

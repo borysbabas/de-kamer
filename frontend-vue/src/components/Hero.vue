@@ -17,41 +17,41 @@
       </svg>
     </div>
     <div class="parties">
-      <div class="party"><img class="party-img" alt="party1" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="party-votes">24000 stemmen</p>
+      <div class="affiliation"><img class="affiliation-img" alt="party1" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <p class="affiliation-votes">24000 stemmen</p>
       </div>
-      <div class="party"><img class="party-img" alt="party2" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="party-votes">22000 stemmen</p>
+      <div class="affiliation"><img class="affiliation-img" alt="party2" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <p class="affiliation-votes">22000 stemmen</p>
       </div>
-      <div class="party"><img class="party-img" alt="party3" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="party-votes">20000 stemmen</p>
+      <div class="affiliation"><img class="affiliation-img" alt="party3" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <p class="affiliation-votes">20000 stemmen</p>
       </div>
-      <div class="party"><img class="party-img" alt="party4" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="party-votes">18000 stemmen</p>
+      <div class="affiliation"><img class="affiliation-img" alt="party4" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <p class="affiliation-votes">18000 stemmen</p>
       </div>
-      <div class="party"><img class="party-img" alt="party5" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="party-votes">16000 stemmen</p>
+      <div class="affiliation"><img class="affiliation-img" alt="party5" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <p class="affiliation-votes">16000 stemmen</p>
       </div>
-      <div class="party"><img class="party-img" alt="party6" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="party-votes">14000 stemmen</p>
+      <div class="affiliation"><img class="affiliation-img" alt="party6" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <p class="affiliation-votes">14000 stemmen</p>
       </div>
-      <div class="party"><img class="party-img" alt="party7" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="party-votes">12000 stemmen</p>
+      <div class="affiliation"><img class="affiliation-img" alt="party7" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <p class="affiliation-votes">12000 stemmen</p>
       </div>
-      <div class="party"><img class="party-img" alt="party8" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="party-votes">10000 stemmen</p>
+      <div class="affiliation"><img class="affiliation-img" alt="party8" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <p class="affiliation-votes">10000 stemmen</p>
       </div>
-      <div class="party"><img class="party-img" alt="party9" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="party-votes">8000 stemmen</p>
+      <div class="affiliation"><img class="affiliation-img" alt="party9" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <p class="affiliation-votes">8000 stemmen</p>
       </div>
-      <div class="party"><img class="party-img" alt="party10" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="party-votes">6000 stemmen</p>
+      <div class="affiliation"><img class="affiliation-img" alt="party10" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <p class="affiliation-votes">6000 stemmen</p>
       </div>
-      <div class="party"><img class="party-img" alt="party11" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="party-votes">4000 stemmen</p>
+      <div class="affiliation"><img class="affiliation-img" alt="party11" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <p class="affiliation-votes">4000 stemmen</p>
       </div>
-      <div class="party"><img class="party-img" alt="party12" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="party-votes">2000 stemmen</p>
+      <div class="affiliation"><img class="affiliation-img" alt="party12" src="../assets/img/Dummy%20200x200%20temp.jpg">
+        <p class="affiliation-votes">2000 stemmen</p>
       </div>
     </div>
     <div class="more">
@@ -158,7 +158,7 @@
   flex-wrap: wrap;
 }
 
-.party-img {
+.affiliation-img {
   width: 200px;
   height: 200px;
   border-radius: 20px;
@@ -169,13 +169,13 @@
   transition-duration: var(--animation-duration);
 }
 
-.party-img:hover {
+.affiliation-img:hover {
   transform: scale(1.05);
   background-color: var(--dark-primary);
   filter: brightness(50%);
 }
 
-.party-votes {
+.affiliation-votes {
   text-align: center;
 }
 

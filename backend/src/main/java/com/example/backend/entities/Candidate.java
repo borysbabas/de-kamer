@@ -13,8 +13,8 @@ public class Candidate {
 
     }
 
-    public Candidate(Party party, Long memberId, String initials, String firstName, String lastName, String gender, String locality) {
-        this.party = party;
+    public Candidate(Affiliation affiliation, Long memberId, String initials, String firstName, String lastName, String gender, String locality) {
+        this.affiliation = affiliation;
         this.memberId = memberId;
         this.initials = initials;
         this.firstName = firstName;
@@ -29,8 +29,8 @@ public class Candidate {
     private Long candidateId;
 
     @ManyToOne
-    @JoinColumn(name = "party_id", referencedColumnName = "party_id")
-    private Party party;
+    @JoinColumn(name = "affiliation_id", referencedColumnName = "affiliation_id")
+    private Affiliation affiliation;
 
     @Column(name = "member_id", nullable = false)
     private Long memberId;
@@ -55,7 +55,7 @@ public class Candidate {
 
     /**
      * check if two objects are equal.
-     * They are equal if the initials, lastname, locality and party are equal
+     * They are equal if the initials, lastname, locality and affiliation are equal
      * @param o The object to check
      * @return true or false
      */
@@ -78,12 +78,12 @@ public class Candidate {
      * - initials
      * - last name
      * - locality
-     * - party
+     * - affiliation
      * @return the newly made hashcode
      */
     @Override
     public int hashCode() {
-        return initials.hashCode() + lastName.hashCode() + locality.hashCode() + party.getPartyId().hashCode();
+        return initials.hashCode() + lastName.hashCode() + locality.hashCode() + affiliation.getAffiliationId().hashCode();
     }
 
 }

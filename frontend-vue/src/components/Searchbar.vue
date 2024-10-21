@@ -6,7 +6,7 @@ const partyList=ref([])
 //fetches data from an  API and displays the values that are similar
 onMounted(()=>fetch("https://jsonplaceholder.typicode.com/todos").then(response=>response.json().then(json=> partyList.value=json.slice(0,20))))
 const filteredList= computed(()=>{
-  return partyList.value.filter((party)=>party.title.toLowerCase().includes(input.value.toLowerCase()));
+  return partyList.value.filter((affiliation)=>affiliation.title.toLowerCase().includes(input.value.toLowerCase()));
 })
 //gets value of clicked LI item and redirects user to designated endpoint.
 function routeAssigner(event){
@@ -36,7 +36,7 @@ onUnmounted(() => {
 <template>
   <li class="searchbar-container"><input v-model="input" type="text" placeholder="Search..."></li>
   <ul v-if="input.length > 0 && filteredList.length > 0" :class="{'fixed-searchbar' : isFixed, 'search-results': !isFixed}">
-    <li v-on:click="routeAssigner" v-for="party in filteredList" :key="party.title">{{ party.title }} - {{party.id}}</li>
+    <li v-on:click="routeAssigner" v-for="affiliation in filteredList" :key="affiliation.title">{{ affiliation.title }} - {{affiliation.id}}</li>
   </ul>
 </template>
 

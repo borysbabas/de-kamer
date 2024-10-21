@@ -42,7 +42,7 @@ classDiagram
     }
     class Candidate {
         -int candidateId
-        -Party party
+        -Party affiliation
         -int memberId
         -String initials
         -String firstName
@@ -53,19 +53,19 @@ classDiagram
     
     class ConstituencyVotes {
         -Constituency constituency
-        -Party party
+        -Party affiliation
         -Candidate candidate
         -int totalVotes
     }
     class MunicipalityVotes {
         -Municipality municipality
-        -Party party
+        -Party affiliation
         -Candidate candidate
         -int totalVotes
     }
     class PollingStationVotes {
         -PollingStation pollingStation
-        -Party party
+        -Party affiliation
         -Candidate candidate
         -int totalVotes
     }

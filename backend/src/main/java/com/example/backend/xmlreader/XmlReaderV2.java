@@ -1,9 +1,9 @@
 package com.example.backend.xmlreader;
 
+import com.example.backend.entities.Affiliation;
 import com.example.backend.entities.Candidate;
-import com.example.backend.entities.Party;
 import com.example.backend.services.CandidateService;
-import com.example.backend.services.PartyService;
+import com.example.backend.services.AffiliationService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -18,12 +18,12 @@ import java.io.File;
 @Component
 public class XmlReaderV2 {
     // services
-    private final PartyService partyService;
+    private final AffiliationService affiliationService;
     private final CandidateService candidateService;
 
     public XmlReaderV2(ApplicationContext applicationContext) {
         System.out.println(XMLTagNames.AFFILIATION);
-        this.partyService = applicationContext.getBean(PartyService.class);
+        this.affiliationService = applicationContext.getBean(AffiliationService.class);
         this.candidateService = applicationContext.getBean(CandidateService.class);
     }
 
@@ -52,9 +52,9 @@ public class XmlReaderV2 {
                     Element affiliaitionElement = (Element) affiliationNode;
 
                     String affiliationIdentifier = affiliaitionElement.getElementsByTagName(XMLTagNames.AFFILIATION_IDENTIFIER).item(0).getTextContent().trim();
-                    Party party = new Party((long) i, affiliationIdentifier);
+                    Affiliation affiliation = new Affiliation((long) i, affiliationIdentifier);
 
-                    partyService.addParty(party);
+                    affiliationService.addAffiliation(affiliation);
 
                     System.out.println("Affiliation Identifier: " + affiliationIdentifier);
 
@@ -64,7 +64,7 @@ public class XmlReaderV2 {
                     // Loop through the list of candidates
                     for (int j = 0; j < candidateList.getLength(); j++) {
                         Candidate candidate = new Candidate();
-                        candidate.setParty(party);
+                        candidate.setAffiliation(affiliation);
                         Node candidateNode = candidateList.item(j);
                         String namePrefix = null;
                         String gender = null;
@@ -117,7 +117,7 @@ public class XmlReaderV2 {
                                 e.printStackTrace();
                             }
                         }
-                        candidateService.addCandidate(candidate, party);
+                        candidateService.addCandidate(candidate, affiliation);
                     }
                 }
             }

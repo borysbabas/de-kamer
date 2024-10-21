@@ -1,8 +1,8 @@
 package com.example.backend;
 
-import com.example.backend.entities.Party;
+import com.example.backend.entities.Affiliation;
 import com.example.backend.services.CandidateService;
-import com.example.backend.services.PartyService;
+import com.example.backend.services.AffiliationService;
 import com.example.backend.xmlreader.XmlReaderV2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -27,18 +27,12 @@ public class BackendApplication {
 	private static final String OUTPUT_FILENAME = "backend/src/test/resources/output.txt";
 
 	private final CandidateService candidateService;
-	private final PartyService partyService;
+	private final AffiliationService affiliationService;
 
 	@Autowired
-	public BackendApplication(CandidateService candidateService, PartyService partyService) {
+	public BackendApplication(CandidateService candidateService, AffiliationService affiliationService) {
 		this.candidateService = candidateService;
-		this.partyService = partyService;
-	}
-
-	@PostMapping(path="/party/add")
-	public Party addNewParty (@RequestBody Party party) {
-		partyService.addParty(party);
-		return party;
+		this.affiliationService = affiliationService;
 	}
 
 	public static void main(String[] args) {
