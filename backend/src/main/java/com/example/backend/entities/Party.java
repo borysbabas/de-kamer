@@ -24,7 +24,8 @@ public class Party {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
+    @SequenceGenerator(name = "sequence_generator", initialValue = 0)
     @Column(name = "party_id")
     private Long partyId;
 

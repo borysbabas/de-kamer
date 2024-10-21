@@ -2,17 +2,12 @@ package com.example.backend;
 
 import com.example.backend.entities.Candidate;
 import com.example.backend.entities.Party;
-import com.example.backend.repositories.CandidateRepository;
-import com.example.backend.repositories.PartyRepository;
+import com.example.backend.services.CandidateService;
 import com.example.backend.services.PartyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,12 +32,12 @@ public class BackendApplication {
 	private static final String FILENAME = "res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml";
 	private static final String OUTPUT_FILENAME = "backend/src/test/resources/output.txt";
 
-	private final CandidateRepository candidateRepository;
+	private final CandidateService candidateService;
 	private final PartyService partyService;
 
 	@Autowired
-	public BackendApplication(CandidateRepository candidateRepository, PartyService partyService) {
-		this.candidateRepository = candidateRepository;
+	public BackendApplication(CandidateService candidateService, PartyService partyService) {
+		this.candidateService = candidateService;
 		this.partyService = partyService;
 	}
 
@@ -56,6 +51,7 @@ public class BackendApplication {
 		ApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);
 
 		PartyService partyService = (PartyService) applicationContext.getBean(PartyService.class);
+		CandidateService candidateService = (CandidateService) applicationContext.getBean(CandidateService.class);
 		try {
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -97,6 +93,8 @@ public class BackendApplication {
 
 					// Loop through the list of candidates
 					for (int j = 0; j < candidateList.getLength(); j++) {
+						Candidate candidate = new Candidate();
+						candidate.setParty(party);
 						Node candidateNode = candidateList.item(j);
 						String NamePrefix = null;
 						String gender = null;
@@ -114,8 +112,10 @@ public class BackendApplication {
 
 							try {
 								String initials = initialsNode.getTextContent();
+								candidate.setInitials(initials);
 								try {
 									firstName = firstNameNode.getTextContent();
+									candidate.setFirstName(firstName);
 								} catch (Exception e) {
 									firstName = "Not Specified";
 								}
@@ -125,12 +125,16 @@ public class BackendApplication {
 									//do nothing
 								}
 								String lastName = lastNameNode.getTextContent();
+								candidate.setLastName(lastName);
 								try {
 									gender = genderNode.getTextContent();
+									candidate.setGender(gender);
 								} catch (Exception e) {
 									gender = "Not Specified";
 								}
 								String locality = localityNode.getTextContent();
+								candidate.setLocality(locality);
+								candidate.setMemberId((long) j);
 
 								writer.write("Affiliation Identifier: " + affiliationIdentifier + "\n");
 								writer.write("\n");
@@ -151,6 +155,7 @@ public class BackendApplication {
 								e.printStackTrace();
 							}
 						}
+						candidateService.addCandidate(candidate);
 					}
 				}
 			}

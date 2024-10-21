@@ -13,8 +13,18 @@ public class Candidate {
 
     }
 
+    public Candidate(Party party, Long memberId, String initials, String firstName, String lastName, String gender, String locality) {
+        this.party = party;
+        this.memberId = memberId;
+        this.initials = initials;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.locality = locality;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "candidate_id")
     private Long candidateId;
 
@@ -28,13 +38,13 @@ public class Candidate {
     @Column(name = "initials")
     private String initials;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = true)
     private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "gender")
+    @Column(name = "gender", nullable = true)
     private String gender;
 
     @Column(name = "locality")
