@@ -17,23 +17,22 @@ import java.io.File;
 
 @Component
 public class XmlReaderV2 {
-    private static final String FILENAME = "res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml";
-
     // services
     private final PartyService partyService;
     private final CandidateService candidateService;
 
     public XmlReaderV2(ApplicationContext applicationContext) {
+        System.out.println(XMLTagNames.AFFILIATION);
         this.partyService = applicationContext.getBean(PartyService.class);
         this.candidateService = applicationContext.getBean(CandidateService.class);
     }
 
-    public void parseAndInsert() {
+    public void parseAndInsert(String filename) {
         try {
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new File(FILENAME));
+            Document doc = db.parse(new File(filename));
 
             doc.getDocumentElement().normalize();
 
@@ -42,7 +41,7 @@ public class XmlReaderV2 {
             System.out.println("Root element: " + root.getNodeName());
 
             // Get the list of affiliations
-            NodeList affiliationList = doc.getElementsByTagName("Affiliation");
+            NodeList affiliationList = doc.getElementsByTagName(XMLTagNames.AFFILIATION);
 
             // Loop through the list of affiliations
             for (int i = 0; i < affiliationList.getLength(); i++) {
@@ -52,14 +51,14 @@ public class XmlReaderV2 {
                 if (affiliationNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element affiliaitionElement = (Element) affiliationNode;
 
-                    String affiliationIdentifier = affiliaitionElement.getElementsByTagName("AffiliationIdentifier").item(0).getTextContent().trim();
+                    String affiliationIdentifier = affiliaitionElement.getElementsByTagName(XMLTagNames.AFFILIATION_IDENTIFIER).item(0).getTextContent().trim();
                     Party party = new Party((long) i, affiliationIdentifier);
 
                     partyService.addParty(party);
 
                     System.out.println("Affiliation Identifier: " + affiliationIdentifier);
 
-                    NodeList candidateList = affiliaitionElement.getElementsByTagName("Candidate");
+                    NodeList candidateList = affiliaitionElement.getElementsByTagName(XMLTagNames.CANDIDATE);
                     System.out.println("Candidate List Length: " + candidateList.getLength());
 
                     // Loop through the list of candidates
@@ -67,7 +66,7 @@ public class XmlReaderV2 {
                         Candidate candidate = new Candidate();
                         candidate.setParty(party);
                         Node candidateNode = candidateList.item(j);
-                        String NamePrefix = null;
+                        String namePrefix = null;
                         String gender = null;
                         String firstName = null;
 
@@ -80,6 +79,7 @@ public class XmlReaderV2 {
                             Node lastNameNode = candidateElement.getElementsByTagName("xnl:LastName").item(0);
                             Node genderNode = candidateElement.getElementsByTagName("Gender").item(0);
                             Node localityNode = candidateElement.getElementsByTagName("xal:LocalityName").item(0);
+                            Node candidateAffiliationNode = candidateElement.getElementsByTagName(XMLTagNames.CANDIDATE_IDENTIFIER).item(0);
 
                             try {
                                 String initials = initialsNode.getTextContent();
@@ -91,7 +91,8 @@ public class XmlReaderV2 {
                                     firstName = "Not Specified";
                                 }
                                 try {
-                                    NamePrefix = namePrefixNode.getTextContent();
+                                    namePrefix = namePrefixNode.getTextContent();
+                                    candidate.setLastNamePrefix(namePrefix);
                                 } catch (Exception e) {
                                     //do nothing
                                 }
@@ -105,7 +106,10 @@ public class XmlReaderV2 {
                                 }
                                 String locality = localityNode.getTextContent();
                                 candidate.setLocality(locality);
-                                candidate.setMemberId((long) j);
+
+                                String memberId = candidateAffiliationNode.getAttributes().getNamedItem("Id").getNodeValue();
+                                candidate.setMemberId(Long.parseLong(memberId));
+//                                candidate.setMemberId((long) j);
 
 
 
@@ -113,7 +117,7 @@ public class XmlReaderV2 {
                                 e.printStackTrace();
                             }
                         }
-                        candidateService.addCandidate(candidate);
+                        candidateService.addCandidate(candidate, party);
                     }
                 }
             }
