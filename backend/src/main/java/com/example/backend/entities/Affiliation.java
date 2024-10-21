@@ -13,19 +13,15 @@ public class Affiliation {
 
     }
 
-    public Affiliation(String affiliationName) {
+    public Affiliation(Long affiliationIdentifier, String affiliationName) {
         super();
-        this.affiliationName = affiliationName;
-    }
-    public Affiliation(Long id, String affiliationName) {
-        super();
-        this.affiliationId = id;
+        this.affiliationIdentifier = affiliationIdentifier;
         this.affiliationName = affiliationName;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
-    @SequenceGenerator(name = "sequence_generator", initialValue = 0)
+    @SequenceGenerator(name = "sequence_generator", initialValue = 0, allocationSize = 1)
     @Column(name = "affiliation_id")
     private Long affiliationId;
 

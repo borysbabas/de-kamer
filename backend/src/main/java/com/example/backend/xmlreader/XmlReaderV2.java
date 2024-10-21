@@ -49,16 +49,25 @@ public class XmlReaderV2 {
                 Node affiliationNode = affiliationList.item(i);
 
                 if (affiliationNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element affiliaitionElement = (Element) affiliationNode;
+                    Element affiliationElement = (Element) affiliationNode;
 
-                    String affiliationIdentifier = affiliaitionElement.getElementsByTagName(XMLTagNames.AFFILIATION_IDENTIFIER).item(0).getTextContent().trim();
-                    Affiliation affiliation = new Affiliation((long) i, affiliationIdentifier);
+                    Node affiliationIdentifierNode = affiliationElement.getElementsByTagName(XMLTagNames.AFFILIATION_IDENTIFIER).item(0);
+                    String affiliationName = affiliationIdentifierNode.getTextContent().trim();
+                    Long affiliationIdentifier = Long.parseLong(affiliationIdentifierNode.getAttributes().getNamedItem(XMLTagNames.ID).getNodeValue());
 
-                    affiliationService.addAffiliation(affiliation);
+                    Affiliation affiliationExists = affiliationService.affiliationExists(affiliationIdentifier);
+
+                    Affiliation affiliation;
+
+                    if (affiliationExists == null) {
+                        affiliation = affiliationService.addAffiliation(new Affiliation(affiliationIdentifier, affiliationName));
+                    } else {
+                        affiliation = affiliationExists;
+                    }
 
                     System.out.println("Affiliation Identifier: " + affiliationIdentifier);
 
-                    NodeList candidateList = affiliaitionElement.getElementsByTagName(XMLTagNames.CANDIDATE);
+                    NodeList candidateList = affiliationElement.getElementsByTagName(XMLTagNames.CANDIDATE);
                     System.out.println("Candidate List Length: " + candidateList.getLength());
 
                     // Loop through the list of candidates
