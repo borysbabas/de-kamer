@@ -79,6 +79,10 @@ input {
   padding: 5px 10px;
   font-size: 0.9rem;
 }
+.fixed-searchbar li{
+  width:568px;
+  font-size: 1rem;
+}
 li{
   width:568px;
   font-size: 1rem;
@@ -87,6 +91,7 @@ li{
 .search-results li {
   border:solid white 0.5px;
   cursor:pointer;
+
 }
 .search-results li:hover{
   border-color: #20638F;
@@ -94,6 +99,8 @@ li{
 .fixed-searchbar li{
   border:solid white 0.5px;
   cursor:pointer;
+  padding: 10px 15px;
+  margin: 0 20px;
 
 }
 .fixed-searchbar li:hover{
