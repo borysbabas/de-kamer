@@ -4,25 +4,25 @@ title: Elections Entity Class Diagram V1
 ---
 
 classDiagram
-    Constituency <|-- Municipality
-    Municipality <|-- PollingStation
+    Constituency o-- Municipality
+    Municipality o-- PollingStation
     
-    Affiliation <|-- Candidate
+    Affiliation o-- Candidate
     
-    Affiliation <|-- CountryVotes
-    Candidate <|-- CountryVotes
+    Affiliation *-- CountryVotes
+    Candidate *-- CountryVotes
     
-    Constituency <|-- ConstituencyVotes
-    Affiliation <|-- ConstituencyVotes
-    Candidate <|-- ConstituencyVotes
+    Constituency *-- ConstituencyVotes
+    Affiliation *-- ConstituencyVotes
+    Candidate *-- ConstituencyVotes
 
-    Municipality <|-- MunicipalityVotes
-    Affiliation <|-- MunicipalityVotes
-    Candidate <|-- MunicipalityVotes
+    Municipality *-- MunicipalityVotes
+    Affiliation *-- MunicipalityVotes
+    Candidate *-- MunicipalityVotes
 
-    PollingStation <|-- PollingStationVotes
-    Affiliation <|-- PollingStationVotes
-    Candidate <|-- PollingStationVotes
+    PollingStation *-- PollingStationVotes
+    Affiliation *-- PollingStationVotes
+    Candidate *-- PollingStationVotes
     
     class Constituency {
         -int constituencyId
