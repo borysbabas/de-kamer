@@ -48,8 +48,8 @@ const navbar = ref({
       <li class="navbar-logo"><router-link to="/">DeKamer.</router-link></li>
       <li class="buttons">
         <Searchbar v-if="searchBarState" id="searchbar" class="searchbar"></Searchbar>
-        <router-link to="/results"><p class="nav-text">Uitslagen</p></router-link>
-        <router-link to="/information"><p class="nav-text">Info</p></router-link>
+        <router-link to="/resultaten"><p class="nav-text">Uitslagen</p></router-link>
+        <router-link to="/info"><p class="nav-text">Info</p></router-link>
         <svg @click="toggleSearchBar" xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
              viewBox="0 0 512 512">
           <path
