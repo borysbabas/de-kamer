@@ -7,22 +7,22 @@ classDiagram
     Constituency <|-- Municipality
     Municipality <|-- PollingStation
     
-    Affiliations <|-- Candidates
+    Affiliation <|-- Candidate
     
-    Affiliations <|-- CountryVotes
-    Candidates <|-- CountryVotes
+    Affiliation <|-- CountryVotes
+    Candidate <|-- CountryVotes
     
     Constituency <|-- ConstituencyVotes
-    Affiliations <|-- ConstituencyVotes
-    Candidates <|-- ConstituencyVotes
+    Affiliation <|-- ConstituencyVotes
+    Candidate <|-- ConstituencyVotes
 
     Municipality <|-- MunicipalityVotes
-    Affiliations <|-- MunicipalityVotes
-    Candidates <|-- MunicipalityVotes
+    Affiliation <|-- MunicipalityVotes
+    Candidate <|-- MunicipalityVotes
 
     PollingStation <|-- PollingStationVotes
-    Affiliations <|-- PollingStationVotes
-    Candidates <|-- PollingStationVotes
+    Affiliation <|-- PollingStationVotes
+    Candidate <|-- PollingStationVotes
     
     class Constituency {
         -int constituencyId
@@ -39,11 +39,11 @@ classDiagram
         -String pollingStationName
     }
     
-    class Affiliations {
+    class Affiliation {
         -int affiliationId
         -String affiliationName
     }
-    class Candidates {
+    class Candidate {
         -int candidateId
         -Affiliation affiliation
         -int memberId
