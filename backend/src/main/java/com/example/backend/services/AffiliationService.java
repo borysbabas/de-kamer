@@ -5,6 +5,8 @@ import com.example.backend.repositories.AffiliationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AffiliationService {
     private final AffiliationRepository affiliationRepository;
@@ -21,5 +23,9 @@ public class AffiliationService {
     public Affiliation addAffiliation(Affiliation affiliation) {
         affiliationRepository.save(affiliation);
         return affiliation;
+    }
+
+    public List<Affiliation> getAllAffiliations() {
+        return affiliationRepository.findAll();
     }
 }

@@ -138,6 +138,20 @@ public class BackendApplication {
 		return registrations;
 	}
 
-
+//	@GetMapping(path="/test/path")
+//	private Map<Long, Map<String, String>> getTestPath(){
+//		Map<Long, Map<String, String>> response = new HashMap<>();
+//		List<Affiliation> affiliations = affiliationService.getAllAffiliations();
+//
+//		for (Affiliation affiliation : affiliations) {
+//			Map<String, String> object = new HashMap<>();
+//
+//			object.put("AffiliationName",affiliation.getAffiliationName());
+//			object.put("MemberCount", String.valueOf(affiliation.getCandidates().size()));
+//
+//			response.put(affiliation.getAffiliationId(), object);
+//		}
+//		return response;
+//	}
 
 }
