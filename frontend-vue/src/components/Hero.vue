@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from 'vue';
+import {ref, computed} from 'vue';
 
 const options = [
   {label: 'Meest verkozen partijen', value: 'most_parties'},
@@ -17,15 +17,14 @@ const triggerDropdown = () => {
   }
 };
 
-// Define the party data and visible blocks
 const allParties = ref([
-  {id: 1, votes: 24000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 1, votes: 2000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 2, votes: 22000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 3, votes: 20000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 4, votes: 18000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 5, votes: 16000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 6, votes: 14000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 7, votes: 12000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 7, votes: 3000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 8, votes: 10000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 9, votes: 8000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 10, votes: 6000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
@@ -39,13 +38,13 @@ const allParties = ref([
   {id: 18, votes: 25, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 19, votes: 10, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 20, votes: 5, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 21, votes: 2, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 21, votes: 1000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 22, votes: 1, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 23, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 24, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 25, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 26, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 27, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 27, votes: 10000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 28, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 29, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 30, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
@@ -54,12 +53,14 @@ const allParties = ref([
   {id: 33, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
 ]);
 
-// Number of initially visible blocks
 const visibleBlocks = ref(12);
 const isMoreVisible = ref(true);
 const isLessVisible = ref(false);
 
-// Function to load more parties
+const sortedParties = computed(() => {
+  return allParties.value.slice().sort((a, b) => b.votes - a.votes);
+});
+
 const loadMore = () => {
   visibleBlocks.value += 21;
   if (visibleBlocks.value >= allParties.value.length) {
@@ -68,7 +69,6 @@ const loadMore = () => {
   }
 };
 
-// Function to load less parties and scroll to top
 const loadLess = () => {
   visibleBlocks.value = 12;
   isMoreVisible.value = true;
@@ -81,7 +81,9 @@ const loadLess = () => {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Beiruti:wght@200..900&display=swap" rel="stylesheet">
+
   <section class="first main">
+    <!-- Dropdown title -->
     <div class="dropdown">
       <select v-model="selectedOption" class="dropdown-select" ref="dropdownSelect">
         <option v-for="option in options" :key="option.value" :value="option.value"
@@ -94,9 +96,9 @@ const loadLess = () => {
       </svg>
     </div>
 
+    <!-- Displaying the parties -->
     <div class="parties">
-      <!-- Loop through visible blocks -->
-      <div v-for="party in allParties.slice(0, visibleBlocks)" :key="party.id" class="party">
+      <div v-for="party in sortedParties.slice(0, visibleBlocks)" :key="party.id" class="party">
         <img class="party-img" :alt="'party' + party.id" :src="party.img">
         <p class="party-votes">{{ party.votes }} stemmen</p>
       </div>
@@ -121,6 +123,7 @@ const loadLess = () => {
     </div>
   </section>
   <section class="main">
+    <!-- Description section -->
     <div class="desc">
       <div class="desc-text">
         <h1 id="desc-title">
@@ -160,6 +163,7 @@ const loadLess = () => {
     </div>
   </section>
   <section class="last main">
+    <!-- Graph section -->
     <div class="graph">
       <h1 id="graph-title">
         Stemmenverdeling Tweede Kamer
@@ -290,7 +294,6 @@ const loadLess = () => {
   cursor: pointer;
 }
 
-/** Styling for the description section */
 /** Styling for the description section */
 .desc {
   display: flex;
