@@ -15,8 +15,8 @@ The objective with this guerilla is to test te user for its preferences about th
 ### Question list
 1. What is your first impression of the design?
 2. What is your opinion about the dark mode displayed here?
-3. Knowing this site will display political party's, what would you like to see on a site that displays this?
-4. Knowing this site will display political party's, what is your opinion about the visual design?
+3. Knowing this site will display political affiliation's, what would you like to see on a site that displays this?
+4. Knowing this site will display political affiliation's, what is your opinion about the visual design?
 5. What would you like to see on this political website?
 6. Are colors, fonts, and styles consistent across all pages?
 7. Does the design feature a clear and intuitive navigation system?

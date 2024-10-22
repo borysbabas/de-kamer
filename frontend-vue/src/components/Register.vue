@@ -42,6 +42,7 @@ const formData = ref({
         <input v-model="formData.dateOfBirth" type="date" placeholder="date of birth.">
         <input v-model="formData.password" type="password" placeholder="Password">
         <button type="submit" @click="postMethod">Submit</button>
+        <router-link to="/login"><a>Login</a></router-link>
       </div>
     </form>
   </section>
@@ -95,6 +96,13 @@ button {
 
 button:hover {
   background-color: var(--button-important-hover);
+}
+
+
+a {
+  margin-top: 8px;
+  color: var(--light-primary);
+  text-decoration: underline;
 }
 
 </style>

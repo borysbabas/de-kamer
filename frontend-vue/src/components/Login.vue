@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import {ref} from "vue"
-
+import { ref} from "vue"
 const loginCredentials = ref({
   email: "",
   password: "",
 })
-const loginEmit = defineEmits(["logged-in"])
+
 const submitLogin = async () => {
   const response = await fetch("http://localhost:3001/login", {
     method: "POST",
@@ -14,8 +13,8 @@ const submitLogin = async () => {
   })
   if (response.ok) {
     const result = await response.json()
-    loginEmit("logged-in", true)
     console.log("Succesvol POST request.", result)
+    injectEmail(result.email.value)
   }
 }
 
@@ -29,7 +28,7 @@ const submitLogin = async () => {
         <input v-model="loginCredentials.email" placeholder="E-mail">
         <input v-model="loginCredentials.password" placeholder="Password" type="password">
         <button @click="submitLogin">Log in</button>
-        <a href="">Create account</a>
+        <router-link to="/register"><a>Create account</a></router-link>
       </div>
     </form>
   </section>

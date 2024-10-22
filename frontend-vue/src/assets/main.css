@@ -6,6 +6,7 @@
     --button: #20638F;
     --font: Beiruti, sans-serif;
     --animation-duration: 0.3s;
+    --page-padding: 128px;
 }
 
 body {

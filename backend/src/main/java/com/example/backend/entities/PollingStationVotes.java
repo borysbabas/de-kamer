@@ -1,0 +1,31 @@
+package com.example.backend.entities;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+@Entity
+@Table(name = "polling_station_votes")
+public class PollingStationVotes {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "polling_station_id", referencedColumnName = "polling_station_id")
+    private PollingStation pollingStation;
+
+    @ManyToOne
+    @JoinColumn(name = "affiliation_id", referencedColumnName = "affiliation_id")
+    private Affiliation affiliation;
+
+    @ManyToOne
+    @JoinColumn(name = "candidate_id", referencedColumnName = "candidate_id")
+    private Candidate candidate;
+
+    @Column(name = "total_votes")
+    private int totalVotes;
+}
