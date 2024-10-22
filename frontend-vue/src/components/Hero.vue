@@ -63,17 +63,17 @@ const isLessVisible = ref(false);
 const loadMore = () => {
   visibleBlocks.value += 21;
   if (visibleBlocks.value >= allParties.value.length) {
-    isMoreVisible.value = false; // Hide 'Load more' when no more blocks
-    isLessVisible.value = true; // Show 'Load less' button
+    isMoreVisible.value = false;
+    isLessVisible.value = true;
   }
 };
 
 // Function to load less parties and scroll to top
 const loadLess = () => {
-  visibleBlocks.value = 12; // Reset to initial number of blocks
-  isMoreVisible.value = true; // Show 'Load more' button
-  isLessVisible.value = false; // Hide 'Load less' button
-  window.scrollTo({top: 0, behavior: 'smooth'}); // Smooth scroll to top
+  visibleBlocks.value = 12;
+  isMoreVisible.value = true;
+  isLessVisible.value = false;
+  window.scrollTo({top: 0, behavior: 'smooth'});
 };
 </script>
 
