@@ -33,5 +33,5 @@ public class Affiliation {
     private String affiliationName;
 
     @OneToMany(mappedBy = "affiliation")
-    private List<Municipality> municipalities;
+    private List<Candidate> candidates;
 }
