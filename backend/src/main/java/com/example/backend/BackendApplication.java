@@ -1,10 +1,7 @@
 package com.example.backend;
 
 import com.example.backend.entities.Affiliation;
-import com.example.backend.services.CandidateService;
-import com.example.backend.services.AffiliationService;
 import com.example.backend.xmlreader.XmlReaderV2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -21,30 +18,41 @@ import java.util.*;
 @SpringBootApplication()
 @RestController
 public class BackendApplication {
-	private List<Map<String,Object>> registrations = new ArrayList<>();
+	private final List<Map<String,Object>> registrations = new ArrayList<>();
 	public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
-	private static final String FILENAME = "res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml";
-	private static final String OUTPUT_FILENAME = "backend/src/test/resources/output.txt";
+	private static final String PATH_PREFIX = "res/";
+	private static final Set<String> allFiles = Set.of(
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Amsterdam.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Arnhem.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Assen.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Bonaire.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Den_Helder.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Dordrecht.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Groningen.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Haarlem.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Leeuwarden.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Leiden.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Lelystad.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Maastricht.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Middelburg.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Nijmegen.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Rotterdam.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_s-Gravenhage.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_s-Hertogenbosch.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Tilburg.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Utrecht.eml.xml",
+            PATH_PREFIX + "Kandidatenlijsten_TK2021_Zwolle.eml.xml"
+    );
 
-	private final CandidateService candidateService;
-	private final AffiliationService affiliationService;
-
-	@Autowired
-	public BackendApplication(CandidateService candidateService, AffiliationService affiliationService) {
-		this.candidateService = candidateService;
-		this.affiliationService = affiliationService;
-	}
+	public BackendApplication() {
+    }
 
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);
 		XmlReaderV2 xmlReader = new XmlReaderV2(applicationContext);
 
-		String FILENAME = "res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml";
-
-		xmlReader.parseAndInsert("res/Kandidatenlijsten_TK2021_Bonaire.eml.xml");
-		xmlReader.parseAndInsert("res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml");
-		xmlReader.parseAndInsert("res/Kandidatenlijsten_TK2021_Den_Helder.eml.xml");
-		xmlReader.parseAndInsert("res/Kandidatenlijsten_TK2021_Assen.eml.xml");
+		// WHAT THE FUUUUUUUCK 🦅🦅🦅🦅🦅
+		allFiles.forEach(xmlReader::parseAndInsert);
 	}
 
 	@GetMapping(path="/test", produces = "application/json")
