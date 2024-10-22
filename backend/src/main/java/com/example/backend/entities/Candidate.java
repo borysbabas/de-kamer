@@ -53,6 +53,9 @@ public class Candidate {
     @Column(name = "locality", nullable = false)
     private String locality;
 
+    @Column(name = "constituency_id")
+    private Long constituencyId;
+
     /**
      * check if two objects are equal.
      * They are equal if the initials, lastname, locality and affiliation are equal

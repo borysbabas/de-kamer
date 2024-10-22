@@ -16,13 +16,11 @@ public class CandidateService {
     }
 
     public void addCandidate(Candidate candidate, Affiliation affiliation) {
-        Candidate candidateExists = candidateRepository.findByMemberIdAndAffiliation(candidate.getMemberId(), affiliation);
+        Candidate candidateExists = candidateRepository.findByMemberIdAndAffiliationAndConstituencyId(candidate.getMemberId(), affiliation, candidate.getConstituencyId());
         if (candidateExists != null) {
             if (candidateExists.equals(candidate)) {
                 return;
             }
-            System.out.println("Candidate added: " + candidateExists.equals(candidate) + " " + candidateExists.getCandidateId() + " " + candidateExists.getAffiliation().getAffiliationName() + " " + candidate.getMemberId());
-            return;
         }
         candidateRepository.save(candidate);
     }

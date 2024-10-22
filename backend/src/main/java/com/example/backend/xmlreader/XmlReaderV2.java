@@ -40,6 +40,8 @@ public class XmlReaderV2 {
 
             System.out.println("Root element: " + root.getNodeName());
 
+            Long constituencyId = Long.valueOf(doc.getElementsByTagName(XMLTagNames.CONTEST_ID).item(0).getAttributes().getNamedItem(XMLTagNames.ID).getNodeValue());
+
             // Get the list of affiliations
             NodeList affiliationList = doc.getElementsByTagName(XMLTagNames.AFFILIATION);
 
@@ -79,9 +81,9 @@ public class XmlReaderV2 {
                         Candidate candidate = new Candidate();
                         candidate.setAffiliation(affiliation);
                         Node candidateNode = candidateList.item(j);
-                        String namePrefix = null;
-                        String gender = null;
-                        String firstName = null;
+                        String namePrefix;
+                        String gender;
+                        String firstName;
 
                         if (candidateNode != null && candidateNode.getNodeType() == Node.ELEMENT_NODE) {
                             Element candidateElement = (Element) candidateNode;
@@ -101,35 +103,41 @@ public class XmlReaderV2 {
                                     firstName = firstNameNode.getTextContent();
                                     candidate.setFirstName(firstName);
                                 } catch (Exception e) {
-                                    firstName = "Not Specified";
+                                    // do nothing
                                 }
                                 try {
                                     namePrefix = namePrefixNode.getTextContent();
                                     candidate.setLastNamePrefix(namePrefix);
                                 } catch (Exception e) {
-                                    //do nothing
+                                    // do nothing
                                 }
                                 String lastName = lastNameNode.getTextContent();
                                 candidate.setLastName(lastName);
+
                                 try {
                                     gender = genderNode.getTextContent();
                                     candidate.setGender(gender);
                                 } catch (Exception e) {
-                                    gender = "Not Specified";
+                                    // do nothing
                                 }
                                 String locality = localityNode.getTextContent();
                                 candidate.setLocality(locality);
 
                                 String memberId = candidateAffiliationNode.getAttributes().getNamedItem("Id").getNodeValue();
                                 candidate.setMemberId(Long.parseLong(memberId));
-//                                candidate.setMemberId((long) j);
 
-
+                                if (identicalLists) {
+                                    // Use 0 for identical lists
+                                    candidate.setConstituencyId(0L);
+                                } else {
+                                    candidate.setConstituencyId(constituencyId);
+                                }
 
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
+
                         candidateService.addCandidate(candidate, affiliation);
                     }
                 }

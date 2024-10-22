@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CandidateRepository extends JpaRepository<Candidate, Integer> {
 
-    Candidate findByMemberIdAndAffiliation(Long memberId, Affiliation affiliation);
+    Candidate findByMemberIdAndAffiliationAndConstituencyId(Long memberId, Affiliation affiliation, Long contestId);
 }
