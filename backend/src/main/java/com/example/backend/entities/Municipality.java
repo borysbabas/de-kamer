@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 @Entity
@@ -20,4 +22,7 @@ public class Municipality {
 
     @Column(name = "municipality_name")
     private String municipalityName;
+
+    @OneToMany(mappedBy = "municipality")
+    private List<PollingStation> pollingStations;
 }

@@ -9,6 +9,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "country_votes")
 public class CountryVotes {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @OneToOne
     @JoinColumn(name = "affiliation_id", referencedColumnName = "affiliation_id")
     private Affiliation affiliation;

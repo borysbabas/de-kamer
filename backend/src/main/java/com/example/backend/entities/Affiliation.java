@@ -3,6 +3,7 @@ package com.example.backend.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.List;
 
 @Setter
 @Getter
@@ -30,4 +31,7 @@ public class Affiliation {
 
     @Column(name = "affiliation_name")
     private String affiliationName;
+
+    @OneToMany(mappedBy = "affiliation")
+    private List<Municipality> municipalities;
 }
