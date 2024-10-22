@@ -1,5 +1,80 @@
 <script setup lang="ts">
+import {ref} from 'vue';
 
+const options = [
+  {label: 'Meest verkozen partijen', value: 'most_parties'},
+  {label: 'Minst verkozen partijen', value: 'least_parties'},
+  {label: 'Meest verkozen kandidaten', value: 'most_candidates'},
+  {label: 'Minst verkozen kandidaten', value: 'least_candidates'}
+];
+
+const selectedOption = ref(options[0].value);
+const dropdownSelect = ref<HTMLSelectElement | null>(null);
+
+const triggerDropdown = () => {
+  if (dropdownSelect.value) {
+    dropdownSelect.value.click();
+  }
+};
+
+// Define the party data and visible blocks
+const allParties = ref([
+  {id: 1, votes: 24000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 2, votes: 22000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 3, votes: 20000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 4, votes: 18000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 5, votes: 16000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 6, votes: 14000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 7, votes: 12000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 8, votes: 10000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 9, votes: 8000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 10, votes: 6000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 11, votes: 4000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 12, votes: 2000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 13, votes: 1000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 14, votes: 500, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 15, votes: 250, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 16, votes: 100, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 17, votes: 50, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 18, votes: 25, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 19, votes: 10, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 20, votes: 5, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 21, votes: 2, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 22, votes: 1, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 23, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 24, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 25, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 26, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 27, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 28, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 29, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 30, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 31, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 32, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 33, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+]);
+
+// Number of initially visible blocks
+const visibleBlocks = ref(12);
+const isMoreVisible = ref(true);
+const isLessVisible = ref(false);
+
+// Function to load more parties
+const loadMore = () => {
+  visibleBlocks.value += 21;
+  if (visibleBlocks.value >= allParties.value.length) {
+    isMoreVisible.value = false; // Hide 'Load more' when no more blocks
+    isLessVisible.value = true; // Show 'Load less' button
+  }
+};
+
+// Function to load less parties and scroll to top
+const loadLess = () => {
+  visibleBlocks.value = 12; // Reset to initial number of blocks
+  isMoreVisible.value = true; // Show 'Load more' button
+  isLessVisible.value = false; // Hide 'Load less' button
+  window.scrollTo({top: 0, behavior: 'smooth'}); // Smooth scroll to top
+};
 </script>
 
 <template>
@@ -7,60 +82,41 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Beiruti:wght@200..900&display=swap" rel="stylesheet">
   <section class="first main">
-    <div class="parties-title">
-      <h1>
-        Meest verkozen partijen
-      </h1>
-      <svg xmlns="http://www.w3.org/2000/svg" class="angle-down-icon" viewBox="0 0 448 512">
+    <div class="dropdown">
+      <select v-model="selectedOption" class="dropdown-select" ref="dropdownSelect">
+        <option v-for="option in options" :key="option.value" :value="option.value"
+                v-html="option.label">
+        </option>
+      </select>
+      <svg xmlns="http://www.w3.org/2000/svg" class="angle-down-icon" viewBox="0 0 448 512" @click="triggerDropdown">
         <path
             d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/>
       </svg>
     </div>
+
     <div class="parties">
-      <div class="affiliation"><img class="affiliation-img" alt="party1" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="affiliation-votes">24000 stemmen</p>
-      </div>
-      <div class="affiliation"><img class="affiliation-img" alt="party2" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="affiliation-votes">22000 stemmen</p>
-      </div>
-      <div class="affiliation"><img class="affiliation-img" alt="party3" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="affiliation-votes">20000 stemmen</p>
-      </div>
-      <div class="affiliation"><img class="affiliation-img" alt="party4" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="affiliation-votes">18000 stemmen</p>
-      </div>
-      <div class="affiliation"><img class="affiliation-img" alt="party5" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="affiliation-votes">16000 stemmen</p>
-      </div>
-      <div class="affiliation"><img class="affiliation-img" alt="party6" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="affiliation-votes">14000 stemmen</p>
-      </div>
-      <div class="affiliation"><img class="affiliation-img" alt="party7" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="affiliation-votes">12000 stemmen</p>
-      </div>
-      <div class="affiliation"><img class="affiliation-img" alt="party8" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="affiliation-votes">10000 stemmen</p>
-      </div>
-      <div class="affiliation"><img class="affiliation-img" alt="party9" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="affiliation-votes">8000 stemmen</p>
-      </div>
-      <div class="affiliation"><img class="affiliation-img" alt="party10" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="affiliation-votes">6000 stemmen</p>
-      </div>
-      <div class="affiliation"><img class="affiliation-img" alt="party11" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="affiliation-votes">4000 stemmen</p>
-      </div>
-      <div class="affiliation"><img class="affiliation-img" alt="party12" src="../assets/img/Dummy%20200x200%20temp.jpg">
-        <p class="affiliation-votes">2000 stemmen</p>
+      <!-- Loop through visible blocks -->
+      <div v-for="party in allParties.slice(0, visibleBlocks)" :key="party.id" class="party">
+        <img class="party-img" :alt="'party' + party.id" :src="party.img">
+        <p class="party-votes">{{ party.votes }} stemmen</p>
       </div>
     </div>
-    <div class="more">
-      <h2 id="more-title">
-        Laad meer
-      </h2>
+
+    <!-- 'Load more' section -->
+    <div v-if="isMoreVisible" class="more" @click="loadMore">
+      <h2 id="more-title">Laad meer</h2>
       <svg xmlns="http://www.w3.org/2000/svg" class="angle-down-icon" id="more-icon" viewBox="0 0 448 512">
         <path
             d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/>
+      </svg>
+    </div>
+
+    <!-- 'Load less' section -->
+    <div v-if="isLessVisible" class="less" @click="loadLess">
+      <h2 id="less-title">Laad minder</h2>
+      <svg xmlns="http://www.w3.org/2000/svg" class="angle-up-icon" id="less-icon" viewBox="0 0 448 512">
+        <path
+            d="M246.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L224 205.3l137.4 137.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"/>
       </svg>
     </div>
   </section>
@@ -137,28 +193,66 @@
   margin: 0 auto;
 }
 
-/** Styling for the parties display section */
-.parties-title {
+/** Styling for the dropdown */
+.dropdown {
   display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  align-items: baseline;
+  align-items: center;
+  position: relative;
   width: fit-content;
+  margin-bottom: 30px;
+}
+
+/* Styling for the dropdown */
+.dropdown-select {
+  font-size: 38px;
+  appearance: none;
+  background-color: var(--dark-primary);
+  color: var(--light-primary);
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  font-family: inherit;
+}
+
+.dropdown-select:focus {
+  outline: none;
+}
+
+.dropdown-select option {
+  padding: 20px;
+  border-radius: 0;
+}
+
+.dropdown-select option:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.dropdown-select option:first-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .angle-down-icon {
   fill: var(--button-important);
   width: 2rem;
+  cursor: pointer;
 }
 
+.angle-up-icon {
+  fill: var(--button-important);
+  width: 2rem;
+  cursor: pointer;
+}
+
+/** Styling for the parties display section */
 .parties {
   display: flex;
   gap: 40px;
   flex-wrap: wrap;
 }
 
-.affiliation-img {
+.party-img {
   width: 200px;
   height: 200px;
   border-radius: 20px;
@@ -169,18 +263,18 @@
   transition-duration: var(--animation-duration);
 }
 
-.affiliation-img:hover {
+.party-img:hover {
   transform: scale(1.05);
   background-color: var(--dark-primary);
   filter: brightness(50%);
 }
 
-.affiliation-votes {
+.party-votes {
   text-align: center;
 }
 
 /** Styling for the load more part */
-.more {
+.more, .less {
   padding-top: 50px;
   display: flex;
   justify-content: center;
@@ -188,10 +282,15 @@
   align-items: center;
 }
 
-#more-title, #more-icon {
+.less {
+  padding-bottom: 50px;
+}
+
+#more-title, #more-icon, #less-title, #less-icon {
   cursor: pointer;
 }
 
+/** Styling for the description section */
 /** Styling for the description section */
 .desc {
   display: flex;
