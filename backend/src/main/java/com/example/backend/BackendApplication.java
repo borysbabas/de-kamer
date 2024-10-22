@@ -1,14 +1,16 @@
 package com.example.backend;
 
+import com.example.backend.entities.Affiliation;
+import com.example.backend.services.CandidateService;
+import com.example.backend.services.AffiliationService;
+import com.example.backend.xmlreader.XmlReaderV2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,14 +18,32 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+@SpringBootApplication()
 @RestController
 public class BackendApplication {
 	private List<Map<String,Object>> registrations = new ArrayList<>();
 	public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
+	private static final String FILENAME = "res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml";
+	private static final String OUTPUT_FILENAME = "backend/src/test/resources/output.txt";
 
+	private final CandidateService candidateService;
+	private final AffiliationService affiliationService;
 
-	public static void main(String[] args) {SpringApplication.run(BackendApplication.class, args);}
+	@Autowired
+	public BackendApplication(CandidateService candidateService, AffiliationService affiliationService) {
+		this.candidateService = candidateService;
+		this.affiliationService = affiliationService;
+	}
+
+	public static void main(String[] args) {
+		ApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);
+		XmlReaderV2 xmlReader = new XmlReaderV2(applicationContext);
+
+		String FILENAME = "res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml";
+
+		xmlReader.parseAndInsert("res/Kandidatenlijsten_TK2021_Bonaire.eml.xml");
+		xmlReader.parseAndInsert("res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml");
+	}
 
 	@GetMapping(path="/test", produces = "application/json")
 	public Map<String,String> getTest(){

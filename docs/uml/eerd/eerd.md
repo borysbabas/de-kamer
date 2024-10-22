@@ -5,13 +5,13 @@ title: Elections EERD V1
 erDiagram
     constituency ||--|{ municipality : "consists of"
     municipality ||--|{ polling_station : has
-    party ||--|{ candidate : has
+    affiliation ||--|{ candidate : has
     constituency ||--|{ constituency_candidate : "consists of"
     constituency_candidate }|--|| candidate : is
     constituency ||--|{ votes : collects
     municipality ||--|{ votes : collects
     polling_station ||--|{ votes : collects
-    party ||--|{ votes : has
+    affiliation ||--|{ votes : has
     candidate ||--|{ votes : has
     
     constituency {
@@ -31,7 +31,7 @@ erDiagram
         string pollingStation_name
     }
     
-    party {
+    affiliation {
         int party_id PK
         string party_name
     }

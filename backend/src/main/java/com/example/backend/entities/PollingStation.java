@@ -10,6 +10,7 @@ import lombok.Setter;
 @Table(name = "polling_stations")
 public class PollingStation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "polling_station_id")
     private int pollingStationId;
 
@@ -17,6 +18,6 @@ public class PollingStation {
     @JoinColumn(name = "municipality_id", referencedColumnName = "municipality_id")
     private Municipality municipality;
 
-    @Column(name = "polling_station_id")
+    @Column(name = "polling_station_name")
     private String pollingStationName;
 }
