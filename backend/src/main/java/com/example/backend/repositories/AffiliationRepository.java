@@ -4,5 +4,5 @@ import com.example.backend.entities.Affiliation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AffiliationRepository extends JpaRepository<Affiliation, Long> {
-    Affiliation findAffiliationByAffiliationIdentifier(Long id);
+    Affiliation findAffiliationByAffiliationId(Long id);
 }

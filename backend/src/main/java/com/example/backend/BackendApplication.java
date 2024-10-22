@@ -43,6 +43,8 @@ public class BackendApplication {
 
 		xmlReader.parseAndInsert("res/Kandidatenlijsten_TK2021_Bonaire.eml.xml");
 		xmlReader.parseAndInsert("res/Kandidatenlijsten_TK2021_Amsterdam.eml.xml");
+		xmlReader.parseAndInsert("res/Kandidatenlijsten_TK2021_Den_Helder.eml.xml");
+		xmlReader.parseAndInsert("res/Kandidatenlijsten_TK2021_Assen.eml.xml");
 	}
 
 	@GetMapping(path="/test", produces = "application/json")

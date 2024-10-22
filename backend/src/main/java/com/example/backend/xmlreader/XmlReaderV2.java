@@ -54,16 +54,20 @@ public class XmlReaderV2 {
                     Node affiliationIdentifierNode = affiliationElement.getElementsByTagName(XMLTagNames.AFFILIATION_IDENTIFIER).item(0);
                     String affiliationName = affiliationIdentifierNode.getTextContent().trim();
                     Long affiliationIdentifier = Long.parseLong(affiliationIdentifierNode.getAttributes().getNamedItem(XMLTagNames.ID).getNodeValue());
+                    String affiliationType = affiliationElement.getElementsByTagName(XMLTagNames.TYPE).item(0).getTextContent().trim();
 
-                    Affiliation affiliationExists = affiliationService.affiliationExists(affiliationIdentifier);
+                    boolean identicalLists = affiliationType.equals(XMLTagNames.IDENTICAL_LISTS);
 
-                    Affiliation affiliation;
+                    Affiliation affiliation = affiliationService.affiliationExists(affiliationIdentifier);
 
-                    if (affiliationExists == null) {
-                        affiliation = affiliationService.addAffiliation(new Affiliation(affiliationIdentifier, affiliationName));
-                    } else {
-                        affiliation = affiliationExists;
+                    if (affiliation == null) {
+                        affiliation = new Affiliation(affiliationIdentifier, affiliationName);
+                        affiliation.setIdenticalLists(identicalLists);
+                    } else if (identicalLists) {
+                        continue;
                     }
+
+                    affiliationService.addAffiliation(affiliation);
 
                     System.out.println("Affiliation Identifier: " + affiliationIdentifier);
 

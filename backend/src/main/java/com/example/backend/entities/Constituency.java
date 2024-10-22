@@ -20,4 +20,7 @@ public class Constituency {
 
     @OneToMany(mappedBy = "constituency")
     private List<Municipality> municipalities;
+
+    @ManyToMany(mappedBy = "constituency")
+    private List<Affiliation> affiliations;
 }

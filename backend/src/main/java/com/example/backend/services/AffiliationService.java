@@ -16,8 +16,8 @@ public class AffiliationService {
         this.affiliationRepository = affiliationRepository;
     }
 
-    public Affiliation affiliationExists(Long affiliationIdentifier) {
-        return affiliationRepository.findAffiliationByAffiliationIdentifier(affiliationIdentifier);
+    public Affiliation affiliationExists(Long affiliationId) {
+        return affiliationRepository.findAffiliationByAffiliationId(affiliationId);
     }
 
     public Affiliation addAffiliation(Affiliation affiliation) {

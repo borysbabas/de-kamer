@@ -14,23 +14,25 @@ public class Affiliation {
 
     }
 
-    public Affiliation(Long affiliationIdentifier, String affiliationName) {
+    public Affiliation(Long affiliationId, String affiliationName) {
         super();
-        this.affiliationIdentifier = affiliationIdentifier;
         this.affiliationName = affiliationName;
+        this.affiliationId = affiliationId;
     }
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
-    @SequenceGenerator(name = "sequence_generator", initialValue = 0, allocationSize = 1)
     @Column(name = "affiliation_id")
     private Long affiliationId;
 
-    @Column(name = "affiliation_identifier")
-    private Long affiliationIdentifier;
+    @Column(name = "identical_lists")
+    private boolean identicalLists;
 
     @Column(name = "affiliation_name")
     private String affiliationName;
+
+    @ManyToMany
+    private List<Constituency> constituency;
 
     @OneToMany(mappedBy = "affiliation")
     private List<Candidate> candidates;
