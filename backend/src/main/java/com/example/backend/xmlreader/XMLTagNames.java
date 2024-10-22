@@ -14,4 +14,9 @@ public class XMLTagNames {
     public static final String AFFILIATION_IDENTIFIER = "AffiliationIdentifier";
     public static final String CANDIDATE = "Candidate";
     public static final String CANDIDATE_IDENTIFIER = "CandidateIdentifier";
+
+    public static final String SELECTION = "Selection";
+    public static final String VALID_VOTES = "ValidVotes";
+    public static final String TOTAL_VOTES = "TotalVotes";
+    public static final String SHORT_CODE = "ShortCode";
 }
