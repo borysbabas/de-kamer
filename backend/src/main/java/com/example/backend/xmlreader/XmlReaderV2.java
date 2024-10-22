@@ -137,7 +137,7 @@ public class XmlReaderV2 {
                                 e.printStackTrace();
                             }
                         }
-
+                        candidate.setShortCode(candidateService.toShortCode(candidate));
                         candidateService.addCandidate(candidate, affiliation);
                     }
                 }

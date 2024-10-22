@@ -24,4 +24,8 @@ public class CandidateService {
         }
         candidateRepository.save(candidate);
     }
+
+    public String toShortCode(Candidate candidate) {
+        return (candidate.getLastName() + candidate.getInitials()).replaceAll("[.-]", "");
+    }
 }
