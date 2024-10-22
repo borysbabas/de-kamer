@@ -168,7 +168,7 @@ const loadLess = () => {
         Laatste update: 12-09-2021
       </h2>
       <div class="graph-img-container">
-<!--        <img class="graph-img" alt="graph" src="../assets/img/zetelverdeling-tk.png">-->
+        <img class="graph-img" alt="graph" src="../assets/img/zetelverdeling-tk.png">
       </div>
     </div>
   </section>
