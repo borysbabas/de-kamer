@@ -7,21 +7,21 @@ classDiagram
     Constituency <|-- Municipality
     Municipality <|-- PollingStation
     
-    Parties <|-- Candidates
+    Affiliations <|-- Candidates
     
-    Parties <|-- CountryVotes
+    Affiliations <|-- CountryVotes
     Candidates <|-- CountryVotes
     
     Constituency <|-- ConstituencyVotes
-    Parties <|-- ConstituencyVotes
+    Affiliations <|-- ConstituencyVotes
     Candidates <|-- ConstituencyVotes
 
     Municipality <|-- MunicipalityVotes
-    Parties <|-- MunicipalityVotes
+    Affiliations <|-- MunicipalityVotes
     Candidates <|-- MunicipalityVotes
 
     PollingStation <|-- PollingStationVotes
-    Parties <|-- PollingStationVotes
+    Affiliations <|-- PollingStationVotes
     Candidates <|-- PollingStationVotes
     
     class Constituency {
@@ -39,13 +39,13 @@ classDiagram
         -String pollingStationName
     }
     
-    class Parties {
-        -int partyId
-        -String partyName
+    class Affiliations {
+        -int affiliationId
+        -String affiliationName
     }
     class Candidates {
         -int candidateId
-        -Party affiliation
+        -Affiliation affiliation
         -int memberId
         -String initials
         -String firstName
@@ -62,19 +62,19 @@ classDiagram
     
     class ConstituencyVotes {
         -Constituency constituency
-        -Party affiliation
+        -Affiliation affiliation
         -Candidate candidate
         -int totalVotes
     }
     class MunicipalityVotes {
-        -Municipality municipality
-        -Party affiliation
+        -Municipalities municipality
+        -Affiliations affiliation
         -Candidate candidate
         -int totalVotes
     }
     class PollingStationVotes {
         -PollingStation pollingStation
-        -Party affiliation
+        -Affiliation affiliation
         -Candidate candidate
         -int totalVotes
     }

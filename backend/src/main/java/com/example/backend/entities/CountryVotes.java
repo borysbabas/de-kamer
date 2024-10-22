@@ -10,8 +10,8 @@ import lombok.Setter;
 @Table(name = "country_votes")
 public class CountryVotes {
     @OneToOne
-    @JoinColumn(name = "party_id", referencedColumnName = "party_id")
-    private Party party;
+    @JoinColumn(name = "affiliation_id", referencedColumnName = "affiliation_id")
+    private Affiliation affiliation;
 
     @OneToOne
     @JoinColumn(name = "candidate_id", referencedColumnName = "candidate_id")
