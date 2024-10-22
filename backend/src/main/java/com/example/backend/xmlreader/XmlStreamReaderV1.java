@@ -1,7 +1,5 @@
 package com.example.backend.xmlreader;
 
-import org.springframework.stereotype.Component;
-
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -37,14 +35,11 @@ public class XmlStreamReaderV1 {
     private void readDocument(XMLStreamReader reader) throws XMLStreamException {
         while (reader.hasNext()) {
             int eventType = reader.next();
-            switch (eventType) {
-                case XMLStreamReader.START_ELEMENT:
-                    String elementName = reader.getLocalName();
-                    if (elementName.equals(XMLTagNames.TOTAL_VOTES)) {
-                        readTotalVotes(reader);
-                    }
-                    break;
-
+            if (eventType == XMLStreamReader.START_ELEMENT) {
+                String elementName = reader.getLocalName();
+                if (elementName.equals(XMLTagNames.TOTAL_VOTES)) {
+                    readTotalVotes(reader);
+                }
             }
         }
     }
