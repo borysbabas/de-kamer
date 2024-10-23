@@ -1,11 +1,6 @@
 package com.example.backend;
 
-import com.example.backend.config.ApiPaths;
-import com.example.backend.entities.Affiliation;
-import com.example.backend.models.MemberCount;
 import com.example.backend.services.AffiliationService;
-import com.example.backend.entities.Candidate;
-import com.example.backend.services.CandidateService;
 import com.example.backend.xmlreader.XmlReaderV2;
 import com.example.backend.xmlreader.XmlStreamReaderV1;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,36 +155,6 @@ public class BackendApplication {
 			e.printStackTrace();
 		}
 		return registrations;
-	}
-
-//	@GetMapping(path="/test/path")
-//	private Map<Long, Map<String, String>> getTestPath(){
-//		Map<Long, Map<String, String>> response = new HashMap<>();
-//		List<Affiliation> affiliations = affiliationService.getAllAffiliations();
-//
-//		for (Affiliation affiliation : affiliations) {
-//			Map<String, String> object = new HashMap<>();
-//
-//			object.put("AffiliationName",affiliation.getAffiliationName());
-//			object.put("MemberCount", String.valueOf(affiliation.getCandidates().size()));
-//
-//			response.put(affiliation.getAffiliationId(), object);
-//		}
-//		return response;
-//	}
-	@GetMapping(path = ApiPaths.AFFILIATION_SERVICE_MEMBER_COUNT)
-	public List<MemberCount> getAllMemberCount() {
-		List<MemberCount> memberCounts = new ArrayList<>();
-		List<Affiliation> affiliations = affiliationService.getAllAffiliations();
-
-		for (Affiliation affiliation : affiliations) {
-			MemberCount memberCount = new MemberCount();
-			memberCount.setAffiliationName(affiliation.getAffiliationName());
-			memberCount.setMemberCount((long) affiliation.getCandidates().size());
-
-			memberCounts.add(memberCount);
-		}
-		return memberCounts;
 	}
 
 }
