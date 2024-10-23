@@ -13,6 +13,20 @@ public class Candidate {
 
     }
 
+    public Candidate(Candidate candidate) {
+        this.candidateId = candidate.getCandidateId();
+        this.affiliation = candidate.getAffiliation();
+        this.memberId = candidate.getMemberId();
+        this.initials = candidate.getInitials();
+        this.firstName = candidate.getFirstName();
+        this.lastName = candidate.getLastName();
+        this.lastNamePrefix = candidate.getLastNamePrefix();
+        this.gender = candidate.getGender();
+        this.locality = candidate.getLocality();
+        this.constituencyId = candidate.getConstituencyId();
+        this.shortCode = candidate.getShortCode();
+    }
+
     public Candidate(Affiliation affiliation, Long memberId, String initials, String firstName, String lastName, String gender, String locality) {
         this.affiliation = affiliation;
         this.memberId = memberId;

@@ -1,5 +1,12 @@
 package com.example.backend.xmlreader;
 
+import com.example.backend.entities.Candidate;
+import com.example.backend.entities.CountryVotes;
+import com.example.backend.services.CandidateService;
+import com.example.backend.services.CountryVotesService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -7,10 +14,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+@Component
 public class XmlStreamReaderV1 {
-    public static void main(String[] args) throws XMLStreamException, FileNotFoundException {
-        XmlStreamReaderV1 xmlStreamReader = new XmlStreamReaderV1();
-        xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml");
+    private final CandidateService candidateService;
+    private final CountryVotesService countryVotesService;
+
+    public XmlStreamReaderV1(ApplicationContext applicationContext) {
+        this.candidateService = applicationContext.getBean(CandidateService.class);
+        this.countryVotesService = applicationContext.getBean(CountryVotesService.class);
     }
 
     public void parseFile(String filename) throws FileNotFoundException, XMLStreamException {
@@ -63,17 +74,23 @@ public class XmlStreamReaderV1 {
     }
 
     private void readSelection(XMLStreamReader reader) throws XMLStreamException {
+        String shortCode = null;
+        long votes = 0;
         while (reader.hasNext()) {
+            CountryVotes countryVotes = new CountryVotes();
+
             int eventType = reader.next();
             switch (eventType) {
                 case XMLStreamReader.START_ELEMENT:
                     String elementName = reader.getLocalName();
+
                     switch (elementName) {
                         case XMLTagNames.CANDIDATE_IDENTIFIER:
-                            System.out.println(reader.getAttributeValue(null, XMLTagNames.SHORT_CODE));
+                            shortCode = reader.getAttributeValue(null, XMLTagNames.SHORT_CODE);
                             break;
                         case XMLTagNames.VALID_VOTES:
-                            System.out.println(reader.getElementText());
+                            votes = Long.parseLong(reader.getElementText());
+
                             break;
                         case XMLTagNames.AFFILIATION_IDENTIFIER:
                             return;
@@ -81,6 +98,12 @@ public class XmlStreamReaderV1 {
                     break;
                 case XMLStreamReader.END_ELEMENT:
                     if (reader.getLocalName().equals(XMLTagNames.SELECTION)) {
+
+                        Candidate candidate = new Candidate(candidateService.getFirstByShortCode(shortCode));
+                        countryVotes.setCandidate(candidate);
+                        countryVotes.setTotalVotes(votes);
+
+                        countryVotesService.addCountryVote(countryVotes);
                         return;
                     }
             }

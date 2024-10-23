@@ -9,19 +9,25 @@ import lombok.Setter;
 @Entity
 @Table(name = "country_votes")
 public class CountryVotes {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    public CountryVotes() {
 
-    @OneToOne
-    @JoinColumn(name = "affiliation_id", referencedColumnName = "affiliation_id")
-    private Affiliation affiliation;
+    }
+
+    public CountryVotes(Long votes, Candidate candidate) {
+        super();
+        this.totalVotes = votes;
+        this.candidate = candidate;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "country_votes_id")
+    private Long id;
 
     @OneToOne
     @JoinColumn(name = "candidate_id", referencedColumnName = "candidate_id")
     private Candidate candidate;
 
     @Column(name = "total_votes")
-    private int totalVotes;
+    private Long totalVotes;
 }

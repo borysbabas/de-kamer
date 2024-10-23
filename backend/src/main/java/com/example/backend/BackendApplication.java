@@ -2,6 +2,7 @@ package com.example.backend;
 
 import com.example.backend.entities.Affiliation;
 import com.example.backend.xmlreader.XmlReaderV2;
+import com.example.backend.xmlreader.XmlStreamReaderV1;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -47,12 +49,13 @@ public class BackendApplication {
 	public BackendApplication() {
     }
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws XMLStreamException, FileNotFoundException {
 		ApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);
 		XmlReaderV2 xmlReader = new XmlReaderV2(applicationContext);
+		XmlStreamReaderV1 xmlStreamReader = new XmlStreamReaderV1(applicationContext);
 
-		// WHAT THE FUUUUUUUCK 🦅🦅🦅🦅🦅
 		allFiles.forEach(xmlReader::parseAndInsert);
+		xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml");
 	}
 
 	@GetMapping(path="/test", produces = "application/json")
