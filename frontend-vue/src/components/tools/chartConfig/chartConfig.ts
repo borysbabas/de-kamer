@@ -2,29 +2,6 @@ function getRandomInt() {
     return Math.floor(Math.random() * (50 - 5 + 1)) + 5
 }
 
-export const randomData = () => ({
-    labels: [
-        'January' + getRandomInt(),
-        'February',
-        'March',
-        'April',
-        'May',
-    ],
-    datasets: [
-        {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [
-                getRandomInt(),
-                getRandomInt(),
-                getRandomInt(),
-                getRandomInt(),
-                getRandomInt(),
-            ]
-        }
-    ]
-})
-
 export const options = {
     responsive: true,
     maintainAspectRatio: false
@@ -40,16 +17,16 @@ function getRandomColor() {
 
 
 export const generateData = (data: any) => {
-    const labels = data[0].data.map((item: any) => item.label);
-    const backgroundColors = data[0].data.map((item: any) => item.color || getRandomColor());
+    const labels = data.map((item: any) => item.affiliationName);
+    const backgroundColors = data.map(() => getRandomColor());
     const dataset = {
-        label: data[0].title,
+        label: 'Affiliation Members Count',
         backgroundColor: backgroundColors,
-        data: data[0].data.map((item: any) => item.value)
+        data: data.map((item: any) => item.memberCount)
     };
 
     return {
         labels: labels,
         datasets: [dataset]
     };
-}
+};
