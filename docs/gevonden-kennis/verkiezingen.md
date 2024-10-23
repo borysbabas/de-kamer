@@ -1,55 +1,49 @@
-# Verkiezingen
+# Elections
 
-## Inleiding
+## Introduction
 
-Hier een korte uitleg over hoe de verkiezingen precies werken, om meer inzicht te krijgen in hoe we de data gaan opslaan.
+Here is a brief explanation of how elections work to gain more insight into how we will store the data.
 
-## Kieskring
+## Electoral District
 
-Elke gemeente maakt gebruik van een bepaalde kieskring, elke kieskring heeft een eigen kandidatenlijst. In deze 
-kandidatenlijst staat wie er in deze gemeentes als kiesbaar gesteld gaan worden.
+Each municipality uses a specific electoral district, and each electoral district has its own candidate list. This candidate list shows who will be eligible for election in these municipalities.
 
-## Zetels
+## Seats
 
-### Volle zetels
+### Full Seats
 
-Volle zetels worden direct onder elke partij verdeeld. Dit wordt gedaan door eerst de kiesdeler te bepalen, dit is het 
-aantal stemmen dat nodig is voor 1 zetel. Deze wordt bepaald door het totaal aantal stemmen te delen door 150. Partijen 
-krijgen volle zetels voor het aantal keer dat ze deze kiesdeler halen. In de praktijk tellen deze volle zetels eigenlijk 
-nooit op naar 150, de resterende zetels moeten dan nog verdeeld worden. Dit heten restzetels.
+Full seats are directly distributed to each affiliation. This is done by first determining the electoral quota, which is the number of votes needed for one seat. This is calculated by dividing the total number of votes by 150. Parties receive full seats for the number of times they meet this electoral quota. In practice, these full seats almost never add up to 150, so the remaining seats still need to be distributed. These are called residual seats.
 
-### Restzetels
+### Residual Seats
 
-De restzetel verdeling werkt iets anders, er wordt gekeken hoeveel stemmen een partij gemiddeld per zetel zou hebben als 
-ze een extra zetel zouden krijgen. Dan krijgt de partij met de hoogste gemiddelde stemmen per zetel de restzetel extra en
-wordt de berekening voor de volgende restzetel uitgevoerd.
+The distribution of residual seats works slightly differently. It is determined by calculating how many votes a affiliation would have on average per seat if they received an extra seat. The affiliation with the highest average votes per seat receives the extra residual seat, and the calculation is repeated for the next residual seat.
 
-### Voorbeeld
+### Example
 
-De kiesdeler is 10.000 en het aantal te verdelen zetels is 7
+The electoral quota is 10,000, and the number of seats to be distributed is 7.
 
-Partij A: 49.000 stemmen  
-Partij B: 11.000 stemmen
+Party A: 49,000 votes  
+Party B: 11,000 votes
 
-Volle zetels:
+Full seats:
 
-Partij A: 4 zetels  
-Partij B: 1 zetel
+Party A: 4 seats  
+Party B: 1 seat
 
-Nu moeten er nog 2 restzetels verdeeld worden
+Now, 2 residual seats still need to be distributed.
 
-Restzetel 1:
+Residual Seat 1:
 
-Gemiddelde partij A: 49.000 / 5 = 9.800  
-Gemiddelde partij B: 11.000 / 2 = 5.500
+Average for Party A: 49,000 / 5 = 9,800  
+Average for Party B: 11,000 / 2 = 5,500
 
-Dus restzetel 1 gaat naar partij A
+So, Residual Seat 1 goes to Party A.
 
-Restzetel 2:
+Residual Seat 2:
 
-Gemiddelde partij A: 49.000 / 6 = 8.166 
-Gemiddelde partij B: 11.000 / 2 = 5.500
+Average for Party A: 49,000 / 6 = 8,166  
+Average for Party B: 11,000 / 2 = 5,500
 
-Dus restzetel 2 gaat naar partij A
+So, Residual Seat 2 goes to Party A.
 
-Dus uiteindelijk heeft partij A 6 zetels en partij B 1.
+In the end, Party A has 6 seats, and Party B has 1.
