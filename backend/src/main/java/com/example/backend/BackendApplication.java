@@ -1,10 +1,14 @@
 package com.example.backend;
 
+import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.Affiliation;
+import com.example.backend.models.MemberCount;
+import com.example.backend.services.AffiliationService;
 import com.example.backend.entities.Candidate;
 import com.example.backend.services.CandidateService;
 import com.example.backend.xmlreader.XmlReaderV2;
 import com.example.backend.xmlreader.XmlStreamReaderV1;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -23,6 +27,8 @@ import java.util.*;
 @RestController
 public class BackendApplication {
 	private final List<Map<String,Object>> registrations = new ArrayList<>();
+	private final AffiliationService affiliationService;
+
 	public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
 	private static final String PATH_PREFIX = "res/";
 	private static final Set<String> allFiles = Set.of(
@@ -48,8 +54,10 @@ public class BackendApplication {
             PATH_PREFIX + "Kandidatenlijsten_TK2021_Zwolle.eml.xml"
     );
 
-	public BackendApplication() {
-    }
+	@Autowired
+	public BackendApplication(AffiliationService affiliationService) {
+		this.affiliationService = affiliationService;
+	}
 
 	public static void main(String[] args) throws XMLStreamException, FileNotFoundException {
 		ApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);
@@ -169,5 +177,19 @@ public class BackendApplication {
 //		}
 //		return response;
 //	}
+	@GetMapping(path = ApiPaths.AFFILIATION_SERVICE_MEMBER_COUNT)
+	public List<MemberCount> getAllMemberCount() {
+		List<MemberCount> memberCounts = new ArrayList<>();
+		List<Affiliation> affiliations = affiliationService.getAllAffiliations();
+
+		for (Affiliation affiliation : affiliations) {
+			MemberCount memberCount = new MemberCount();
+			memberCount.setAffiliationName(affiliation.getAffiliationName());
+			memberCount.setMemberCount((long) affiliation.getCandidates().size());
+
+			memberCounts.add(memberCount);
+		}
+		return memberCounts;
+	}
 
 }
