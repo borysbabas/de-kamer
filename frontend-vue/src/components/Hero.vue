@@ -51,18 +51,22 @@ const allParties = ref([
   {id: 31, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 32, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
   {id: 33, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 34, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 35, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 36, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
+  {id: 37, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
 ]);
 
 const visibleBlocks = ref(12);
 const isMoreVisible = ref(true);
 const isLessVisible = ref(false);
 
-const sortedParties = computed(() => {
+const sortedPartiesBest = computed(() => {
   return allParties.value.slice().sort((a, b) => b.votes - a.votes);
 });
 
 const loadMore = () => {
-  visibleBlocks.value += 21;
+  visibleBlocks.value += 25;
   if (visibleBlocks.value >= allParties.value.length) {
     isMoreVisible.value = false;
     isLessVisible.value = true;
@@ -98,7 +102,7 @@ const loadLess = () => {
 
     <!-- Displaying the parties -->
     <div class="parties">
-      <div v-for="party in sortedParties.slice(0, visibleBlocks)" :key="party.id" class="party">
+      <div v-for="party in sortedPartiesBest.slice(0, visibleBlocks)" :key="party.id" class="party">
         <img class="party-img" :alt="'party' + party.id" :src="party.img">
         <p class="party-votes">{{ party.votes }} stemmen</p>
       </div>
