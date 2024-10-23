@@ -13,8 +13,7 @@ const filteredList = computed(() => {
   const searchQuery = input.value.toLowerCase();
 
   return candidateList.value.filter(candidate => {
-    // Construct the full name
-    const fullName = [candidate.firstName, candidate.lastName]
+    const fullName = [candidate.firstName, candidate.prefix, candidate.lastName]
         .join(" ")
         .toLowerCase()
         .trim();
@@ -52,7 +51,7 @@ onUnmounted(() => {
   <li class="searchbar-container"><input v-model="input" type="text" placeholder="Search..."></li>
   <ul v-if="input.length > 0 && filteredList.length > 0" :class="{'fixed-searchbar' : isFixed, 'search-results': !isFixed}">
     <li v-on:click="routeAssigner" v-for="candidate in filteredList" :key="candidate.candidateId">{{ candidate.firstName }}
-      <span v-if="candidate.lastNamePrefix">{{candidate.lastNamePrefix}}</span>
+      <span v-if="candidate.prefix">{{candidate.prefix}}</span>
       {{candidate.lastName}}- {{candidate.affiliationName}}</li>
   </ul>
 </template>
