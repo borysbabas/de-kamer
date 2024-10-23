@@ -22,9 +22,8 @@ import java.util.*;
 @RestController
 public class BackendApplication {
 	private final List<Map<String,Object>> registrations = new ArrayList<>();
-	private final AffiliationService affiliationService;
 
-	public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
+    public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
 	private static final String PATH_PREFIX = "res/";
 	private static final Set<String> allFiles = Set.of(
             PATH_PREFIX + "Kandidatenlijsten_TK2021_Amsterdam.eml.xml",
@@ -49,10 +48,8 @@ public class BackendApplication {
             PATH_PREFIX + "Kandidatenlijsten_TK2021_Zwolle.eml.xml"
     );
 
-	@Autowired
-	public BackendApplication(AffiliationService affiliationService) {
-		this.affiliationService = affiliationService;
-	}
+	public BackendApplication() {
+    }
 
 	public static void main(String[] args) throws XMLStreamException, FileNotFoundException {
 		ApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);
@@ -115,11 +112,9 @@ public class BackendApplication {
 
 		} catch (FileNotFoundException e) {
 			System.out.println("Error: File not found.");
-			e.printStackTrace();
 			return ResponseEntity.status(500).body(emailJSON);
 		} catch (Exception e) {
 			System.out.println("An error occurred.");
-			e.printStackTrace();
 			return ResponseEntity.status(500).body(emailJSON);
 		}
 	}
@@ -152,7 +147,6 @@ public class BackendApplication {
 			newWriter.close();
 		}catch(IOException e){
 			System.out.println("an error occured");
-			e.printStackTrace();
 		}
 		return registrations;
 	}
