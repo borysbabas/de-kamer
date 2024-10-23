@@ -23,7 +23,6 @@
   color: var(--light-primary);
   padding: 0 var(--page-padding);
   position: relative;
-  border-bottom: var(--light-primary) 1px solid;
   z-index: 0;
 }
 
