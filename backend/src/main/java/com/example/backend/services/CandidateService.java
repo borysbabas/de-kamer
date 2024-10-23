@@ -60,4 +60,8 @@ public class CandidateService {
         return candidateRepository.findAll();
 
     }
+
+    public Long countDistinctCandidatesByAffiliation(Affiliation affiliation) {
+        return candidateRepository.countDistinctCandidatesByAffiliation(affiliation);
+    }
 }

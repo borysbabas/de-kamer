@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MemberCount {
+public class MemberCountModel {
     private String affiliationName;
     private Long memberCount;
 }
