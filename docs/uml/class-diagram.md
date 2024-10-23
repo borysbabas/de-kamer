@@ -27,11 +27,13 @@ classDiagram
     class Constituency {
         -int constituencyId
         -String constituencyName
+        -List municipalities
     }
     class Municipality {
         -int municipalityId
         -Constituency constituency
         -String municipalityName
+        -List pollingStations
     }
     class PollingStation {
         -int pollingStationId
@@ -42,6 +44,7 @@ classDiagram
     class Affiliation {
         -int affiliationId
         -String affiliationName
+        -List candidates
     }
     class Candidate {
         -int candidateId
