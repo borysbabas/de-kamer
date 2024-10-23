@@ -60,7 +60,7 @@ public class XmlReaderV2 {
 
                     boolean identicalLists = affiliationType.equals(XMLTagNames.IDENTICAL_LISTS);
 
-                    Affiliation affiliation = affiliationService.affiliationExists(affiliationIdentifier);
+                    Affiliation affiliation = affiliationService.findAffiliationByAffiliationId(affiliationIdentifier);
 
                     if (affiliation == null) {
                         affiliation = new Affiliation(affiliationIdentifier, affiliationName);
