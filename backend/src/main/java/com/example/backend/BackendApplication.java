@@ -1,6 +1,8 @@
 package com.example.backend;
 
 import com.example.backend.entities.Affiliation;
+import com.example.backend.entities.Candidate;
+import com.example.backend.services.CandidateService;
 import com.example.backend.xmlreader.XmlReaderV2;
 import com.example.backend.xmlreader.XmlStreamReaderV1;
 import org.springframework.boot.SpringApplication;
@@ -65,6 +67,7 @@ public class BackendApplication {
 		response.put( "status","active");
 		return response;
 	}
+
 
 	@PostMapping(path="/login")
 	public ResponseEntity<HashMap<String,String>> loginUser(@RequestBody Map<String, Object>loginCredentials){
