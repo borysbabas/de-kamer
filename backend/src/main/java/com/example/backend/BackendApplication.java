@@ -4,6 +4,8 @@ import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.Affiliation;
 import com.example.backend.models.MemberCount;
 import com.example.backend.services.AffiliationService;
+import com.example.backend.entities.Candidate;
+import com.example.backend.services.CandidateService;
 import com.example.backend.xmlreader.XmlReaderV2;
 import com.example.backend.xmlreader.XmlStreamReaderV1;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +75,7 @@ public class BackendApplication {
 		response.put( "status","active");
 		return response;
 	}
+
 
 	@PostMapping(path="/login")
 	public ResponseEntity<HashMap<String,String>> loginUser(@RequestBody Map<String, Object>loginCredentials){

@@ -2,11 +2,26 @@
 import {ref, computed, onMounted, onUnmounted} from "vue"
 const isFixed=ref(false)
 const input =ref("");
-const partyList=ref([])
-//fetches data from an  API and displays the values that are similar
-onMounted(()=>fetch("https://jsonplaceholder.typicode.com/todos").then(response=>response.json().then(json=> partyList.value=json.slice(0,20))))
-const filteredList= computed(()=>{
-  return partyList.value.filter((affiliation)=>affiliation.title.toLowerCase().includes(input.value.toLowerCase()));
+const candidateList=ref([])
+onMounted(() => {
+  fetch("http://localhost:3001/candidates")
+      .then(response => response.json())
+      .then(json => candidateList.value = json)
+})
+
+const filteredList = computed(() => {
+  const searchQuery = input.value.toLowerCase();
+
+  return candidateList.value.filter(candidate => {
+    // Construct the full name
+    const fullName = [candidate.firstName, candidate.lastName]
+        .join(" ")
+        .toLowerCase()
+        .trim();
+
+    const affiliationName = candidate.affiliationName.toLowerCase();
+    return fullName.includes(searchQuery) || affiliationName.includes(searchQuery);
+  });
 })
 //gets value of clicked LI item and redirects user to designated endpoint.
 function routeAssigner(event){
@@ -36,7 +51,9 @@ onUnmounted(() => {
 <template>
   <li class="searchbar-container"><input v-model="input" type="text" placeholder="Search..."></li>
   <ul v-if="input.length > 0 && filteredList.length > 0" :class="{'fixed-searchbar' : isFixed, 'search-results': !isFixed}">
-    <li v-on:click="routeAssigner" v-for="affiliation in filteredList" :key="affiliation.title">{{ affiliation.title }} - {{affiliation.id}}</li>
+    <li v-on:click="routeAssigner" v-for="candidate in filteredList" :key="candidate.candidateId">{{ candidate.firstName }}
+      <span v-if="candidate.lastNamePrefix">{{candidate.lastNamePrefix}}</span>
+      {{candidate.lastName}}- {{candidate.affiliationName}}</li>
   </ul>
 </template>
 
