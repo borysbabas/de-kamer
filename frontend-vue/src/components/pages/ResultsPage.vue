@@ -1,8 +1,8 @@
 <template>
   <Navbar></Navbar>
   <Results></Results>
-  <Footer></Footer>
   <ChartTemplate></ChartTemplate>
+  <Footer></Footer>
 </template>
 
 <script setup lang="ts">
