@@ -20,9 +20,12 @@ public class AffiliationService {
         return affiliationRepository.findAffiliationByAffiliationId(affiliationId);
     }
 
-    public Affiliation addAffiliation(Affiliation affiliation) {
+    public void addAffiliation(Affiliation affiliation) {
         affiliationRepository.save(affiliation);
-        return affiliation;
+    }
+
+    public String findAffiliationNameByAffiliationId(Long affiliationId) {
+        return affiliationRepository.findAffiliationNameByAffiliationId(affiliationId);
     }
 
     public List<Affiliation> getAllAffiliations() {
