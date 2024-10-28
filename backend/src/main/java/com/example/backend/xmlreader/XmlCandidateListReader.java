@@ -16,7 +16,8 @@ public class XmlCandidateListReader {
     private final CandidateService candidateService;
     private final ConstituencyService constituencyService;
 
-    private final Constituency constituency;
+    private final Constituency constituency = new Constituency();
+    private final Constituency generalConstituency;
     private Affiliation affiliation;
 
 
@@ -28,7 +29,7 @@ public class XmlCandidateListReader {
         this.affiliationService = affiliationService;
         this.candidateService = candidateService;
         this.constituencyService = constituencyService;
-        constituency = constituencyService.setGeneralConstituency();
+        generalConstituency = constituencyService.setGeneralConstituency();
     }
 
     public void read(XMLStreamReader reader) throws XMLStreamException {
@@ -116,7 +117,7 @@ public class XmlCandidateListReader {
     private void readCandidate(XMLStreamReader reader) throws XMLStreamException {
         Candidate candidate = new Candidate(this.affiliation, this.constituency);
         if (affiliation.isIdenticalLists()) {
-            candidate.setConstituency(constituencyService.setGeneralConstituency());
+            candidate.setConstituency(generalConstituency);
         }
 
         while (reader.hasNext()) {
