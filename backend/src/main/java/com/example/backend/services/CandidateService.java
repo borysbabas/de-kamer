@@ -2,7 +2,6 @@ package com.example.backend.services;
 
 import com.example.backend.entities.Affiliation;
 import com.example.backend.entities.Candidate;
-import com.example.backend.entities.Constituency;
 import com.example.backend.repositories.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,9 +57,5 @@ public class CandidateService {
 
     public Long countDistinctCandidatesByAffiliation(Affiliation affiliation) {
         return candidateRepository.countDistinctCandidatesByAffiliation(affiliation);
-    }
-
-    public Candidate findByShortCodeAndConstituency(String shortCode, Constituency constituency) {
-        return candidateRepository.findByShortCodeAndConstituency(shortCode, constituency);
     }
 }

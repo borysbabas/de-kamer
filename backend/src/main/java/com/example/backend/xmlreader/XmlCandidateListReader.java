@@ -151,9 +151,7 @@ public class XmlCandidateListReader {
                 String elementName = reader.getLocalName();
                 if (elementName.equals(XMLTagNames.CANDIDATE)) {
                     candidate.setShortCode(candidateService.toShortCode(candidate));
-//                    if (candidate.equals(candidateService.findByShortCodeAndConstituency(candidate.getShortCode(), constituency.getConstituencyId()))) {
-//                        return;
-//                    }
+
                     candidateService.addCandidate(candidate);
                     return;
                 }

@@ -1,7 +1,5 @@
 package com.example.backend.services;
 
-import com.example.backend.entities.Affiliation;
-import com.example.backend.entities.Candidate;
 import com.example.backend.entities.CountryVotes;
 import com.example.backend.repositories.CountryVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,5 @@
 package com.example.backend;
 
-import com.example.backend.config.ApiPaths;
-import com.example.backend.entities.Affiliation;
-import com.example.backend.models.MemberCount;
-import com.example.backend.services.AffiliationService;
 import com.example.backend.xmlreader.XMLTagNames;
 import com.example.backend.xmlreader.XmlReaderV2;
 import com.example.backend.xmlreader.XmlStreamReaderV1;
