@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.entities.Affiliation;
 import com.example.backend.entities.Candidate;
 import com.example.backend.entities.Constituency;
 import com.example.backend.repositories.CandidateRepository;
@@ -53,6 +54,10 @@ public class CandidateService {
     public List<Candidate> findAll(){
         return candidateRepository.findAll();
 
+    }
+
+    public Long countDistinctCandidatesByAffiliation(Affiliation affiliation) {
+        return candidateRepository.countDistinctCandidatesByAffiliation(affiliation);
     }
 
     public Candidate findByShortCodeAndConstituency(String shortCode, Constituency constituency) {

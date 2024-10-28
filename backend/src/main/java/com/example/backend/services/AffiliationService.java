@@ -31,4 +31,8 @@ public class AffiliationService {
     public List<Affiliation> getAllAffiliations() {
         return affiliationRepository.findAll();
     }
+
+    public Affiliation findFirstByAffiliationNameStartingWith(String name) {
+        return affiliationRepository.findFirstByAffiliationNameStartingWithIgnoreCase(name);
+    }
 }

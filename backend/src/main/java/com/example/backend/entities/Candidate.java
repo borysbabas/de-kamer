@@ -82,6 +82,12 @@ public class Candidate {
     @Column(name = "short_code")
     private String shortCode;
 
+    public String getFullName() {
+        return lastNamePrefix == null || lastNamePrefix.isEmpty()
+                ? "%s %s".formatted(firstName == null ? initials : firstName, lastName)
+                : "%s %s %s".formatted(firstName == null ? initials : firstName, lastNamePrefix, lastName);
+    }
+
     /**
      * check if two objects are equal.
      * They are equal if the initials, lastname, locality and affiliation are equal

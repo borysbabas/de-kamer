@@ -4,6 +4,7 @@ import com.example.backend.entities.Affiliation;
 import com.example.backend.entities.Candidate;
 import com.example.backend.entities.Constituency;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -12,5 +13,8 @@ public interface CandidateRepository extends JpaRepository<Candidate, Integer> {
     Candidate findByMemberIdAndAffiliationAndConstituency(Long memberId, Affiliation affiliation, Constituency constituency);
     Candidate getFirstByShortCode(String shortCode);
     Candidate findFirstByShortCode(String shortCode);
+
+    @Query("SELECT COUNT(DISTINCT c.shortCode) FROM Candidate c WHERE c.affiliation = ?1")
+    Long countDistinctCandidatesByAffiliation(Affiliation affiliation);
     Candidate findByShortCodeAndConstituency(String shortCode, Constituency constituency);
 }
