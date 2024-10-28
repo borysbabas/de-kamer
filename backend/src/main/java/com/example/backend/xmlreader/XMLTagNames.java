@@ -7,6 +7,7 @@ public class XMLTagNames {
     public static final String ID = "Id";
     public static final String TYPE = "Type";
     public static final String COUNT = "Count";
+    public static final String CONTEST = "Contest";
 
     public static final String CONTEST_ID = "ContestIdentifier";
     public static final String IDENTICAL_LISTS = "stel gelijkluidende lijsten";

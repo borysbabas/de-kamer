@@ -11,13 +11,13 @@ import com.example.backend.services.CountryVotesService;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-public class XmlTotalVotesReader {
+public class XmlTotalCountReader {
     private final AffiliationService affiliationService;
     private final AffiliationVotesService affiliationVotesService;
     private final CandidateService candidateService;
     private final CountryVotesService countryVotesService;
 
-    public XmlTotalVotesReader(
+    public XmlTotalCountReader(
             AffiliationService affiliationService,
             AffiliationVotesService affiliationVotesService,
             CandidateService candidateService,
@@ -30,7 +30,15 @@ public class XmlTotalVotesReader {
     }
 
     public void read(XMLStreamReader reader) throws XMLStreamException {
-        readTotalVotes(reader);
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            if (eventType == XMLStreamReader.START_ELEMENT) {
+                String elementName = reader.getLocalName();
+                if (elementName.equals(XMLTagNames.TOTAL_VOTES)) {
+                    readTotalVotes(reader);
+                }
+            }
+        }
     }
 
     private void readTotalVotes(XMLStreamReader reader) throws XMLStreamException {

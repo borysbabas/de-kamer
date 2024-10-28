@@ -33,7 +33,7 @@ public class XmlStreamReaderV1 {
         InputStream raw = new FileInputStream(filename);
         this.fileType = fileType;
         readFromXml(raw);
-        System.out.println("File read");
+        System.out.printf("Read file: %s%n", filename);
     }
 
     private void readFromXml(InputStream inputStream) throws XMLStreamException {
@@ -54,18 +54,20 @@ public class XmlStreamReaderV1 {
         while (reader.hasNext()) {
             int eventType = reader.next();
             if (eventType == XMLStreamReader.START_ELEMENT) {
-                String elementName = reader.getLocalName();
                 switch (fileType) {
                     case TOTAL_COUNT:
-                        if (elementName.equals(XMLTagNames.TOTAL_VOTES)) {
-                            new XmlTotalVotesReader(
-                                    affiliationService,
-                                    affiliationVotesService,
-                                    candidateService,
-                                    countryVotesService
-                            ).read(reader);
-                        }
+                        new XmlTotalCountReader(
+                                affiliationService,
+                                affiliationVotesService,
+                                candidateService,
+                                countryVotesService
+                        ).read(reader);
                         break;
+                    case CANDIDATE_LIST:
+                        new XmlCandidateListReader(
+                                affiliationService,
+                                candidateService
+                        ).read(reader);
                 }
             }
         }

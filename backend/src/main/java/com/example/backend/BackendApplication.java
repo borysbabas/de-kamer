@@ -64,16 +64,18 @@ public class BackendApplication {
 		XmlStreamReaderV1 xmlStreamReader = new XmlStreamReaderV1(applicationContext);
 
 		long startTime = System.nanoTime();
-		allFiles.forEach(xmlReader::parseAndInsert);
-		long stopTime = System.nanoTime();
+        for (String filename : allFiles) {
+            xmlStreamReader.parseFile(filename, XMLTagNames.FILE_TYPE.CANDIDATE_LIST);
+        }
+        long stopTime = System.nanoTime();
 		System.out.print("XMLReader Time: ");
 		System.out.println(stopTime - startTime);
 
-		startTime = System.nanoTime();
-		xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml", XMLTagNames.FILE_TYPE.TOTAL_COUNT);
-		stopTime = System.nanoTime();
-		System.out.print("XMLStreamReader Time: ");
-		System.out.println(stopTime - startTime);
+//		startTime = System.nanoTime();
+//		xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml", XMLTagNames.FILE_TYPE.TOTAL_COUNT);
+//		stopTime = System.nanoTime();
+//		System.out.print("XMLStreamReader Time: ");
+//		System.out.println(stopTime - startTime);
 	}
 
 	@GetMapping(path="/test", produces = "application/json")
