@@ -114,9 +114,9 @@ public class XmlCandidateListReader {
     }
 
     private void readCandidate(XMLStreamReader reader) throws XMLStreamException {
-        Candidate candidate = new Candidate(this.affiliation, this.constituency.getConstituencyId());
+        Candidate candidate = new Candidate(this.affiliation, this.constituency);
         if (affiliation.isIdenticalLists()) {
-            candidate.setConstituencyId(0L);
+            candidate.setConstituency(constituencyService.setGeneralConstituency());
         }
 
         while (reader.hasNext()) {
@@ -151,7 +151,7 @@ public class XmlCandidateListReader {
                 String elementName = reader.getLocalName();
                 if (elementName.equals(XMLTagNames.CANDIDATE)) {
                     candidate.setShortCode(candidateService.toShortCode(candidate));
-//                    if (candidate.equals(candidateService.findByShortCodeAndConstituencyId(candidate.getShortCode(), constituency.getConstituencyId()))) {
+//                    if (candidate.equals(candidateService.findByShortCodeAndConstituency(candidate.getShortCode(), constituency.getConstituencyId()))) {
 //                        return;
 //                    }
                     candidateService.addCandidate(candidate);
