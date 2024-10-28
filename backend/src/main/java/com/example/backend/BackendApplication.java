@@ -4,8 +4,7 @@ import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.Affiliation;
 import com.example.backend.models.MemberCount;
 import com.example.backend.services.AffiliationService;
-import com.example.backend.entities.Candidate;
-import com.example.backend.services.CandidateService;
+import com.example.backend.xmlreader.XMLTagNames;
 import com.example.backend.xmlreader.XmlReaderV2;
 import com.example.backend.xmlreader.XmlStreamReaderV1;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,8 +63,17 @@ public class BackendApplication {
 		XmlReaderV2 xmlReader = new XmlReaderV2(applicationContext);
 		XmlStreamReaderV1 xmlStreamReader = new XmlStreamReaderV1(applicationContext);
 
+		long startTime = System.nanoTime();
 		allFiles.forEach(xmlReader::parseAndInsert);
-		xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml");
+		long stopTime = System.nanoTime();
+		System.out.print("XMLReader Time: ");
+		System.out.println(stopTime - startTime);
+
+		startTime = System.nanoTime();
+		xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml", XMLTagNames.FILE_TYPE.TOTAL_COUNT);
+		stopTime = System.nanoTime();
+		System.out.print("XMLStreamReader Time: ");
+		System.out.println(stopTime - startTime);
 	}
 
 	@GetMapping(path="/test", produces = "application/json")

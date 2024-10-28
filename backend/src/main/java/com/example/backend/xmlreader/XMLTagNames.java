@@ -6,6 +6,7 @@ import lombok.experimental.UtilityClass;
 public class XMLTagNames {
     public static final String ID = "Id";
     public static final String TYPE = "Type";
+    public static final String COUNT = "Count";
 
     public static final String CONTEST_ID = "ContestIdentifier";
     public static final String IDENTICAL_LISTS = "stel gelijkluidende lijsten";
@@ -18,4 +19,13 @@ public class XMLTagNames {
     public static final String VALID_VOTES = "ValidVotes";
     public static final String TOTAL_VOTES = "TotalVotes";
     public static final String SHORT_CODE = "ShortCode";
+
+    public enum FILE_TYPE {
+        CANDIDATE_LIST,
+        RESULT,
+        VOTES_CONSTITUENCY,
+        VOTES_MUNICIPALITY,
+        TOTAL_COUNT,
+        ELECTION_DEFINITION,
+    }
 }

@@ -22,7 +22,7 @@ public class XmlReaderV2 {
     private final CandidateService candidateService;
 
     public XmlReaderV2(ApplicationContext applicationContext) {
-        System.out.println(XMLTagNames.AFFILIATION);
+//        System.out.println(XMLTagNames.AFFILIATION);
         this.affiliationService = applicationContext.getBean(AffiliationService.class);
         this.candidateService = applicationContext.getBean(CandidateService.class);
     }
@@ -38,7 +38,7 @@ public class XmlReaderV2 {
 
             Element root = doc.getDocumentElement();
 
-            System.out.println("Root element: " + root.getNodeName());
+//            System.out.println("Root element: " + root.getNodeName());
 
             Long constituencyId = Long.valueOf(doc.getElementsByTagName(XMLTagNames.CONTEST_ID).item(0).getAttributes().getNamedItem(XMLTagNames.ID).getNodeValue());
 
@@ -47,7 +47,7 @@ public class XmlReaderV2 {
 
             // Loop through the list of affiliations
             for (int i = 0; i < affiliationList.getLength(); i++) {
-                System.out.println("Affiliation: " + i);
+//                System.out.println("Affiliation: " + i);
                 Node affiliationNode = affiliationList.item(i);
 
                 if (affiliationNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -71,10 +71,10 @@ public class XmlReaderV2 {
 
                     affiliationService.addAffiliation(affiliation);
 
-                    System.out.println("Affiliation Identifier: " + affiliationIdentifier);
+//                    System.out.println("Affiliation Identifier: " + affiliationIdentifier);
 
                     NodeList candidateList = affiliationElement.getElementsByTagName(XMLTagNames.CANDIDATE);
-                    System.out.println("Candidate List Length: " + candidateList.getLength());
+//                    System.out.println("Candidate List Length: " + candidateList.getLength());
 
                     // Loop through the list of candidates
                     for (int j = 0; j < candidateList.getLength(); j++) {
