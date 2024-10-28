@@ -71,11 +71,11 @@ public class BackendApplication {
 		System.out.print("XMLReader Time: ");
 		System.out.println(stopTime - startTime);
 
-//		startTime = System.nanoTime();
-//		xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml", XMLTagNames.FILE_TYPE.TOTAL_COUNT);
-//		stopTime = System.nanoTime();
-//		System.out.print("XMLStreamReader Time: ");
-//		System.out.println(stopTime - startTime);
+		startTime = System.nanoTime();
+		xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml", XMLTagNames.FILE_TYPE.TOTAL_COUNT);
+		stopTime = System.nanoTime();
+		System.out.print("XMLStreamReader Time: ");
+		System.out.println(stopTime - startTime);
 	}
 
 	@GetMapping(path="/test", produces = "application/json")

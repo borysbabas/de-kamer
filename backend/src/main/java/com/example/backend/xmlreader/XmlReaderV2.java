@@ -126,12 +126,12 @@ public class XmlReaderV2 {
                                 String memberId = candidateAffiliationNode.getAttributes().getNamedItem("Id").getNodeValue();
                                 candidate.setMemberId(Long.parseLong(memberId));
 
-//                                if (identicalLists) {
-//                                    // Use 0 for identical lists
-//                                    candidate.setConstituencyId(0L);
-//                                } else {
-//                                    candidate.setConstituencyId(constituencyId);
-//                                }
+                                if (identicalLists) {
+                                    // Use 0 for identical lists
+                                    candidate.setConstituencyId(0L);
+                                } else {
+                                    candidate.setConstituencyId(constituencyId);
+                                }
 
                             } catch (Exception e) {
                                 e.printStackTrace();

@@ -1,6 +1,5 @@
 package com.example.backend.services;
 
-import com.example.backend.entities.Affiliation;
 import com.example.backend.entities.Candidate;
 import com.example.backend.repositories.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +18,6 @@ public class CandidateService {
     }
 
     public void addCandidate(Candidate candidate) {
-        Affiliation affiliation = candidate.getAffiliation();
-        Candidate candidateExists = candidateRepository.findByMemberIdAndAffiliationAndConstituencyId(candidate.getMemberId(), affiliation, candidate.getConstituencyId());
-        if (candidateExists != null) {
-            if (candidateExists.equals(candidate)) {
-                return;
-            }
-        }
         candidateRepository.save(candidate);
     }
 
@@ -60,5 +52,9 @@ public class CandidateService {
     public List<Candidate> findAll(){
         return candidateRepository.findAll();
 
+    }
+
+    public Candidate findByShortCodeAndConstituencyId(String shortCode, Long constituencyId) {
+        return candidateRepository.findByShortCodeAndConstituencyId(shortCode, constituencyId);
     }
 }
