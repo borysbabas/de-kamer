@@ -53,7 +53,7 @@ public class XmlReaderV2 {
                 if (affiliationNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element affiliationElement = (Element) affiliationNode;
 
-                    Node affiliationIdentifierNode = affiliationElement.getElementsByTagName(XMLTagNames.AFFILIATION_IDENTIFIER).item(0);
+                    Node affiliationIdentifierNode = affiliationElement.getElementsByTagName(XMLTagNames.AFFILIATION_ID).item(0);
                     String affiliationName = affiliationIdentifierNode.getTextContent().trim();
                     Long affiliationIdentifier = Long.parseLong(affiliationIdentifierNode.getAttributes().getNamedItem(XMLTagNames.ID).getNodeValue());
                     String affiliationType = affiliationElement.getElementsByTagName(XMLTagNames.TYPE).item(0).getTextContent().trim();
@@ -94,7 +94,7 @@ public class XmlReaderV2 {
                             Node lastNameNode = candidateElement.getElementsByTagName("xnl:LastName").item(0);
                             Node genderNode = candidateElement.getElementsByTagName("Gender").item(0);
                             Node localityNode = candidateElement.getElementsByTagName("xal:LocalityName").item(0);
-                            Node candidateAffiliationNode = candidateElement.getElementsByTagName(XMLTagNames.CANDIDATE_IDENTIFIER).item(0);
+                            Node candidateAffiliationNode = candidateElement.getElementsByTagName(XMLTagNames.CANDIDATE_ID).item(0);
 
                             try {
                                 String initials = initialsNode.getTextContent();
@@ -126,19 +126,19 @@ public class XmlReaderV2 {
                                 String memberId = candidateAffiliationNode.getAttributes().getNamedItem("Id").getNodeValue();
                                 candidate.setMemberId(Long.parseLong(memberId));
 
-                                if (identicalLists) {
-                                    // Use 0 for identical lists
-                                    candidate.setConstituencyId(0L);
-                                } else {
-                                    candidate.setConstituencyId(constituencyId);
-                                }
+//                                if (identicalLists) {
+//                                    // Use 0 for identical lists
+//                                    candidate.setConstituencyId(0L);
+//                                } else {
+//                                    candidate.setConstituencyId(constituencyId);
+//                                }
 
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
                         candidate.setShortCode(candidateService.toShortCode(candidate));
-                        candidateService.addCandidate(candidate, affiliation);
+                        candidateService.addCandidate(candidate);
                     }
                 }
             }

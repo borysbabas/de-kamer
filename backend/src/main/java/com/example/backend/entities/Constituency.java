@@ -11,9 +11,8 @@ import java.util.List;
 @Table(name = "constituencies")
 public class Constituency {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "constituency_id")
-    private int constituencyId;
+    private Long constituencyId;
 
     @Column(name = "constituency_name")
     private String constituencyName;

@@ -73,14 +73,14 @@ public class XmlTotalCountReader {
                     String elementName = reader.getLocalName();
 
                     switch (elementName) {
-                        case XMLTagNames.CANDIDATE_IDENTIFIER:
+                        case XMLTagNames.CANDIDATE_ID:
                             shortCode = reader.getAttributeValue(null, XMLTagNames.SHORT_CODE);
                             break;
                         case XMLTagNames.VALID_VOTES:
                             votes = Long.parseLong(reader.getElementText());
 
                             break;
-                        case XMLTagNames.AFFILIATION_IDENTIFIER:
+                        case XMLTagNames.AFFILIATION_ID:
                             affiliationId = Long.parseLong(reader.getAttributeValue(null, XMLTagNames.ID));
                             isAffiliation = true;
                             break;

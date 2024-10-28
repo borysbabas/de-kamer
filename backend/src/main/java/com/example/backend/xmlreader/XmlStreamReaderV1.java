@@ -1,9 +1,6 @@
 package com.example.backend.xmlreader;
 
-import com.example.backend.services.AffiliationService;
-import com.example.backend.services.AffiliationVotesService;
-import com.example.backend.services.CandidateService;
-import com.example.backend.services.CountryVotesService;
+import com.example.backend.services.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +17,7 @@ public class XmlStreamReaderV1 {
     private final CountryVotesService countryVotesService;
     private final AffiliationService affiliationService;
     private final AffiliationVotesService affiliationVotesService;
+    private final ConstituencyService constituencyService;
     private XMLTagNames.FILE_TYPE fileType;
 
     public XmlStreamReaderV1(ApplicationContext applicationContext) {
@@ -27,6 +25,7 @@ public class XmlStreamReaderV1 {
         this.countryVotesService = applicationContext.getBean(CountryVotesService.class);
         this.affiliationService = applicationContext.getBean(AffiliationService.class);
         this.affiliationVotesService = applicationContext.getBean(AffiliationVotesService.class);
+        this.constituencyService = applicationContext.getBean(ConstituencyService.class);
     }
 
     public void parseFile(String filename, XMLTagNames.FILE_TYPE fileType) throws FileNotFoundException, XMLStreamException {
@@ -66,7 +65,8 @@ public class XmlStreamReaderV1 {
                     case CANDIDATE_LIST:
                         new XmlCandidateListReader(
                                 affiliationService,
-                                candidateService
+                                candidateService,
+                                constituencyService
                         ).read(reader);
                 }
             }

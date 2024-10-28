@@ -18,7 +18,8 @@ public class CandidateService {
         this.candidateRepository = candidateRepository;
     }
 
-    public void addCandidate(Candidate candidate, Affiliation affiliation) {
+    public void addCandidate(Candidate candidate) {
+        Affiliation affiliation = candidate.getAffiliation();
         Candidate candidateExists = candidateRepository.findByMemberIdAndAffiliationAndConstituencyId(candidate.getMemberId(), affiliation, candidate.getConstituencyId());
         if (candidateExists != null) {
             if (candidateExists.equals(candidate)) {

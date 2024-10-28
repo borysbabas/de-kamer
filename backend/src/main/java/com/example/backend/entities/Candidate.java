@@ -27,6 +27,11 @@ public class Candidate {
         this.shortCode = candidate.getShortCode();
     }
 
+    public Candidate(Affiliation affiliation, Long constituencyId) {
+        this.affiliation = affiliation;
+        this.constituencyId = constituencyId;
+    }
+
     public Candidate(Affiliation affiliation, Long memberId, String initials, String firstName, String lastName, String gender, String locality) {
         this.affiliation = affiliation;
         this.memberId = memberId;
