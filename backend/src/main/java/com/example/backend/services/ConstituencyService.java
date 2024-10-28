@@ -17,4 +17,11 @@ public class ConstituencyService {
     public void addConstituency(Constituency constituency) {
         constituencyRepository.save(constituency);
     }
+
+    public Constituency setGeneralConstituency() {
+        return constituencyRepository.save(new Constituency(
+                0L,
+                "alle"
+        ));
+    }
 }

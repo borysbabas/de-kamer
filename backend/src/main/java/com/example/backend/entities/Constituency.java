@@ -10,6 +10,13 @@ import java.util.List;
 @Entity
 @Table(name = "constituencies")
 public class Constituency {
+    public Constituency() {}
+
+    public Constituency(Long constituencyId, String constituencyName) {
+        this.constituencyId = constituencyId;
+        this.constituencyName = constituencyName;
+    }
+
     @Id
     @Column(name = "constituency_id")
     private Long constituencyId;
