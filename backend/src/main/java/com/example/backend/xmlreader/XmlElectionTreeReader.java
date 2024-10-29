@@ -1,16 +1,20 @@
 package com.example.backend.xmlreader;
 
 import com.example.backend.entities.Constituency;
+import com.example.backend.entities.Municipality;
 import com.example.backend.models.RegionModel;
 import com.example.backend.services.ConstituencyService;
+import com.example.backend.services.MunicipalityService;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 public class XmlElectionTreeReader {
     private final ConstituencyService constituencyService;
-    public XmlElectionTreeReader(ConstituencyService constituencyService) {
+    private final MunicipalityService municipalityService;
+    public XmlElectionTreeReader(ConstituencyService constituencyService, MunicipalityService municipalityService) {
         this.constituencyService = constituencyService;
+        this.municipalityService = municipalityService;
     }
 
     public void read(XMLStreamReader reader) throws XMLStreamException {
@@ -69,6 +73,12 @@ public class XmlElectionTreeReader {
                                 ));
                                 break;
                             case PSB:
+                                Constituency constituency = constituencyService.findConstituencyById(region.getSuperiorRegionNumber());
+                                municipalityService.addMunicipality(new Municipality(
+                                        region.getRegionNumber(),
+                                        region.getRegionName(),
+                                        constituency
+                                ));
                                 break;
                         }
                     }
