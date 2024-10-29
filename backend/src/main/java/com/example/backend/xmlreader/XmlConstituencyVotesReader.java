@@ -5,6 +5,7 @@ import com.example.backend.entities.Constituency;
 import com.example.backend.entities.ConstituencyVotes;
 import com.example.backend.services.CandidateService;
 import com.example.backend.services.ConstituencyService;
+import com.example.backend.services.ConstituencyVotesService;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -12,13 +13,19 @@ import javax.xml.stream.XMLStreamReader;
 public class XmlConstituencyVotesReader {
     private final CandidateService candidateService;
     private final ConstituencyService constituencyService;
+    private final ConstituencyVotesService constituencyVotesService;
 
     private Constituency constituency;
     private Affiliation affiliation;
 
-    public XmlConstituencyVotesReader(CandidateService candidateService, ConstituencyService constituencyService) {
+    public XmlConstituencyVotesReader(
+            CandidateService candidateService,
+            ConstituencyService constituencyService,
+            ConstituencyVotesService constituencyVotesService
+    ) {
         this.candidateService = candidateService;
         this.constituencyService = constituencyService;
+        this.constituencyVotesService = constituencyVotesService;
     }
 
     public void read(XMLStreamReader reader) throws XMLStreamException {
@@ -88,6 +95,7 @@ public class XmlConstituencyVotesReader {
                             return;
                         case XMLTagNames.CANDIDATE_ID:
                             Long candidateId = Long.parseLong(reader.getAttributeValue(0));
+                            constituencyVotes.setAffiliation(affiliation);
                             constituencyVotes.setCandidate(candidateService.getCandidateByIdAndAffiliationId(candidateId, affiliation));
                             break;
                         case XMLTagNames.VALID_VOTES:
@@ -97,7 +105,7 @@ public class XmlConstituencyVotesReader {
                     }
                 case XMLStreamReader.END_ELEMENT:
                     if (reader.getLocalName().equals(XMLTagNames.SELECTION)) {
-                        System.out.println(constituencyVotes.getConstituency().getConstituencyName() + ", " + constituencyVotes.getCandidate().getLastName() + ", " + constituencyVotes.getTotalVotes());
+                        constituencyVotesService.addConstituencyVotes(constituencyVotes);
                         return;
                     }
             }
