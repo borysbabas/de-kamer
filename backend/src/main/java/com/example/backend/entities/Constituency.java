@@ -17,6 +17,15 @@ public class Constituency {
         this.constituencyName = constituencyName;
     }
 
+    public Constituency(Constituency constituency) {
+        if (constituency == null) {
+            return;
+        }
+        this.constituencyId = constituency.getConstituencyId();
+        this.constituencyName = constituency.getConstituencyName();
+        this.municipalities = constituency.getMunicipalities();
+    }
+
     @Id
     @Column(name = "constituency_id")
     private Long constituencyId;

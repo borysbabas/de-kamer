@@ -50,9 +50,14 @@ public class CandidateService {
     public Candidate findFirstByShortCode(String shortCode) {
         return candidateRepository.findFirstByShortCode(shortCode);
     }
+
     public List<Candidate> findAll(){
         return candidateRepository.findAll();
 
+    }
+
+    public Candidate getCandidateByIdAndAffiliationId(Long id, Affiliation affiliation) {
+        return candidateRepository.getFirstCandidateByMemberIdAndAffiliation(id, affiliation);
     }
 
     public Long countDistinctCandidatesByAffiliation(Affiliation affiliation) {

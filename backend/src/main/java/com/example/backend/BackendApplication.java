@@ -72,6 +72,12 @@ public class BackendApplication {
 		stopTime = System.nanoTime();
 		System.out.print("XMLStreamReader Time: ");
 		System.out.println(stopTime - startTime);
+
+		startTime = System.nanoTime();
+		xmlStreamReader.parseFile("res/Telling_TK2021_kieskring_Amsterdam.eml.xml", XMLTagNames.FILE_TYPE.VOTES_CONSTITUENCY);
+		stopTime = System.nanoTime();
+		System.out.print("XMLStreamReader Time: ");
+		System.out.println(stopTime - startTime);
 	}
 
 	@GetMapping(path="/test", produces = "application/json")

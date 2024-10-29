@@ -77,6 +77,11 @@ public class XmlStreamReaderV1 {
                                 municipalityService
                         ).read(reader);
                         break;
+                    case VOTES_CONSTITUENCY:
+                        new XmlConstituencyVotesReader(
+                                candidateService,
+                                constituencyService
+                        ).read(reader);
                 }
             }
         }

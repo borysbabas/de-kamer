@@ -12,6 +12,7 @@ import javax.xml.stream.XMLStreamReader;
 public class XmlElectionTreeReader {
     private final ConstituencyService constituencyService;
     private final MunicipalityService municipalityService;
+
     public XmlElectionTreeReader(ConstituencyService constituencyService, MunicipalityService municipalityService) {
         this.constituencyService = constituencyService;
         this.municipalityService = municipalityService;
