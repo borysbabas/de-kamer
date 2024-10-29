@@ -3,6 +3,7 @@ package com.example.backend.xmlreader;
 import com.example.backend.entities.Affiliation;
 import com.example.backend.entities.Constituency;
 import com.example.backend.entities.ConstituencyVotes;
+import com.example.backend.models.VoteModel;
 import com.example.backend.services.CandidateService;
 import com.example.backend.services.ConstituencyService;
 import com.example.backend.services.ConstituencyVotesService;
@@ -71,44 +72,60 @@ public class XmlConstituencyVotesReader {
             switch (eventType) {
                 case XMLStreamReader.START_ELEMENT:
                     if (reader.getLocalName().equals(XMLTagNames.SELECTION)) {
-                        readSelection(reader);
+                        VoteModel voteModel = readSelection(reader);
+                        if (voteModel == null) continue;
+                        Long affiliationId = voteModel.getAffiliationId();
+                        if (affiliationId != null) {
+                            affiliation = new Affiliation();
+                            affiliation.setAffiliationId(affiliationId);
+                            continue;
+                        }
+                        Long candidateId = voteModel.getCandidateId();
+                        if (candidateId != null) {
+                            ConstituencyVotes constituencyVotes = new ConstituencyVotes();
+                            constituencyVotes.setConstituency(constituency);
+                            constituencyVotes.setCandidate(candidateService.getCandidateByIdAndAffiliation(candidateId, affiliation));
+                            constituencyVotes.setTotalVotes(voteModel.getVotes());
+                            constituencyVotes.setAffiliation(affiliation);
+                            constituencyVotesService.addConstituencyVotes(constituencyVotes);
+                        }
                     }
+                    break;
                 case XMLStreamReader.END_ELEMENT:
                     if (reader.getLocalName().equals(XMLTagNames.TOTAL_VOTES)) {
                         return;
                     }
+                    break;
             }
         }
     }
 
-    private void readSelection(XMLStreamReader reader) throws XMLStreamException {
-        ConstituencyVotes constituencyVotes = new ConstituencyVotes();
-        constituencyVotes.setConstituency(constituency);
+    public VoteModel readSelection(XMLStreamReader reader) throws XMLStreamException {
+        VoteModel voteModel = new VoteModel();
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
                 case XMLStreamReader.START_ELEMENT:
                     switch (reader.getLocalName()) {
                         case XMLTagNames.AFFILIATION_ID:
-                            affiliation = new Affiliation();
-                            affiliation.setAffiliationId(Long.parseLong(reader.getAttributeValue(0)));
-                            return;
+                            voteModel.setAffiliationId(Long.parseLong(reader.getAttributeValue(0)));
+                            return voteModel;
                         case XMLTagNames.CANDIDATE_ID:
                             Long candidateId = Long.parseLong(reader.getAttributeValue(0));
-                            constituencyVotes.setAffiliation(affiliation);
-                            constituencyVotes.setCandidate(candidateService.getCandidateByIdAndAffiliationId(candidateId, affiliation));
+                            voteModel.setCandidateId(candidateId);
                             break;
                         case XMLTagNames.VALID_VOTES:
                             Long votes = Long.parseLong(reader.getElementText());
-                            constituencyVotes.setTotalVotes(votes);
+                            voteModel.setVotes(votes);
                             break;
                     }
                 case XMLStreamReader.END_ELEMENT:
                     if (reader.getLocalName().equals(XMLTagNames.SELECTION)) {
-                        constituencyVotesService.addConstituencyVotes(constituencyVotes);
-                        return;
+                        return voteModel;
                     }
+                    break;
             }
         }
+        return null;
     }
 }

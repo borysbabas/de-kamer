@@ -56,7 +56,7 @@ public class CandidateService {
 
     }
 
-    public Candidate getCandidateByIdAndAffiliationId(Long id, Affiliation affiliation) {
+    public Candidate getCandidateByIdAndAffiliation(Long id, Affiliation affiliation) {
         return candidateRepository.getFirstCandidateByMemberIdAndAffiliation(id, affiliation);
     }
 
