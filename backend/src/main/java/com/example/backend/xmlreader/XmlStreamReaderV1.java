@@ -1,5 +1,6 @@
 package com.example.backend.xmlreader;
 
+import com.example.backend.models.VoteModel;
 import com.example.backend.services.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -18,8 +19,9 @@ public class XmlStreamReaderV1 {
     private final AffiliationService affiliationService;
     private final AffiliationVotesService affiliationVotesService;
     private final ConstituencyService constituencyService;
-    private final MunicipalityService municipalityService;
     private final ConstituencyVotesService constituencyVotesService;
+    private final MunicipalityService municipalityService;
+    private final MunicipalityVotesService municipalityVotesService;
     private XMLTagNames.FILE_TYPE fileType;
 
     public XmlStreamReaderV1(ApplicationContext applicationContext) {
@@ -30,6 +32,7 @@ public class XmlStreamReaderV1 {
         this.constituencyService = applicationContext.getBean(ConstituencyService.class);
         this.municipalityService = applicationContext.getBean(MunicipalityService.class);
         this.constituencyVotesService = applicationContext.getBean(ConstituencyVotesService.class);
+        this.municipalityVotesService = applicationContext.getBean(MunicipalityVotesService.class);
     }
 
     public void parseFile(String filename, XMLTagNames.FILE_TYPE fileType) throws FileNotFoundException, XMLStreamException {
@@ -85,8 +88,44 @@ public class XmlStreamReaderV1 {
                                 constituencyService,
                                 constituencyVotesService
                         ).read(reader);
+                        break;
+                    case VOTES_MUNICIPALITY:
+                        new XmlMunicipalityVotesReader(
+                                constituencyService,
+                                municipalityVotesService,
+                                candidateService
+                        ).read(reader);
                 }
             }
         }
+    }
+
+    public static VoteModel readSelection(XMLStreamReader reader) throws XMLStreamException {
+        VoteModel voteModel = new VoteModel();
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+                case XMLStreamReader.START_ELEMENT:
+                    switch (reader.getLocalName()) {
+                        case XMLTagNames.AFFILIATION_ID:
+                            voteModel.setAffiliationId(Long.parseLong(reader.getAttributeValue(0)));
+                            return voteModel;
+                        case XMLTagNames.CANDIDATE_ID:
+                            Long candidateId = Long.parseLong(reader.getAttributeValue(0));
+                            voteModel.setCandidateId(candidateId);
+                            break;
+                        case XMLTagNames.VALID_VOTES:
+                            Long votes = Long.parseLong(reader.getElementText());
+                            voteModel.setVotes(votes);
+                            break;
+                    }
+                case XMLStreamReader.END_ELEMENT:
+                    if (reader.getLocalName().equals(XMLTagNames.SELECTION)) {
+                        return voteModel;
+                    }
+                    break;
+            }
+        }
+        return null;
     }
 }

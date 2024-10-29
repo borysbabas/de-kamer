@@ -39,6 +39,9 @@ public class XMLTagNames {
     public static final String SUPERIOR_REGION_CATEGORY = "SuperiorRegionCategory";
     public static final String COMMITTEE  = "Committee";
 
+    public static final String MANAGING_AUTHORITY = "ManagingAuthority";
+    public static final String AUTHORITY_ID = "AuthorityIdentifier";
+
     public enum FILE_TYPE {
         CANDIDATE_LIST,
         RESULT,

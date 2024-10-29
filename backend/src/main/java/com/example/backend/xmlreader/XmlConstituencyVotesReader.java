@@ -11,6 +11,8 @@ import com.example.backend.services.ConstituencyVotesService;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import static com.example.backend.xmlreader.XmlStreamReaderV1.readSelection;
+
 public class XmlConstituencyVotesReader {
     private final CandidateService candidateService;
     private final ConstituencyService constituencyService;
@@ -74,6 +76,7 @@ public class XmlConstituencyVotesReader {
                     if (reader.getLocalName().equals(XMLTagNames.SELECTION)) {
                         VoteModel voteModel = readSelection(reader);
                         if (voteModel == null) continue;
+
                         Long affiliationId = voteModel.getAffiliationId();
                         if (affiliationId != null) {
                             affiliation = new Affiliation();
@@ -98,34 +101,5 @@ public class XmlConstituencyVotesReader {
                     break;
             }
         }
-    }
-
-    public VoteModel readSelection(XMLStreamReader reader) throws XMLStreamException {
-        VoteModel voteModel = new VoteModel();
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-                case XMLStreamReader.START_ELEMENT:
-                    switch (reader.getLocalName()) {
-                        case XMLTagNames.AFFILIATION_ID:
-                            voteModel.setAffiliationId(Long.parseLong(reader.getAttributeValue(0)));
-                            return voteModel;
-                        case XMLTagNames.CANDIDATE_ID:
-                            Long candidateId = Long.parseLong(reader.getAttributeValue(0));
-                            voteModel.setCandidateId(candidateId);
-                            break;
-                        case XMLTagNames.VALID_VOTES:
-                            Long votes = Long.parseLong(reader.getElementText());
-                            voteModel.setVotes(votes);
-                            break;
-                    }
-                case XMLStreamReader.END_ELEMENT:
-                    if (reader.getLocalName().equals(XMLTagNames.SELECTION)) {
-                        return voteModel;
-                    }
-                    break;
-            }
-        }
-        return null;
     }
 }

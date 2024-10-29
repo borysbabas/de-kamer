@@ -75,6 +75,13 @@ public class BackendApplication {
 
 		startTime = System.nanoTime();
 		xmlStreamReader.parseFile("res/Telling_TK2021_kieskring_Amsterdam.eml.xml", XMLTagNames.FILE_TYPE.VOTES_CONSTITUENCY);
+		xmlStreamReader.parseFile("res/Telling_TK2021_kieskring_Zwolle.eml.xml", XMLTagNames.FILE_TYPE.VOTES_CONSTITUENCY);
+		stopTime = System.nanoTime();
+		System.out.print("XMLStreamReader Time: ");
+		System.out.println(stopTime - startTime);
+
+		startTime = System.nanoTime();
+		xmlStreamReader.parseFile("res/Gemeente tellingen/01 Groningen/Telling_TK2021_gemeente_Eemsdelta.eml.xml", XMLTagNames.FILE_TYPE.VOTES_MUNICIPALITY);
 		stopTime = System.nanoTime();
 		System.out.print("XMLStreamReader Time: ");
 		System.out.println(stopTime - startTime);
