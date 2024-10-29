@@ -14,7 +14,6 @@ import java.util.Objects;
 public class XmlCandidateListReader {
     private final AffiliationService affiliationService;
     private final CandidateService candidateService;
-    private final ConstituencyService constituencyService;
 
     private final Constituency constituency = new Constituency();
     private final Constituency generalConstituency;
@@ -28,7 +27,6 @@ public class XmlCandidateListReader {
     ) {
         this.affiliationService = affiliationService;
         this.candidateService = candidateService;
-        this.constituencyService = constituencyService;
         generalConstituency = constituencyService.setGeneralConstituency();
     }
 

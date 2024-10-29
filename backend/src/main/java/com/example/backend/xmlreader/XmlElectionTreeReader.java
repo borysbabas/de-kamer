@@ -7,9 +7,6 @@ import com.example.backend.services.ConstituencyService;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import static com.example.backend.xmlreader.XMLTagNames.COMMITTEE_TYPE.HSB;
-import static com.example.backend.xmlreader.XMLTagNames.COMMITTEE_TYPE.PSB;
-
 public class XmlElectionTreeReader {
     private final ConstituencyService constituencyService;
     public XmlElectionTreeReader(ConstituencyService constituencyService) {

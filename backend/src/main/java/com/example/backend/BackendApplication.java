@@ -52,7 +52,6 @@ public class BackendApplication {
 
 	public static void main(String[] args) throws XMLStreamException, FileNotFoundException {
 		ApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);
-		XmlReaderV2 xmlReader = new XmlReaderV2(applicationContext);
 		XmlStreamReaderV1 xmlStreamReader = new XmlStreamReaderV1(applicationContext);
 
 		long startTime = System.nanoTime();
