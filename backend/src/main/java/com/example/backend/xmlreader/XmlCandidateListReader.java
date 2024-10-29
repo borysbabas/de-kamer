@@ -73,7 +73,6 @@ public class XmlCandidateListReader {
             }
             int eventType = reader.next();
             if (eventType == XMLStreamReader.END_ELEMENT) {
-                constituencyService.addConstituency(constituency);
                 return;
             }
         }

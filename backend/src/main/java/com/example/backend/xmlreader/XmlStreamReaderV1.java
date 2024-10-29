@@ -68,6 +68,12 @@ public class XmlStreamReaderV1 {
                                 candidateService,
                                 constituencyService
                         ).read(reader);
+                        break;
+                    case ELECTION_TREE:
+                        new XmlElectionTreeReader(
+                                constituencyService
+                        ).read(reader);
+                        break;
                 }
             }
         }

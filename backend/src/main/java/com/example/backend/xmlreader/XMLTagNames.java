@@ -24,11 +24,20 @@ public class XMLTagNames {
     public static final String LAST_NAME = "LastName";
     public static final String GENDER = "Gender";
     public static final String LOCALITY_NAME = "LocalityName";
+    public static final String SHORT_CODE = "ShortCode";
 
     public static final String SELECTION = "Selection";
     public static final String VALID_VOTES = "ValidVotes";
     public static final String TOTAL_VOTES = "TotalVotes";
-    public static final String SHORT_CODE = "ShortCode";
+
+    public static final String ELECTION_TREE = "ElectionTree";
+    public static final String REGION = "Region";
+    public static final String REGION_NAME = "RegionName";
+    public static final String REGION_NUMBER = "RegionNumber";
+    public static final String REGION_CATEGORY = "RegionCategory";
+    public static final String SUPERIOR_REGION_NUMBER = "SuperiorRegionNumber";
+    public static final String SUPERIOR_REGION_CATEGORY = "SuperiorRegionCategory";
+    public static final String COMMITTEE  = "Committee";
 
     public enum FILE_TYPE {
         CANDIDATE_LIST,
@@ -36,6 +45,12 @@ public class XMLTagNames {
         VOTES_CONSTITUENCY,
         VOTES_MUNICIPALITY,
         TOTAL_COUNT,
-        ELECTION_DEFINITION,
+        ELECTION_TREE,
+    }
+
+    public enum COMMITTEE_TYPE {
+        CSB,
+        HSB,
+        PSB,
     }
 }

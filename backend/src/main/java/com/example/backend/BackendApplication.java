@@ -56,10 +56,16 @@ public class BackendApplication {
 		XmlStreamReaderV1 xmlStreamReader = new XmlStreamReaderV1(applicationContext);
 
 		long startTime = System.nanoTime();
+		xmlStreamReader.parseFile("res/Verkiezingsdefinitie_TK2021.eml.xml", XMLTagNames.FILE_TYPE.ELECTION_TREE);
+		long stopTime = System.nanoTime();
+		System.out.print("XMLStreamReader Time: ");
+		System.out.println(stopTime - startTime);
+
+		startTime = System.nanoTime();
         for (String filename : allFiles) {
             xmlStreamReader.parseFile(filename, XMLTagNames.FILE_TYPE.CANDIDATE_LIST);
         }
-        long stopTime = System.nanoTime();
+        stopTime = System.nanoTime();
 		System.out.print("XMLReader Time: ");
 		System.out.println(stopTime - startTime);
 
