@@ -14,7 +14,7 @@ public class Municipality {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "municipality_id")
-    private int municipalityId;
+    private Long municipalityId;
 
     @ManyToOne
     @JoinColumn(name = "constituency_id", referencedColumnName = "constituency_id")
