@@ -9,9 +9,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "candidates")
 public class Candidate {
-    public Candidate() {
-
-    }
+    public Candidate() {}
 
     public Candidate(Candidate candidate) {
         this.candidateId = candidate.getCandidateId();
@@ -75,9 +73,6 @@ public class Candidate {
 
     @Column(name = "locality", nullable = false)
     private String locality;
-
-//    @Column(name = "constituency_id")
-//    private Long constituencyId;
 
     @Column(name = "short_code")
     private String shortCode;

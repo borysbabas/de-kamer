@@ -16,6 +16,7 @@ public class XmlTotalCountReader {
     private final AffiliationVotesService affiliationVotesService;
     private final CandidateService candidateService;
     private final CountryVotesService countryVotesService;
+    private AffiliationVotes affiliationVotes = new AffiliationVotes();
 
     public XmlTotalCountReader(
             AffiliationService affiliationService,
@@ -62,7 +63,6 @@ public class XmlTotalCountReader {
     private void readSelection(XMLStreamReader reader) throws XMLStreamException {
         String shortCode = null;
         boolean isAffiliation = false;
-        Long affiliationId = null;
         long votes = 0;
         while (reader.hasNext()) {
             CountryVotes countryVotes = new CountryVotes();
@@ -78,10 +78,11 @@ public class XmlTotalCountReader {
                             break;
                         case XMLTagNames.VALID_VOTES:
                             votes = Long.parseLong(reader.getElementText());
-
                             break;
                         case XMLTagNames.AFFILIATION_ID:
-                            affiliationId = Long.parseLong(reader.getAttributeValue(null, XMLTagNames.ID));
+                            long affiliationId = Long.parseLong(reader.getAttributeValue(null, XMLTagNames.ID));
+                            affiliationVotes = new AffiliationVotes();
+                            affiliationVotes.setAffiliation(affiliationService.findAffiliationByAffiliationId(affiliationId));
                             isAffiliation = true;
                             break;
                     }
@@ -89,8 +90,6 @@ public class XmlTotalCountReader {
                 case XMLStreamReader.END_ELEMENT:
                     if (reader.getLocalName().equals(XMLTagNames.SELECTION)) {
                         if (isAffiliation) {
-                            AffiliationVotes affiliationVotes = new AffiliationVotes();
-                            affiliationVotes.setAffiliation(affiliationService.findAffiliationByAffiliationId(affiliationId));
                             affiliationVotes.setAffiliationVotes(votes);
                             affiliationVotesService.addVote(affiliationVotes);
                             return;
@@ -98,7 +97,7 @@ public class XmlTotalCountReader {
                         Candidate candidate = new Candidate(candidateService.getFirstByShortCode(shortCode));
                         countryVotes.setCandidate(candidate);
                         countryVotes.setTotalVotes(votes);
-
+                        countryVotes.setAffiliation(affiliationVotes.getAffiliation());
                         countryVotesService.addCountryVote(countryVotes);
                         return;
                     }

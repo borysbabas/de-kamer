@@ -9,9 +9,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "affiliation_votes")
 public class AffiliationVotes {
-    public AffiliationVotes() {
-
-    }
+    public AffiliationVotes() {}
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -21,6 +19,7 @@ public class AffiliationVotes {
     private Long affiliationVotes;
 
     @OneToOne
+    @JoinColumn(name = "affiliation_id")
     private Affiliation affiliation;
 
 }
