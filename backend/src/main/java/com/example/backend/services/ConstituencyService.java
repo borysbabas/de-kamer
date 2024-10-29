@@ -24,4 +24,8 @@ public class ConstituencyService {
                 "alle"
         ));
     }
+
+    public Constituency findConstituencyById(Long constituencyId) {
+        return constituencyRepository.findById(constituencyId).orElse(null);
+    }
 }
