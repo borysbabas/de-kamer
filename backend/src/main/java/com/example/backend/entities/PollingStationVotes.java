@@ -27,5 +27,5 @@ public class PollingStationVotes {
     private Candidate candidate;
 
     @Column(name = "total_votes")
-    private int totalVotes;
+    private Long totalVotes;
 }

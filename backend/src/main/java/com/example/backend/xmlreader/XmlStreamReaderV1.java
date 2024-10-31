@@ -22,6 +22,7 @@ public class XmlStreamReaderV1 {
     private final ConstituencyVotesService constituencyVotesService;
     private final MunicipalityService municipalityService;
     private final MunicipalityVotesService municipalityVotesService;
+    private final PollingStationService pollingStationService;
     private XMLTagNames.FILE_TYPE fileType;
 
     public XmlStreamReaderV1(ApplicationContext applicationContext) {
@@ -33,6 +34,7 @@ public class XmlStreamReaderV1 {
         this.municipalityService = applicationContext.getBean(MunicipalityService.class);
         this.constituencyVotesService = applicationContext.getBean(ConstituencyVotesService.class);
         this.municipalityVotesService = applicationContext.getBean(MunicipalityVotesService.class);
+        this.pollingStationService = applicationContext.getBean(PollingStationService.class);
     }
 
     public void parseFile(String filename, XMLTagNames.FILE_TYPE fileType) throws FileNotFoundException, XMLStreamException {
@@ -93,7 +95,8 @@ public class XmlStreamReaderV1 {
                         new XmlMunicipalityVotesReader(
                                 constituencyService,
                                 municipalityVotesService,
-                                candidateService
+                                candidateService,
+                                pollingStationService
                         ).read(reader);
                 }
             }

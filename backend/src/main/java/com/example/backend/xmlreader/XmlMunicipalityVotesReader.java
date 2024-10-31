@@ -1,13 +1,14 @@
 package com.example.backend.xmlreader;
 
 import com.example.backend.entities.Affiliation;
-import com.example.backend.entities.Candidate;
 import com.example.backend.entities.Municipality;
 import com.example.backend.entities.MunicipalityVotes;
+import com.example.backend.entities.PollingStation;
 import com.example.backend.models.VoteModel;
 import com.example.backend.services.CandidateService;
 import com.example.backend.services.ConstituencyService;
 import com.example.backend.services.MunicipalityVotesService;
+import com.example.backend.services.PollingStationService;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -18,18 +19,22 @@ public class XmlMunicipalityVotesReader {
     private final ConstituencyService constituencyService;
     private final MunicipalityVotesService municipalityVotesService;
     private final CandidateService candidateService;
+    private final PollingStationService pollingStationService;
 
     private Municipality municipality;
     private Affiliation affiliation;
+    private PollingStation pollingStation;
 
     public XmlMunicipalityVotesReader(
             ConstituencyService constituencyService,
             MunicipalityVotesService municipalityVotesService,
-            CandidateService candidateService
+            CandidateService candidateService,
+            PollingStationService pollingStationService
     ) {
         this.constituencyService = constituencyService;
         this.municipalityVotesService = municipalityVotesService;
         this.candidateService = candidateService;
+        this.pollingStationService = pollingStationService;
     }
 
     public void read(XMLStreamReader reader) throws XMLStreamException {
@@ -82,6 +87,14 @@ public class XmlMunicipalityVotesReader {
                         case XMLTagNames.TOTAL_VOTES:
                             readTotalVotes(reader);
                             break;
+                        case XMLTagNames.REPORTING_UNIT_VOTES:
+                            readReportingUnitVotes(reader);
+                            break;
+                    }
+                    break;
+                case XMLStreamReader.END_ELEMENT:
+                    if (reader.getLocalName().equals(XMLTagNames.CONTEST)) {
+                        return;
                     }
             }
         }
@@ -117,6 +130,39 @@ public class XmlMunicipalityVotesReader {
                     break;
                 case XMLStreamReader.END_ELEMENT:
                     if (reader.getLocalName().equals(XMLTagNames.TOTAL_VOTES)) {
+                        return;
+                    }
+            }
+        }
+    }
+
+    private void readReportingUnitVotes(XMLStreamReader reader) throws XMLStreamException {
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+                case XMLStreamReader.START_ELEMENT:
+                    switch (reader.getLocalName()) {
+                        case XMLTagNames.REPORTING_UNIT_ID:
+                            String reportingUnitId = reader.getAttributeValue(null, XMLTagNames.ID);
+                            String reportingUnitName = reader.getElementText();
+                            Long pollingStationId = Long.parseLong(reportingUnitId.replaceFirst(".*::SB", ""));
+                            String pollingStationZip = reportingUnitName.replaceAll(".*\\(postcode:|\\).*| ", "");
+                            String pollingStationName = reportingUnitName.replaceAll("\\(.*", "");
+                            pollingStation = new PollingStation(
+                                    pollingStationId,
+                                    pollingStationName,
+                                    pollingStationZip
+                            );
+                            pollingStation.setMunicipality(municipality);
+                            pollingStationService.addPollingStation(pollingStation);
+                            break;
+                        case XMLTagNames.SELECTION:
+                            VoteModel voteModel = readSelection(reader);
+                            break;
+                    }
+                    break;
+                case XMLStreamReader.END_ELEMENT:
+                    if (reader.getLocalName().equals(XMLTagNames.REPORTING_UNIT_VOTES)) {
                         return;
                     }
             }

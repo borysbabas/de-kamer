@@ -42,6 +42,9 @@ public class XMLTagNames {
     public static final String MANAGING_AUTHORITY = "ManagingAuthority";
     public static final String AUTHORITY_ID = "AuthorityIdentifier";
 
+    public static final String REPORTING_UNIT_VOTES = "ReportingUnitVotes";
+    public static final String REPORTING_UNIT_ID = "ReportingUnitIdentifier";
+
     public enum FILE_TYPE {
         CANDIDATE_LIST,
         RESULT,
