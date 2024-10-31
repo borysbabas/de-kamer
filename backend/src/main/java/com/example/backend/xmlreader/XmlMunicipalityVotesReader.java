@@ -176,7 +176,7 @@ public class XmlMunicipalityVotesReader {
                                         candidateService.getCandidateByIdAndAffiliation(candidateId, affiliation),
                                         voteModel.getVotes()
                                 );
-                                pollingStationVotesService.addPollingStation(pollingStationVotes);
+                                pollingStationVotesService.addPollingStationVotes(pollingStationVotes);
                             }
                             break;
                     }

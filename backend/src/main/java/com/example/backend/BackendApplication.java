@@ -1,6 +1,6 @@
 package com.example.backend;
 
-import com.example.backend.xmlreader.XMLTagNames;
+import com.example.backend.xmlreader.FileDiscovery;
 import com.example.backend.xmlreader.XmlStreamReaderV1;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -53,38 +53,41 @@ public class BackendApplication {
 		ApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);
 		XmlStreamReaderV1 xmlStreamReader = new XmlStreamReaderV1(applicationContext);
 
-		long startTime = System.nanoTime();
-		xmlStreamReader.parseFile("res/Verkiezingsdefinitie_TK2021.eml.xml");
-		long stopTime = System.nanoTime();
-		System.out.print("XMLStreamReader Time: ");
-		System.out.println(stopTime - startTime);
+		FileDiscovery.discoverFiles(PATH_PREFIX);
 
-		startTime = System.nanoTime();
-        for (String filename : allFiles) {
-            xmlStreamReader.parseFile(filename);
-        }
-        stopTime = System.nanoTime();
-		System.out.print("XMLReader Time: ");
-		System.out.println(stopTime - startTime);
 
-		startTime = System.nanoTime();
-		xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml");
-		stopTime = System.nanoTime();
-		System.out.print("XMLStreamReader Time: ");
-		System.out.println(stopTime - startTime);
-
-		startTime = System.nanoTime();
-		xmlStreamReader.parseFile("res/Telling_TK2021_kieskring_Amsterdam.eml.xml");
-		xmlStreamReader.parseFile("res/Telling_TK2021_kieskring_Zwolle.eml.xml");
-		stopTime = System.nanoTime();
-		System.out.print("XMLStreamReader Time: ");
-		System.out.println(stopTime - startTime);
-
-		startTime = System.nanoTime();
-		xmlStreamReader.parseFile("res/Gemeente tellingen/01 Groningen/Telling_TK2021_gemeente_Eemsdelta.eml.xml");
-		stopTime = System.nanoTime();
-		System.out.print("XMLStreamReader Time: ");
-		System.out.println(stopTime - startTime);
+//		long startTime = System.nanoTime();
+//		xmlStreamReader.parseFile("res/Verkiezingsdefinitie_TK2021.eml.xml");
+//		long stopTime = System.nanoTime();
+//		System.out.print("XMLStreamReader Time: ");
+//		System.out.println(stopTime - startTime);
+//
+//		startTime = System.nanoTime();
+//        for (String filename : allFiles) {
+//            xmlStreamReader.parseFile(filename);
+//        }
+//        stopTime = System.nanoTime();
+//		System.out.print("XMLReader Time: ");
+//		System.out.println(stopTime - startTime);
+//
+//		startTime = System.nanoTime();
+//		xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml");
+//		stopTime = System.nanoTime();
+//		System.out.print("XMLStreamReader Time: ");
+//		System.out.println(stopTime - startTime);
+//
+//		startTime = System.nanoTime();
+//		xmlStreamReader.parseFile("res/Telling_TK2021_kieskring_Amsterdam.eml.xml");
+//		xmlStreamReader.parseFile("res/Telling_TK2021_kieskring_Zwolle.eml.xml");
+//		stopTime = System.nanoTime();
+//		System.out.print("XMLStreamReader Time: ");
+//		System.out.println(stopTime - startTime);
+//
+//		startTime = System.nanoTime();
+//		xmlStreamReader.parseFile("res/Gemeente tellingen/01 Groningen/Telling_TK2021_gemeente_Eemsdelta.eml.xml");
+//		stopTime = System.nanoTime();
+//		System.out.print("XMLStreamReader Time: ");
+//		System.out.println(stopTime - startTime);
 	}
 
 	@GetMapping(path="/test", produces = "application/json")

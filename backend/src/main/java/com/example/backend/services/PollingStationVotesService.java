@@ -14,7 +14,7 @@ public class PollingStationVotesService {
         this.votesRepository = votesRepository;
     }
 
-    public void addPollingStation(PollingStationVotes pollingStationVotes) {
+    public void addPollingStationVotes(PollingStationVotes pollingStationVotes) {
         votesRepository.save(pollingStationVotes);
     }
 }

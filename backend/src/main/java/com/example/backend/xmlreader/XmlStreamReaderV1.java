@@ -39,28 +39,11 @@ public class XmlStreamReaderV1 {
         this.pollingStationVotesService = applicationContext.getBean(PollingStationVotesService.class);
     }
 
-    public void parseFile(String filename) throws FileNotFoundException, XMLStreamException {
+    public void parseFile(String filename, XMLTagNames.FILE_TYPE fileType) throws FileNotFoundException, XMLStreamException {
         InputStream raw = new FileInputStream(filename);
-        InputStream rawFileAssertion = new FileInputStream(filename);
-        this.fileType = getFileType(rawFileAssertion);
-
+        this.fileType = fileType;
         readFromXml(raw);
         System.out.printf("Read file: %s%n", filename);
-    }
-
-    private XMLTagNames.FILE_TYPE getFileType(InputStream inputStream) throws XMLStreamException {
-        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-        XMLStreamReader reader = null;
-        XmlFileTypeAssertion xmlFileTypeAssertion = new XmlFileTypeAssertion();
-
-        try {
-            reader = inputFactory.createXMLStreamReader(inputStream);
-            return xmlFileTypeAssertion.assertFile(reader);
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
     }
 
     private void readFromXml(InputStream inputStream) throws XMLStreamException {
