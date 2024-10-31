@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class FileDiscovery {
-    private static final int maxPriority = 3;
+    private static final int maxPriority = 4;
     @Getter
-    private static final ArrayList<XmlFileModel>[] files = new ArrayList[maxPriority];
+    private static final ArrayList<XmlFileModel>[] files = new ArrayList[maxPriority+1];
 
     /**
      * Discover all the files from the given path
@@ -26,9 +26,6 @@ public class FileDiscovery {
     public static void discoverFiles(String path) throws XMLStreamException, FileNotFoundException {
         setFiles();
         readDirectory("./" + path);
-        System.out.println(files[0]);
-        System.out.println(files[1]);
-        System.out.println(files[2]);
     }
 
     private static void setFiles() {
@@ -37,8 +34,7 @@ public class FileDiscovery {
         }
     }
 
-    private static ArrayList<XmlFileModel> readDirectory(String path) throws XMLStreamException, FileNotFoundException {
-        var allFiles = new ArrayList<XmlFileModel>();
+    private static void readDirectory(String path) throws XMLStreamException, FileNotFoundException {
         File dir = new File(path);
         File[] dirFiles = dir.listFiles();
         for (int i = 0; i < Objects.requireNonNull(dirFiles).length; i++) {
@@ -53,12 +49,10 @@ public class FileDiscovery {
 
                 int fileTypePriority = getFileTypePriority(fileType);
                 files[fileTypePriority].add(fileModel);
-                allFiles.add(fileModel);
             } else if (file.isDirectory()) {
-                allFiles.addAll(readDirectory(file.getPath()));
+                readDirectory(file.getPath());
             }
         }
-        return allFiles;
     }
 
     private static XMLTagNames.FILE_TYPE getFileType(String filePath) throws FileNotFoundException, XMLStreamException {
@@ -85,7 +79,8 @@ public class FileDiscovery {
         return switch (fileType) {
             case ELECTION_TREE -> 0;
             case CANDIDATE_LIST -> 1;
-            case RESULT, TOTAL_COUNT, VOTES_CONSTITUENCY, VOTES_MUNICIPALITY -> 2;
+            case RESULT, TOTAL_COUNT, VOTES_CONSTITUENCY -> 2;
+            case VOTES_MUNICIPALITY -> 3;
         };
     }
 }

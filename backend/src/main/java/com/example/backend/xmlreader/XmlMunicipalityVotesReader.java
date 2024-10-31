@@ -104,7 +104,9 @@ public class XmlMunicipalityVotesReader {
                 case XMLStreamReader.START_ELEMENT:
                     if (reader.getLocalName().equals(XMLTagNames.SELECTION)) {
                         VoteModel voteModel = readSelection(reader);
-                        assert voteModel != null;
+                        if (voteModel == null) {
+                            continue;
+                        }
 
                         Long affiliationId = voteModel.getAffiliationId();
                         if (affiliationId != null) {
@@ -155,9 +157,8 @@ public class XmlMunicipalityVotesReader {
                             break;
                         case XMLTagNames.SELECTION:
                             VoteModel voteModel = readSelection(reader);
-                            assert voteModel != null;
 
-                            if (voteModel.getVotes() <= 0) {
+                            if (voteModel == null) {
                                 continue;
                             }
 

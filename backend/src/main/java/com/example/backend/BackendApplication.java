@@ -1,7 +1,9 @@
 package com.example.backend;
 
+import com.example.backend.models.XmlFileModel;
 import com.example.backend.xmlreader.FileDiscovery;
 import com.example.backend.xmlreader.XmlStreamReaderV1;
+import lombok.Getter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -23,28 +25,8 @@ public class BackendApplication {
 
     public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
 	private static final String PATH_PREFIX = "res/";
-	private static final Set<String> allFiles = Set.of(
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Amsterdam.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Arnhem.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Assen.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Bonaire.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Den_Helder.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Dordrecht.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Groningen.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Haarlem.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Leeuwarden.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Leiden.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Lelystad.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Maastricht.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Middelburg.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Nijmegen.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Rotterdam.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_s-Gravenhage.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_s-Hertogenbosch.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Tilburg.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Utrecht.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Zwolle.eml.xml"
-    );
+	private static final boolean READ_MUNICIPALITIES = false;
+	public static final boolean addZeroVotes = false;
 
 	public BackendApplication() {
     }
@@ -55,39 +37,16 @@ public class BackendApplication {
 
 		FileDiscovery.discoverFiles(PATH_PREFIX);
 
+		var allFiles = FileDiscovery.getFiles();
 
-//		long startTime = System.nanoTime();
-//		xmlStreamReader.parseFile("res/Verkiezingsdefinitie_TK2021.eml.xml");
-//		long stopTime = System.nanoTime();
-//		System.out.print("XMLStreamReader Time: ");
-//		System.out.println(stopTime - startTime);
-//
-//		startTime = System.nanoTime();
-//        for (String filename : allFiles) {
-//            xmlStreamReader.parseFile(filename);
-//        }
-//        stopTime = System.nanoTime();
-//		System.out.print("XMLReader Time: ");
-//		System.out.println(stopTime - startTime);
-//
-//		startTime = System.nanoTime();
-//		xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml");
-//		stopTime = System.nanoTime();
-//		System.out.print("XMLStreamReader Time: ");
-//		System.out.println(stopTime - startTime);
-//
-//		startTime = System.nanoTime();
-//		xmlStreamReader.parseFile("res/Telling_TK2021_kieskring_Amsterdam.eml.xml");
-//		xmlStreamReader.parseFile("res/Telling_TK2021_kieskring_Zwolle.eml.xml");
-//		stopTime = System.nanoTime();
-//		System.out.print("XMLStreamReader Time: ");
-//		System.out.println(stopTime - startTime);
-//
-//		startTime = System.nanoTime();
-//		xmlStreamReader.parseFile("res/Gemeente tellingen/01 Groningen/Telling_TK2021_gemeente_Eemsdelta.eml.xml");
-//		stopTime = System.nanoTime();
-//		System.out.print("XMLStreamReader Time: ");
-//		System.out.println(stopTime - startTime);
+		for (int i = 0; i < allFiles.length; i++) {
+			if (i == allFiles.length - 1 && !READ_MUNICIPALITIES) {
+				break;
+			}
+			for (XmlFileModel fileModel : allFiles[i]) {
+				xmlStreamReader.parseFile(fileModel.filePath(), fileModel.fileType());
+			}
+		}
 	}
 
 	@GetMapping(path="/test", produces = "application/json")

@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import static com.example.backend.BackendApplication.addZeroVotes;
+
 @Component
 public class XmlStreamReaderV1 {
     private final CandidateService candidateService;
@@ -24,6 +26,7 @@ public class XmlStreamReaderV1 {
     private final MunicipalityVotesService municipalityVotesService;
     private final PollingStationService pollingStationService;
     private final PollingStationVotesService pollingStationVotesService;
+
     private XMLTagNames.FILE_TYPE fileType;
 
     public XmlStreamReaderV1(ApplicationContext applicationContext) {
@@ -120,7 +123,10 @@ public class XmlStreamReaderV1 {
                             voteModel.setCandidateId(candidateId);
                             break;
                         case XMLTagNames.VALID_VOTES:
-                            Long votes = Long.parseLong(reader.getElementText());
+                            long votes = Long.parseLong(reader.getElementText());
+                            if (votes <= 0 && !addZeroVotes) {
+                                return null;
+                            }
                             voteModel.setVotes(votes);
                             break;
                     }
