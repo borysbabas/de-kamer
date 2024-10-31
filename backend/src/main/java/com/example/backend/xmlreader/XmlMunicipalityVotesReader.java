@@ -1,14 +1,8 @@
 package com.example.backend.xmlreader;
 
-import com.example.backend.entities.Affiliation;
-import com.example.backend.entities.Municipality;
-import com.example.backend.entities.MunicipalityVotes;
-import com.example.backend.entities.PollingStation;
+import com.example.backend.entities.*;
 import com.example.backend.models.VoteModel;
-import com.example.backend.services.CandidateService;
-import com.example.backend.services.ConstituencyService;
-import com.example.backend.services.MunicipalityVotesService;
-import com.example.backend.services.PollingStationService;
+import com.example.backend.services.*;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -20,6 +14,7 @@ public class XmlMunicipalityVotesReader {
     private final MunicipalityVotesService municipalityVotesService;
     private final CandidateService candidateService;
     private final PollingStationService pollingStationService;
+    private final PollingStationVotesService pollingStationVotesService;
 
     private Municipality municipality;
     private Affiliation affiliation;
@@ -29,12 +24,14 @@ public class XmlMunicipalityVotesReader {
             ConstituencyService constituencyService,
             MunicipalityVotesService municipalityVotesService,
             CandidateService candidateService,
-            PollingStationService pollingStationService
+            PollingStationService pollingStationService,
+            PollingStationVotesService pollingStationVotesService
     ) {
         this.constituencyService = constituencyService;
         this.municipalityVotesService = municipalityVotesService;
         this.candidateService = candidateService;
         this.pollingStationService = pollingStationService;
+        this.pollingStationVotesService = pollingStationVotesService;
     }
 
     public void read(XMLStreamReader reader) throws XMLStreamException {
@@ -158,6 +155,29 @@ public class XmlMunicipalityVotesReader {
                             break;
                         case XMLTagNames.SELECTION:
                             VoteModel voteModel = readSelection(reader);
+                            assert voteModel != null;
+
+                            if (voteModel.getVotes() <= 0) {
+                                continue;
+                            }
+
+                            Long affiliationId = voteModel.getAffiliationId();
+                            if (affiliationId != null) {
+                                affiliation = new Affiliation();
+                                affiliation.setAffiliationId(affiliationId);
+                                continue;
+                            }
+
+                            Long candidateId = voteModel.getCandidateId();
+                            if (candidateId != null) {
+                                PollingStationVotes pollingStationVotes = new PollingStationVotes(
+                                        pollingStation,
+                                        affiliation,
+                                        candidateService.getCandidateByIdAndAffiliation(candidateId, affiliation),
+                                        voteModel.getVotes()
+                                );
+                                pollingStationVotesService.addPollingStation(pollingStationVotes);
+                            }
                             break;
                     }
                     break;
