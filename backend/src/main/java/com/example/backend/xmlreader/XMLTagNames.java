@@ -45,6 +45,13 @@ public class XMLTagNames {
     public static final String REPORTING_UNIT_VOTES = "ReportingUnitVotes";
     public static final String REPORTING_UNIT_ID = "ReportingUnitIdentifier";
 
+    public static final String ELECTION_EVENT = "ElectionEvent";
+    public static final String CANDIDATE_LIST = "CandidateList";
+    public static final String RESULT = "Result";
+
+    public static final String ALL_D = "alle";
+    public static final String HSB = "HSB";
+
     public enum FILE_TYPE {
         CANDIDATE_LIST,
         RESULT,

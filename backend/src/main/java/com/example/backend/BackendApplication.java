@@ -54,34 +54,34 @@ public class BackendApplication {
 		XmlStreamReaderV1 xmlStreamReader = new XmlStreamReaderV1(applicationContext);
 
 		long startTime = System.nanoTime();
-		xmlStreamReader.parseFile("res/Verkiezingsdefinitie_TK2021.eml.xml", XMLTagNames.FILE_TYPE.ELECTION_TREE);
+		xmlStreamReader.parseFile("res/Verkiezingsdefinitie_TK2021.eml.xml");
 		long stopTime = System.nanoTime();
 		System.out.print("XMLStreamReader Time: ");
 		System.out.println(stopTime - startTime);
 
 		startTime = System.nanoTime();
         for (String filename : allFiles) {
-            xmlStreamReader.parseFile(filename, XMLTagNames.FILE_TYPE.CANDIDATE_LIST);
+            xmlStreamReader.parseFile(filename);
         }
         stopTime = System.nanoTime();
 		System.out.print("XMLReader Time: ");
 		System.out.println(stopTime - startTime);
 
 		startTime = System.nanoTime();
-		xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml", XMLTagNames.FILE_TYPE.TOTAL_COUNT);
+		xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml");
 		stopTime = System.nanoTime();
 		System.out.print("XMLStreamReader Time: ");
 		System.out.println(stopTime - startTime);
 
 		startTime = System.nanoTime();
-		xmlStreamReader.parseFile("res/Telling_TK2021_kieskring_Amsterdam.eml.xml", XMLTagNames.FILE_TYPE.VOTES_CONSTITUENCY);
-		xmlStreamReader.parseFile("res/Telling_TK2021_kieskring_Zwolle.eml.xml", XMLTagNames.FILE_TYPE.VOTES_CONSTITUENCY);
+		xmlStreamReader.parseFile("res/Telling_TK2021_kieskring_Amsterdam.eml.xml");
+		xmlStreamReader.parseFile("res/Telling_TK2021_kieskring_Zwolle.eml.xml");
 		stopTime = System.nanoTime();
 		System.out.print("XMLStreamReader Time: ");
 		System.out.println(stopTime - startTime);
 
 		startTime = System.nanoTime();
-		xmlStreamReader.parseFile("res/Gemeente tellingen/01 Groningen/Telling_TK2021_gemeente_Eemsdelta.eml.xml", XMLTagNames.FILE_TYPE.VOTES_MUNICIPALITY);
+		xmlStreamReader.parseFile("res/Gemeente tellingen/01 Groningen/Telling_TK2021_gemeente_Eemsdelta.eml.xml");
 		stopTime = System.nanoTime();
 		System.out.print("XMLStreamReader Time: ");
 		System.out.println(stopTime - startTime);
