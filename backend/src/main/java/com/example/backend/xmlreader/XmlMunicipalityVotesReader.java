@@ -7,6 +7,7 @@ import com.example.backend.services.*;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import static com.example.backend.BackendApplication.ENTER_POLLING_STATION_VOTES;
 import static com.example.backend.xmlreader.XmlStreamReaderV1.readSelection;
 
 public class XmlMunicipalityVotesReader {
@@ -116,6 +117,7 @@ public class XmlMunicipalityVotesReader {
                         }
 
                         Long candidateId = voteModel.getCandidateId();
+                        //TODO: Add caching functionality for the candidate
                         if (candidateId != null) {
                             MunicipalityVotes municipalityVote = new MunicipalityVotes();
                             municipalityVote.setCandidate(candidateService.getCandidateByIdAndAffiliation(candidateId, affiliation));
@@ -156,6 +158,9 @@ public class XmlMunicipalityVotesReader {
                             pollingStationService.addPollingStation(pollingStation);
                             break;
                         case XMLTagNames.SELECTION:
+                            if (!ENTER_POLLING_STATION_VOTES) {
+                                return;
+                            }
                             VoteModel voteModel = readSelection(reader);
 
                             if (voteModel == null) {

@@ -3,7 +3,6 @@ package com.example.backend;
 import com.example.backend.models.XmlFileModel;
 import com.example.backend.xmlreader.FileDiscovery;
 import com.example.backend.xmlreader.XmlStreamReaderV1;
-import lombok.Getter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -24,29 +23,33 @@ public class BackendApplication {
 	private final List<Map<String,Object>> registrations = new ArrayList<>();
 
     public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
-	private static final String PATH_PREFIX = "res/";
-	private static final boolean READ_MUNICIPALITIES = false;
-	public static final boolean addZeroVotes = false;
+	private static final String XML_DIR = "res/";
+	private static final boolean RUN_PARSER = true;
+	public static final boolean ENTER_POLLING_STATION_VOTES = false;
+	public static final boolean addZeroVotes = true;
 
 	public BackendApplication() {
     }
 
 	public static void main(String[] args) throws XMLStreamException, FileNotFoundException {
 		ApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);
+
+		if (!RUN_PARSER) {
+			return;
+		}
+
 		XmlStreamReaderV1 xmlStreamReader = new XmlStreamReaderV1(applicationContext);
 
-		FileDiscovery.discoverFiles(PATH_PREFIX);
+		var allFiles = FileDiscovery.discoverFiles(XML_DIR);
 
-		var allFiles = FileDiscovery.getFiles();
-
-		for (int i = 0; i < allFiles.length; i++) {
-			if (i == allFiles.length - 1 && !READ_MUNICIPALITIES) {
-				break;
+        for (ArrayList<XmlFileModel> allFile : allFiles) {
+			if (allFile.isEmpty()) {
+				continue;
 			}
-			for (XmlFileModel fileModel : allFiles[i]) {
-				xmlStreamReader.parseFile(fileModel.filePath(), fileModel.fileType());
-			}
-		}
+            for (XmlFileModel fileModel : allFile) {
+                xmlStreamReader.parseFile(fileModel.filePath(), fileModel.fileType());
+            }
+        }
 	}
 
 	@GetMapping(path="/test", produces = "application/json")

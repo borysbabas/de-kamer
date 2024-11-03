@@ -91,14 +91,20 @@ public class XmlTotalCountReader {
                     if (reader.getLocalName().equals(XMLTagNames.SELECTION)) {
                         if (isAffiliation) {
                             affiliationVotes.setAffiliationVotes(votes);
-                            affiliationVotesService.addVote(affiliationVotes);
+                            try {
+                                affiliationVotesService.addVote(affiliationVotes);
+                            } catch (Exception ignored) {}
                             return;
                         }
                         Candidate candidate = new Candidate(candidateService.getFirstByShortCode(shortCode));
                         countryVotes.setCandidate(candidate);
                         countryVotes.setTotalVotes(votes);
                         countryVotes.setAffiliation(affiliationVotes.getAffiliation());
-                        countryVotesService.addCountryVote(countryVotes);
+                        try {
+                            countryVotesService.addCountryVote(countryVotes);
+                        } catch (Exception ignored) {
+                            return;
+                        }
                         return;
                     }
             }

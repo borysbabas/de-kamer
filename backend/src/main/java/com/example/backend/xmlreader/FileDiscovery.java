@@ -2,7 +2,6 @@ package com.example.backend.xmlreader;
 
 import com.example.backend.models.XmlFileModel;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -21,11 +20,14 @@ public class FileDiscovery {
 
     /**
      * Discover all the files from the given path
+     *
      * @param path path to the directory to search from project root
+     * @return Array with Array of files
      */
-    public static void discoverFiles(String path) throws XMLStreamException, FileNotFoundException {
+    public static ArrayList<XmlFileModel>[] discoverFiles(String path) throws XMLStreamException, FileNotFoundException {
         setFiles();
         readDirectory("./" + path);
+        return files;
     }
 
     private static void setFiles() {
