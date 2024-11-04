@@ -42,6 +42,7 @@ public class BackendApplication {
 
 		var allFiles = FileDiscovery.discoverFiles(XML_DIR);
 
+		var startTime = System.nanoTime();
         for (ArrayList<XmlFileModel> allFile : allFiles) {
 			if (allFile == null || allFile.isEmpty()) {
 				continue;
@@ -50,6 +51,9 @@ public class BackendApplication {
                 xmlStreamReader.parseFile(fileModel.filePath(), fileModel.fileType());
             }
         }
+		var elapsedNanos = System.nanoTime() - startTime;
+		// print time elapsed in seconds
+		System.out.println("Elapsed time: " + (double) elapsedNanos / 1_000_000_000 + " s");
 	}
 
 	@GetMapping(path="/test", produces = "application/json")

@@ -9,7 +9,7 @@ public class TwoKeyHashMap<K1, K2, V> {
         map = new HashMap<>();
     }
 
-    public V put(K1 k1, K2 k2, V v) {
+    public void put(K1 k1, K2 k2, V v) {
         Map<K2, V> k2Map = null;
         if (map.containsKey(k1)) {
             k2Map = map.get(k1);
@@ -17,7 +17,7 @@ public class TwoKeyHashMap<K1, K2, V> {
             k2Map = new HashMap<>();
             map.put(k1, k2Map);
         }
-        return k2Map.put(k2, v);
+        k2Map.put(k2, v);
     }
 
     public V get(K1 k1, K2 k2) {
@@ -25,10 +25,5 @@ public class TwoKeyHashMap<K1, K2, V> {
             return map.get(k1).get(k2);
         }
         return null;
-    }
-
-    public boolean containsKeys(K1 k1, K2 k2) {
-        V v = get(k1, k2);
-        return v != null;
     }
 }
