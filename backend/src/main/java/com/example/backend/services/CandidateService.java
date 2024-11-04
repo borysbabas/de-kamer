@@ -3,6 +3,7 @@ package com.example.backend.services;
 import com.example.backend.entities.Affiliation;
 import com.example.backend.entities.Candidate;
 import com.example.backend.repositories.CandidateRepository;
+import com.example.backend.utils.TwoKeyHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class CandidateService {
     private final CandidateRepository candidateRepository;
     private static final int MAX_SHORTCODE_LENGTH = 14;
+    private final TwoKeyHashMap<Long, Long, Candidate> candidateTwoKeyCache = new TwoKeyHashMap<>();
 
     @Autowired
     public CandidateService(CandidateRepository candidateRepository) {
@@ -56,8 +58,13 @@ public class CandidateService {
 
     }
 
-    public Candidate getCandidateByIdAndAffiliation(Long id, Affiliation affiliation) {
-        return candidateRepository.getFirstCandidateByMemberIdAndAffiliation(id, affiliation);
+    public Candidate getCandidateByMemberIdAndAffiliation(Long id, Affiliation affiliation) {
+        Candidate candidate = candidateTwoKeyCache.get(id, affiliation.getAffiliationId());
+        if (candidate == null) {
+            candidate = candidateRepository.getFirstCandidateByMemberIdAndAffiliation(id, affiliation);
+            candidateTwoKeyCache.put(id, affiliation.getAffiliationId(), candidate);
+        }
+        return candidate;
     }
 
     public Long countDistinctCandidatesByAffiliation(Affiliation affiliation) {

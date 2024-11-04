@@ -5,9 +5,12 @@ import com.example.backend.repositories.ConstituencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+
 @Service
 public class ConstituencyService {
     private final ConstituencyRepository constituencyRepository;
+    private final HashMap<Long, Constituency> constituencyCache = new HashMap<>();
 
     @Autowired
     public ConstituencyService(ConstituencyRepository constituencyRepository) {
@@ -26,6 +29,11 @@ public class ConstituencyService {
     }
 
     public Constituency findConstituencyById(Long constituencyId) {
-        return constituencyRepository.findById(constituencyId).orElse(null);
+        Constituency constituency = constituencyCache.get(constituencyId);
+        if (constituency == null) {
+            constituency = constituencyRepository.findById(constituencyId).orElse(null);
+            constituencyCache.put(constituencyId, constituency);
+        }
+        return constituency;
     }
 }

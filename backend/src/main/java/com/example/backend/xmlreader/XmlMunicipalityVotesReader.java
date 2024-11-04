@@ -38,17 +38,15 @@ public class XmlMunicipalityVotesReader {
     public void read(XMLStreamReader reader) throws XMLStreamException {
         while (reader.hasNext()) {
             int eventType = reader.next();
-            switch (eventType) {
-                case XMLStreamReader.START_ELEMENT:
-                    switch (reader.getLocalName()) {
-                        case XMLTagNames.MANAGING_AUTHORITY:
-                            readManagingAuthority(reader);
-                            break;
-                        case XMLTagNames.CONTEST:
-                            readContest(reader);
-                            break;
-                    }
-                    break;
+            if (eventType == XMLStreamReader.START_ELEMENT) {
+                switch (reader.getLocalName()) {
+                    case XMLTagNames.MANAGING_AUTHORITY:
+                        readManagingAuthority(reader);
+                        break;
+                    case XMLTagNames.CONTEST:
+                        readContest(reader);
+                        break;
+                }
             }
         }
     }
@@ -117,10 +115,9 @@ public class XmlMunicipalityVotesReader {
                         }
 
                         Long candidateId = voteModel.getCandidateId();
-                        //TODO: Add caching functionality for the candidate
                         if (candidateId != null) {
                             MunicipalityVotes municipalityVote = new MunicipalityVotes();
-                            municipalityVote.setCandidate(candidateService.getCandidateByIdAndAffiliation(candidateId, affiliation));
+                            municipalityVote.setCandidate(candidateService.getCandidateByMemberIdAndAffiliation(candidateId, affiliation));
                             municipalityVote.setMunicipality(municipality);
                             municipalityVote.setAffiliation(affiliation);
                             municipalityVote.setConstituency(municipality.getConstituency());
@@ -179,7 +176,7 @@ public class XmlMunicipalityVotesReader {
                                 PollingStationVotes pollingStationVotes = new PollingStationVotes(
                                         pollingStation,
                                         affiliation,
-                                        candidateService.getCandidateByIdAndAffiliation(candidateId, affiliation),
+                                        candidateService.getCandidateByMemberIdAndAffiliation(candidateId, affiliation),
                                         voteModel.getVotes()
                                 );
                                 pollingStationVotesService.addPollingStationVotes(pollingStationVotes);

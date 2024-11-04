@@ -87,7 +87,7 @@ public class XmlConstituencyVotesReader {
                         if (candidateId != null) {
                             ConstituencyVotes constituencyVotes = new ConstituencyVotes();
                             constituencyVotes.setConstituency(constituency);
-                            constituencyVotes.setCandidate(candidateService.getCandidateByIdAndAffiliation(candidateId, affiliation));
+                            constituencyVotes.setCandidate(candidateService.getCandidateByMemberIdAndAffiliation(candidateId, affiliation));
                             constituencyVotes.setTotalVotes(voteModel.getVotes());
                             constituencyVotes.setAffiliation(affiliation);
                             constituencyVotesService.addConstituencyVotes(constituencyVotes);

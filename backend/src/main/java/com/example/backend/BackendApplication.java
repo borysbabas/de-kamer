@@ -25,8 +25,8 @@ public class BackendApplication {
     public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
 	private static final String XML_DIR = "res/";
 	private static final boolean RUN_PARSER = true;
-	public static final boolean ENTER_POLLING_STATION_VOTES = false;
-	public static final boolean addZeroVotes = true;
+	public static final boolean ENTER_POLLING_STATION_VOTES = true;
+	public static final boolean addZeroVotes = false;
 
 	public BackendApplication() {
     }
@@ -43,7 +43,7 @@ public class BackendApplication {
 		var allFiles = FileDiscovery.discoverFiles(XML_DIR);
 
         for (ArrayList<XmlFileModel> allFile : allFiles) {
-			if (allFile.isEmpty()) {
+			if (allFile == null || allFile.isEmpty()) {
 				continue;
 			}
             for (XmlFileModel fileModel : allFile) {
