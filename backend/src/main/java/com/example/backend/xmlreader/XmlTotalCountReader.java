@@ -75,12 +75,14 @@ public class XmlTotalCountReader {
                     switch (elementName) {
                         case XMLTagNames.CANDIDATE_ID:
                             shortCode = reader.getAttributeValue(null, XMLTagNames.SHORT_CODE);
+                            if (countryVotesService.findCountryVoteByShortCode(shortCode) != null) return;
                             break;
                         case XMLTagNames.VALID_VOTES:
                             votes = Long.parseLong(reader.getElementText());
                             break;
                         case XMLTagNames.AFFILIATION_ID:
                             long affiliationId = Long.parseLong(reader.getAttributeValue(null, XMLTagNames.ID));
+                            if (affiliationVotesService.findByAffiliationId(affiliationId) != null) return;
                             affiliationVotes = new AffiliationVotes();
                             affiliationVotes.setAffiliation(affiliationService.findAffiliationByAffiliationId(affiliationId));
                             isAffiliation = true;
@@ -100,11 +102,7 @@ public class XmlTotalCountReader {
                         countryVotes.setCandidate(candidate);
                         countryVotes.setTotalVotes(votes);
                         countryVotes.setAffiliation(affiliationVotes.getAffiliation());
-                        try {
-                            countryVotesService.addCountryVote(countryVotes);
-                        } catch (Exception ignored) {
-                            return;
-                        }
+                        countryVotesService.addCountryVote(countryVotes);
                         return;
                     }
             }
