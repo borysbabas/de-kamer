@@ -2,6 +2,13 @@
 import {ref, computed, onMounted, onUnmounted} from "vue"
 const isFixed=ref(false)
 const input =ref("");
+const candidateModel=ref({
+  candidateID:"",
+  firstname: "",
+  prefix: "",
+  lastname:"",
+  affiliationName:"",
+})
 const candidateList=ref([])
 onMounted(() => {
   fetch("http://localhost:3001/candidates")
@@ -24,9 +31,23 @@ const filteredList = computed(() => {
   });
 })
 //gets value of clicked LI item and redirects user to designated endpoint.
-function routeAssigner(event){
-const clickedLi = event.target.innerHTML;
-let reqValue = clickedLi.split("-")[0]
+ function routeAssigner(candidate){
+  console.log(candidate)
+  console.log(candidate.firstName)
+  let candidateID = candidate.candidateId
+  let firstName=candidate.firstName
+  let prefix = candidate.prefix
+  let lastName = candidate.lastName
+  let affiliationName=candidate.affiliationName
+
+  candidateModel.value={
+    candidateID: candidateID,
+    firstname: firstName,
+    prefix: prefix,
+    lastname: lastName,
+    affiliationName: affiliationName
+  }
+  console.log(this.candidateModel)
 
 }
 const handleScroll = () => {
@@ -51,7 +72,7 @@ onUnmounted(() => {
 <template>
   <li class="searchbar-container"><input v-model="input" type="text" placeholder="Search..."></li>
   <ul v-if="input.length > 0 && filteredList.length > 0" :class="{'fixed-searchbar' : isFixed, 'search-results': !isFixed}">
-    <li v-on:click="routeAssigner" v-for="candidate in filteredList" :key="candidate.candidateId">{{ candidate.firstName }}
+    <li v-for="candidate in filteredList" :key="candidate.candidateId" @click="routeAssigner(candidate)">{{ candidate.firstName }}
       <span v-if="candidate.prefix">{{candidate.prefix}}</span>
       {{candidate.lastName}}- {{candidate.affiliationName}}</li>
   </ul>
