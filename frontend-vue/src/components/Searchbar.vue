@@ -32,8 +32,6 @@ const filteredList = computed(() => {
 })
 //gets value of clicked LI item and redirects user to designated endpoint.
  function routeAssigner(candidate){
-  console.log(candidate)
-  console.log(candidate.firstName)
   let candidateID = candidate.candidateId
   let firstName=candidate.firstName
   let prefix = candidate.prefix
@@ -47,7 +45,6 @@ const filteredList = computed(() => {
     lastname: lastName,
     affiliationName: affiliationName
   }
-  console.log(this.candidateModel)
 
 }
 const handleScroll = () => {
