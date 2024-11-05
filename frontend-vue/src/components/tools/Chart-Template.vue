@@ -53,7 +53,6 @@ const data = ref<ChartData<'bar'>>({
 // let datashow = JSON.parse(JSON.stringify(testDataSet));
 let chartData = ref<any[]>([])
 
-
 //temp get data
 async function getChartData() {
   chartData.value = await fetch("http://localhost:3001/affiliation/members/count")
@@ -63,8 +62,6 @@ async function getChartData() {
         return data;
       });
 }
-
-
 
 onMounted(async() => {
   const result = await getChartData()
