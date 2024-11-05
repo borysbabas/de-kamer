@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {ref, computed} from 'vue';
+import { ref, computed, onMounted } from 'vue';
 
 const options = [
-  {label: 'Meest verkozen partijen', value: 'most_parties'},
-  {label: 'Minst verkozen partijen', value: 'least_parties'},
-  {label: 'Meest verkozen kandidaten', value: 'most_candidates'},
-  {label: 'Minst verkozen kandidaten', value: 'least_candidates'}
+  { label: 'Meest verkozen partijen', value: 'most_parties' },
+  { label: 'Minst verkozen partijen', value: 'least_parties' },
+  { label: 'Meest verkozen kandidaten', value: 'most_candidates' },
+  { label: 'Minst verkozen kandidaten', value: 'least_candidates' }
 ];
 
 const selectedOption = ref(options[0].value);
@@ -17,52 +17,32 @@ const triggerDropdown = () => {
   }
 };
 
-const allParties = ref([
-  {id: 1, votes: 2000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 2, votes: 22000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 3, votes: 20000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 4, votes: 18000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 5, votes: 16000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 6, votes: 14000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 7, votes: 3000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 8, votes: 10000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 9, votes: 8000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 10, votes: 6000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 11, votes: 4000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 12, votes: 2000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 13, votes: 1000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 14, votes: 500, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 15, votes: 250, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 16, votes: 100, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 17, votes: 50, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 18, votes: 25, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 19, votes: 10, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 20, votes: 5, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 21, votes: 1000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 22, votes: 1, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 23, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 24, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 25, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 26, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 27, votes: 10000, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 28, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 29, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 30, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 31, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 32, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 33, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 34, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 35, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 36, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-  {id: 37, votes: 0, img: new URL('../assets/img/Dummy200x200.jpg', import.meta.url).href},
-]);
+const allParties = ref<any[]>([]);
+
+async function fetchData() {
+  try {
+    const response = await fetch("http://localhost:3001/votes/affiliations");
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    allParties.value = data;
+    console.log(data);
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+  }
+}
+
+onMounted(() => {
+  fetchData();
+});
 
 const visibleBlocks = ref(12);
 const isMoreVisible = ref(true);
 const isLessVisible = ref(false);
 
 const sortedPartiesBest = computed(() => {
-  return allParties.value.slice().sort((a, b) => b.votes - a.votes);
+  return allParties.value.slice().sort((a, b) => b.affiliationVotes - a.affiliationVotes);
 });
 
 const loadMore = () => {
@@ -77,7 +57,11 @@ const loadLess = () => {
   visibleBlocks.value = 12;
   isMoreVisible.value = true;
   isLessVisible.value = false;
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+const getShortenedName = (name: string) => {
+  return name.length > 30 ? name.slice(0, 30) + '...' : name;
 };
 </script>
 
@@ -100,13 +84,14 @@ const loadLess = () => {
       </svg>
     </div>
 
-    <!-- Displaying the parties -->
-    <div class="parties">
-      <div v-for="party in sortedPartiesBest.slice(0, visibleBlocks)" :key="party.id" class="party">
-        <img class="party-img" :alt="'party' + party.id" :src="party.img">
-        <p class="party-votes">{{ party.votes }} stemmen</p>
+      <!-- Displaying the parties -->
+      <div class="parties">
+        <div v-for="party in sortedPartiesBest.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
+          <img class="party-img" :alt="party.affiliationName" src="../assets/img/dummy200x200.jpg">
+          <p class="party-votes">{{ party.affiliationVotes }} stemmen</p>
+          <p class="party-name">{{ getShortenedName(party.affiliationName) }}</p>
+        </div>
       </div>
-    </div>
 
     <!-- 'Load more' section -->
     <div v-if="isMoreVisible" class="more" @click="loadMore">
@@ -183,7 +168,6 @@ const loadLess = () => {
 </template>
 
 <style scoped>
-
 /** Styling for the main page and layout of the hero section */
 .main {
   min-height: calc(100vh - 150px);
@@ -277,7 +261,7 @@ const loadLess = () => {
   filter: brightness(50%);
 }
 
-.party-votes {
+.party-votes, .party-name {
   text-align: center;
 }
 
