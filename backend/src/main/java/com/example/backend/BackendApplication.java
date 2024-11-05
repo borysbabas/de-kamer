@@ -26,7 +26,7 @@ public class BackendApplication {
     private final List<Map<String, Object>> registrations = new ArrayList<>();
 
     public static final String storedUsersPath = "backend/src/main/java/com/example/backend/storedUsers";
-    private static final String XML_DIR = "res/";
+    private static final String XML_DIR = "res2023/";
     private static final boolean RUN_PARSER = true;
     public static final boolean ENTER_POLLING_STATION_VOTES = true;
     public static final boolean addZeroVotes = false;

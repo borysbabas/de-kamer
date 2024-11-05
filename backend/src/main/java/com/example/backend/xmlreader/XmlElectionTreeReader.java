@@ -67,8 +67,12 @@ public class XmlElectionTreeReader {
                     String name = reader.getLocalName();
                     if (name.equals(XMLTagNames.REGION)) {
                         XMLTagNames.COMMITTEE_TYPE committeeType = region.getCommitteeType();
+
                         if (committeeType == null) {
-                            break;
+                            committeeType = getCommitteeType(region.getRegionCategory());
+                            if (committeeType == null) {
+                                break;
+                            }
                         }
                         switch (committeeType) {
                             case HSB:
@@ -90,5 +94,12 @@ public class XmlElectionTreeReader {
                     break;
             }
         }
+    }
+    private XMLTagNames.COMMITTEE_TYPE getCommitteeType(String regionCategory) {
+        return switch (regionCategory) {
+            case XMLTagNames.CONSTITUENCY_D -> XMLTagNames.COMMITTEE_TYPE.HSB;
+            case XMLTagNames.MUNICIPALITY_D -> XMLTagNames.COMMITTEE_TYPE.PSB;
+            default -> null;
+        };
     }
 }

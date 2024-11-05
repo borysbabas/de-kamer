@@ -50,7 +50,10 @@ public class XMLTagNames {
     public static final String RESULT = "Result";
 
     public static final String ALL_D = "alle";
+    public static final String CONSTITUENCY_D = "KIESKRING";
+    public static final String MUNICIPALITY_D = "GEMEENTE";
     public static final String HSB = "HSB";
+
 
     public enum FILE_TYPE {
         CANDIDATE_LIST,

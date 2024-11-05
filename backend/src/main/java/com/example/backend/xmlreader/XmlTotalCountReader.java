@@ -99,7 +99,7 @@ public class XmlTotalCountReader {
                             }
                             return;
                         }
-                        System.out.println(shortCode);
+
                         Candidate candidate = new Candidate(candidateService.findFirstByShortCode(shortCode));
                         countryVotes.setCandidate(candidate);
                         countryVotes.setTotalVotes(votes);
