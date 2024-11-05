@@ -66,7 +66,11 @@ public class XmlElectionTreeReader {
                 case XMLStreamReader.END_ELEMENT:
                     String name = reader.getLocalName();
                     if (name.equals(XMLTagNames.REGION)) {
-                        switch(region.getCommitteeType()) {
+                        XMLTagNames.COMMITTEE_TYPE committeeType = region.getCommitteeType();
+                        if (committeeType == null) {
+                            break;
+                        }
+                        switch (committeeType) {
                             case HSB:
                                 constituencyService.addConstituency(new Constituency(
                                         region.getRegionNumber(),

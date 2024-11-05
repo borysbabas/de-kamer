@@ -16,6 +16,5 @@ public class MunicipalityVotesService {
 
     public void addMunicipalityVote(MunicipalityVotes municipalityVotes) {
         this.municipalityVotesRepository.save(municipalityVotes);
-
     }
 }

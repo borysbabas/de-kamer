@@ -95,9 +95,11 @@ public class XmlTotalCountReader {
                             affiliationVotes.setAffiliationVotes(votes);
                             try {
                                 affiliationVotesService.addVote(affiliationVotes);
-                            } catch (Exception ignored) {}
+                            } catch (Exception ignored) {
+                            }
                             return;
                         }
+                        System.out.println(shortCode);
                         Candidate candidate = new Candidate(candidateService.findFirstByShortCode(shortCode));
                         countryVotes.setCandidate(candidate);
                         countryVotes.setTotalVotes(votes);
