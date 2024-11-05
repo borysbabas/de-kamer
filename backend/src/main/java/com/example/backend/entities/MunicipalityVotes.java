@@ -26,6 +26,10 @@ public class MunicipalityVotes {
     @JoinColumn(name = "candidate_id", referencedColumnName = "candidate_id")
     private Candidate candidate;
 
+    @ManyToOne
+    @JoinColumn(name = "constituency_id", referencedColumnName = "constituency_id")
+    private Constituency constituency;
+
     @Column(name = "total_votes")
-    private int totalVotes;
+    private Long totalVotes;
 }

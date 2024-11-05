@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 @Entity
@@ -20,13 +22,17 @@ public class CountryVotes {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "country_votes_id")
     private Long id;
 
     @OneToOne
     @JoinColumn(name = "candidate_id", referencedColumnName = "candidate_id")
     private Candidate candidate;
+
+    @ManyToOne
+    @JoinColumn(name = "affiliation_id", referencedColumnName = "affiliation_id")
+    private Affiliation affiliation;
 
     @Column(name = "total_votes")
     private Long totalVotes;

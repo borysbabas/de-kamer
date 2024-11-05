@@ -11,10 +11,17 @@ import java.util.List;
 @Entity
 @Table(name = "municipalities")
 public class Municipality {
+    public Municipality() {}
+
+    public Municipality(Long municipalityId, String municipalityName, Constituency constituency) {
+        this.municipalityId = municipalityId;
+        this.municipalityName = municipalityName;
+        this.constituency = constituency;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "municipality_id")
-    private int municipalityId;
+    private Long municipalityId;
 
     @ManyToOne
     @JoinColumn(name = "constituency_id", referencedColumnName = "constituency_id")

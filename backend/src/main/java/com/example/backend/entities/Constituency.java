@@ -10,17 +10,29 @@ import java.util.List;
 @Entity
 @Table(name = "constituencies")
 public class Constituency {
+    public Constituency() {}
+
+    public Constituency(Long constituencyId, String constituencyName) {
+        this.constituencyId = constituencyId;
+        this.constituencyName = constituencyName;
+    }
+
+    public Constituency(Constituency constituency) {
+        if (constituency == null) {
+            return;
+        }
+        this.constituencyId = constituency.getConstituencyId();
+        this.constituencyName = constituency.getConstituencyName();
+        this.municipalities = constituency.getMunicipalities();
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "constituency_id")
-    private int constituencyId;
+    private Long constituencyId;
 
     @Column(name = "constituency_name")
     private String constituencyName;
 
     @OneToMany(mappedBy = "constituency")
     private List<Municipality> municipalities;
-
-    @ManyToMany(mappedBy = "constituency")
-    private List<Affiliation> affiliations;
 }

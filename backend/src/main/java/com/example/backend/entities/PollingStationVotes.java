@@ -1,5 +1,6 @@
 package com.example.backend.entities;
 
+import com.example.backend.models.VoteModel;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +10,15 @@ import lombok.Setter;
 @Entity
 @Table(name = "polling_station_votes")
 public class PollingStationVotes {
+    public PollingStationVotes() {}
+
+    public PollingStationVotes(PollingStation pollingStation, Affiliation affiliation, Candidate candidate, Long totalVotes) {
+        this.pollingStation = pollingStation;
+        this.affiliation = affiliation;
+        this.candidate = candidate;
+        this.totalVotes = totalVotes;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -27,5 +37,5 @@ public class PollingStationVotes {
     private Candidate candidate;
 
     @Column(name = "total_votes")
-    private int totalVotes;
+    private Long totalVotes;
 }

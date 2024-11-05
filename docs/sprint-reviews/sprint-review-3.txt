@@ -1,0 +1,16 @@
+Sprint Review
+23-10-2024
+Sprint 3
+Team 3
+
+Feedback:
+
+- Happy that there's live data
+- Make the "chart template" placeholder actually describe the chart.
+- Make the chart guide the user more for what they're looking at.
+- Well done on the database.
+- No user testing
+- Searching candidates is very impressive, well done.
+- User stories seem pretty manageable at first glance.
+- User stories look legit
+- General "Well Done"

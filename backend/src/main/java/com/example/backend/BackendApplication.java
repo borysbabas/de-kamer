@@ -1,14 +1,8 @@
 package com.example.backend;
 
-import com.example.backend.config.ApiPaths;
-import com.example.backend.entities.Affiliation;
-import com.example.backend.models.MemberCount;
-import com.example.backend.services.AffiliationService;
-import com.example.backend.entities.Candidate;
-import com.example.backend.services.CandidateService;
-import com.example.backend.xmlreader.XmlReaderV2;
+import com.example.backend.models.XmlFileModel;
+import com.example.backend.xmlreader.FileDiscovery;
 import com.example.backend.xmlreader.XmlStreamReaderV1;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -27,45 +21,39 @@ import java.util.*;
 @RestController
 public class BackendApplication {
 	private final List<Map<String,Object>> registrations = new ArrayList<>();
-	private final AffiliationService affiliationService;
 
-	public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
-	private static final String PATH_PREFIX = "res/";
-	private static final Set<String> allFiles = Set.of(
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Amsterdam.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Arnhem.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Assen.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Bonaire.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Den_Helder.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Dordrecht.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Groningen.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Haarlem.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Leeuwarden.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Leiden.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Lelystad.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Maastricht.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Middelburg.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Nijmegen.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Rotterdam.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_s-Gravenhage.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_s-Hertogenbosch.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Tilburg.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Utrecht.eml.xml",
-            PATH_PREFIX + "Kandidatenlijsten_TK2021_Zwolle.eml.xml"
-    );
+    public static final String storedUsersPath="backend/src/main/java/com/example/backend/storedUsers";
+	private static final String XML_DIR = "res/";
+	private static final boolean RUN_PARSER = true;
+	public static final boolean ENTER_POLLING_STATION_VOTES = true;
+	public static final boolean addZeroVotes = false;
 
-	@Autowired
-	public BackendApplication(AffiliationService affiliationService) {
-		this.affiliationService = affiliationService;
-	}
+	public BackendApplication() {
+    }
 
 	public static void main(String[] args) throws XMLStreamException, FileNotFoundException {
 		ApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);
-		XmlReaderV2 xmlReader = new XmlReaderV2(applicationContext);
+
+		if (!RUN_PARSER) {
+			return;
+		}
+
 		XmlStreamReaderV1 xmlStreamReader = new XmlStreamReaderV1(applicationContext);
 
-		allFiles.forEach(xmlReader::parseAndInsert);
-		xmlStreamReader.parseFile("res/Totaaltelling_TK2021.eml.xml");
+		var allFiles = FileDiscovery.discoverFiles(XML_DIR);
+
+		var startTime = System.nanoTime();
+        for (ArrayList<XmlFileModel> allFile : allFiles) {
+			if (allFile == null || allFile.isEmpty()) {
+				continue;
+			}
+            for (XmlFileModel fileModel : allFile) {
+                xmlStreamReader.parseFile(fileModel.filePath(), fileModel.fileType());
+            }
+        }
+		var elapsedNanos = System.nanoTime() - startTime;
+		// print time elapsed in seconds
+		System.out.println("Elapsed time: " + (double) elapsedNanos / 1_000_000_000 + " s");
 	}
 
 	@GetMapping(path="/test", produces = "application/json")
@@ -120,11 +108,9 @@ public class BackendApplication {
 
 		} catch (FileNotFoundException e) {
 			System.out.println("Error: File not found.");
-			e.printStackTrace();
 			return ResponseEntity.status(500).body(emailJSON);
 		} catch (Exception e) {
 			System.out.println("An error occurred.");
-			e.printStackTrace();
 			return ResponseEntity.status(500).body(emailJSON);
 		}
 	}
@@ -157,39 +143,8 @@ public class BackendApplication {
 			newWriter.close();
 		}catch(IOException e){
 			System.out.println("an error occured");
-			e.printStackTrace();
 		}
 		return registrations;
-	}
-
-//	@GetMapping(path="/test/path")
-//	private Map<Long, Map<String, String>> getTestPath(){
-//		Map<Long, Map<String, String>> response = new HashMap<>();
-//		List<Affiliation> affiliations = affiliationService.getAllAffiliations();
-//
-//		for (Affiliation affiliation : affiliations) {
-//			Map<String, String> object = new HashMap<>();
-//
-//			object.put("AffiliationName",affiliation.getAffiliationName());
-//			object.put("MemberCount", String.valueOf(affiliation.getCandidates().size()));
-//
-//			response.put(affiliation.getAffiliationId(), object);
-//		}
-//		return response;
-//	}
-	@GetMapping(path = ApiPaths.AFFILIATION_SERVICE_MEMBER_COUNT)
-	public List<MemberCount> getAllMemberCount() {
-		List<MemberCount> memberCounts = new ArrayList<>();
-		List<Affiliation> affiliations = affiliationService.getAllAffiliations();
-
-		for (Affiliation affiliation : affiliations) {
-			MemberCount memberCount = new MemberCount();
-			memberCount.setAffiliationName(affiliation.getAffiliationName());
-			memberCount.setMemberCount((long) affiliation.getCandidates().size());
-
-			memberCounts.add(memberCount);
-		}
-		return memberCounts;
 	}
 
 }
