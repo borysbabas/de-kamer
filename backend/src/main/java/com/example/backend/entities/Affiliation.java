@@ -10,9 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "affiliations")
 public class Affiliation {
-    public Affiliation() {
-
-    }
+    public Affiliation() {}
 
     public Affiliation(Long affiliationId, String affiliationName) {
         super();
@@ -30,9 +28,6 @@ public class Affiliation {
 
     @Column(name = "affiliation_name")
     private String affiliationName;
-
-    @ManyToMany
-    private List<Constituency> constituency;
 
     @OneToMany(mappedBy = "affiliation")
     private List<Candidate> candidates;

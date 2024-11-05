@@ -5,11 +5,13 @@ import com.example.backend.repositories.AffiliationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
 public class AffiliationService {
     private final AffiliationRepository affiliationRepository;
+    private final HashMap<Long, Affiliation> affiliationCache = new HashMap<>();
 
     @Autowired
     public AffiliationService(AffiliationRepository affiliationRepository) {
@@ -17,12 +19,24 @@ public class AffiliationService {
     }
 
     public Affiliation findAffiliationByAffiliationId(Long affiliationId) {
-        return affiliationRepository.findAffiliationByAffiliationId(affiliationId);
+        Affiliation affiliation = affiliationCache.get(affiliationId);
+        if (affiliation == null) {
+            affiliation = affiliationRepository.findAffiliationByAffiliationId(affiliationId);
+            affiliationCache.put(affiliationId, affiliation);
+        }
+        return affiliation;
     }
 
-    public Affiliation addAffiliation(Affiliation affiliation) {
+    public void addAffiliation(Affiliation affiliation) {
         affiliationRepository.save(affiliation);
-        return affiliation;
+    }
+
+    public String findAffiliationNameByAffiliationId(Long affiliationId) {
+        Affiliation affiliation = findAffiliationByAffiliationId(affiliationId);
+        if (affiliation == null) {
+            return null;
+        }
+        return affiliation.getAffiliationName();
     }
 
     public List<Affiliation> getAllAffiliations() {

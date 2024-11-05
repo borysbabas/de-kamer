@@ -3,33 +3,36 @@ package com.example.backend.services;
 import com.example.backend.entities.Affiliation;
 import com.example.backend.entities.Candidate;
 import com.example.backend.repositories.CandidateRepository;
+import com.example.backend.utils.TwoKeyHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
 public class CandidateService {
     private final CandidateRepository candidateRepository;
     private static final int MAX_SHORTCODE_LENGTH = 14;
+    private final TwoKeyHashMap<Long, Long, Candidate> candidateTwoKeyCache = new TwoKeyHashMap<>();
+    private final HashMap<String, Candidate> candidateShortCodeCache = new HashMap<>();
 
     @Autowired
     public CandidateService(CandidateRepository candidateRepository) {
         this.candidateRepository = candidateRepository;
     }
 
-    public void addCandidate(Candidate candidate, Affiliation affiliation) {
-        Candidate candidateExists = candidateRepository.findByMemberIdAndAffiliationAndConstituencyId(candidate.getMemberId(), affiliation, candidate.getConstituencyId());
-        if (candidateExists != null) {
-            if (candidateExists.equals(candidate)) {
-                return;
-            }
-        }
+    public void addCandidate(Candidate candidate) {
         candidateRepository.save(candidate);
     }
 
-    public Candidate getFirstByShortCode(String shortCode) {
-        return candidateRepository.getFirstByShortCode((shortCode));
+    public Candidate findFirstByShortCode(String shortCode) {
+        Candidate candidate = candidateShortCodeCache.get(shortCode);
+        if (candidate == null) {
+            candidate = candidateRepository.findFirstByShortCode(shortCode);
+            candidateShortCodeCache.put(shortCode, candidate);
+        }
+        return candidate;
     }
 
     public String toShortCode(Candidate candidate) {
@@ -53,12 +56,18 @@ public class CandidateService {
         return shortCode;
     }
 
-    public Candidate findFirstByShortCode(String shortCode) {
-        return candidateRepository.findFirstByShortCode(shortCode);
-    }
     public List<Candidate> findAll(){
         return candidateRepository.findAll();
 
+    }
+
+    public Candidate getCandidateByMemberIdAndAffiliation(Long id, Affiliation affiliation) {
+        Candidate candidate = candidateTwoKeyCache.get(id, affiliation.getAffiliationId());
+        if (candidate == null) {
+            candidate = candidateRepository.getFirstCandidateByMemberIdAndAffiliation(id, affiliation);
+            candidateTwoKeyCache.put(id, affiliation.getAffiliationId(), candidate);
+        }
+        return candidate;
     }
 
     public Long countDistinctCandidatesByAffiliation(Affiliation affiliation) {
