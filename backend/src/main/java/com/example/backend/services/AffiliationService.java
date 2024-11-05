@@ -32,7 +32,11 @@ public class AffiliationService {
     }
 
     public String findAffiliationNameByAffiliationId(Long affiliationId) {
-        return findAffiliationByAffiliationId(affiliationId).getAffiliationName();
+        Affiliation affiliation = findAffiliationByAffiliationId(affiliationId);
+        if (affiliation == null) {
+            return null;
+        }
+        return affiliation.getAffiliationName();
     }
 
     public List<Affiliation> getAllAffiliations() {
