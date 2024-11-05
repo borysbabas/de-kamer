@@ -5,12 +5,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AffiliationVotes {
-    public AffiliationVotes(String affiliationName, Long affiliationVotes) {
+public class AffiliationVotesModel {
+    public AffiliationVotesModel(String affiliationName, Long affiliationVotes, Long affiliationId) {
         this.affiliationName = affiliationName;
         this.affiliationVotes = affiliationVotes;
+        this.AffiliationId = affiliationId;
     }
 
     private String affiliationName;
     private Long affiliationVotes;
+    private Long AffiliationId;
 }
