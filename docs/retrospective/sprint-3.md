@@ -7,19 +7,19 @@ Ook hebben we feedback voor elk teamlid individuele  opgeschreven.
 
 ### Well
 
-- Presentatie ging geweldig
-- We hebben een goed scrumboard
-- Data is op de website
-- We zijn gewoon goed bezig
+- Presentatie ging geweldig.
+- We hebben een goed scrumboard.
+- Data is op de website.
+- Overal goed bezig geweest.
 
 ### Not so well
 
-- We konden wat vroeger meer tempo in steken
+- We konden wat eerder beginnen met het creeëren van belangrijke features inplaats van alles op het laatste moment.
 
 ### New Ideas
 
-- Meer aangeven waarmee we bezig zijn
-- Betere communicatie over coderen
+- Starten met het beter/meer aangeven waar we mee bezig zijn door wellicht een daily stand-up.
+- Starten met betere communicatie tijdens het coderen. Welke feature is nu belangrijk? Waar ben je deze week mee bezig? Waar moeten we opletten? etc.
 
 ## Story points
 
@@ -43,13 +43,13 @@ pie
 
 #### Tops
 
-- Naar aanleiding van de feedback van de vorige sprint, is hij nu veel meer op tijd
+- Naar aanleiding van de feedback van de vorige sprint, is hij nu veel meer op tijd.
 
 ### Senna
 
 #### Tips
 
-- Vorige versies ook uploaden: we hebben nu alleen de tweede en laatste versie
+- Vorige versies van XMLreader en of andere scripts ook uploaden: we hebben nu alleen de tweede en laatste versie
 
 #### Tops
 

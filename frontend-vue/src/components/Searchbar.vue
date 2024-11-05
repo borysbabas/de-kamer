@@ -9,6 +9,7 @@ onMounted(() => {
       .then(json => candidateList.value = json)
 })
 
+
 const filteredList = computed(() => {
   const searchQuery = input.value.toLowerCase();
 
