@@ -37,15 +37,7 @@ public class CandidateService {
 
     public String toShortCode(Candidate candidate) {
         String initials = candidate.getInitials().replace(".", "");
-        String replacedLastName = candidate.getLastName().replaceAll("[.-]| ", "");
-        String shortCode = replacedLastName + initials;
-
-        // if the total length is over 14, reduce the last name's length by the excess amount
-        if (initials.length() + replacedLastName.length() > MAX_SHORTCODE_LENGTH) {
-            int excessLength = (initials.length() + replacedLastName.length()) - MAX_SHORTCODE_LENGTH;
-
-            shortCode = replacedLastName.substring(0, replacedLastName.length() - excessLength) + initials;
-        }
+        String shortCode = getShortCode(candidate, initials);
 
         // Adds a 1 if shortcode already exists
         Candidate shortCodeCandidate = findFirstByShortCode(shortCode);
@@ -56,7 +48,20 @@ public class CandidateService {
         return shortCode;
     }
 
-    public List<Candidate> findAll(){
+    private static String getShortCode(Candidate candidate, String initials) {
+        String replacedLastName = candidate.getLastName().replaceAll("[.-]| |'", "");
+        String shortCode = replacedLastName + initials;
+
+        // if the total length is over 14, reduce the last name's length by the excess amount
+        if (initials.length() + replacedLastName.length() > MAX_SHORTCODE_LENGTH) {
+            int excessLength = (initials.length() + replacedLastName.length()) - MAX_SHORTCODE_LENGTH;
+
+            shortCode = replacedLastName.substring(0, replacedLastName.length() - excessLength) + initials;
+        }
+        return shortCode;
+    }
+
+    public List<Candidate> findAll() {
         return candidateRepository.findAll();
 
     }
