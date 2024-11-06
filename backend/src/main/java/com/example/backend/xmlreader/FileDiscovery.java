@@ -39,6 +39,10 @@ public class FileDiscovery {
     private static void readDirectory(String path) throws XMLStreamException, FileNotFoundException {
         File dir = new File(path);
         File[] dirFiles = dir.listFiles();
+        if (dirFiles == null) {
+            System.err.printf("No files found in directory \"%s\", please enter a valid directory%n", dir.getAbsolutePath());
+            throw new FileNotFoundException("No files found");
+        }
         for (int i = 0; i < Objects.requireNonNull(dirFiles).length; i++) {
             File file = dirFiles[i];
             if (file.isFile() && file.getName().endsWith(".xml")) {
