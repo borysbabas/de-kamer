@@ -65,6 +65,9 @@ public class CandidateService {
         return candidateRepository.findAll();
 
     }
+    public Candidate getCandidateByCandidateID(Long id){
+        return candidateRepository.getCandidateByCandidateId(id);
+    }
 
     public Candidate getCandidateByMemberIdAndAffiliation(Long id, Affiliation affiliation) {
         Candidate candidate = candidateTwoKeyCache.get(id, affiliation.getAffiliationId());

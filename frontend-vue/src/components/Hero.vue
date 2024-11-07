@@ -27,7 +27,6 @@ async function fetchData() {
     }
     const data = await response.json();
     allParties.value = data;
-    console.log(data);
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }

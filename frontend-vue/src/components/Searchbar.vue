@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import {ref, computed, onMounted, onUnmounted} from "vue"
+import {useRouter} from "vue-router"
+const router = useRouter()
 const isFixed=ref(false)
 const input =ref("");
+const debouncedSearch=debounce((value)=>{
+  input.value=value;
+}, 350)
 const candidateModel=ref({
   candidateID:"",
   firstname: "",
@@ -16,7 +21,6 @@ onMounted(() => {
       .then(json => candidateList.value = json)
 })
 
-
 const filteredList = computed(() => {
   const searchQuery = input.value.toLowerCase();
 
@@ -24,12 +28,20 @@ const filteredList = computed(() => {
     const fullName = [candidate.firstName, candidate.prefix, candidate.lastName]
         .join(" ")
         .toLowerCase()
-        .trim();
+        .trim()
+        .replace(/\s+/g," ")
 
-    const affiliationName = candidate.affiliationName.toLowerCase();
+    const affiliationName = candidate.affiliationName.toLowerCase().trim().replace(/\s+/g," ");
     return fullName.includes(searchQuery) || affiliationName.includes(searchQuery);
   });
 })
+function debounce(func, delay){
+let timeout;
+return function(...args){
+  clearTimeout(timeout)
+  timeout=setTimeout(()=>func.apply(this,args),delay)
+}
+}
 //gets value of clicked LI item and redirects user to designated endpoint.
  function routeAssigner(candidate){
   let candidateID = candidate.candidateId
@@ -45,6 +57,9 @@ const filteredList = computed(() => {
     lastname: lastName,
     affiliationName: affiliationName
   }
+
+  router.push({name:"CandidateDetails", params:{candidateID:candidate.candidateId}})
+
 
 }
 const handleScroll = () => {
@@ -67,7 +82,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <li class="searchbar-container"><input v-model="input" type="text" placeholder="Search..."></li>
+  <li class="searchbar-container"><input @input="event=>debouncedSearch(event.target.value)" type="text" placeholder="Zoeken..."></li>
   <ul v-if="input.length > 0 && filteredList.length > 0" :class="{'fixed-searchbar' : isFixed, 'search-results': !isFixed}">
     <li v-for="candidate in filteredList" :key="candidate.candidateId" @click="routeAssigner(candidate)">{{ candidate.firstName }}
       <span v-if="candidate.prefix">{{candidate.prefix}}</span>
