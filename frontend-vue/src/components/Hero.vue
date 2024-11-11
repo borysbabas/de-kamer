@@ -310,7 +310,7 @@ const getShortenedName = (name: string) => {
 
 /** Styling for the load more part */
 .more, .less {
-  padding-top: 50px;
+  padding-top: 30px;
   display: flex;
   justify-content: center;
   flex-direction: column;
