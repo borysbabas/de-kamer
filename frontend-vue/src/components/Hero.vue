@@ -350,8 +350,7 @@ const getShortenedName = (name: string) => {
 }
 
 .desc-img {
-  width: 70%;
-  height: 100%;
+  width: 50vw;
   object-fit: cover;
   border-radius: 20px;
 }

@@ -29,6 +29,7 @@ const fetchedData = ref({
     affiliationName: "",
   votes: ""
 })
+
 async function fetchCandidate(){
   candidateId.value=route.params.candidateId
   console.log(candidateId.value)
@@ -38,26 +39,21 @@ async function fetchCandidate(){
   else{
     console.log("error")
   }
-
 }
+
 onMounted(  ()=>{
   fetchCandidate()
-
-
 })
+
 watch(()=>route.params.candidateId,(changedCandidateId)=>{
   candidateId.value = changedCandidateId;
   fetchCandidate()
-
 })
-
-
-
 </script>
 
 <style scoped>
 .main {
-  min-height: calc(100vh - 150px);
+  min-height: calc(100vh - 56px);
   object-fit: cover;
   background-color: var(--dark-primary);
   color: var(--light-primary);
@@ -65,11 +61,8 @@ watch(()=>route.params.candidateId,(changedCandidateId)=>{
   position: relative;
   z-index: 0;
 }
+
 .container{
   padding-top: 160px;
 }
-Footer{
-
-}
-
 </style>
