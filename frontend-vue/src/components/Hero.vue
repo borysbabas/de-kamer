@@ -1,3 +1,4 @@
+
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 
@@ -32,19 +33,43 @@ async function fetchData() {
   }
 }
 
+const allCandidates = ref<any[]>([]);
+
+async function fetchCandidateVotes() {
+  try {
+    const response = await fetch("http://localhost:3001/votes/candidates");
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    allCandidates.value = data;
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+  }
+}
+
 onMounted(() => {
   fetchData();
+  fetchCandidateVotes();
 });
 
 const visibleBlocks = ref(12);
 const isMoreVisible = ref(true);
 const isLessVisible = ref(false);
 
-const sortedParties = computed(() => {
-  if (selectedOption.value === 'least_parties') {
-    return allParties.value.sort((a, b) => a.affiliationVotes - b.affiliationVotes);
+const sortedItems = computed(() => {
+  switch (selectedOption.value) {
+    case 'most_parties':
+      return allParties.value.sort((a, b) => b.affiliationVotes - a.affiliationVotes);
+    case 'least_parties':
+      return allParties.value.sort((a, b) => a.affiliationVotes - b.affiliationVotes);
+    case 'most_candidates':
+      return allCandidates.value.sort((a, b) => b.votes - a.votes);
+    case 'least_candidates':
+      return allCandidates.value.sort((a, b) => a.votes - b.votes);
+    default:
+      return allParties.value.sort((a, b) => b.affiliationVotes - a.affiliationVotes);
   }
-  return allParties.value.sort((a, b) => b.affiliationVotes - a.affiliationVotes);
 });
 
 const loadMore = () => {
@@ -88,10 +113,26 @@ const getShortenedName = (name: string) => {
 
     <!-- Displaying the parties -->
     <div class="parties">
-      <div v-for="party in sortedParties.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
+      <div v-for="party in sortedItems.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
         <img class="party-img" :alt="party.affiliationName" src="../assets/img/dummy200x200.jpg">
-        <p class="party-votes">{{ party.affiliationVotes }} stemmen</p>
-        <p class="party-name">{{ getShortenedName(party.affiliationName) }}</p>
+        <p
+            class="party-votes"
+            v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
+          {{ party.affiliationVotes }} stemmen</p>
+        <p
+            class="party-votes"
+            v-else-if="selectedOption === 'most_candidates' || selectedOption === 'least_candidates'">
+          {{ party.votes }} stemmen</p>
+        <p
+            class="party-name"
+            v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
+          {{ getShortenedName(party.affiliationName) }}
+        </p>
+        <p
+            class="party-name"
+            v-else-if="selectedOption === 'most_candidates' || selectedOption === 'least_candidates'">
+          {{ party.name }}
+        </p>
       </div>
     </div>
 
