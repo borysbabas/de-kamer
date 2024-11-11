@@ -1,20 +1,32 @@
 package com.example.backend.models;
 
+import com.example.backend.entities.Candidate;
+import com.example.backend.entities.CountryVotes;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
 public class CandidateVotesModel {
-    public CandidateVotesModel(long candidateId, String initials, String lastnamePrefix, String lastname, Long votes) {
-        this.candidateId = candidateId;
-        this.name = getFullName(initials, lastnamePrefix, lastname);
-        this.votes = votes;
-    }
-
     private long candidateId;
     private String name;
+    private String lastName;
+    private String firstName;
+    private String prefix;
+    private String affiliationName;
     private long votes;
+
+    public CandidateVotesModel(CountryVotes countryVotes) {
+        Candidate candidate = countryVotes.getCandidate();
+        this.candidateId = candidate.getCandidateId();
+        this.votes = countryVotes.getTotalVotes();
+        this.firstName = candidate.getFirstName();
+        this.prefix = candidate.getLastNamePrefix();
+        this.lastName = candidate.getLastName();
+        this.affiliationName = countryVotes.getAffiliation().getAffiliationName();
+        this.name = getFullName(candidate.getInitials(), this.prefix, this.lastName);
+
+    }
 
     public String getFullName(String initials, String lastnamePrefix, String lastname) {
         return (initials != null ? initials + " " : "") +
