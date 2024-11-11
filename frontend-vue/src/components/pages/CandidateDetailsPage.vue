@@ -3,8 +3,10 @@
   <section class=" main">
     <div class="container">
       <div class="wrapper">
-        <H1>{{dingus.firstName}} <span v-if="dingus.prefix"> {{dingus.prefix}}</span> {{dingus.lastName}}</H1>
-        <H2>Partij: {{dingus.affiliationName}}</H2>
+        <H1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
+          {{ fetchedData.lastName }}</H1>
+        <H2>Partij: {{ fetchedData.affiliationName }}</H2>
+        <h2>Aantal stemmen: {{ fetchedData.votes }}</h2>
       </div>
     </div>
   </section>
@@ -15,21 +17,23 @@ import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue"
 import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
+
 const route = useRoute();
-const candidateID= ref(null)
-const dingus = ref({
+const candidateId= ref(null)
+const fetchedData = ref({
 
   candidateId: "",
     firstName: "",
     prefix: "",
     lastName: "",
-    affiliationName: ""
+    affiliationName: "",
+  votes: ""
 })
 async function fetchCandidate(){
-  candidateID.value=route.params.candidateID
-  console.log(candidateID.value)
-  if(candidateID.value) {
-    await fetch(`http://localhost:3001/candidates/${candidateID.value}`).then(response => response.json().then(json => dingus.value = json))
+  candidateId.value=route.params.candidateId
+  console.log(candidateId.value)
+  if(candidateId.value) {
+    await fetch(`http://localhost:3001/candidates/${candidateId.value}`).then(response => response.json().then(json => fetchedData.value = json))
   }
   else{
     console.log("error")
@@ -41,8 +45,8 @@ onMounted(  ()=>{
 
 
 })
-watch(()=>route.params.candidateID,(changedCandidateId)=>{
-  candidateID.value = changedCandidateId;
+watch(()=>route.params.candidateId,(changedCandidateId)=>{
+  candidateId.value = changedCandidateId;
   fetchCandidate()
 
 })

@@ -8,7 +8,7 @@ const debouncedSearch=debounce((value)=>{
   input.value=value;
 }, 350)
 const candidateModel=ref({
-  candidateID:"",
+  candidateId:"",
   firstname: "",
   prefix: "",
   lastname:"",
@@ -44,21 +44,21 @@ return function(...args){
 }
 //gets value of clicked LI item and redirects user to designated endpoint.
  function routeAssigner(candidate){
-  let candidateID = candidate.candidateId
+  let candidateId = candidate.candidateId
   let firstName=candidate.firstName
   let prefix = candidate.prefix
   let lastName = candidate.lastName
   let affiliationName=candidate.affiliationName
 
   candidateModel.value={
-    candidateID: candidateID,
+    candidateId: candidateId,
     firstname: firstName,
     prefix: prefix,
     lastname: lastName,
     affiliationName: affiliationName
   }
 
-  router.push({name:"CandidateDetails", params:{candidateID:candidate.candidateId}})
+  router.push({name:"CandidateDetails", params:{candidateId:candidate.candidateId}})
 
 
 }
