@@ -15,8 +15,9 @@ import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue"
 import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
+
 const route = useRoute();
-const candidateID= ref(null)
+const candidateId= ref(null)
 const dingus = ref({
 
   candidateId: "",
@@ -26,10 +27,10 @@ const dingus = ref({
     affiliationName: ""
 })
 async function fetchCandidate(){
-  candidateID.value=route.params.candidateID
-  console.log(candidateID.value)
-  if(candidateID.value) {
-    await fetch(`http://localhost:3001/candidates/${candidateID.value}`).then(response => response.json().then(json => dingus.value = json))
+  candidateId.value=route.params.candidateId
+  console.log(candidateId.value)
+  if(candidateId.value) {
+    await fetch(`http://localhost:3001/candidates/${candidateId.value}`).then(response => response.json().then(json => dingus.value = json))
   }
   else{
     console.log("error")
@@ -41,8 +42,8 @@ onMounted(  ()=>{
 
 
 })
-watch(()=>route.params.candidateID,(changedCandidateId)=>{
-  candidateID.value = changedCandidateId;
+watch(()=>route.params.candidateId,(changedCandidateId)=>{
+  candidateId.value = changedCandidateId;
   fetchCandidate()
 
 })
