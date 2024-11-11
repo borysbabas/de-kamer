@@ -3,9 +3,10 @@
   <section class=" main">
     <div class="container">
       <div class="wrapper">
-        <H1>{{dingus.firstName}} <span v-if="dingus.prefix"> {{dingus.prefix}}</span> {{dingus.lastName}}</H1>
-        <H2>Partij: {{dingus.affiliationName}}</H2>
-        <h2>Aantal stemmen: {{dingus.votes}}</h2>
+        <H1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
+          {{ fetchedData.lastName }}</H1>
+        <H2>Partij: {{ fetchedData.affiliationName }}</H2>
+        <h2>Aantal stemmen: {{ fetchedData.votes }}</h2>
       </div>
     </div>
   </section>
@@ -19,7 +20,7 @@ import {useRoute} from "vue-router";
 
 const route = useRoute();
 const candidateId= ref(null)
-const dingus = ref({
+const fetchedData = ref({
 
   candidateId: "",
     firstName: "",
@@ -32,7 +33,7 @@ async function fetchCandidate(){
   candidateId.value=route.params.candidateId
   console.log(candidateId.value)
   if(candidateId.value) {
-    await fetch(`http://localhost:3001/candidates/${candidateId.value}`).then(response => response.json().then(json => dingus.value = json))
+    await fetch(`http://localhost:3001/candidates/${candidateId.value}`).then(response => response.json().then(json => fetchedData.value = json))
   }
   else{
     console.log("error")
