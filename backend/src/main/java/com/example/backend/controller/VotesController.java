@@ -3,7 +3,10 @@ package com.example.backend.controller;
 import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.AffiliationVotes;
 import com.example.backend.models.AffiliationVotesModel;
+import com.example.backend.models.CandidateVotesModel;
+import com.example.backend.models.VoteModel;
 import com.example.backend.services.AffiliationVotesService;
+import com.example.backend.services.CountryVotesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,10 +17,12 @@ import java.util.List;
 @RestController
 public class VotesController {
     private final AffiliationVotesService affiliationVotesService;
+    private final CountryVotesService countryVotesService;
 
     @Autowired
-    public VotesController(AffiliationVotesService affiliationVotesService) {
+    public VotesController(AffiliationVotesService affiliationVotesService, CountryVotesService countryVotesService) {
         this.affiliationVotesService = affiliationVotesService;
+        this.countryVotesService = countryVotesService;
     }
 
     @GetMapping(path = ApiPaths.AFFILIATION_SERVICE_VOTES)
@@ -32,5 +37,11 @@ public class VotesController {
             ));
         }
         return affiliationVotesList;
+    }
+
+    @GetMapping(path = ApiPaths.CANDIDATE_SERVICE_VOTES)
+    public List<CandidateVotesModel> getTotalCandidateVotes() {
+
+        return countryVotesService.getAllCountryVotes();
     }
 }

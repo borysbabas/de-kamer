@@ -2,9 +2,12 @@ package com.example.backend.services;
 
 import com.example.backend.entities.Candidate;
 import com.example.backend.entities.CountryVotes;
+import com.example.backend.models.CandidateVotesModel;
 import com.example.backend.repositories.CountryVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CountryVotesService {
@@ -27,5 +30,17 @@ public class CountryVotesService {
             return null;
         }
         return this.countryVotesRepository.findByCandidate(candidate);
+    }
+
+    public List<CandidateVotesModel> getAllCountryVotes() {
+        List<CountryVotes> countryVotes = countryVotesRepository.findAll();
+
+        return countryVotes.stream().map(vote -> new CandidateVotesModel(
+                vote.getCandidate().getCandidateId(),
+                vote.getCandidate().getInitials(),
+                vote.getCandidate().getLastNamePrefix(),
+                vote.getCandidate().getLastName(),
+                vote.getTotalVotes()
+        )).toList();
     }
 }
