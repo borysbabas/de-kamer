@@ -42,9 +42,9 @@ const isLessVisible = ref(false);
 
 const sortedParties = computed(() => {
   if (selectedOption.value === 'least_parties') {
-    return allParties.value.slice().sort((a, b) => a.affiliationVotes - b.affiliationVotes);
+    return allParties.value.sort((a, b) => a.affiliationVotes - b.affiliationVotes);
   }
-  return allParties.value.slice().sort((a, b) => b.affiliationVotes - a.affiliationVotes);
+  return allParties.value.sort((a, b) => b.affiliationVotes - a.affiliationVotes);
 });
 
 const loadMore = () => {
