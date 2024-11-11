@@ -9,18 +9,23 @@ import lombok.Setter;
 @Entity
 @Table(name = "constituency_votes")
 public class ConstituencyVotes {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @ManyToOne
     @JoinColumn(name = "constituency_id", referencedColumnName = "constituency_id")
     private Constituency constituency;
 
     @ManyToOne
-    @JoinColumn(name = "party_id", referencedColumnName = "party_id")
-    private Party party;
+    @JoinColumn(name = "affiliation_id", referencedColumnName = "affiliation_id")
+    private Affiliation affiliation;
 
     @ManyToOne
     @JoinColumn(name = "candidate_id", referencedColumnName = "candidate_id")
     private Candidate candidate;
 
     @Column(name = "total_votes")
-    private int totalVotes;
+    private Long totalVotes;
 }

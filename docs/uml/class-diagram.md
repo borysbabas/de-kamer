@@ -4,31 +4,36 @@ title: Elections Entity Class Diagram V1
 ---
 
 classDiagram
-    Constituency <|-- Municipality
-    Municipality <|-- PollingStation
+    Constituency o-- Municipality
+    Municipality o-- PollingStation
     
-    Party <|-- Candidate
+    Affiliation o-- Candidate
     
-    Constituency <|-- ConstituencyVotes
-    Party <|-- ConstituencyVotes
-    Candidate <|-- ConstituencyVotes
+    Affiliation *-- CountryVotes
+    Candidate *-- CountryVotes
+    
+    Constituency *-- ConstituencyVotes
+    Affiliation *-- ConstituencyVotes
+    Candidate *-- ConstituencyVotes
 
-    Municipality <|-- MunicipalityVotes
-    Party <|-- MunicipalityVotes
-    Candidate <|-- MunicipalityVotes
+    Municipality *-- MunicipalityVotes
+    Affiliation *-- MunicipalityVotes
+    Candidate *-- MunicipalityVotes
 
-    PollingStation <|-- PollingStationVotes
-    Party <|-- PollingStationVotes
-    Candidate <|-- PollingStationVotes
+    PollingStation *-- PollingStationVotes
+    Affiliation *-- PollingStationVotes
+    Candidate *-- PollingStationVotes
     
     class Constituency {
         -int constituencyId
         -String constituencyName
+        -List municipalities
     }
     class Municipality {
         -int municipalityId
         -Constituency constituency
         -String municipalityName
+        -List pollingStations
     }
     class PollingStation {
         -int pollingStationId
@@ -36,13 +41,14 @@ classDiagram
         -String pollingStationName
     }
     
-    class Party {
-        -int partyId
-        -String partyName
+    class Affiliation {
+        -int affiliationId
+        -String affiliationName
+        -List candidates
     }
     class Candidate {
         -int candidateId
-        -Party party
+        -Affiliation affiliation
         -int memberId
         -String initials
         -String firstName
@@ -51,21 +57,27 @@ classDiagram
         -String locality
     }
     
-    class ConstituencyVotes {
-        -Constituency constituency
+    class CountryVotes {
         -Party party
         -Candidate candidate
         -int totalVotes
     }
+    
+    class ConstituencyVotes {
+        -Constituency constituency
+        -Affiliation affiliation
+        -Candidate candidate
+        -int totalVotes
+    }
     class MunicipalityVotes {
-        -Municipality municipality
-        -Party party
+        -Municipalities municipality
+        -Affiliations affiliation
         -Candidate candidate
         -int totalVotes
     }
     class PollingStationVotes {
         -PollingStation pollingStation
-        -Party party
+        -Affiliation affiliation
         -Candidate candidate
         -int totalVotes
     }
