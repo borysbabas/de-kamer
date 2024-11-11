@@ -27,7 +27,6 @@ async function fetchData() {
     }
     const data = await response.json();
     allParties.value = data;
-    console.log(data);
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }
@@ -41,7 +40,10 @@ const visibleBlocks = ref(12);
 const isMoreVisible = ref(true);
 const isLessVisible = ref(false);
 
-const sortedPartiesBest = computed(() => {
+const sortedParties = computed(() => {
+  if (selectedOption.value === 'least_parties') {
+    return allParties.value.slice().sort((a, b) => a.affiliationVotes - b.affiliationVotes);
+  }
   return allParties.value.slice().sort((a, b) => b.affiliationVotes - a.affiliationVotes);
 });
 
@@ -84,14 +86,14 @@ const getShortenedName = (name: string) => {
       </svg>
     </div>
 
-      <!-- Displaying the parties -->
-      <div class="parties">
-        <div v-for="party in sortedPartiesBest.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
-          <img class="party-img" :alt="party.affiliationName" src="../assets/img/dummy200x200.jpg">
-          <p class="party-votes">{{ party.affiliationVotes }} stemmen</p>
-          <p class="party-name">{{ getShortenedName(party.affiliationName) }}</p>
-        </div>
+    <!-- Displaying the parties -->
+    <div class="parties">
+      <div v-for="party in sortedParties.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
+        <img class="party-img" :alt="party.affiliationName" src="../assets/img/dummy200x200.jpg">
+        <p class="party-votes">{{ party.affiliationVotes }} stemmen</p>
+        <p class="party-name">{{ getShortenedName(party.affiliationName) }}</p>
       </div>
+    </div>
 
     <!-- 'Load more' section -->
     <div v-if="isMoreVisible" class="more" @click="loadMore">
