@@ -14,8 +14,8 @@ body {
     font-weight: normal;
     background-color: var(--light-primary);
     color: var(--light-primary);
+    letter-spacing: 1px;
 }
-
 
 h1 {
     font-size: 38px;
