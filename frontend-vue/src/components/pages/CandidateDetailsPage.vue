@@ -5,6 +5,7 @@
       <div class="wrapper">
         <H1>{{dingus.firstName}} <span v-if="dingus.prefix"> {{dingus.prefix}}</span> {{dingus.lastName}}</H1>
         <H2>Partij: {{dingus.affiliationName}}</H2>
+        <h2>Aantal stemmen: {{dingus.votes}}</h2>
       </div>
     </div>
   </section>
@@ -24,7 +25,8 @@ const dingus = ref({
     firstName: "",
     prefix: "",
     lastName: "",
-    affiliationName: ""
+    affiliationName: "",
+  votes: ""
 })
 async function fetchCandidate(){
   candidateId.value=route.params.candidateId
