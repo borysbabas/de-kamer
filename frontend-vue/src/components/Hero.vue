@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import {computed, onMounted, ref} from 'vue';
 
 const options = [
-  { label: 'Meest verkozen partijen', value: 'most_parties' },
-  { label: 'Minst verkozen partijen', value: 'least_parties' },
-  { label: 'Meest verkozen kandidaten', value: 'most_candidates' },
-  { label: 'Minst verkozen kandidaten', value: 'least_candidates' }
+  {label: 'Meest verkozen partijen', value: 'most_parties'},
+  {label: 'Minst verkozen partijen', value: 'least_parties'},
+  {label: 'Meest verkozen kandidaten', value: 'most_candidates'},
+  {label: 'Minst verkozen kandidaten', value: 'least_candidates'}
 ];
 
 const selectedOption = ref(options[0].value);
@@ -18,6 +18,7 @@ const triggerDropdown = () => {
 };
 
 const allParties = ref<any[]>([]);
+const mediaData = ref<any[]>([]);
 
 async function fetchData() {
   try {
@@ -26,13 +27,14 @@ async function fetchData() {
       throw new Error('Network response was not ok');
     }
     const data = await response.json();
-    allParties.value = data;
+    allParties.value = data.map(party => ({
+      ...party,
+      imageUrl: party.imageUrl || '../assets/img/dummy200x200.jpg'
+    }));
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }
 }
-
-const allCandidates = ref<any[]>([]);
 
 async function fetchCandidateVotes() {
   try {
@@ -47,9 +49,35 @@ async function fetchCandidateVotes() {
   }
 }
 
+const allCandidates = ref<any[]>([]);
+
+async function fetchMedia() {
+  const url = 'https://api.wikimedia.org/core/v1/wikipedia/nl/page/Lijst_van_politieke_partijen_in_Nederland/links/media';
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Api-User-Agent': APP_NAME
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    mediaData.value = data.files.map((file: any) => ({
+      title: file.title,
+      url: file.preferred.url,
+      descriptionUrl: file.file_description_url
+    }));
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+  }
+}
+
 onMounted(() => {
   fetchData();
   fetchCandidateVotes();
+  fetchMedia();
 });
 
 const visibleBlocks = ref(12);
@@ -83,36 +111,16 @@ const loadLess = () => {
   visibleBlocks.value = 12;
   isMoreVisible.value = true;
   isLessVisible.value = false;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({top: 0, behavior: 'smooth'});
 };
 
 const getShortenedName = (name: string) => {
-  return name.length > 30 ? name.slice(0, 30) + '...' : name;
+  return name.length > 25 ? name.slice(0, 25) + '...' : name;
 };
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const APP_NAME = import.meta.env.VITE_APP_NAME;
 
-async function fetchMedia() {
-  const url = 'https://api.wikimedia.org/core/v1/wikipedia/nl/page/Lijst_van_politieke_partijen_in_Nederland/links/media';
-  try {
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${API_KEY}`,
-        'Api-User-Agent': APP_NAME
-      }
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-    console.log("The data from WikiMedia is:", JSON.stringify(data, null, 2));
-  } catch (error) {
-    console.error('There was a problem with the fetch operation:', error);
-  }
-}
-
-fetchMedia();
 </script>
 
 <template>
@@ -136,8 +144,9 @@ fetchMedia();
 
     <!-- Displaying the parties -->
     <div class="parties">
-      <div v-for="party in sortedItems.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
-        <img class="party-img" :alt="party.affiliationName" src="../assets/img/dummy200x200.jpg">
+      <div v-for="(party, index) in sortedItems.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
+        <img class="party-img" :alt="mediaData[index]?.title || party.affiliationName"
+             :src="mediaData[index]?.url || '../assets/img/dummy200x200.jpg'">
         <p
             class="party-votes"
             v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
