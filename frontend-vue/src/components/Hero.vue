@@ -89,6 +89,30 @@ const loadLess = () => {
 const getShortenedName = (name: string) => {
   return name.length > 30 ? name.slice(0, 30) + '...' : name;
 };
+
+const API_KEY = import.meta.env.VITE_API_KEY;
+const APP_NAME = import.meta.env.VITE_APP_NAME;
+
+async function fetchMedia() {
+  const url = 'https://api.wikimedia.org/core/v1/wikipedia/nl/page/Lijst_van_politieke_partijen_in_Nederland/links/media';
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Api-User-Agent': APP_NAME
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log("The data from WikiMedia is:", JSON.stringify(data, null, 2));
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+  }
+}
+
+fetchMedia();
 </script>
 
 <template>
