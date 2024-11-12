@@ -64,11 +64,15 @@ async function fetchMedia() {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    mediaData.value = data.files.map((file: any) => ({
-      title: file.title,
-      url: file.preferred.url,
-      descriptionUrl: file.file_description_url
-    }));
+    // [1, 9, 13, 15, 26, 47, 48, 71] The indices of the parties in the media data
+    const excludedTitles = ["1rightarrow blue.svg", "Commons-logo.svg", "Evolution of Dutch political parties since 1888.svg", "Flag of the Netherlands.svg", "Leden2018-1.png", "Ledental politieke partijen.png", "OOjs UI icon article-ltr.svg", "OOjs UI icon edit-ltr.svg", "Flag of the Netherlands.svg"];
+    mediaData.value = data.files
+        .filter((file: any) => !excludedTitles.includes(file.title))
+        .map((file: any) => ({
+          title: file.title,
+          url: file.preferred.url,
+          descriptionUrl: file.file_description_url
+        }));
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }
@@ -146,23 +150,19 @@ const APP_NAME = import.meta.env.VITE_APP_NAME;
     <div class="parties">
       <div v-for="(party, index) in sortedItems.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
         <img class="party-img" :alt="mediaData[index]?.title || party.affiliationName"
-             :src="mediaData[index]?.url || '../assets/img/dummy200x200.jpg'">
-        <p
-            class="party-votes"
-            v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
-          {{ party.affiliationVotes }} stemmen</p>
-        <p
-            class="party-votes"
-            v-else-if="selectedOption === 'most_candidates' || selectedOption === 'least_candidates'">
-          {{ party.votes }} stemmen</p>
-        <p
-            class="party-name"
-            v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
+             :src="mediaData[index]?.url || '../assets/img/dummy200x200.jpg'"
+             width="200" height="200">
+        <p class="party-votes" v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
+          {{ party.affiliationVotes }} stemmen
+        </p>
+        <p class="party-votes"
+           v-else-if="selectedOption === 'most_candidates' || selectedOption === 'least_candidates'">
+          {{ party.votes }} stemmen
+        </p>
+        <p class="party-name" v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
           {{ getShortenedName(party.affiliationName) }}
         </p>
-        <p
-            class="party-name"
-            v-else-if="selectedOption === 'most_candidates' || selectedOption === 'least_candidates'">
+        <p class="party-name" v-else-if="selectedOption === 'most_candidates' || selectedOption === 'least_candidates'">
           {{ party.name }}
         </p>
       </div>
