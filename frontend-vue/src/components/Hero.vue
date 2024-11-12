@@ -50,6 +50,8 @@ async function fetchCandidateVotes() {
 }
 
 const allCandidates = ref<any[]>([]);
+const API_KEY = import.meta.env.VITE_API_KEY;
+const APP_NAME = import.meta.env.VITE_APP_NAME;
 
 async function fetchMedia() {
   const url = 'https://api.wikimedia.org/core/v1/wikipedia/nl/page/Lijst_van_politieke_partijen_in_Nederland/links/media';
@@ -77,12 +79,6 @@ async function fetchMedia() {
     console.error('There was a problem with the fetch operation:', error);
   }
 }
-
-onMounted(() => {
-  fetchData();
-  fetchCandidateVotes();
-  fetchMedia();
-});
 
 const visibleBlocks = ref(12);
 const isMoreVisible = ref(true);
@@ -122,9 +118,11 @@ const getShortenedName = (name: string) => {
   return name.length > 25 ? name.slice(0, 25) + '...' : name;
 };
 
-const API_KEY = import.meta.env.VITE_API_KEY;
-const APP_NAME = import.meta.env.VITE_APP_NAME;
-
+onMounted(() => {
+  fetchData();
+  fetchCandidateVotes();
+  fetchMedia();
+});
 </script>
 
 <template>
@@ -323,16 +321,15 @@ const APP_NAME = import.meta.env.VITE_APP_NAME;
   width: 200px;
   height: 200px;
   border-radius: 20px;
-  object-fit: cover;
+  object-fit: contain;
   cursor: pointer;
   margin-bottom: 10px;
-  background-color: var(--light-primary);
+  background-color: white;
   transition-duration: var(--animation-duration);
 }
 
 .party-img:hover {
   transform: scale(1.05);
-  background-color: var(--dark-primary);
   filter: brightness(50%);
 }
 
