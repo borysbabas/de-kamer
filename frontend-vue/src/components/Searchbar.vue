@@ -93,7 +93,7 @@ onUnmounted(() => {
 <style scoped>
 .fixed-searchbar{
   top:60px;
-  right:35.7vw;
+  right:36vw;
   width:600px;
   background-color:white;
   color:black;
@@ -107,7 +107,7 @@ onUnmounted(() => {
   justify-content: flex-start;
   align-items: start;
   text-align:left;
-  right:15vw;
+  right:14.5vw;
   width:600px;
   position:relative;
 
