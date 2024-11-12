@@ -2,8 +2,6 @@
 import "@/assets/main.css";
 import "@/assets/reset.css";
 
-import ChartTemplate from "@/components/tools/Chart-Template.vue";
-
 export default {
   name: "App",
 };
