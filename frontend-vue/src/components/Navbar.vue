@@ -11,6 +11,10 @@ const toggleSearchBar = () => {
   searchBarState.value = !searchBarState.value;
 };
 
+/**
+ * Handles the scroll event
+ * If the user scrolls down, the navbar will be fixed to the top
+ */
 const handleScroll = () => {
   const navbar = document.getElementById("navbar");
   if (window.scrollY > 50) {
@@ -19,6 +23,7 @@ const handleScroll = () => {
     navbar?.classList.remove("fixed-top");
   }
 };
+
 onMounted(()=>{
   const searchDOM=document.getElementById("searchbar");
   if(searchDOM){
@@ -28,6 +33,7 @@ onMounted(()=>{
     console.log("error")
   }
 })
+
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
 });
@@ -39,7 +45,6 @@ onUnmounted(() => {
 const navbar = ref({
   margin: '50px',
 })
-
 </script>
 
 <template>
