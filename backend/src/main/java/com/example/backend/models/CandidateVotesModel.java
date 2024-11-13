@@ -14,6 +14,7 @@ public class CandidateVotesModel {
     private String firstName;
     private String prefix;
     private String affiliationName;
+    private String gender;
     private long votes;
 
     public CandidateVotesModel(CountryVotes countryVotes) {
@@ -25,7 +26,7 @@ public class CandidateVotesModel {
         this.lastName = candidate.getLastName();
         this.affiliationName = countryVotes.getAffiliation().getAffiliationName();
         this.name = getFullName(candidate.getInitials(), this.prefix, this.lastName);
-
+        this.gender=candidate.getGender();
     }
 
     public String getFullName(String initials, String lastnamePrefix, String lastname) {
