@@ -5,6 +5,10 @@ const loginCredentials = ref({
   password: "",
 })
 
+/**
+ * Injects the email into the navbar
+ * @param email The email to inject
+ */
 const submitLogin = async () => {
   const response = await fetch("http://localhost:3001/login", {
     method: "POST",
@@ -17,7 +21,6 @@ const submitLogin = async () => {
     injectEmail(result.email.value)
   }
 }
-
 </script>
 
 <template>
@@ -89,5 +92,4 @@ a {
   color: var(--light-primary);
   text-decoration: underline;
 }
-
 </style>
