@@ -20,6 +20,13 @@ const triggerDropdown = () => {
 const allParties = ref<any[]>([]);
 const mediaData = ref<any[]>([]);
 
+/**
+ * Fetches the data from the API and sets the allParties ref to the fetched data.
+ * If the fetch operation fails, an error is logged to the console.
+ *
+ * @throws {Error} If the fetch operation fails
+ * @return Array of parties from the API
+ */
 async function fetchData() {
   try {
     const response = await fetch("http://localhost:3001/votes/affiliations");
@@ -34,8 +41,16 @@ async function fetchData() {
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }
+  return allParties.value;
 }
 
+/**
+ * Fetches the data from the API and sets the allCandidates ref to the fetched data.
+ * If the fetch operation fails, an error is logged to the console.
+ *
+ * @throws {Error} If the fetch operation fails
+ * @return Array of candidates and the votes cast from the API
+ */
 async function fetchCandidateVotes() {
   try {
     const response = await fetch("http://localhost:3001/votes/candidates");
@@ -47,12 +62,20 @@ async function fetchCandidateVotes() {
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }
+  return allCandidates.value;
 }
 
 const allCandidates = ref<any[]>([]);
 const API_KEY = import.meta.env.VITE_API_KEY;
 const APP_NAME = import.meta.env.VITE_APP_NAME;
 
+/**
+ * Fetches the media data from the Wikimedia API and sets the mediaData ref to the fetched data.
+ * If the fetch operation fails, an error is logged to the console.
+ *
+ * @throws {Error} If the fetch operation fails
+ * @return Array of files from the Wikimedia API
+ */
 async function fetchMedia() {
   const url = 'https://api.wikimedia.org/core/v1/wikipedia/nl/page/Lijst_van_politieke_partijen_in_Nederland/links/media';
   try {
@@ -78,12 +101,18 @@ async function fetchMedia() {
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }
+  return mediaData.value;
 }
 
 const visibleBlocks = ref(12);
 const isMoreVisible = ref(true);
 const isLessVisible = ref(false);
 
+/**
+ * Sorts the parties based on the selected option.
+ *
+ * @return Array of sorted parties
+ */
 const sortedItems = computed(() => {
   switch (selectedOption.value) {
     case 'most_parties':
@@ -99,6 +128,10 @@ const sortedItems = computed(() => {
   }
 });
 
+/**
+ * Loads more party blocks when the 'Laad meer' button is clicked.
+ * If all party blocks are visible, the 'Laad meer' button is hidden.
+ */
 const loadMore = () => {
   visibleBlocks.value += 25;
   if (visibleBlocks.value >= allParties.value.length) {
@@ -107,6 +140,10 @@ const loadMore = () => {
   }
 };
 
+/**
+ * Loads less party blocks when the 'Laad minder' button is clicked.
+ * If not all party blocks are visible, the 'Laad minder' button is hidden.
+ */
 const loadLess = () => {
   visibleBlocks.value = 12;
   isMoreVisible.value = true;
@@ -114,6 +151,12 @@ const loadLess = () => {
   window.scrollTo({top: 0, behavior: 'smooth'});
 };
 
+/**
+ * Shortens the name of the party if it is longer than 25 characters.
+ *
+ * @param {string} name - The name of the party
+ * @return {string} The shortened name of the party
+ */
 const getShortenedName = (name: string) => {
   return name.length > 25 ? name.slice(0, 25) + '...' : name;
 };
@@ -324,7 +367,6 @@ onMounted(() => {
   object-fit: contain;
   cursor: pointer;
   margin-bottom: 10px;
-  background-color: white;
   transition-duration: var(--animation-duration);
 }
 
