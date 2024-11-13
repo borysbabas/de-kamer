@@ -42,9 +42,8 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 
-const navbar = ref({
-  margin: '50px',
-})
+const navbarMargin = ref("50px");
+
 </script>
 
 <template>
@@ -70,7 +69,7 @@ const navbar = ref({
   background-color: var(--button-important);
   position: fixed;
   width: calc(100vw - (var(--page-padding) * 2));
-  margin: v-bind(navbar.margin) var(--page-padding);
+  margin: v-bind(navbarMargin) var(--page-padding);
   box-sizing: border-box;
   border-radius: 10px;
   display: flex;
