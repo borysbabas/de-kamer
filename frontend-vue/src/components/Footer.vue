@@ -14,9 +14,7 @@
   </footer>
 </template>
 
-
 <style scoped>
-
 /** Styling for the footer section */
 footer {
   background-color: var(--button);
