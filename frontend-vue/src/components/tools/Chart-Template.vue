@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import {
   Chart as ChartJS,
   Title,
@@ -29,45 +29,20 @@ import {
 import { Bar } from 'vue-chartjs'
 import * as chartConfig from '@/components/tools/chartConfig/chartConfig'
 
-let props = defineProps<{
+const props = defineProps<{
   chartData: any[]
-}>();
+}>()
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const options = chartConfig.options
 const data = ref<ChartData<'bar'>>({
   datasets: [],
-})
-// const testDataSet = [
-//   {
-//     data: [
-//       { label: "test 1", value: 10 },
-//       { label: "test 2", value: 20 },
-//       { label: "test 3", value: 30, color: "blue" },
-//       { label: "test 4", value: 40, color: "red" },
-//     ],
-//     title: "test",
-//   }
-// ]
-// let datashow = JSON.parse(JSON.stringify(testDataSet));
-let chartData = ref<any[]>([])
+});
 
-//temp get data
-async function getChartData() {
-  chartData.value = await fetch("http://localhost:3001/affiliation/members/count")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        return data;
-      });
-}
-
-onMounted(async() => {
-  const result = await getChartData()
-  console.log(chartData.value)
-  data.value = chartConfig.generateData(chartData.value)
-})
+watch(() => props.chartData, (newChartData) => {
+  data.value = chartConfig.generateData(newChartData);
+}, { immediate: true });
 </script>
 
 <style scoped>
