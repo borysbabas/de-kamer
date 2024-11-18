@@ -17,7 +17,19 @@
           >{{ key }}</option>
         </select>
       </div>
-      <div id="chart"></div>
+      <div class="chartContainer">
+        <div
+            id="chart"
+            class="apex-chart"
+        ></div>
+        <apex-chart-interface
+            class="apex-interface"
+            v-if="interface"
+            :chartData="dataset[0]"
+      ></apex-chart-interface>
+      </div>
+
+
     </div>
   </div>
 </template>
@@ -27,10 +39,12 @@ import { ref, onMounted, watch } from 'vue'
 import ApexCharts from 'apexcharts'
 import * as apex from '@/components/tools/chartConfig/ApexChartConfig'
 import {c} from "vite/dist/node/types.d-aGj9QkWt";
+import ApexChartInterface from "@/components/tools/chartConfig/Apex-Chart-Interface.vue";
 
 
 const props = defineProps<{
   chartData: any[],
+  interface: boolean
 }>()
 
 let chart: ApexCharts;
@@ -49,7 +63,7 @@ var options = {
   ],
   chart: {
     height: 800,
-    width: '80%',
+    width: '100%',
     type: 'bar',
   },
   plotOptions: {
@@ -80,12 +94,9 @@ onMounted(() => {
   chart.render();
 
   watch(() => props.chartData, (newChartData) => {
-    console.log(props.chartData.length, "test");
     if (props.chartData.length !== 0) {
-      console.log("No data");
       selectedChart.value = Object.keys(props.chartData)[0];
-    const chartinfo = apex.formatData(props.chartData[selectedChart.value]);
-      dataset = apex.normalizeData(chartinfo);
+      dataset = apex.normalizeData(apex.formatData(props.chartData[selectedChart.value]));
       chart.updateSeries(dataset);
       sort();
     }
@@ -93,8 +104,7 @@ onMounted(() => {
 });
 
 function updateChart() {
-  const chartinfo = apex.formatData(props.chartData[selectedChart.value]);
-  dataset = apex.normalizeData(chartinfo);
+  dataset = apex.normalizeData(apex.formatData(props.chartData[selectedChart.value]));
   chart.updateSeries(dataset);
   sorted = true;
   sort();
@@ -102,14 +112,14 @@ function updateChart() {
 
 function sort() {
   if (sorted) {
+    dataset = apex.sortData(dataset, 'asc');
+    chart.updateSeries(dataset);
     sorted = false;
-    const sortedData = apex.sortData(dataset, 'asc');
-    chart.updateSeries(sortedData);
     return;
   }
   sorted = true;
-  const sortedData = apex.sortData(dataset, 'desc');
-  chart.updateSeries(sortedData);
+  dataset = apex.sortData(dataset, 'desc');
+  chart.updateSeries(dataset);
 }
 
 
@@ -164,6 +174,19 @@ function sort() {
   display: flex;
   justify-content: left;
   margin: 10px;
+}
+.chartContainer {
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  margin: 10px;
+}
+.apex-interface {
+  width: 25%;
+}
+.apex-chart {
+  width: 75%;
+  margin-right: 50px;
 }
 
 </style>

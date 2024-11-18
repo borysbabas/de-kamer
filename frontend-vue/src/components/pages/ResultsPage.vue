@@ -1,7 +1,7 @@
 <template>
   <Navbar></Navbar>
   <Results></Results>
-  <ApexChartTemplate :chart-data="result"></ApexChartTemplate>
+  <ApexChartTemplate :chart-data="result" :interface="true"></ApexChartTemplate>
   <Footer></Footer>
 </template>
 
