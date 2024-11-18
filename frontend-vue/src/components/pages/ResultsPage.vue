@@ -17,16 +17,22 @@ let result = ref<any[]>([])
 
 
 async function getChartData() {
-  const data = await fetch("http://localhost:3001/affiliation/members/count")
+  return await fetch("http://localhost:3001/affiliation/members/count")
       .then((response) => response.json())
       .then((data) => {
         return data;
       });
-  return data;
+}
+
+async function getChartData2() {
+  return await fetch("http://localhost:3001/votes/affiliations")
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      });
 }
 onMounted(async() => {
-  result.value = await getChartData()
-  console.log(result)
+  result.value = await getChartData2()
 })
 
 </script>

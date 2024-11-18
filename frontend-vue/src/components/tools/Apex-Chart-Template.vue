@@ -11,6 +11,7 @@
 import { ref, onMounted, watch } from 'vue'
 import ApexCharts from 'apexcharts'
 import * as apex from '@/components/tools/chartConfig/ApexChartConfig'
+import {c} from "vite/dist/node/types.d-aGj9QkWt";
 
 
 const props = defineProps<{
@@ -22,7 +23,7 @@ let dataset: any[] = [];
 let sorted = ref(false);
 
 
-
+// Chart configuration
 var options = {
   series: [
     {
@@ -32,7 +33,8 @@ var options = {
   ],
   chart: {
     height: 800,
-    type: 'bar'
+    width: '80%',
+    type: 'bar',
   },
   plotOptions: {
     bar: {
@@ -62,9 +64,13 @@ onMounted(() => {
   chart.render();
 
   watch(() => props.chartData, (newChartData) => {
-    dataset = apex.normalizeData(props.chartData);
-    chart.updateSeries(dataset);
-    sort();
+    const chartinfo = apex.formatData(props.chartData)
+    console.log(chartinfo, 'chartinfo')
+    if (chartinfo) {
+      dataset = apex.normalizeData(chartinfo);
+      chart.updateSeries(dataset);
+      sort();
+    }
   }, { immediate: true });
 });
 
