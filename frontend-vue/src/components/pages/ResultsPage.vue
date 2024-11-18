@@ -32,7 +32,10 @@ async function getChartData2() {
       });
 }
 onMounted(async() => {
-  result.value = await getChartData2()
+  result.value = {
+    votes: await getChartData(),
+    members: await getChartData2()
+  }
 })
 
 </script>

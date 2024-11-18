@@ -17,7 +17,7 @@
 
 <style scoped>
 .main {
-  min-height: calc(100vh - 150px);
+  //min-height: calc(100vh - 150px);
   object-fit: cover;
   background-color: var(--dark-primary);
   color: var(--light-primary);
