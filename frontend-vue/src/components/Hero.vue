@@ -36,7 +36,7 @@ async function fetchData() {
     const data = await response.json();
     allParties.value = data.map(party => ({
       ...party,
-      imageUrl: party.imageUrl || '../assets/img/dummy200x200.jpg'
+      imageUrl: party.imageUrl || 'https://www.dummyimage.com/200'
     }));
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
@@ -77,27 +77,47 @@ const APP_NAME = import.meta.env.VITE_APP_NAME;
  * @return Array of files from the Wikimedia API
  */
 async function fetchMedia() {
-  const url = 'https://api.wikimedia.org/core/v1/wikipedia/nl/page/Lijst_van_politieke_partijen_in_Nederland/links/media';
+  const url = 'https://api.wikimedia.org/core/v1/wikipedia/nl/page/Lijst_van_politieke_partijen_in_Nederland/links/media?origin=*';
   try {
     const response = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${API_KEY}`,
-        'Api-User-Agent': APP_NAME
-      }
+        'Api-User-Agent': APP_NAME,
+      },
     });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    // [1, 9, 13, 15, 26, 47, 48, 71] The indices of the parties in the media data
     const excludedTitles = ["1rightarrow blue.svg", "Commons-logo.svg", "Evolution of Dutch political parties since 1888.svg", "Flag of the Netherlands.svg", "Leden2018-1.png", "Ledental politieke partijen.png", "OOjs UI icon article-ltr.svg", "OOjs UI icon edit-ltr.svg", "Flag of the Netherlands.svg"];
-    mediaData.value = data.files
+
+    // Filter media files based on the first three letters or the full name of party names
+    const partyNames = allParties.value.map(party => ({
+      prefix: party.affiliationName.slice(0, 3).toLowerCase()
+    }));
+    const mediaFiles = data.files
         .filter((file: any) => !excludedTitles.includes(file.title))
+        .filter((file: any) => partyNames.some(name =>
+            file.title.toLowerCase().includes(name.prefix)
+        ))
         .map((file: any) => ({
           title: file.title,
           url: file.preferred.url,
           descriptionUrl: file.file_description_url
         }));
+
+    // Create an array of parties with their corresponding images
+    mediaData.value = allParties.value.map(party => {
+      const partyName = party.affiliationName.toLowerCase();
+      const images = mediaFiles.filter(file =>
+          file.title.toLowerCase().includes(partyName.slice(0, 3)) ||
+          file.title.toLowerCase().includes(partyName)
+      );
+      return {
+        ...party,
+        images: images
+      };
+    });
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }
@@ -155,7 +175,7 @@ const loadLess = () => {
  * Shortens the name of the party if it is longer than 25 characters.
  *
  * @param {string} name - The name of the party
- * @return {string} The shortened name of the party
+ * @return The shortened name of the party
  */
 const getShortenedName = (name: string) => {
   return name.length > 25 ? name.slice(0, 25) + '...' : name;
@@ -190,8 +210,9 @@ onMounted(() => {
     <!-- Displaying the parties -->
     <div class="parties">
       <div v-for="(party, index) in sortedItems.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
-        <img class="party-img" :alt="mediaData[index]?.title || party.affiliationName"
-             :src="mediaData[index]?.url || '../assets/img/dummy200x200.jpg'"
+
+        <img class="party-img" :alt="mediaData[index]?.title || party.affiliationName" @click="console.log(mediaData)"
+             :src="mediaData[index]?.images[0]?.url || party.imageUrl"
              width="200" height="200">
         <p class="party-votes" v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
           {{ party.affiliationVotes }} stemmen
