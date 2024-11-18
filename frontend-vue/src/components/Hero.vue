@@ -241,6 +241,8 @@ fetchMedia();
   background-color: var(--dark-primary);
   color: var(--light-primary);
   padding: 0 var(--page-padding);
+  width: 100%;
+  box-sizing: border-box;
   position: relative;
   border-bottom: var(--light-primary) 1px solid;
   z-index: 0;
