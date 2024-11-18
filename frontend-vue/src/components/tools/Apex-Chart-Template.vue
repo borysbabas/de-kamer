@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div>
+      <button @click="sort">Sort</button>
+    </div>
     <div id="chart"></div>
   </div>
 </template>
@@ -15,6 +18,7 @@ const props = defineProps<{
 }>()
 
 let chart: ApexCharts;
+let dataset: any[] = [];
 
 
 
@@ -56,13 +60,15 @@ onMounted(() => {
   chart.render();
 
   watch(() => props.chartData, (newChartData) => {
-    const dataset = apex.normalizeData(props.chartData);
-    console.log(dataset);
-    const sortedData = apex.sortData(dataset);
-    console.log(sortedData);
-    chart.updateSeries(sortedData);
+    dataset = apex.normalizeData(props.chartData);
+    chart.updateSeries(dataset);
   }, { immediate: true });
 });
+
+function sort() {
+  const sortedData = apex.sortData(dataset);
+  chart.updateSeries(sortedData);
+}
 
 
 </script>
