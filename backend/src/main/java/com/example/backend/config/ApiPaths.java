@@ -9,6 +9,7 @@ public class ApiPaths {
 
     public static final String VOTES = "/votes";
     public static final String AFFILIATION_SERVICE_VOTES = VOTES + "/affiliations";
+    public static final String CONSTITUENCY_SERVICE_VOTES = VOTES + "/constituencies";
 
     public static final String AFFILIATION_SERVICE_GETBYNAME = "/get-by-name/{name}";
 
