@@ -5,6 +5,8 @@ import com.example.backend.repositories.ConstituencyVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ConstituencyVotesService {
     private final ConstituencyVotesRepository constituencyVotesRepository;
@@ -16,6 +18,10 @@ public class ConstituencyVotesService {
 
     public void addConstituencyVotes(ConstituencyVotes constituencyVotes) {
         constituencyVotesRepository.save(constituencyVotes);
+    }
+
+    public List<ConstituencyVotes> getAllConstituencyVotes() {
+        return constituencyVotesRepository.findAll();
     }
 
 }
