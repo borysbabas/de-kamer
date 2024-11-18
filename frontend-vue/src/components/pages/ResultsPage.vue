@@ -33,8 +33,8 @@ async function getChartData2() {
 }
 onMounted(async() => {
   result.value = {
-    votes: await getChartData(),
-    members: await getChartData2()
+    members: await getChartData(),
+    votes: await getChartData2()
   }
 })
 
