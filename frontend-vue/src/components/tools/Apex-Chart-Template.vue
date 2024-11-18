@@ -19,6 +19,7 @@ const props = defineProps<{
 
 let chart: ApexCharts;
 let dataset: any[] = [];
+let sorted = false;
 
 
 
@@ -66,7 +67,14 @@ onMounted(() => {
 });
 
 function sort() {
-  const sortedData = apex.sortData(dataset);
+  if (sorted) {
+    sorted = false;
+    const sortedData = apex.sortData(dataset, 'asc');
+    chart.updateSeries(sortedData);
+    return;
+  }
+  sorted = true;
+  const sortedData = apex.sortData(dataset, 'desc');
   chart.updateSeries(sortedData);
 }
 

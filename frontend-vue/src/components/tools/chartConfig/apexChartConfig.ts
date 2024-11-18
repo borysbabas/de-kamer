@@ -17,15 +17,25 @@ export const normalizeData = (data: any) => {
     return formatedData;
 }
 
-export const sortData = (dataset: any) => {
+export const sortData = (dataset: any, order:string) => {
     console.log("sort", dataset.map((item: any) => item.data));
-    const sortedData = dataset.map((item: any) => item.data).flat().sort((a: any, b: any) => b.y - a.y);
-    return [
-        {
-            name: dataset[0].name,
-            data: sortedData
-        }];
+    if (order === 'asc') {
+        const sortedData = dataset.map((item: any) => item.data).flat().sort((a: any, b: any) => a.y - b.y);
+        return [
+            {
+                name: dataset[0].name,
+                data: sortedData
+            }];
+    } else if (order === 'desc') {
+        const sortedData = dataset.map((item: any) => item.data).flat().sort((a: any, b: any) => b.y - a.y);
+        return [
+            {
+                name: dataset[0].name,
+                data: sortedData
+            }];
+    }
 }
+
 
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
