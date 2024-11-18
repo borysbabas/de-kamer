@@ -4,7 +4,13 @@ function getRandomInt() {
 
 export const options = {
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    indexAxis: 'y',
+    scales: {
+        x: {
+            beginAtZero: true
+        },
+    }
 }
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
@@ -30,3 +36,20 @@ export const generateData = (data: any) => {
         datasets: [dataset]
     };
 };
+
+export const generateData2 = (data: any) => {
+    const labels = data.map((item: any) => item.affiliationName);
+    const dataset = [];
+    data.forEach((item: any) => {
+    const dataItem = {
+        label: item.affiliationName,
+        data: [item.memberCount],
+        backgroundColor: getRandomColor()
+    };
+    dataset.push(dataItem);
+});
+    return {
+        labels: data.map((item: any) => item.affiliationName),
+        datasets: dataset
+    }
+}

@@ -40,8 +40,11 @@ const data = ref<ChartData<'bar'>>({
   datasets: [],
 });
 
+
 watch(() => props.chartData, (newChartData) => {
-  data.value = chartConfig.generateData(newChartData);
+  const olddata = chartConfig.generateData(newChartData);
+  data.value = chartConfig.generateData2(newChartData);
+  console.log(data.value, olddata);
 }, { immediate: true });
 </script>
 
