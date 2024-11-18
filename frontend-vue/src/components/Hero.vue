@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue';
+import {computed, onMounted, ref, watch} from 'vue';
 
 const options = [
   {label: 'Meest verkozen partijen', value: 'most_parties'},
@@ -20,13 +20,6 @@ const triggerDropdown = () => {
 const allParties = ref<any[]>([]);
 const mediaData = ref<any[]>([]);
 
-/**
- * Fetches the data from the API and sets the allParties ref to the fetched data.
- * If the fetch operation fails, an error is logged to the console.
- *
- * @throws {Error} If the fetch operation fails
- * @return Array of parties from the API
- */
 async function fetchData() {
   try {
     const response = await fetch("http://localhost:3001/votes/affiliations");
@@ -44,13 +37,6 @@ async function fetchData() {
   return allParties.value;
 }
 
-/**
- * Fetches the data from the API and sets the allCandidates ref to the fetched data.
- * If the fetch operation fails, an error is logged to the console.
- *
- * @throws {Error} If the fetch operation fails
- * @return Array of candidates and the votes cast from the API
- */
 async function fetchCandidateVotes() {
   try {
     const response = await fetch("http://localhost:3001/votes/candidates");
@@ -69,13 +55,6 @@ const allCandidates = ref<any[]>([]);
 const API_KEY = import.meta.env.VITE_API_KEY;
 const APP_NAME = import.meta.env.VITE_APP_NAME;
 
-/**
- * Fetches the media data from the Wikimedia API and sets the mediaData ref to the fetched data.
- * If the fetch operation fails, an error is logged to the console.
- *
- * @throws {Error} If the fetch operation fails
- * @return Array of files from the Wikimedia API
- */
 async function fetchMedia() {
   const url = 'https://api.wikimedia.org/core/v1/wikipedia/nl/page/Lijst_van_politieke_partijen_in_Nederland/links/media?origin=*';
   try {
@@ -91,7 +70,6 @@ async function fetchMedia() {
     const data = await response.json();
     const excludedTitles = ["1rightarrow blue.svg", "Commons-logo.svg", "Evolution of Dutch political parties since 1888.svg", "Flag of the Netherlands.svg", "Leden2018-1.png", "Ledental politieke partijen.png", "OOjs UI icon article-ltr.svg", "OOjs UI icon edit-ltr.svg", "Flag of the Netherlands.svg"];
 
-    // Filter media files based on the first three letters or the full name of party names
     const partyNames = allParties.value.map(party => ({
       prefix: party.affiliationName.slice(0, 3).toLowerCase()
     }));
@@ -106,7 +84,6 @@ async function fetchMedia() {
           descriptionUrl: file.file_description_url
         }));
 
-    // Create an array of parties with their corresponding images
     mediaData.value = allParties.value.map(party => {
       const partyName = party.affiliationName.toLowerCase();
       const images = mediaFiles.filter(file =>
@@ -128,11 +105,6 @@ const visibleBlocks = ref(12);
 const isMoreVisible = ref(true);
 const isLessVisible = ref(false);
 
-/**
- * Sorts the parties based on the selected option.
- *
- * @return Array of sorted parties
- */
 const sortedItems = computed(() => {
   switch (selectedOption.value) {
     case 'most_parties':
@@ -148,10 +120,6 @@ const sortedItems = computed(() => {
   }
 });
 
-/**
- * Loads more party blocks when the 'Laad meer' button is clicked.
- * If all party blocks are visible, the 'Laad meer' button is hidden.
- */
 const loadMore = () => {
   visibleBlocks.value += 25;
   if (visibleBlocks.value >= allParties.value.length) {
@@ -160,10 +128,6 @@ const loadMore = () => {
   }
 };
 
-/**
- * Loads less party blocks when the 'Laad minder' button is clicked.
- * If not all party blocks are visible, the 'Laad minder' button is hidden.
- */
 const loadLess = () => {
   visibleBlocks.value = 12;
   isMoreVisible.value = true;
@@ -171,12 +135,6 @@ const loadLess = () => {
   window.scrollTo({top: 0, behavior: 'smooth'});
 };
 
-/**
- * Shortens the name of the party if it is longer than 25 characters.
- *
- * @param {string} name - The name of the party
- * @return The shortened name of the party
- */
 const getShortenedName = (name: string) => {
   return name.length > 25 ? name.slice(0, 25) + '...' : name;
 };
@@ -184,6 +142,10 @@ const getShortenedName = (name: string) => {
 onMounted(() => {
   fetchData();
   fetchCandidateVotes();
+  fetchMedia();
+});
+
+watch(selectedOption, () => {
   fetchMedia();
 });
 </script>
@@ -194,7 +156,6 @@ onMounted(() => {
   <link href="https://fonts.googleapis.com/css2?family=Beiruti:wght@200..900&display=swap" rel="stylesheet">
 
   <section class="first main">
-    <!-- Dropdown title -->
     <div class="dropdown">
       <select v-model="selectedOption" class="dropdown-select" ref="dropdownSelect">
         <option v-for="option in options" :key="option.value" :value="option.value"
@@ -207,10 +168,8 @@ onMounted(() => {
       </svg>
     </div>
 
-    <!-- Displaying the parties -->
     <div class="parties">
       <div v-for="(party, index) in sortedItems.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
-
         <img class="party-img" :alt="mediaData[index]?.title || party.affiliationName" @click="console.log(mediaData)"
              :src="mediaData[index]?.images[0]?.url || party.imageUrl"
              width="200" height="200">
@@ -230,7 +189,6 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- 'Load more' section -->
     <div v-if="isMoreVisible" class="more" @click="loadMore">
       <h2 id="more-title">Laad meer</h2>
       <svg xmlns="http://www.w3.org/2000/svg" class="angle-down-icon" id="more-icon" viewBox="0 0 448 512">
@@ -239,7 +197,6 @@ onMounted(() => {
       </svg>
     </div>
 
-    <!-- 'Load less' section -->
     <div v-if="isLessVisible" class="less" @click="loadLess">
       <h2 id="less-title">Laad minder</h2>
       <svg xmlns="http://www.w3.org/2000/svg" class="angle-up-icon" id="less-icon" viewBox="0 0 448 512">
@@ -249,7 +206,6 @@ onMounted(() => {
     </div>
   </section>
   <section class="main">
-    <!-- Description section -->
     <div class="desc">
       <div class="desc-text">
         <h1 id="desc-title">
@@ -289,7 +245,6 @@ onMounted(() => {
     </div>
   </section>
   <section class="last main">
-    <!-- Graph section -->
     <div class="graph">
       <h1 id="graph-title">
         Stemmenverdeling Tweede Kamer
@@ -305,7 +260,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/** Styling for the main page and layout of the hero section */
 .main {
   min-height: calc(100vh - 150px);
   object-fit: cover;
@@ -322,7 +276,6 @@ onMounted(() => {
   margin: 0 auto;
 }
 
-/** Styling for the dropdown */
 .dropdown {
   display: flex;
   align-items: center;
@@ -331,7 +284,6 @@ onMounted(() => {
   margin-bottom: 30px;
 }
 
-/* Styling for the dropdown */
 .dropdown-select {
   font-size: 38px;
   appearance: none;
@@ -374,7 +326,6 @@ onMounted(() => {
   cursor: pointer;
 }
 
-/** Styling for the parties display section */
 .parties {
   display: flex;
   gap: 40px;
@@ -400,7 +351,6 @@ onMounted(() => {
   text-align: center;
 }
 
-/** Styling for the load more part */
 .more, .less {
   padding-top: 30px;
   display: flex;
@@ -417,7 +367,6 @@ onMounted(() => {
   cursor: pointer;
 }
 
-/** Styling for the description section */
 .desc {
   display: flex;
   justify-content: space-between;
@@ -447,7 +396,6 @@ onMounted(() => {
   border-radius: 20px;
 }
 
-/** Styling for the graph section */
 .last {
   padding-bottom: 50px;
   border-bottom: none;
