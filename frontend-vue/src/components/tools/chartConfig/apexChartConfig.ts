@@ -4,12 +4,12 @@
 export const normalizeData = (data: any) => {
     const formatedData = [
         {
-            name: 'Count',
+            name: data.name ? data.name : 'Count',
             data: data.map((item: any) => {
                 return {
                     x: item.affiliationName,
                     y: item.memberCount,
-                    fillColor: getRandomColor(),
+                    fillColor: item.color? item.color : getRandomColor(),
                 }
             })
         }

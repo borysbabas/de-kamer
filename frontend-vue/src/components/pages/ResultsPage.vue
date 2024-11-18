@@ -2,7 +2,6 @@
   <Navbar></Navbar>
   <Results></Results>
   <ApexChartTemplate :chart-data="result"></ApexChartTemplate>
-<!--  <ChartTemplate :chart-data="result"></ChartTemplate>-->
   <Footer></Footer>
 </template>
 
@@ -10,7 +9,6 @@
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import Results from "@/components/Results.vue";
-import ChartTemplate from "@/components/tools/Chart-Template.vue";
 import ApexChartTemplate from "@/components/tools/Apex-Chart-Template.vue";
 import {onMounted, ref} from "vue";
 

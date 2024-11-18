@@ -19,7 +19,7 @@ const props = defineProps<{
 
 let chart: ApexCharts;
 let dataset: any[] = [];
-let sorted = false;
+let sorted = ref(false);
 
 
 
@@ -53,6 +53,7 @@ var options = {
       show: true
     }
   },
+
 };
 
 
@@ -63,6 +64,7 @@ onMounted(() => {
   watch(() => props.chartData, (newChartData) => {
     dataset = apex.normalizeData(props.chartData);
     chart.updateSeries(dataset);
+    sort();
   }, { immediate: true });
 });
 
