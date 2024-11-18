@@ -13,4 +13,7 @@ public class ApiPaths {
 
     public static final String AFFILIATION_SERVICE_GETBYNAME = "/get-by-name/{name}";
 
+    private static final String MUNICIPALITY_SERVICE = "/municipality";
+    public static final String MUNICIPALITY_ALL = MUNICIPALITY_SERVICE + "/all";
+
 }
