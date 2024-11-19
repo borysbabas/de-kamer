@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.entities.Constituency;
 import com.example.backend.entities.ConstituencyVotes;
 import com.example.backend.repositories.ConstituencyVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class ConstituencyVotesService {
         constituencyVotesRepository.save(constituencyVotes);
     }
 
-    public List<ConstituencyVotes> getAllConstituencyVotes() {
-        return constituencyVotesRepository.findAll();
+    public List<ConstituencyVotes> getConstituencyVotesByConstituency(Constituency constituency) {
+        return constituencyVotesRepository.findByConstituencyOrderByTotalVotesDesc(constituency);
     }
 
 }
