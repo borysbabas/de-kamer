@@ -1,4 +1,8 @@
+// adds id to objects in chart
+let curretId = 0;
+
 export const formatData = (data: any) => {
+    curretId = 0;
     const type = findType(data[0]);
     const formatData = data.map((item: any) => {
         const value = type === "Members" ? item.memberCount : item.affiliationVotes;
@@ -17,6 +21,7 @@ function findType(item: any) {
 
 function constructObject(itemName: string, itemValue: number, color?: string) {
     return {
+        id: curretId++,
         itemName,
         itemValue,
         color: color || getRandomColor()
@@ -31,6 +36,8 @@ export const normalizeData = (data: any) => {
                     x: item.itemName,
                     y: item.itemValue,
                     fillColor: item.color ? item.color : getRandomColor(),
+                    id: item.id,
+                    hidden: false,
                 }
             })
         }
@@ -48,4 +55,13 @@ function getRandomColor() {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+}
+export const hideHighlight = (dataset: any, id: number) => {
+    const highlightedData = dataset[0].data.map((item: any) => {
+        return {
+            ...item,
+            fillColor: item.id === id ? '#000000' : item.fillColor
+        }
+    });
+    return [{ name: dataset[0].name, data: highlightedData }];
 }

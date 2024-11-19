@@ -7,8 +7,8 @@
           class="items"
       > {{ item.x || "Unknown" }}
         <div>
-          <button class="item-button" @click="hideHightlight(key, item.x)">Hightlight / Hide</button>
-          <button class="item-button" @click="select(key, item.x)">Compare</button>
+          <button class="item-button" @click="hideHightlight(item.id)">Hightlight / Hide</button>
+          <button class="item-button" @click="select(key, item.x, item.id)">Compare</button>
         </div></p>
     </div>
 
@@ -16,18 +16,23 @@
 
 </template>
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, defineEmits } from 'vue'
 
 const props = defineProps<{
-  chartData: any[],
+  chartData: any[{}],
   interface: boolean
 }>()
 
-function hideHightlight(affiliationIndex: number, x: string) {
-  console.log("Hightlight / Hide", x, affiliationIndex)
+const emit = defineEmits({
+  hideHightlight: (Index: number, x: string, id: number) => true,
+  select: (Index: number, x: string, id: number) => true
+})
+
+function hideHightlight(id: number) {
+  emit("hideHightlight", id)
 }
-function select(affiliationIndex: number, x: string) {
-  console.log("Compare", x, affiliationIndex)
+function select(affiliationIndex: number, x: string, id: number) {
+  emit("select", affiliationIndex, x, id)
 }
 
 

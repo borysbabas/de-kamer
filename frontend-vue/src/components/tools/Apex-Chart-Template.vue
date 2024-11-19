@@ -26,6 +26,8 @@
             class="apex-interface"
             v-if="interface"
             :chartData="dataset[0]"
+            @hide-hightlight="hideHightlight"
+            @select="select"
       ></apex-chart-interface>
       </div>
 
@@ -38,7 +40,6 @@
 import { ref, onMounted, watch } from 'vue'
 import ApexCharts from 'apexcharts'
 import * as apex from '@/components/tools/chartConfig/ApexChartConfig'
-import {c} from "vite/dist/node/types.d-aGj9QkWt";
 import ApexChartInterface from "@/components/tools/chartConfig/Apex-Chart-Interface.vue";
 
 
@@ -62,7 +63,6 @@ var options = {
     }
   ],
   chart: {
-    height: 800,
     width: '100%',
     type: 'bar',
   },
@@ -92,12 +92,10 @@ var options = {
 onMounted(() => {
   chart = new ApexCharts(document.querySelector("#chart"), options);
   chart.render();
-
   watch(() => props.chartData, (newChartData) => {
     if (props.chartData.length !== 0) {
       selectedChart.value = Object.keys(props.chartData)[0];
-      dataset = apex.normalizeData(apex.formatData(props.chartData[selectedChart.value]));
-      chart.updateSeries(dataset);
+      updateChart();
       sort();
     }
   }, { immediate: true });
@@ -107,7 +105,6 @@ function updateChart() {
   dataset = apex.normalizeData(apex.formatData(props.chartData[selectedChart.value]));
   chart.updateSeries(dataset);
   sorted = true;
-  sort();
 }
 
 function sort() {
@@ -120,6 +117,14 @@ function sort() {
   sorted = true;
   dataset = apex.sortData(dataset, 'desc');
   chart.updateSeries(dataset);
+}
+
+function hideHightlight(id: number) {
+  dataset = apex.hideHighlight(dataset, id);
+  chart.updateSeries(dataset);
+}
+function select(affiliationIndex: number, x: string, id: number) {
+  console.log("Compare", id, "id")
 }
 
 
