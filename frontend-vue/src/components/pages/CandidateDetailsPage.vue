@@ -1,52 +1,118 @@
 <script setup lang="ts">
 import Navbar from "@/components/Navbar.vue";
-import Footer from "@/components/Footer.vue"
-import {onMounted, ref, watch} from "vue";
-import {useRoute} from "vue-router";
+import Footer from "@/components/Footer.vue";
+import { onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+import { Chart, registerables } from "chart.js";
+
+Chart.register(...registerables);
 
 const route = useRoute();
-const candidateId= ref(null)
+const candidateId = ref(null);
+const municipalityData = ref<any[]>([]);
+
 const fetchedData = ref({
-
   candidateId: "",
-    firstName: "",
-    prefix: "",
-    lastName: "",
-    affiliationName: "",
-  votes: ""
-})
+  firstName: "",
+  prefix: "",
+  lastName: "",
+  affiliationName: "",
+  votes: "",
+});
 
-async function fetchCandidate(){
-  candidateId.value=route.params.candidateId
-  console.log(candidateId.value)
-  if(candidateId.value) {
-    await fetch(`http://localhost:3001/candidates/${candidateId.value}`).then(response => response.json().then(json => fetchedData.value = json))
-  }
-  else{
-    console.log("error")
+async function fetchCandidate() {
+  candidateId.value = route.params.candidateId;
+  if (candidateId.value) {
+    const response = await fetch(
+        `http://localhost:3001/candidates/${candidateId.value}`
+    );
+    const json = await response.json();
+    fetchedData.value = json;
+  } else {
+    console.log("error");
   }
 }
 
-onMounted(  ()=>{
-  fetchCandidate()
-})
+function createChart() {
+  const dataArray = municipalityData.value;
 
-watch(()=>route.params.candidateId,(changedCandidateId)=>{
-  candidateId.value = changedCandidateId;
-  fetchCandidate()
-})
+  const labels = dataArray.map((municipality: { municipalityName: string }) => municipality.municipalityName);
+  const data = dataArray.map((municipality: { totalVotes: number }) => municipality.totalVotes);
+
+  console.log("Labels:", labels);
+  console.log("Data:", data);
+
+  const ctx = document.getElementById("municipalityChart") as HTMLCanvasElement;
+
+  if (window.myChart instanceof Chart) {
+    window.myChart.destroy();
+  }
+
+  window.myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Aantal stemmen",
+          data: data,
+          backgroundColor: "rgba(54, 162, 235, 0.2)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          type: "linear",
+        },
+      },
+    },
+  });
+}
+
+async function fetchMunicipalityData() {
+  candidateId.value = route.params.candidateId;
+  if (candidateId.value) {
+    const response = await fetch(
+        `http://localhost:3001/municipality/${candidateId.value}`
+    );
+    const json = await response.json();
+    municipalityData.value = json;
+    createChart();
+  }
+}
+
+onMounted(() => {
+  fetchCandidate();
+  fetchMunicipalityData();
+});
+
+// Kijk naar veranderingen in de candidateId
+watch(
+    () => route.params.candidateId,
+    (changedCandidateId) => {
+      candidateId.value = changedCandidateId;
+      fetchCandidate();
+      fetchMunicipalityData();
+    }
+);
 </script>
 
 <template>
   <Navbar></Navbar>
-  <section class=" main">
+  <section class="main">
     <div class="container">
       <div class="wrapper">
         <H1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
           {{ fetchedData.lastName }}</H1>
-        <H2 v-if="fetchedData.gender!==``">geslacht: {{fetchedData.gender}}</H2>
-        <H2> Aantal stemmen op  {{fetchedData.name}}: {{fetchedData.votes}}</H2>
+        <H2 v-if="fetchedData.gender !== ``">geslacht: {{ fetchedData.gender }}</H2>
+        <H2> Aantal stemmen op  {{ fetchedData.name }}: {{ fetchedData.votes }}</H2>
         <H2>Partij: {{ fetchedData.affiliationName }}</H2>
+        <canvas id="municipalityChart"></canvas>
       </div>
     </div>
   </section>
@@ -64,7 +130,7 @@ watch(()=>route.params.candidateId,(changedCandidateId)=>{
   z-index: 0;
 }
 
-.container{
+.container {
   padding-top: 160px;
 }
 </style>
