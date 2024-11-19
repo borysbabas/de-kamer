@@ -37,7 +37,8 @@ export const normalizeData = (data: any) => {
                     y: item.itemValue,
                     fillColor: item.color ? item.color : getRandomColor(),
                     id: item.id,
-                    hidden: false,
+                    state: "show",
+                    hiddenValue: { y: item.itemValue, x: item.itemName}
                 }
             })
         }
@@ -58,10 +59,28 @@ function getRandomColor() {
 }
 export const hideHighlight = (dataset: any, id: number) => {
     const highlightedData = dataset[0].data.map((item: any) => {
+        let newState;
+        if (item.id === id) {
+            switch (item.state) {
+                case 'show':
+                    newState = 'highlighted';
+                    break;
+                case 'highlighted':
+                    newState = 'hidden';
+                    break;
+                default:
+                    newState = 'show';
+            }
+        } else {
+            newState = item.state;
+        }
         return {
             ...item,
-            fillColor: item.id === id ? '#000000' : item.fillColor
-        }
+            fillColor: newState === 'highlighted' ? '#000000' : newState === 'show' ? item.fillColor : getRandomColor(),
+            state: newState,
+            y: newState === 'hidden' ? 0 : item.hiddenValue ? item.hiddenValue.y : item.y,
+            x: newState === 'hidden' ? '' : item.hiddenValue ? item.hiddenValue.x : item.x
+        };
     });
     return [{ name: dataset[0].name, data: highlightedData }];
-}
+};

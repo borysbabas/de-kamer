@@ -122,9 +122,12 @@ function sort() {
 function hideHightlight(id: number) {
   dataset = apex.hideHighlight(dataset, id);
   chart.updateSeries(dataset);
+  sorted = !sorted;
+  sort();
 }
-function select(affiliationIndex: number, x: string, id: number) {
-  console.log("Compare", id, "id")
+function select(id: number) {
+  const selectedItem = dataset[0].data.find(item => item.id === id);
+  console.log("Selected Item:", selectedItem);
 }
 
 

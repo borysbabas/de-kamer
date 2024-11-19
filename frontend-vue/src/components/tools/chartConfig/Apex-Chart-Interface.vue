@@ -31,8 +31,8 @@ const emit = defineEmits({
 function hideHightlight(id: number) {
   emit("hideHightlight", id)
 }
-function select(affiliationIndex: number, x: string, id: number) {
-  emit("select", affiliationIndex, x, id)
+function select(id: number) {
+  emit("select", id)
 }
 
 
