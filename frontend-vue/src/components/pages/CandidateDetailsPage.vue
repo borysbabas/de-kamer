@@ -1,3 +1,18 @@
+<template>
+  <Navbar></Navbar>
+  <section class=" main">
+    <div class="container">
+      <div class="wrapper">
+        <H1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
+          {{ fetchedData.lastName }}</H1>
+        <H2 v-if="fetchedData.gender!==``">geslacht: {{fetchedData.gender}}</H2>
+        <H2> Aantal stemmen op  {{fetchedData.name}}: {{fetchedData.votes}}</H2>
+        <H2>Partij: {{ fetchedData.affiliationName }}</H2>
+      </div>
+    </div>
+  </section>
+    <Footer></Footer>
+</template>
 <script setup lang="ts">
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue"
