@@ -52,6 +52,21 @@ watch(()=>route.params.candidateId,(changedCandidateId)=>{
 })
 </script>
 
+<template>
+  <Navbar></Navbar>
+  <section class=" main">
+    <div class="container">
+      <div class="wrapper">
+        <H1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
+          {{ fetchedData.lastName }}</H1>
+        <H2>Partij: {{ fetchedData.affiliationName }}</H2>
+        <h2>Aantal stemmen: {{ fetchedData.votes }}</h2>
+      </div>
+    </div>
+  </section>
+  <Footer></Footer>
+</template>
+
 <style scoped>
 .main {
   min-height: calc(100vh - 56px);
