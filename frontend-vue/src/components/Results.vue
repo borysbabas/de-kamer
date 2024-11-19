@@ -1,13 +1,15 @@
-<script setup lang="ts">
-import CompareMunicipalities from "@/components/CompareMunicipalities.vue";
-</script>
-
 <template>
   <section class="first main">
     <h1>Uitslagen</h1>
     <compare-municipalities></compare-municipalities>
   </section>
 </template>
+
+<script setup lang="ts">
+
+
+import CompareMunicipalities from "@/components/CompareMunicipalities.vue";
+</script>
 
 <style scoped>
 .main {

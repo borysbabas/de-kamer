@@ -5,44 +5,28 @@
     </svg>
     <input type="text" placeholder="Amsterdam" @input="onSearchInput">
   </div>
+  <div id="search-result">
+    <p v-for="(_, index) in 10" :key="index">{{municipalityList[index]}}</p>
+  </div>
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-  import type {Municipality} from "@/components/types/Municipality";
+import {useMunicipalities} from "@/composables/useMunicipalities";
 
-  const municipalityList = ref([])
-  const BACKEND = "http://localhost:3001";
+const {municipalityList} = useMunicipalities();
 
-  function onSearchInput(e: Event) {
-    const inputValue: string = (e.currentTarget as HTMLInputElement).value;
-    console.log(inputValue);
+let timer;
+function onSearchInput(e: Event) {
+  if (timer) {
+    clearTimeout(timer);
   }
+  timer = setTimeout(() => {
+    console.log((e.target as HTMLInputElement).value);
+  }, 500);
+}
 
-  async function fetchMunicipalities(): Promise<void> {
-    try {
-      const result = await fetch(BACKEND + "/municipality/all", {
-        method: "GET"
-      });
 
-      if (!result.ok) {
-        return;
-      }
 
-      const municipalities: Municipality[] = await result.json();
-      if (municipalities.length > 0) {
-        municipalities.forEach((municipality: Municipality) => {
-          municipalityList.value.push(municipality);
-        });
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  onMounted(() => {
-    void fetchMunicipalities();
-  })
 </script>
 
 <style scoped>

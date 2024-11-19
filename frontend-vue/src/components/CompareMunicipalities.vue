@@ -1,6 +1,11 @@
 <script setup lang="ts">
 
 import MunicipalitySearch from "@/components/MunicipalitySearch.vue";
+import {useMunicipalities} from "@/composables/useMunicipalities";
+
+const {municipalityList} = useMunicipalities();
+console.log(municipalityList);
+
 </script>
 
 <template>
@@ -11,5 +16,9 @@ import MunicipalitySearch from "@/components/MunicipalitySearch.vue";
 <style scoped>
   h2 {
     margin-bottom: 8px;
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
   }
 </style>
