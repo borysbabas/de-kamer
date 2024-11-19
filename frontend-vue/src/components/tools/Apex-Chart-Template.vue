@@ -25,6 +25,7 @@
         <apex-chart-interface
             class="apex-interface"
             v-if="interface"
+
             :chartData="dataset[0]"
             @hide-hightlight="hideHightlight"
             @select="select"
@@ -45,7 +46,9 @@ import ApexChartInterface from "@/components/tools/chartConfig/Apex-Chart-Interf
 
 const props = defineProps<{
   chartData: any[],
-  interface: boolean
+  interface: boolean,
+  chartType?: string,
+  chartTypeInfo?: number,
 }>()
 
 let chart: ApexCharts;
@@ -59,17 +62,17 @@ var options = {
   series: [
     {
       name: 'Data',
-      data: [],
+      data: [1, 2],
     }
   ],
   chart: {
     width: '100%',
-    type: 'bar',
+    type: "bar",
   },
   plotOptions: {
     bar: {
       horizontal: true,
-    }
+    },
   },
   colors: ['#00E396'],
   dataLabels: {

@@ -1,18 +1,17 @@
 <template>
   <div class="interface-background">
     <div class="interface-layers">
-      <p
+      <div
           v-for="(item, key) of chartData?.data"
           :key="chartData.data.indexOf(item)"
           class="items"
       > {{ item.x || "Unknown" }}
-        <div style="display: flex">
-          <div class="color-square" :style="{ backgroundColor: item.fillColor }"></div>
+        <p style="display: flex">
+          <a class="color-square" :style="{ backgroundColor: item.fillColor }"></a>
           <button class="item-button" @click="hideHightlight(item.id)">Hightlight / Hide</button>
           <button class="item-button" @click="select(key, item.x, item.id)">Compare</button>
-        </div></p>
+        </p></div>
     </div>
-
   </div>
 
 </template>
@@ -21,7 +20,6 @@ import { ref, onMounted, watch, defineEmits } from 'vue'
 
 const props = defineProps<{
   chartData: any[{}],
-  interface: boolean
 }>()
 
 const emit = defineEmits({
