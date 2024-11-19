@@ -2,6 +2,8 @@ import type {Municipality} from "@/components/types/Municipality";
 import {onMounted, ref} from "vue";
 const BACKEND = "http://localhost:3001";
 
+const selectedList = ref<Municipality[]>([]);
+
 export function useMunicipalities() {
     const municipalityList = ref<Municipality[]>([]);
     const isLoading = ref(false)
@@ -39,4 +41,30 @@ export function useMunicipalities() {
         isLoading,
         error
     }
+}
+
+export async function getMunicipalityById(id: number) {
+    const result = await fetch(BACKEND + `/municipality/id/${id}`, {
+        method: "GET"
+    });
+    if (result.status !== 200) {
+        return;
+    }
+
+    return await result.json();
+}
+
+export function addMunicipality(value: Municipality): void {
+    selectedList.value.push(value);
+}
+
+export function removeMunicipality(value: Municipality): void {
+    const index: number = selectedList.value.indexOf(value);
+    if (index > -1) {
+        selectedList.value.splice(index, 1);
+    }
+}
+
+export function getSelectedMunicipalities() {
+    return selectedList;
 }

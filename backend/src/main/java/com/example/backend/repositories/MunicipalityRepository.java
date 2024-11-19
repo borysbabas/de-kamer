@@ -12,4 +12,5 @@ import java.util.List;
 public interface MunicipalityRepository extends JpaRepository<Municipality, Long> {
     @Query("SELECT m FROM Municipality m ORDER BY m.municipalityName")
     List<Municipality> findAllAndSort();
+    Municipality getMunicipalitiesByMunicipalityId(Long municipalityId);
 }

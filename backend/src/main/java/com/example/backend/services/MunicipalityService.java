@@ -24,4 +24,8 @@ public class MunicipalityService {
     public List<Municipality> getAllMunicipalities() {
         return municipalityRepository.findAllAndSort();
     }
+
+    public Municipality getMunicipalityByMunicipalityId(long id) {
+        return this.municipalityRepository.getMunicipalitiesByMunicipalityId(id);
+    }
 }

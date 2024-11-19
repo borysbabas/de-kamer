@@ -7,36 +7,35 @@
       <input type="text" placeholder="Amsterdam" @input="onSearchInput">
     </div>
     <div class="search-result" v-if="filteredList.length >= 1">
-      <p v-for="municipality in filteredList" :key="municipality.municipalityId">{{municipality.name}}</p>
+      <p v-for="municipality in itemsInFilterList" :key="municipality.municipalityId" @click="addMunicipality(municipality)">{{municipality.name}}</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {useMunicipalities} from "@/composables/useMunicipalities";
-import {ref, toRaw} from "vue";
+import {addMunicipality, getSelectedMunicipalities, useMunicipalities} from "@/composables/useMunicipalities";
+import {computed, ref, toRaw} from "vue";
 import type {Municipality} from "@/components/types/Municipality";
 
 const {municipalityList} = useMunicipalities();
 const filteredList = ref<Municipality[]>([]);
 
-let timer;
+// Filter out the selected municipalities from the search results
+const selectedList: Municipality[] = getSelectedMunicipalities()
+const itemsInFilterList = computed(() => {
+  const selectedIds = selectedList.value.map(item => item.id);
+  return filteredList.value.filter(item => !selectedIds.includes(item.id));
+});
+
 function onSearchInput(e: Event) {
   const value = (e.target as HTMLInputElement).value;
-
-  if (timer) {
-    clearTimeout(timer);
-  }
 
   if (value.trim() === "") {
     filteredList.value = [];
     return;
   }
-
-  timer = setTimeout(() => {
-    filteredList.value = [];
-    filteredList.value.push(...filterMunicipalities(value));
-  }, 300);
+  filteredList.value = [];
+  filteredList.value.push(...filterMunicipalities(value));
 }
 
 function filterMunicipalities(filter: string) {
@@ -77,7 +76,7 @@ function filterMunicipalities(filter: string) {
   }
 
   .search-result {
-    position: absolute;
+    position: relative;
     left: 0;
     right: 0;
     background-color: #fff;

@@ -1,11 +1,11 @@
 package com.example.backend.controller;
 
 import com.example.backend.config.ApiPaths;
-import com.example.backend.entities.Municipality;
 import com.example.backend.models.MunicipalityModel;
 import com.example.backend.services.MunicipalityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -27,5 +27,10 @@ public class MunicipalityController {
             municipalityModels.add(new MunicipalityModel(municipality));
         });
         return municipalityModels;
+    }
+
+    @GetMapping(path = ApiPaths.MUNICIPALITY_ID)
+    public MunicipalityModel getMunicipalityById(@PathVariable long id) {
+        return new MunicipalityModel(this.municipalityService.getMunicipalityByMunicipalityId(id));
     }
 }

@@ -15,5 +15,6 @@ public class ApiPaths {
 
     private static final String MUNICIPALITY_SERVICE = "/municipality";
     public static final String MUNICIPALITY_ALL = MUNICIPALITY_SERVICE + "/all";
+    public static final String MUNICIPALITY_ID = MUNICIPALITY_SERVICE + "/id/{id}";
 
 }
