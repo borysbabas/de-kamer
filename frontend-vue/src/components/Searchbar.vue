@@ -7,6 +7,7 @@ const input =ref("");
 const debouncedSearch=debounce((value)=>{
   input.value=value;
 }, 350)
+
 const candidateModel=ref({
   candidateId:"",
   firstname: "",
@@ -14,6 +15,7 @@ const candidateModel=ref({
   lastname:"",
   affiliationName:"",
 })
+
 const candidateList=ref([])
 onMounted(() => {
   fetch("http://localhost:3001/candidates")
@@ -35,13 +37,15 @@ const filteredList = computed(() => {
     return fullName.includes(searchQuery) || affiliationName.includes(searchQuery);
   });
 })
+
 function debounce(func, delay){
 let timeout;
 return function(...args){
   clearTimeout(timeout)
   timeout=setTimeout(()=>func.apply(this,args),delay)
+  }
 }
-}
+
 //gets value of clicked LI item and redirects user to designated endpoint.
  function routeAssigner(candidate){
   let candidateId = candidate.candidateId
@@ -57,10 +61,7 @@ return function(...args){
     lastname: lastName,
     affiliationName: affiliationName
   }
-
   router.push({name:"CandidateDetails", params:{candidateId:candidate.candidateId}})
-
-
 }
 const handleScroll = () => {
   if(window.scrollY > 50){
@@ -78,7 +79,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
-
 </script>
 
 <template>
@@ -93,25 +93,24 @@ onUnmounted(() => {
 <style scoped>
 .fixed-searchbar{
   top:60px;
-  right:35.7vw;
+  right:36vw;
   width:600px;
   background-color:white;
   color:black;
   position: absolute;
   flex-direction:column;
-
-
 }
+
 .searchbar-container{
   display:flex;
   justify-content: flex-start;
   align-items: start;
   text-align:left;
-  right:15vw;
+  right:14.5vw;
   width:600px;
   position:relative;
-
 }
+
 .search-results{
   right:32.1vw;
   width:600px;
@@ -121,6 +120,7 @@ onUnmounted(() => {
   top:50px;
   flex-direction:column;
 }
+
 input {
   border-style: none;
   width: 600px;
@@ -129,10 +129,12 @@ input {
   padding: 5px 10px;
   font-size: 0.9rem;
 }
+
 .fixed-searchbar li{
   width:568px;
   font-size: 1rem;
 }
+
 li{
   width:568px;
   font-size: 1rem;
@@ -141,18 +143,19 @@ li{
 .search-results li {
   border:solid white 0.5px;
   cursor:pointer;
-
 }
+
 .search-results li:hover{
   border-color: #20638F;
 }
+
 .fixed-searchbar li{
   border:solid white 0.5px;
   cursor:pointer;
   padding: 10px 15px;
   margin: 0 20px;
-
 }
+
 .fixed-searchbar li:hover{
   border-color: #20638F
 }

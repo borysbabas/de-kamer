@@ -1,12 +1,11 @@
-
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import {computed, onMounted, ref, watch} from 'vue';
 
 const options = [
-  { label: 'Meest verkozen partijen', value: 'most_parties' },
-  { label: 'Minst verkozen partijen', value: 'least_parties' },
-  { label: 'Meest verkozen kandidaten', value: 'most_candidates' },
-  { label: 'Minst verkozen kandidaten', value: 'least_candidates' }
+  {label: 'Meest verkozen partijen', value: 'most_parties'},
+  {label: 'Minst verkozen partijen', value: 'least_parties'},
+  {label: 'Meest verkozen kandidaten', value: 'most_candidates'},
+  {label: 'Minst verkozen kandidaten', value: 'least_candidates'}
 ];
 
 const selectedOption = ref(options[0].value);
@@ -19,6 +18,7 @@ const triggerDropdown = () => {
 };
 
 const allParties = ref<any[]>([]);
+const mediaData = ref<any[]>([]);
 
 async function fetchData() {
   try {
@@ -27,13 +27,15 @@ async function fetchData() {
       throw new Error('Network response was not ok');
     }
     const data = await response.json();
-    allParties.value = data;
+    allParties.value = data.map(party => ({
+      ...party,
+      imageUrl: party.imageUrl || 'https://www.dummyimage.com/200'
+    }));
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }
+  return allParties.value;
 }
-
-const allCandidates = ref<any[]>([]);
 
 async function fetchCandidateVotes() {
   try {
@@ -46,12 +48,58 @@ async function fetchCandidateVotes() {
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }
+  return allCandidates.value;
 }
 
-onMounted(() => {
-  fetchData();
-  fetchCandidateVotes();
-});
+const allCandidates = ref<any[]>([]);
+const API_KEY = import.meta.env.VITE_API_KEY;
+const APP_NAME = import.meta.env.VITE_APP_NAME;
+
+async function fetchMedia() {
+  const url = 'https://api.wikimedia.org/core/v1/wikipedia/nl/page/Lijst_van_politieke_partijen_in_Nederland/links/media?origin=*';
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Api-User-Agent': APP_NAME,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    const excludedTitles = ["1rightarrow blue.svg", "Commons-logo.svg", "Evolution of Dutch political parties since 1888.svg", "Flag of the Netherlands.svg", "Leden2018-1.png", "Ledental politieke partijen.png", "OOjs UI icon article-ltr.svg", "OOjs UI icon edit-ltr.svg", "Flag of the Netherlands.svg"];
+
+    const partyNames = allParties.value.map(party => ({
+      prefix: party.affiliationName.slice(0, 3).toLowerCase()
+    }));
+    const mediaFiles = data.files
+        .filter((file: any) => !excludedTitles.includes(file.title))
+        .filter((file: any) => partyNames.some(name =>
+            file.title.toLowerCase().includes(name.prefix)
+        ))
+        .map((file: any) => ({
+          title: file.title,
+          url: file.preferred.url,
+          descriptionUrl: file.file_description_url
+        }));
+
+    mediaData.value = allParties.value.map(party => {
+      const partyName = party.affiliationName.toLowerCase();
+      const images = mediaFiles.filter(file =>
+          file.title.toLowerCase().includes(partyName.slice(0, 3)) ||
+          file.title.toLowerCase().includes(partyName)
+      );
+      return {
+        ...party,
+        images: images
+      };
+    });
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+  }
+  return mediaData.value;
+}
 
 const visibleBlocks = ref(12);
 const isMoreVisible = ref(true);
@@ -84,12 +132,22 @@ const loadLess = () => {
   visibleBlocks.value = 12;
   isMoreVisible.value = true;
   isLessVisible.value = false;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({top: 0, behavior: 'smooth'});
 };
 
 const getShortenedName = (name: string) => {
-  return name.length > 30 ? name.slice(0, 30) + '...' : name;
+  return name.length > 25 ? name.slice(0, 25) + '...' : name;
 };
+
+onMounted(() => {
+  fetchData();
+  fetchCandidateVotes();
+  fetchMedia();
+});
+
+watch(selectedOption, () => {
+  fetchMedia();
+});
 </script>
 
 <template>
@@ -98,7 +156,6 @@ const getShortenedName = (name: string) => {
   <link href="https://fonts.googleapis.com/css2?family=Beiruti:wght@200..900&display=swap" rel="stylesheet">
 
   <section class="first main">
-    <!-- Dropdown title -->
     <div class="dropdown">
       <select v-model="selectedOption" class="dropdown-select" ref="dropdownSelect">
         <option v-for="option in options" :key="option.value" :value="option.value"
@@ -111,32 +168,27 @@ const getShortenedName = (name: string) => {
       </svg>
     </div>
 
-    <!-- Displaying the parties -->
     <div class="parties">
-      <div v-for="party in sortedItems.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
-        <img class="party-img" :alt="party.affiliationName" src="../assets/img/dummy200x200.jpg">
-        <p
-            class="party-votes"
-            v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
-          {{ party.affiliationVotes }} stemmen</p>
-        <p
-            class="party-votes"
-            v-else-if="selectedOption === 'most_candidates' || selectedOption === 'least_candidates'">
-          {{ party.votes }} stemmen</p>
-        <p
-            class="party-name"
-            v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
+      <div v-for="(party, index) in sortedItems.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
+        <img class="party-img" :alt="mediaData[index]?.title || party.affiliationName" @click="console.log(mediaData)"
+             :src="mediaData[index]?.images[0]?.url || party.imageUrl"
+             width="200" height="200">
+        <p class="party-votes" v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
+          {{ party.affiliationVotes }} stemmen
+        </p>
+        <p class="party-votes"
+           v-else-if="selectedOption === 'most_candidates' || selectedOption === 'least_candidates'">
+          {{ party.votes }} stemmen
+        </p>
+        <p class="party-name" v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
           {{ getShortenedName(party.affiliationName) }}
         </p>
-        <p
-            class="party-name"
-            v-else-if="selectedOption === 'most_candidates' || selectedOption === 'least_candidates'">
+        <p class="party-name" v-else-if="selectedOption === 'most_candidates' || selectedOption === 'least_candidates'">
           {{ party.name }}
         </p>
       </div>
     </div>
 
-    <!-- 'Load more' section -->
     <div v-if="isMoreVisible" class="more" @click="loadMore">
       <h2 id="more-title">Laad meer</h2>
       <svg xmlns="http://www.w3.org/2000/svg" class="angle-down-icon" id="more-icon" viewBox="0 0 448 512">
@@ -145,7 +197,6 @@ const getShortenedName = (name: string) => {
       </svg>
     </div>
 
-    <!-- 'Load less' section -->
     <div v-if="isLessVisible" class="less" @click="loadLess">
       <h2 id="less-title">Laad minder</h2>
       <svg xmlns="http://www.w3.org/2000/svg" class="angle-up-icon" id="less-icon" viewBox="0 0 448 512">
@@ -155,7 +206,6 @@ const getShortenedName = (name: string) => {
     </div>
   </section>
   <section class="main">
-    <!-- Description section -->
     <div class="desc">
       <div class="desc-text">
         <h1 id="desc-title">
@@ -195,7 +245,6 @@ const getShortenedName = (name: string) => {
     </div>
   </section>
   <section class="last main">
-    <!-- Graph section -->
     <div class="graph">
       <h1 id="graph-title">
         Stemmenverdeling Tweede Kamer
@@ -211,7 +260,6 @@ const getShortenedName = (name: string) => {
 </template>
 
 <style scoped>
-/** Styling for the main page and layout of the hero section */
 .main {
   min-height: calc(100vh - 150px);
   object-fit: cover;
@@ -228,7 +276,6 @@ const getShortenedName = (name: string) => {
   margin: 0 auto;
 }
 
-/** Styling for the dropdown */
 .dropdown {
   display: flex;
   align-items: center;
@@ -237,7 +284,6 @@ const getShortenedName = (name: string) => {
   margin-bottom: 30px;
 }
 
-/* Styling for the dropdown */
 .dropdown-select {
   font-size: 38px;
   appearance: none;
@@ -280,7 +326,6 @@ const getShortenedName = (name: string) => {
   cursor: pointer;
 }
 
-/** Styling for the parties display section */
 .parties {
   display: flex;
   gap: 40px;
@@ -291,16 +336,14 @@ const getShortenedName = (name: string) => {
   width: 200px;
   height: 200px;
   border-radius: 20px;
-  object-fit: cover;
+  object-fit: contain;
   cursor: pointer;
   margin-bottom: 10px;
-  background-color: var(--light-primary);
   transition-duration: var(--animation-duration);
 }
 
 .party-img:hover {
   transform: scale(1.05);
-  background-color: var(--dark-primary);
   filter: brightness(50%);
 }
 
@@ -308,7 +351,6 @@ const getShortenedName = (name: string) => {
   text-align: center;
 }
 
-/** Styling for the load more part */
 .more, .less {
   padding-top: 30px;
   display: flex;
@@ -325,7 +367,6 @@ const getShortenedName = (name: string) => {
   cursor: pointer;
 }
 
-/** Styling for the description section */
 .desc {
   display: flex;
   justify-content: space-between;
@@ -355,7 +396,6 @@ const getShortenedName = (name: string) => {
   border-radius: 20px;
 }
 
-/** Styling for the graph section */
 .last {
   padding-bottom: 50px;
   border-bottom: none;

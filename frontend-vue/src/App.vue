@@ -2,7 +2,6 @@
 import "@/assets/main.css";
 import "@/assets/reset.css";
 
-
 export default {
   name: "App",
 };
