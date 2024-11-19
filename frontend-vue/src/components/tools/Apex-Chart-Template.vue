@@ -96,7 +96,6 @@ onMounted(() => {
     if (props.chartData.length !== 0) {
       selectedChart.value = Object.keys(props.chartData)[0];
       updateChart();
-      sort();
     }
   }, { immediate: true });
 });
@@ -105,6 +104,7 @@ function updateChart() {
   dataset = apex.normalizeData(apex.formatData(props.chartData[selectedChart.value]));
   chart.updateSeries(dataset);
   sorted = true;
+  sort();
 }
 
 function sort() {
