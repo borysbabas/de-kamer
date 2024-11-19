@@ -6,7 +6,8 @@
           :key="chartData.data.indexOf(item)"
           class="items"
       > {{ item.x || "Unknown" }}
-        <div>
+        <div style="display: flex">
+          <div class="color-square" :style="{ backgroundColor: item.fillColor }"></div>
           <button class="item-button" @click="hideHightlight(item.id)">Hightlight / Hide</button>
           <button class="item-button" @click="select(key, item.x, item.id)">Compare</button>
         </div></p>
@@ -76,5 +77,10 @@ function select(id: number) {
   padding-left: 10px;
   padding-right: 10px;
   margin-left: 5px;
+}
+.color-square {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #000; /* Optional: Add a border to make the square more visible */
 }
 </style>

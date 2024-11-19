@@ -32,13 +32,14 @@ export const normalizeData = (data: any) => {
         {
             name: data.name ? data.name : 'Count',
             data: data.formatData.map((item: any) => {
+                const color = item.color ? item.color : getRandomColor();
                 return {
                     x: item.itemName,
                     y: item.itemValue,
-                    fillColor: item.color ? item.color : getRandomColor(),
+                    fillColor: color,
                     id: item.id,
                     state: "show",
-                    hiddenValue: { y: item.itemValue, x: item.itemName}
+                    hiddenValue: { y: item.itemValue, x: item.itemName, fillColor: color}
                 }
             })
         }
@@ -59,27 +60,16 @@ function getRandomColor() {
 }
 export const hideHighlight = (dataset: any, id: number) => {
     const highlightedData = dataset[0].data.map((item: any) => {
-        let newState;
-        if (item.id === id) {
-            switch (item.state) {
-                case 'show':
-                    newState = 'highlighted';
-                    break;
-                case 'highlighted':
-                    newState = 'hidden';
-                    break;
-                default:
-                    newState = 'show';
-            }
-        } else {
-            newState = item.state;
-        }
+        const newState = item.id === id ?
+            (item.state === 'show' ? 'highlighted' : item.state === 'highlighted' ? 'hidden' : 'show')
+            : item.state;
+
         return {
             ...item,
-            fillColor: newState === 'highlighted' ? '#000000' : newState === 'show' ? item.fillColor : getRandomColor(),
+            fillColor: newState === 'highlighted' ? '#000000' : item.hiddenValue.fillColor,
             state: newState,
-            y: newState === 'hidden' ? 0 : item.hiddenValue ? item.hiddenValue.y : item.y,
-            x: newState === 'hidden' ? '' : item.hiddenValue ? item.hiddenValue.x : item.x
+            y: newState === 'hidden' ? 0 : item.hiddenValue?.y ?? item.y,
+            x: newState === 'hidden' ? '' : item.hiddenValue?.x ?? item.x
         };
     });
     return [{ name: dataset[0].name, data: highlightedData }];
