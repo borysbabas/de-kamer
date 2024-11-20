@@ -10,6 +10,7 @@ Chart.register(...registerables);
 const route = useRoute();
 const candidateId = ref(null);
 const municipalityData = ref<any[]>([]);
+let isChartResized : boolean = ref(false);
 
 const fetchedData = ref({
   candidateId: "",
@@ -35,13 +36,8 @@ async function fetchCandidate() {
 
 function createChart() {
   const dataArray = municipalityData.value;
-
   const labels = dataArray.map((municipality: { municipalityName: string }) => municipality.municipalityName);
   const data = dataArray.map((municipality: { totalVotes: number }) => municipality.totalVotes);
-
-  console.log("Labels:", labels);
-  console.log("Data:", data);
-
   const ctx = document.getElementById("municipalityChart") as HTMLCanvasElement;
 
   if (window.myChart instanceof Chart) {
@@ -73,7 +69,6 @@ function createChart() {
     },
   });
 }
-
 async function fetchMunicipalityData() {
   candidateId.value = route.params.candidateId;
   if (candidateId.value) {
@@ -81,8 +76,14 @@ async function fetchMunicipalityData() {
         `http://localhost:3001/municipality/${candidateId.value}`
     );
     const json = await response.json();
-    municipalityData.value = json;
-    createChart();
+    if (isChartResized.value===true) {
+      municipalityData.value = json.slice(0, 10);
+      createChart();
+    }
+    else if(isChartResized.value===false){
+      municipalityData.value=json
+      createChart()
+    }
   }
 }
 
@@ -91,7 +92,6 @@ onMounted(() => {
   fetchMunicipalityData();
 });
 
-// Kijk naar veranderingen in de candidateId
 watch(
     () => route.params.candidateId,
     (changedCandidateId) => {
@@ -110,9 +110,11 @@ watch(
         <H1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
           {{ fetchedData.lastName }}</H1>
         <H2 v-if="fetchedData.gender !== ``">geslacht: {{ fetchedData.gender }}</H2>
-        <H2> Aantal stemmen op  {{ fetchedData.name }}: {{ fetchedData.votes }}</H2>
+        <H2>Totaal aantal stemmen op  {{ fetchedData.name }}: {{ fetchedData.votes }}</H2>
         <H2>Partij: {{ fetchedData.affiliationName }}</H2>
         <canvas id="municipalityChart"></canvas>
+        <input type="checkbox" id="checkbox" @click="fetchMunicipalityData" v-model="isChartResized">
+        <label for="checkbox">Top 10 gemeentes weergeven</label>
       </div>
     </div>
   </section>
