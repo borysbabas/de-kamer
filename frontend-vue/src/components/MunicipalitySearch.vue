@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import {addMunicipality, getSelectedMunicipalities, useMunicipalities} from "@/composables/useMunicipalities";
 import {computed, ref, toRaw} from "vue";
-import type {Municipality} from "@/components/types/Municipality";
+import type {Municipality} from "@/types/Municipality";
 
 const {municipalityList} = useMunicipalities();
 const filteredList = ref<Municipality[]>([]);
@@ -68,7 +68,7 @@ function filterMunicipalities(filter: string) {
     outline: none;
     background-color: transparent;
     font-size: 1rem;
-
+    flex-grow: 1;
   }
 
   .search-wrapper {

@@ -1,4 +1,4 @@
-import type {Municipality} from "@/components/types/Municipality";
+import type {Municipality} from "@/types/Municipality";
 import {onMounted, ref} from "vue";
 const BACKEND = "http://localhost:3001";
 
@@ -8,7 +8,6 @@ export function useMunicipalities() {
     const municipalityList = ref<Municipality[]>([]);
     const isLoading = ref(false)
     const error = ref(null)
-
 
     async function fetchMunicipalities() {
         isLoading.value = true
