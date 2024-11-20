@@ -7,6 +7,7 @@
       <img @click="removeMunicipality(municipality)" src="@/assets/svg/red-cross.svg" alt="red cross" />
     </div>
   </div>
+  <button>vergelijk</button>
 </template>
 
 <script setup lang="ts">
@@ -16,11 +17,7 @@ import {getSelectedMunicipalities, removeMunicipality} from "@/composables/useMu
 
 const selectedMunicipalities = getSelectedMunicipalities();
 
-
-console.log(selectedMunicipalities);
-
-
-
+function
 </script>
 
 <style scoped>
@@ -53,5 +50,27 @@ console.log(selectedMunicipalities);
 
   .selected-municipalities img {
     cursor: pointer;
+  }
+
+  .selected-municipalities img:active {
+    transform: scale(0.95);
+  }
+
+  button {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid var(--light-primary);
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition-duration: 100ms;
+  }
+
+  button:hover {
+    color: var(--button-important);
+  }
+
+  button:active {
+    transform: scale(0.97);
   }
 </style>

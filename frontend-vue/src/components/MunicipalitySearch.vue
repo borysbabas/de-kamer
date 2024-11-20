@@ -37,7 +37,7 @@ function onSearchInput(e: Event) {
   filteredList.value = [];
   filteredList.value.push(...filterMunicipalities(value));
 }
-
+//
 function filterMunicipalities(filter: string) {
   const rawList = toRaw(municipalityList.value);
 
