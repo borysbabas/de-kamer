@@ -1,39 +1,39 @@
-<script lang="ts">
-import {onMounted, ref} from "vue";
+<template>
+  <select>
+    <option disabled selected>-- Kies een kieskring --</option>
+    <option v-for="constituency in constituencies" :key="constituency.constituencyId" :value="constituency.constituencyId">
+      {{ constituency.constituencyName }}
+    </option>
+  </select>
+</template>
 
-let constituencies = ref<any[]>([]);
+<script setup lang="ts">
+import {ref} from "vue";
+
+type Constituency = {
+  constituencyId: number;
+  constituencyName: string;
+}
 
 async function fetchConstituencies() {
   try {
-    constituencies.value = await fetch("http://localhost:3001/constituencies").then(response => response.json().then(
-        (data) => {
-          console.log(data);
-          return data;
-        }
-    ));
+    const result = await fetch("http://localhost:3001/constituencies");
+
+    if (result.status !== 200) {
+      throw new Error("Failed to fetch constituencies");
+    }
+
+    constituencies.value = await result.json();
+    console.log(constituencies)
   } catch (error) {
     console.log(error);
   }
 }
 
-function test(constituency) {
-  console.log(constituency.constituencyName);
-}
+void fetchConstituencies();
 
-const result = await fetchConstituencies();
-constituencies.value.forEach(test)
+const constituencies = ref<Constituency[]>([]);
 </script>
-
-<template>
-  <div>
-    <select>
-      <option>-- Kies een kieskring --</option>
-      <option v-for="constituency in constituencies" :key="constituency.constituencyId" :value="constituency.constituencyId">
-        {{ constituency.constituencyName }}
-      </option>
-    </select>
-  </div>
-</template>
 
 <style scoped>
 </style>
