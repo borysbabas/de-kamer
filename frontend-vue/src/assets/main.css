@@ -50,3 +50,15 @@ a {
 strong {
     font-weight: bold;
 }
+
+.angle-up-icon {
+    fill: var(--button-important);
+    width: 2rem;
+    cursor: pointer;
+}
+
+.angle-down-icon {
+    fill: var(--button-important);
+    width: 2rem;
+    cursor: pointer;
+}

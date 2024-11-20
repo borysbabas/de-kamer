@@ -3,11 +3,11 @@ import { createApp } from 'vue'
 import App from "./App.vue"
 import type {Router} from "vue-router";
 import {createRouter, createWebHistory} from "vue-router";
-import HomePage from "@/components/pages/HomePage.vue";
-import ResultsPage from "@/components/pages/ResultsPage.vue";
-import LoginPage from "@/components/pages/LoginPage.vue";
-import RegisterPage from "@/components/pages/RegisterPage.vue";
-import CandidateDetailsPage from "@/components/pages/CandidateDetailsPage.vue";
+import HomePage from "@/pages/home/HomePage.vue";
+import ResultsPage from "@/pages/results/ResultsPage.vue";
+import LoginPage from "@/pages/login/LoginPage.vue";
+import RegisterPage from "@/pages/register/RegisterPage.vue";
+import CandidateDetailsPage from "@/pages/candidate-details/CandidateDetailsPage.vue";
 
 const router: Router = createRouter({
     history: createWebHistory(),

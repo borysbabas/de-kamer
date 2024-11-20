@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Navbar from "@/components/Navbar.vue";
-import Footer from "@/components/Footer.vue";
-import Results from "@/components/Results.vue";
+import Navbar from "@/pages/navbar/components/Navbar.vue";
+import Footer from "@/pages/footer/Footer.vue";
+import Results from "@/pages/results/components/Results.vue";
 import ChartTemplate from "@/components/tools/Chart-Template.vue";
 </script>
 

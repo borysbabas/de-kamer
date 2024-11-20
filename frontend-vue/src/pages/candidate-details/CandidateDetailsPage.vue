@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Navbar from "@/components/Navbar.vue";
-import Footer from "@/components/Footer.vue"
+import Navbar from "@/pages/navbar/components/Navbar.vue";
+import Footer from "@/pages/footer/Footer.vue"
 import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 
@@ -9,11 +9,13 @@ const candidateId= ref(null)
 const fetchedData = ref({
 
   candidateId: "",
+    gender: "",
+    name: "",
     firstName: "",
     prefix: "",
     lastName: "",
     affiliationName: "",
-  votes: ""
+    votes: ""
 })
 
 async function fetchCandidate(){
