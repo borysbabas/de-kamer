@@ -7,7 +7,7 @@
       <input type="text" placeholder="Amsterdam" @input="onSearchInput">
     </div>
     <div class="search-result" v-if="filteredList.length >= 1">
-      <p v-for="municipality in itemsInFilterList" :key="municipality.municipalityId" @click="addMunicipality(municipality)">{{municipality.name}}</p>
+      <p v-for="municipality in itemsInFilterList.splice(0, 10)" :key="municipality.municipalityId" @click="addMunicipality(municipality)">{{municipality.name}}</p>
     </div>
   </div>
 </template>
@@ -45,7 +45,7 @@ function filterMunicipalities(filter: string) {
     return value.name.toLowerCase().includes(filter.toLowerCase().trim());
   }
 
-  return rawList.filter(checkValue).splice(0, 10);
+  return rawList.filter(checkValue);
 }
 
 </script>
