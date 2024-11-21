@@ -1,22 +1,23 @@
 <script setup lang="ts">
-import {ref, computed, onMounted, onUnmounted} from "vue"
+import {computed, onMounted, onUnmounted, ref} from "vue"
 import {useRouter} from "vue-router"
+
 const router = useRouter()
-const isFixed=ref(false)
-const input =ref("");
-const debouncedSearch=debounce((value)=>{
-  input.value=value;
+const isFixed = ref(false)
+const input = ref("");
+const debouncedSearch = debounce((value) => {
+  input.value = value;
 }, 350)
 
-const candidateModel=ref({
-  candidateId:"",
+const candidateModel = ref({
+  candidateId: "",
   firstname: "",
   prefix: "",
-  lastname:"",
-  affiliationName:"",
+  lastname: "",
+  affiliationName: "",
 })
 
-const candidateList=ref([])
+const candidateList = ref([])
 onMounted(() => {
   fetch("http://localhost:3001/candidates")
       .then(response => response.json())
@@ -31,44 +32,44 @@ const filteredList = computed(() => {
         .join(" ")
         .toLowerCase()
         .trim()
-        .replace(/\s+/g," ")
+        .replace(/\s+/g, " ")
 
-    const affiliationName = candidate.affiliationName.toLowerCase().trim().replace(/\s+/g," ");
+    const affiliationName = candidate.affiliationName.toLowerCase().trim().replace(/\s+/g, " ");
     return fullName.includes(searchQuery) || affiliationName.includes(searchQuery);
   });
 })
 
-function debounce(func, delay){
-let timeout;
-return function(...args){
-  clearTimeout(timeout)
-  timeout=setTimeout(()=>func.apply(this,args),delay)
+function debounce(func, delay) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => func.apply(this, args), delay)
   }
 }
 
 //gets value of clicked LI item and redirects user to designated endpoint.
- function routeAssigner(candidate){
+function routeAssigner(candidate) {
   let candidateId = candidate.candidateId
-  let firstName=candidate.firstName
+  let firstName = candidate.firstName
   let prefix = candidate.prefix
   let lastName = candidate.lastName
-  let affiliationName=candidate.affiliationName
+  let affiliationName = candidate.affiliationName
 
-  candidateModel.value={
+  candidateModel.value = {
     candidateId: candidateId,
     firstname: firstName,
     prefix: prefix,
     lastname: lastName,
     affiliationName: affiliationName
   }
-  router.push({name:"CandidateDetails", params:{candidateId:candidate.candidateId}})
+  router.push({name: "CandidateDetails", params: {candidateId: candidate.candidateId}})
 }
+
 const handleScroll = () => {
-  if(window.scrollY > 50){
-    isFixed.value=true;
-  }
-  else{
-    isFixed.value=false;
+  if (window.scrollY > 50) {
+    isFixed.value = true;
+  } else {
+    isFixed.value = false;
   }
 };
 
@@ -82,43 +83,47 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <li class="searchbar-container"><input @input="event=>debouncedSearch(event.target.value)" type="text" placeholder="Zoeken..."></li>
-  <ul v-if="input.length > 0 && filteredList.length > 0" :class="{'fixed-searchbar' : isFixed, 'search-results': !isFixed}">
-    <li v-for="candidate in filteredList" :key="candidate.candidateId" @click="routeAssigner(candidate)">{{ candidate.firstName }}
-      <span v-if="candidate.prefix">{{candidate.prefix}}</span>
-      {{candidate.lastName}}- {{candidate.affiliationName}}</li>
+  <li class="searchbar-container"><input @input="event=>debouncedSearch(event.target.value)" type="text"
+                                         placeholder="Zoeken..."></li>
+  <ul v-if="input.length > 0 && filteredList.length > 0"
+      :class="{'fixed-searchbar' : isFixed, 'search-results': !isFixed}">
+    <li v-for="candidate in filteredList" :key="candidate.candidateId" @click="routeAssigner(candidate)">
+      {{ candidate.firstName }}
+      <span v-if="candidate.prefix">{{ candidate.prefix }}</span>
+      {{ candidate.lastName }}- {{ candidate.affiliationName }}
+    </li>
   </ul>
 </template>
 
 <style scoped>
-.fixed-searchbar{
-  top:60px;
-  right:36vw;
-  width:600px;
-  background-color:white;
-  color:black;
+.fixed-searchbar {
+  top: 60px;
+  right: 36vw;
+  width: 600px;
+  background-color: white;
+  color: black;
   position: absolute;
-  flex-direction:column;
+  flex-direction: column;
 }
 
-.searchbar-container{
-  display:flex;
+.searchbar-container {
+  display: flex;
   justify-content: flex-start;
   align-items: start;
-  text-align:left;
-  right:14.5vw;
-  width:600px;
-  position:relative;
+  text-align: left;
+  right: 14.5vw;
+  width: 600px;
+  position: relative;
 }
 
-.search-results{
-  right:32.1vw;
-  width:600px;
-  background-color:white;
-  color:black;
+.search-results {
+  right: 32.1vw;
+  width: 600px;
+  background-color: white;
+  color: black;
   position: absolute;
-  top:50px;
-  flex-direction:column;
+  top: 50px;
+  flex-direction: column;
 }
 
 input {
@@ -130,37 +135,33 @@ input {
   font-size: 0.9rem;
 }
 
-.fixed-searchbar li{
-  width:568px;
+.fixed-searchbar li {
+  width: 568px;
   font-size: 1rem;
 }
 
-li{
-  width:568px;
+li {
+  width: 568px;
   font-size: 1rem;
 }
 
 .search-results li {
-  border:solid white 0.5px;
-  cursor:pointer;
+  border: solid white 0.5px;
+  cursor: pointer;
 }
 
-.search-results li:hover{
+.search-results li:hover {
   border-color: #20638F;
 }
 
-.fixed-searchbar li{
-  border:solid white 0.5px;
-  cursor:pointer;
+.fixed-searchbar li {
+  border: solid white 0.5px;
+  cursor: pointer;
   padding: 10px 15px;
   margin: 0 20px;
 }
 
-.fixed-searchbar li:hover{
+.fixed-searchbar li:hover {
   border-color: #20638F
 }
-
-
-
-
 </style>

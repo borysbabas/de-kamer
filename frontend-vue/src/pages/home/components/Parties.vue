@@ -1,7 +1,8 @@
 <script setup lang="ts">
 
 import {selectedOption} from "@/composables/useDropdown";
-import {getShortenedName, mediaData, sortedItems, visibleBlocks} from "@/composables/useParties";
+import {getShortenedName, sortedItems, visibleBlocks} from "@/composables/useParties";
+import {mediaData} from "@/composables/useFetch";
 </script>
 
 <template>

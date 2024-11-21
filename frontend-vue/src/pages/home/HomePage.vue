@@ -2,15 +2,15 @@
 import Hero from "@/pages/home/components/Hero.vue";
 import Navbar from "@/pages/navbar/components/Navbar.vue";
 import Footer from "@/pages/footer/Footer.vue";
-import Description from "@/pages/home/components/Description.vue";
+import AboutUs from "@/pages/home/components/AboutUs.vue";
 import Graph from "@/pages/home/components/Graph.vue";
 import {onMounted} from "vue";
-import {fetchCandidateVotes, fetchData, fetchMedia} from "@/composables/useParties";
+import {fetchCandidateVotes, fetchParties, fetchPartyImages} from "@/composables/useFetch";
 
 onMounted(() => {
-  fetchData();
+  fetchParties()
   fetchCandidateVotes();
-  fetchMedia();
+  fetchPartyImages();
 });
 </script>
 
@@ -22,7 +22,7 @@ onMounted(() => {
   <Navbar></Navbar>
   <Hero></Hero>
   <section class="main">
-    <Description></Description>
+    <AboutUs></AboutUs>
   </section>
   <section class="last main">
     <Graph></Graph>

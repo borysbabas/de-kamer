@@ -2,13 +2,13 @@
 import {watch} from 'vue';
 import Dropdown from "@/pages/home/components/Dropdown.vue";
 import {selectedOption} from "@/composables/useDropdown";
-import {fetchMedia} from "@/composables/useParties";
 import Parties from "@/pages/home/components/Parties.vue";
 import LoadMore from "@/pages/home/components/LoadMore.vue";
 import LoadLess from "@/pages/home/components/LoadLess.vue";
+import {fetchPartyImages} from "@/composables/useFetch";
 
 watch(selectedOption, () => {
-  fetchMedia();
+  fetchPartyImages();
 });
 </script>
 
