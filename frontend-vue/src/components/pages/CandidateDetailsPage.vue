@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import Navbar from "@/components/Navbar.vue";
-import Footer from "@/components/Footer.vue"
-import {onMounted, ref, watch} from "vue";
-import {useRoute} from "vue-router";
+import Footer from "@/components/Footer.vue";
+import { onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+import { Chart, registerables } from "chart.js";
+
+Chart.register(...registerables);
 
 const route = useRoute();
 const candidateId = ref(null)
 const fetchedData = ref({
-
   candidateId: "",
   firstName: "",
   prefix: "",
@@ -38,7 +40,7 @@ watch(() => route.params.candidateId, (changedCandidateId) => {
 
 <template>
   <Navbar></Navbar>
-  <section class=" main">
+  <section class="main">
     <div class="container">
       <div class="wrapper">
         <H1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
@@ -46,6 +48,9 @@ watch(() => route.params.candidateId, (changedCandidateId) => {
         <H2 v-if="fetchedData.gender!==``">geslacht: {{ fetchedData.gender }}</H2>
         <H2> Aantal stemmen op {{ fetchedData.name }}: {{ fetchedData.votes }}</H2>
         <H2>Partij: {{ fetchedData.affiliationName }}</H2>
+        <canvas id="municipalityChart"></canvas>
+        <input type="checkbox" id="checkbox" @click="fetchMunicipalityData" v-model="isChartResized">
+        <label for="checkbox">Top 10 gemeentes weergeven</label>
       </div>
     </div>
   </section>

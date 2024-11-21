@@ -12,5 +12,7 @@ public class ApiPaths {
     public static final String CANDIDATE_SERVICE_VOTES = VOTES + "/candidates";
 
     public static final String AFFILIATION_SERVICE_GETBYNAME = "/get-by-name/{name}";
+    public static final String MUNICIPALITY_SERVICE = "/municipality";
+    public static final String MUNICIPALITY_SERVIVE_GETMUNICIPALITYVOTESBYCANDIDATEID="/get-municipality-votes-by-candidateId/{candidateId}";
 
 }
