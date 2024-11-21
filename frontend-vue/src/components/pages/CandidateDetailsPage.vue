@@ -73,7 +73,7 @@ async function fetchMunicipalityData() {
   candidateId.value = route.params.candidateId;
   if (candidateId.value) {
     const response = await fetch(
-        `http://localhost:3001/municipality/${candidateId.value}`
+        `http://localhost:3001/get-municipality-votes-by-candidateId/${candidateId.value}`
     );
     const json = await response.json();
     if (isChartResized.value===true) {

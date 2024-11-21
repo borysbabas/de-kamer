@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.MunicipalityVotes;
 import com.example.backend.models.MunicipalityVoteModel;
 import com.example.backend.services.MunicipalityVotesService;
@@ -17,8 +18,8 @@ public class MunicipalityVotesController {
         this.municipalityVotesService=municipalityVotesService;
 
     }
-    @GetMapping(path="/municipality/{candidateId}")
-    public List<MunicipalityVoteModel> getTop5MunicipalitiesByCandidateId(@PathVariable("candidateId")Long candidateId){
+    @GetMapping(path= ApiPaths.MUNICIPALITY_SERVIVE_GETMUNICIPALITYVOTESBYCANDIDATEID)
+    public List<MunicipalityVoteModel> getMunicipalitiesByCandidateId(@PathVariable("candidateId")Long candidateId){
         return municipalityVotesService.getTop5MunicipalitiesByCandidateId(candidateId);
     }
 
