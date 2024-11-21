@@ -24,7 +24,7 @@ import {
   BarElement,
   CategoryScale,
   LinearScale,
-  type ChartData
+  ChartData
 } from 'chart.js'
 import { Bar } from 'vue-chartjs'
 import * as chartConfig from '@/components/tools/chartConfig/chartConfig'
