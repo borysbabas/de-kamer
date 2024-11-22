@@ -35,7 +35,6 @@ async function fetchConstituencies() {
     }
 
     constituencies.value = await result.json();
-    console.log(constituencies)
   } catch (error) {
     console.log(error);
   }
