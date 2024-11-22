@@ -40,6 +40,37 @@ async function fetchConstituencies() {
   }
 }
 
+async function fetchConstituencyVotes(constituencyId) {
+  try {
+    const result = await fetch(`http://localhost:3001/votes/constituencies/${constituencyId}`);
+
+    if (result.status !== 200) {
+      throw new Error("Failed to fetch constituency votes");
+    }
+
+    constituencyVotes.value = await result.json();
+    tableLength.value = constituencyVotes.value.length;
+    console.log(tableLength.value);
+    selectedConstituency.value = constituencyId;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function handleConstituencyChange(event) {
+  fetchConstituencyVotes(event.target.value);
+}
+
+function handlePageDown() {
+  if (n.value !== 0) {
+    n.value -= 1;
+  }
+}
+
+function handlePageUp() {
+  n.value += 1;
+}
+
 void fetchConstituencies();
 </script>
 
