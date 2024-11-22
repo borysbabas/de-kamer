@@ -18,6 +18,14 @@ type ConstituencyVotes = {
 
 const constituencies = ref<Constituency[]>([]);
 
+const constituencyVotes = ref<ConstituencyVotes[]>([]);
+
+const selectedConstituency = ref<any>();
+
+const n = ref<number>(0);
+
+const tableLength = ref<number>();
+
 async function fetchConstituencies() {
   try {
     const result = await fetch("http://localhost:3001/constituencies");
