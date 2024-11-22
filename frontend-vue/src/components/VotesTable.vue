@@ -124,4 +124,16 @@ void fetchConstituencies();
 </template>
 
 <style scoped>
+.pageSelector {
+  display: flex;
+}
+.pageSelector p {
+  margin: 0 10px;
+}
+.pageButton {
+  cursor: pointer;
+}
+.greyed-out {
+  color: #555555;
+}
 </style>
