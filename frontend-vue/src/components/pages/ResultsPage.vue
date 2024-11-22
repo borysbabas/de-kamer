@@ -1,7 +1,6 @@
 <template>
   <Navbar></Navbar>
   <Results></Results>
-  <VotesTable></VotesTable>
   <ChartTemplate></ChartTemplate>
   <Footer></Footer>
 </template>
@@ -10,7 +9,6 @@
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import Results from "@/components/Results.vue";
-import VotesTable from "@/components/VotesTable.vue";
 import ChartTemplate from "@/components/tools/Chart-Template.vue";
 
 </script>
