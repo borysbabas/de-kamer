@@ -75,9 +75,9 @@ void fetchConstituencies();
 </script>
 
 <template>
-  <select>
-    <option disabled selected>-- Kies een kieskring --</option>
-    <option v-for="constituency in constituencies" :key="constituency.constituencyId" :value="constituency.constituencyId">
+  <select @change="handleConstituencyChange">
+    <option selected disabled value="">-- Kies een kieskring --</option>
+    <option v-for="constituency in constituencies.slice(1, constituencies.length)" :key="constituency.constituencyId" :value="constituency.constituencyId">
       {{ constituency.constituencyName }}
     </option>
   </select>
