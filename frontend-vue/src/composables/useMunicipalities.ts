@@ -3,12 +3,13 @@ import {onMounted, ref} from "vue";
 import type {PopulationDataSet} from "@/types/PopulationDataSet";
 import type {MetaDataCategory, CategoryValue} from "@/types/MetaDataCategory";
 import {MetaDataName} from "@/types/MetaDataCategory";
+
 const BACKEND = "http://localhost:3001";
 const DATA_SET_ID = "03759ned";
 const metaDataCategories = ref<MetaDataCategory[]>([]);
 const fetchedCategories = ref<string[]>([]);
-
 const selectedList = ref<Municipality[]>([]);
+const ageKeyToValue = ref(new Map<string, {}>());
 
 export function useMunicipalities() {
     const municipalityList = ref<Municipality[]>([]);
@@ -62,6 +63,9 @@ export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) 
         return `(RegioS%20eq%20%27GM${municipalityId}%27)`;
     }
 
+    const {metaDataCategories, ageKeyToValue} = useReadableCategories();
+
+
     async function fetchAdditionalInformation(municipality: Municipality) {
         isLoading.value = true;
 
@@ -81,17 +85,13 @@ export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) 
 
         const populationDataSet: PopulationDataSet = await response.json();
 
-        const {metaDataCategories} = useReadableCategories();
-
-        console.log(metaDataCategories.value);
 
         municipalityList.value.push({
             ...municipality,
             additionalData: populationDataSet.value.map(populationData => {
-
                 return {
                     ID: populationData.ID,
-                    Leeftijd: populationData.Leeftijd,
+                    Leeftijd: ageKeyToValue.value.get(populationData.Leeftijd),
                     BevolkingOp1Januari_1: populationData.BevolkingOp1Januari_1?.trim(),
                 }
             }),
@@ -111,7 +111,6 @@ export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) 
     }
 }
 
-
 export function useReadableCategories() {
     const isLoading = ref(false);
 
@@ -120,11 +119,11 @@ export function useReadableCategories() {
     function getCategory(category: MetaDataName) {
         const requestUrl = `https://opendata.cbs.nl/ODataApi/odata/${DATA_SET_ID}/${category}`;
         if (!(category in MetaDataName)) {
-            return {metaDataCategories, isLoading};
+            return {metaDataCategories, ageKeyToValue, isLoading};
         }
 
         if (fetchedCategories.value.includes(category)) {
-            return {metaDataCategories, isLoading};
+            return {metaDataCategories, ageKeyToValue, isLoading};
         }
 
         async function fetchCategory() {
@@ -139,15 +138,21 @@ export function useReadableCategories() {
 
             const metadata: { "odata.metadata": string, "value": CategoryValue[] } = await response.json();
 
+
+            metadata.value.forEach(value => {
+                ageKeyToValue.value.set(value.Key, value);
+            })
+
             metaDataCategories.value.push({category: category, value: metadata.value});
             isLoading.value = false;
         }
 
         fetchedCategories.value.push(category);
+
         void fetchCategory();
     }
 
-    return {metaDataCategories, isLoading};
+    return {metaDataCategories, ageKeyToValue, isLoading};
 }
 
 export async function getMunicipalityById(id: number) {
