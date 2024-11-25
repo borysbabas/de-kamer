@@ -8,98 +8,34 @@ import { Chart, registerables } from "chart.js";
 Chart.register(...registerables);
 
 const route = useRoute();
-const candidateId = ref(null);
-const municipalityData = ref<any[]>([]);
-let isChartResized : boolean = ref(false);
-
+const candidateId = ref(null)
 const fetchedData = ref({
   candidateId: "",
   firstName: "",
   prefix: "",
   lastName: "",
   affiliationName: "",
-  votes: "",
-});
+  votes: ""
+})
 
 async function fetchCandidate() {
-  candidateId.value = route.params.candidateId;
+  candidateId.value = route.params.candidateId
+  console.log(candidateId.value)
   if (candidateId.value) {
-    const response = await fetch(
-        `http://localhost:3001/candidates/${candidateId.value}`
-    );
-    const json = await response.json();
-    fetchedData.value = json;
+    await fetch(`http://localhost:3001/candidates/${candidateId.value}`).then(response => response.json().then(json => fetchedData.value = json))
   } else {
-    console.log("error");
-  }
-}
-
-function createChart() {
-  const dataArray = municipalityData.value;
-  const labels = dataArray.map((municipality: { municipalityName: string }) => municipality.municipalityName);
-  const data = dataArray.map((municipality: { totalVotes: number }) => municipality.totalVotes);
-  const ctx = document.getElementById("municipalityChart") as HTMLCanvasElement;
-
-  if (window.myChart instanceof Chart) {
-    window.myChart.destroy();
-  }
-
-  window.myChart = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: "Aantal stemmen",
-          data: data,
-          backgroundColor: "rgba(54, 162, 235, 0.2)",
-          borderColor: "rgba(54, 162, 235, 1)",
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          type: "linear",
-        },
-      },
-    },
-  });
-}
-async function fetchMunicipalityData() {
-  candidateId.value = route.params.candidateId;
-  if (candidateId.value) {
-    const response = await fetch(
-        `http://localhost:3001/get-municipality-votes-by-candidateId/${candidateId.value}`
-    );
-    const json = await response.json();
-    if (isChartResized.value===true) {
-      municipalityData.value = json.slice(0, 10);
-      createChart();
-    }
-    else if(isChartResized.value===false){
-      municipalityData.value=json
-      createChart()
-    }
+    console.log("error")
   }
 }
 
 onMounted(() => {
-  fetchCandidate();
-  fetchMunicipalityData();
-});
+  fetchCandidate()
+})
 
-watch(
-    () => route.params.candidateId,
-    (changedCandidateId) => {
-      candidateId.value = changedCandidateId;
-      fetchCandidate();
-      fetchMunicipalityData();
-    }
-);
+watch(() => route.params.candidateId, (changedCandidateId) => {
+  candidateId.value = changedCandidateId;
+  fetchCandidate()
+})
 </script>
 
 <template>
@@ -109,8 +45,8 @@ watch(
       <div class="wrapper">
         <H1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
           {{ fetchedData.lastName }}</H1>
-        <H2 v-if="fetchedData.gender !== ``">geslacht: {{ fetchedData.gender }}</H2>
-        <H2>Totaal aantal stemmen op  {{ fetchedData.name }}: {{ fetchedData.votes }}</H2>
+        <H2 v-if="fetchedData.gender!==``">geslacht: {{ fetchedData.gender }}</H2>
+        <H2> Aantal stemmen op {{ fetchedData.name }}: {{ fetchedData.votes }}</H2>
         <H2>Partij: {{ fetchedData.affiliationName }}</H2>
         <canvas id="municipalityChart"></canvas>
         <input type="checkbox" id="checkbox" @click="fetchMunicipalityData" v-model="isChartResized">

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted, onUnmounted, provide, ref} from "vue";
-import Searchbar from "@/components/Searchbar.vue";
+import Searchbar from "@/pages/navbar/components/Searchbar.vue";
 const userEmail = ref("")
 provide("updateEmail",(email:string)=>{
   userEmail.value=email
