@@ -15,8 +15,6 @@
         <apex-chart-interface
             class="apex-interface"
             v-if="interface"
-
-            :chartData="chartData.value"
             @hide-hightlight="hideHightlight"
             @select="select"
       ></apex-chart-interface>
@@ -30,7 +28,6 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import ApexCharts from 'apexcharts'
-import * as apex from '@/components/tools/chartConfig/ApexChartConfig'
 import ApexChartInterface from "@/components/tools/chartConfig/Apex-Chart-Interface.vue";
 import {chartData, setChartData, sortData} from "@/composables/useChartConfig";
 import {curretDataSet} from "@/composables/useChartDataSelector";
@@ -86,13 +83,11 @@ onMounted(() => {
   chart.render();
   setChartData();
   watch(curretDataSet, () => {
-    console.log("Chart Data:", chartData.value);
     updateChart();
   });
 });
 
 function updateChart() {
-  console.log("Chart Data:", chartData.value);
   chart.updateSeries(chartData.value);
   sorted = false;
 }
@@ -116,7 +111,7 @@ function hideHightlight(id: number) {
   sort();
 }
 function select(id: number) {
-  const selectedItem = dataset[0].data.find(item => item.id === id);
+  const selectedItem = chartData.value[0].data.find(item => item.id === id);
   console.log("Selected Item:", selectedItem);
 }
 

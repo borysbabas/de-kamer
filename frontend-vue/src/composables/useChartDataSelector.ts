@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 import {setChartData} from "@/composables/useChartConfig";
 
 export const optionsList = ref([]);
@@ -10,14 +10,13 @@ export const curretDataSet = ref([]);
 
 export const fetchOptions = async () => {
     optionsList.value = [
-        {label: 'Type', options: ['Members', 'Votes']},
+        {label: 'Type', options: ['Members', 'Votes'], selected: 'Members'},
         {label: 'TEMP', options: ['Option 1', 'Option 2', 'Option 3']},
     ];
     return optionsList;
 }
 export const setSelectOption = async (index: number, selectedValue: string) => {
     optionsList.value[index].selected = selectedValue;
-    console.log(optionsList.value);
     await fetchChartData();
 }
 
@@ -34,7 +33,7 @@ export const fetchChartData = async () => {
             data = [];
     }
     curretDataSet.value = data;
-    setChartData();
+    await setChartData();
 }
 
 async function getMembers() {

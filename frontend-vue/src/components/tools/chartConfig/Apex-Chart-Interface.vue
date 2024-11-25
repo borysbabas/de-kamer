@@ -2,40 +2,39 @@
   <div class="interface-background">
     <div class="interface-layers">
       <div
-          v-for="(item, key) of chartData?.data"
-          :key="chartData.data.indexOf(item)"
+          v-for="(item, key) in chartData[0]?.data"
+          :key="key"
           class="items"
       > {{ item.x || "Unknown" }}
         <p style="display: flex">
           <a class="color-square" :style="{ backgroundColor: item.fillColor }"></a>
-          <button class="item-button" @click="hideHightlight(item.id)">Hightlight / Hide</button>
-          <button class="item-button" @click="select(key, item.x, item.id)">Compare</button>
+<!--          temp disable for review-->
+<!--          <button class="item-button" @click="hideHighlight(item.id)">Highlight / Hide</button>-->
+<!--          <button class="item-button" @click="select(key, item.x, item.id)">Compare</button>-->
         </p></div>
     </div>
   </div>
-
 </template>
-<script setup lang="ts">
-import { ref, onMounted, watch, defineEmits } from 'vue'
 
-const props = defineProps<{
-  chartData: any[{}],
-}>()
+<script setup lang="ts">
+import { defineEmits } from 'vue'
+import { chartData } from "@/composables/useChartConfig";
 
 const emit = defineEmits({
-  hideHightlight: (Index: number, x: string, id: number) => true,
-  select: (Index: number, x: string, id: number) => true
+  hideHighlight: (index: number, x: string, id: number) => true,
+  select: (index: number, x: string, id: number) => true
 })
 
-function hideHightlight(id: number) {
-  emit("hideHightlight", id)
-}
-function select(id: number) {
-  emit("select", id)
+function hideHighlight(id: number) {
+  emit("hideHighlight", id)
 }
 
+function select(index: number, x: string, id: number) {
+  emit("select", index, x, id)
+}
 
 </script>
+
 <style scoped>
 .interface-background {
   display: flex;

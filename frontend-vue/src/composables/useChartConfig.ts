@@ -1,5 +1,5 @@
 import {ref } from "vue";
-import {curretDataSet, fetchChartData} from "@/composables/useChartDataSelector";
+import {curretDataSet} from "@/composables/useChartDataSelector";
 
 let curretId = 0;
 

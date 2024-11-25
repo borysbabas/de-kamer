@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import SelectionElement from "@/components/Selection-Element.vue";
-import {fetchOptions, optionsList, setSelectOption} from "@/composables/useChartDataSelector";
+import {fetchChartData, fetchOptions, optionsList, setSelectOption} from "@/composables/useChartDataSelector";
 
 function setSelectedValue(index: number, selectedValue: string) {
   setSelectOption(index, selectedValue);
@@ -22,6 +22,7 @@ function setSelectedValue(index: number, selectedValue: string) {
 
 onMounted(() => {
   fetchOptions();
+  fetchChartData();
 });
 
 
