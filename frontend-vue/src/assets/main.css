@@ -47,6 +47,16 @@ a {
     position: relative;
 }
 
+input, button, select, textarea {
+    font: var(--font);
+    font-size: 16px;
+    font-weight: normal;
+    padding: 10px;
+    border: 1px solid var(--dark-primary);
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
 strong {
     font-weight: bold;
 }

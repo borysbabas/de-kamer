@@ -19,8 +19,10 @@ onMounted(() => {
 
 <template>
   <Navbar></Navbar>
-  <section class="first main">
-    <ForumHero></ForumHero>
+  <ForumHero></ForumHero>
+  <section class="main">
+    <h1>Recent posts</h1>
+    <p>The recent posts from our community</p>
   </section>
   <Footer></Footer>
 </template>

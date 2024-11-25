@@ -59,6 +59,7 @@ const isForumPage = ref(route.path.startsWith("/forum"));
       <li class="buttons">
         <Searchbar v-if="searchBarState" id="searchbar" class="searchbar"></Searchbar>
         <template v-if="isForumPage">
+          <router-link to="/forum"><p class="nav-text">Forum</p></router-link>
           <router-link to="/forum/login"><p class="nav-text">Login</p></router-link>
           <router-link to="/forum/register"><p class="nav-text">Register</p></router-link>
         </template>
