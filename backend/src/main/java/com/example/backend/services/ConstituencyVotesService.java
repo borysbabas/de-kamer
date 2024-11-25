@@ -23,6 +23,9 @@ public class ConstituencyVotesService {
 
     public List<ConstituencyVotes> getConstituencyVotesByConstituency(Constituency constituency) {
         return constituencyVotesRepository.findByConstituencyOrderByTotalVotesDesc(constituency);
+    public int getConstituencyVotesCountByConstituency(Constituency constituency) {
+        return constituencyVotesRepository.countByConstituency(constituency);
+    }
     }
 
 }
