@@ -1,12 +1,5 @@
-<template>
-  <Navbar></Navbar>
-  <Results></Results>
-  <ApexChartTemplate :chart-data="result" :interface="true" :chart-type="donut"></ApexChartTemplate>
-  <Footer></Footer>
-</template>
-
 <script setup lang="ts">
-import Navbar from "@/pages/navbar/components/Navbar.vue";
+import Navbar from "@/pages/navbar/Navbar.vue";
 import Footer from "@/pages/footer/Footer.vue";
 import Results from "@/pages/results/components/Results.vue";
 import ApexChartTemplate from "@/components/tools/Apex-Chart-Template.vue";
@@ -40,6 +33,13 @@ onMounted(async () => {
 })
 
 </script>
+
+<template>
+  <Navbar></Navbar>
+  <Results></Results>
+  <ApexChartTemplate :chart-data="result" :interface="true" :chart-type="donut"></ApexChartTemplate>
+  <Footer></Footer>
+</template>
 
 <style scoped>
 </style>

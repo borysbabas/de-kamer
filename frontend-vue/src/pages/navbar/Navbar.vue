@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import {onMounted, onUnmounted, provide, ref} from "vue";
+import {useRoute} from "vue-router";
 import Searchbar from "@/pages/navbar/components/Searchbar.vue";
-const userEmail = ref("")
-provide("updateEmail",(email:string)=>{
-  userEmail.value=email
-})
+
+const userEmail = ref("");
+provide("updateEmail", (email: string) => {
+  userEmail.value = email;
+});
 const searchBarState = ref(false);
 
 const toggleSearchBar = () => {
@@ -24,15 +26,14 @@ const handleScroll = () => {
   }
 };
 
-onMounted(()=>{
-  const searchDOM=document.getElementById("searchbar");
-  if(searchDOM){
-    searchDOM.addEventListener("focusout",()=>this.searchBarState.value=false)
+onMounted(() => {
+  const searchDOM = document.getElementById("searchbar");
+  if (searchDOM) {
+    searchDOM.addEventListener("focusout", () => this.searchBarState.value = false);
+  } else {
+    console.log("error");
   }
-  else{
-    console.log("error")
-  }
-})
+});
 
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
@@ -44,16 +45,28 @@ onUnmounted(() => {
 
 const navbarMargin = ref("50px");
 
+const route = useRoute();
+const isForumPage = ref(route.path.startsWith("/forum"));
+
 </script>
 
 <template>
   <div id="navbar" class="nav">
     <ul>
-      <li class="navbar-logo"><router-link to="/">DeKamer.</router-link></li>
+      <li class="navbar-logo">
+        <router-link to="/">DeKamer.</router-link>
+      </li>
       <li class="buttons">
         <Searchbar v-if="searchBarState" id="searchbar" class="searchbar"></Searchbar>
-        <router-link to="/uitslagen"><p class="nav-text">Uitslagen</p></router-link>
-        <router-link to="/info"><p class="nav-text">Info</p></router-link>
+        <template v-if="isForumPage">
+          <router-link to="/forum/login"><p class="nav-text">Login</p></router-link>
+          <router-link to="/forum/register"><p class="nav-text">Register</p></router-link>
+        </template>
+        <template v-else>
+          <router-link to="/uitslagen"><p class="nav-text">Uitslagen</p></router-link>
+          <router-link to="/info"><p class="nav-text">Info</p></router-link>
+          <router-link to="/forum"><p class="nav-text">Forum</p></router-link>
+        </template>
         <svg @click="toggleSearchBar" xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
              viewBox="0 0 512 512">
           <path
@@ -81,7 +94,7 @@ const navbarMargin = ref("50px");
   transition-duration: 0.3s;
 }
 
-.fixed-top{
+.fixed-top {
   width: 100%;
   margin: 0;
   padding: 0 var(--page-padding);

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Navbar from "@/pages/navbar/components/Navbar.vue";
+import Navbar from "@/pages/navbar/Navbar.vue";
 import Footer from "@/pages/footer/Footer.vue"
 import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Hero from "@/pages/home/components/Hero.vue";
-import Navbar from "@/pages/navbar/components/Navbar.vue";
+import Navbar from "@/pages/navbar/Navbar.vue";
 import Footer from "@/pages/footer/Footer.vue";
 import AboutUs from "@/pages/home/components/AboutUs.vue";
 import Graph from "@/pages/home/components/Graph.vue";
