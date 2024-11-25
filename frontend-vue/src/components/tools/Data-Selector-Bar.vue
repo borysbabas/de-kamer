@@ -11,7 +11,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import SelectionElement from "@/components/Selection-Element.vue";
 import {fetchChartData, fetchOptions, optionsList, setSelectOption} from "@/composables/useChartDataSelector";
 

@@ -2,7 +2,7 @@
   <Navbar></Navbar>
   <Results></Results>
   <data-selector-bar></data-selector-bar>
-  <ApexChartTemplate :chart-data="result" :interface="true" :chart-type="donut"></ApexChartTemplate>
+  <ApexChartTemplate :interface="true" :chart-type="donut"></ApexChartTemplate>
   <Footer></Footer>
 </template>
 
@@ -12,35 +12,6 @@ import Footer from "@/pages/footer/Footer.vue";
 import Results from "@/pages/results/components/Results.vue";
 import ApexChartTemplate from "@/components/tools/Apex-Chart-Template.vue";
 import DataSelectorBar from "@/components/tools/Data-Selector-Bar.vue";
-import {onMounted, ref} from "vue";
-
-
-let result = ref<any[]>([])
-
-// Temporary data source
-async function getChartData() {
-  return await fetch("http://localhost:3001/affiliation/members/count")
-      .then((response) => response.json())
-      .then((data) => {
-        return data;
-      });
-}
-
-async function getChartData2() {
-  return await fetch("http://localhost:3001/votes/affiliations")
-      .then((response) => response.json())
-      .then((data) => {
-        return data;
-      });
-}
-
-onMounted(async () => {
-  result.value = {
-    members: await getChartData(),
-    votes: await getChartData2()
-  }
-})
-
 </script>
 
 <style scoped>

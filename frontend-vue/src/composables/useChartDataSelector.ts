@@ -1,4 +1,4 @@
-import {onMounted, ref} from "vue";
+import { ref} from "vue";
 import {setChartData} from "@/composables/useChartConfig";
 
 export const optionsList = ref([]);
@@ -21,7 +21,7 @@ export const setSelectOption = async (index: number, selectedValue: string) => {
 }
 
 export const fetchChartData = async () => {
-    let data = [];
+    let data;
     switch (selectedOption.value[0].selected) {
         case 'Members':
             data = await getMembers();

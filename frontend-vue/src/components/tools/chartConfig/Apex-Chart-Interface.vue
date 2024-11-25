@@ -21,7 +21,7 @@ import { defineEmits } from 'vue'
 import { chartData } from "@/composables/useChartConfig";
 
 const emit = defineEmits({
-  hideHighlight: (index: number, x: string, id: number) => true,
+  // hideHighlight: (index: number, x: string, id: number) => true,
   select: (index: number, x: string, id: number) => true
 })
 

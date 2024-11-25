@@ -32,7 +32,7 @@ import ApexChartInterface from "@/components/tools/chartConfig/Apex-Chart-Interf
 import {chartData, setChartData, sortData} from "@/composables/useChartConfig";
 import {curretDataSet} from "@/composables/useChartDataSelector";
 
-const props = defineProps<{
+defineProps<{
   interface: boolean,
   chartType?: string,
   chartTypeInfo?: number,
@@ -40,11 +40,10 @@ const props = defineProps<{
 
 let chart: ApexCharts;
 let sorted = ref(false);
-let selectedChart = ref('');
 
 
 // Chart configuration
-var options = {
+let options = {
   series: [
     {
       name: 'Data',
@@ -103,13 +102,13 @@ function sort() {
   chartData.value = sortData('desc');
   chart.updateSeries(chartData.value);
 }
-
-function hideHightlight(id: number) {
-  dataset = apex.hideHighlight(dataset, id);
-  chart.updateSeries(dataset);
-  sorted = !sorted;
-  sort();
-}
+// Old function I need this code later
+// function hideHightlight(id: number) {
+//   chartData = apex.hideHighlight(dataset, id);
+//   chart.updateSeries(dataset);
+//   sorted = !sorted;
+//   sort();
+// }
 function select(id: number) {
   const selectedItem = chartData.value[0].data.find(item => item.id === id);
   console.log("Selected Item:", selectedItem);
@@ -132,20 +131,6 @@ function select(id: number) {
   font-family: inherit;
   margin-right: 10px;
 }
-.selectOptions {
-  background-color: var(--button-important);
-  color: var(--light-primary);
-  border: 10px solid var(--button-important);
-  padding: 2px;
-  width: 120px;
-  border-radius: 10px;
-  font-size: 20px;
-  cursor: pointer;
-  font-family: inherit;
-  overflow: auto; /* Add overflow to handle the items */
-  max-height: 200px; /* Set a max height to allow scrolling */
-}
-
 .selectOptions option  {
   padding: 30px;
   font-size: 20px;
