@@ -44,8 +44,12 @@ public class VotesController {
         return affiliationVotesList;
     }
 
-    @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES + "/{constituencyId}")
-    public List<ConstituencyVotesModel> getConstituencyVotesByConstituencyId(@PathVariable("constituencyId") Long constituencyId) {
+    @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES + "/{constituencyId}/count")
+    public int getConstituencyVotesCountByConstituencyId(@PathVariable("constituencyId") Long constituencyId) {
+        Constituency constituency = constituencyService.findConstituencyById(constituencyId);
+        return constituencyVotesService.getConstituencyVotesCountByConstituency(constituency);
+    }
+
     @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES + "/{constituencyId}/{page}")
     public List<ConstituencyVotesModel> getConstituencyVotesByConstituencyIdByPage(@PathVariable("constituencyId") Long constituencyId, @PathVariable("page") Integer page) {
         Constituency constituency = constituencyService.findConstituencyById(constituencyId);
