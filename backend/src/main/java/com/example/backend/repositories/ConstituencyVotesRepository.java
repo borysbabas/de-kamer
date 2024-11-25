@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ConstituencyVotesRepository extends JpaRepository<ConstituencyVotes, Long> {
     List<ConstituencyVotes> findByConstituencyOrderByTotalVotesDesc(Constituency constituency);
+    int countByConstituency(Constituency constituency);
 }
