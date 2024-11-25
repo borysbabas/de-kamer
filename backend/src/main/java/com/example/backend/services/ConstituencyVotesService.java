@@ -21,11 +21,12 @@ public class ConstituencyVotesService {
         constituencyVotesRepository.save(constituencyVotes);
     }
 
-    public List<ConstituencyVotes> getConstituencyVotesByConstituency(Constituency constituency) {
-        return constituencyVotesRepository.findByConstituencyOrderByTotalVotesDesc(constituency);
     public int getConstituencyVotesCountByConstituency(Constituency constituency) {
         return constituencyVotesRepository.countByConstituency(constituency);
     }
+
+    public List<ConstituencyVotes> getConstituencyVotesByConstituencyByPage(Constituency constituency, int page) {
+        return constituencyVotesRepository.findByConstituencyByPageOrderByTotalVotesDesc(constituency, (page - 1) * 30);
     }
 
 }
