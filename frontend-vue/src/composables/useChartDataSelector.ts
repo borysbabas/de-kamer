@@ -1,7 +1,12 @@
 import { ref } from "vue";
+import {setChartData} from "@/composables/useChartConfig";
 
 export const optionsList = ref([]);
 export const selectedOption = ref(optionsList);
+export const curretDataSet = ref([]);
+
+
+
 
 export const fetchOptions = async () => {
     optionsList.value = [
@@ -10,23 +15,27 @@ export const fetchOptions = async () => {
     ];
     return optionsList;
 }
-export const setSelectOption = (index: number, selectedValue: string) => {
+export const setSelectOption = async (index: number, selectedValue: string) => {
     optionsList.value[index].selected = selectedValue;
+    console.log(optionsList.value);
+    await fetchChartData();
 }
 
-export const chartData = ref([]);
-
-export const fetchChartData = async (selectedOption: string) => {
-    switch (selectedOption[0]) {
+export const fetchChartData = async () => {
+    let data = [];
+    switch (selectedOption.value[0].selected) {
         case 'Members':
-            return await getMembers();
+            data = await getMembers();
+            break;
         case 'Votes':
-            return await getVotes();
+            data = await getVotes();
+            break;
         default:
-            return [];
+            data = [];
     }
+    curretDataSet.value = data;
+    setChartData();
 }
-
 
 async function getMembers() {
     return await fetch("http://localhost:3001/affiliation/members/count")

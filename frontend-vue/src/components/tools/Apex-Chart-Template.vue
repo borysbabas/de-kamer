@@ -6,16 +6,6 @@
             @click="sort"
             class="sortbutton"
         >Sort items</button>
-        <select
-            v-model="selectedChart"
-            @change="updateChart"
-            class="selectOptions"
-        >
-          <option
-              v-for="key in Object.keys(chartData)"
-              :key="key"
-          >{{ key }}</option>
-        </select>
       </div>
       <div class="chartContainer">
         <div
@@ -26,7 +16,7 @@
             class="apex-interface"
             v-if="interface"
 
-            :chartData="dataset[0]"
+            :chartData="chartData.value"
             @hide-hightlight="hideHightlight"
             @select="select"
       ></apex-chart-interface>
@@ -42,17 +32,16 @@ import { ref, onMounted, watch } from 'vue'
 import ApexCharts from 'apexcharts'
 import * as apex from '@/components/tools/chartConfig/ApexChartConfig'
 import ApexChartInterface from "@/components/tools/chartConfig/Apex-Chart-Interface.vue";
-
+import {chartData, setChartData, sortData} from "@/composables/useChartConfig";
+import {curretDataSet} from "@/composables/useChartDataSelector";
 
 const props = defineProps<{
-  chartData: any[],
   interface: boolean,
   chartType?: string,
   chartTypeInfo?: number,
 }>()
 
 let chart: ApexCharts;
-let dataset: any[] = [];
 let sorted = ref(false);
 let selectedChart = ref('');
 
@@ -95,31 +84,29 @@ var options = {
 onMounted(() => {
   chart = new ApexCharts(document.querySelector("#chart"), options);
   chart.render();
-  watch(() => props.chartData, (newChartData) => {
-    if (props.chartData.length !== 0) {
-      selectedChart.value = Object.keys(props.chartData)[0];
-      updateChart();
-    }
-  }, { immediate: true });
+  setChartData();
+  watch(curretDataSet, () => {
+    console.log("Chart Data:", chartData.value);
+    updateChart();
+  });
 });
 
 function updateChart() {
-  dataset = apex.normalizeData(apex.formatData(props.chartData[selectedChart.value]));
-  chart.updateSeries(dataset);
-  sorted = true;
-  sort();
+  console.log("Chart Data:", chartData.value);
+  chart.updateSeries(chartData.value);
+  sorted = false;
 }
 
 function sort() {
   if (sorted) {
-    dataset = apex.sortData(dataset, 'asc');
-    chart.updateSeries(dataset);
+    chartData.value = sortData('asc');
+    chart.updateSeries(chartData.value);
     sorted = false;
     return;
   }
   sorted = true;
-  dataset = apex.sortData(dataset, 'desc');
-  chart.updateSeries(dataset);
+  chartData.value = sortData('desc');
+  chart.updateSeries(chartData.value);
 }
 
 function hideHightlight(id: number) {
