@@ -14,7 +14,7 @@
 <script setup lang="ts">
 
 import MunicipalitySearch from "@/components/MunicipalitySearch.vue";
-import {getSelectedMunicipalities, removeMunicipality} from "@/composables/useMunicipalities";
+import {getSelectedMunicipalities, removeMunicipality, useReadableCategories} from "@/composables/useMunicipalities";
 import MunicipalityCards from "@/components/MunicipalityCards.vue";
 import {ref, toRaw} from "vue";
 
@@ -26,14 +26,6 @@ function renderMunicipalityCards() {
   cardKey.value++;
 }
 
-async function testfetch() {
-  const result = await fetch("https://opendata.cbs.nl/ODataApi/odata/03759ned/TypedDataSet");
-
-  const data = await result.json();
-  console.log(data);
-}
-
-testfetch();
 
 </script>
 

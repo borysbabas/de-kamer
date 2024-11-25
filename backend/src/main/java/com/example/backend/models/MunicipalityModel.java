@@ -7,12 +7,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MunicipalityModel {
-    private long id;
+    private long municipalityId;
     private String name;
     private long constituencyId;
 
     public MunicipalityModel(Municipality municipality) {
-        this.id = municipality.getMunicipalityId();
+        this.municipalityId = municipality.getMunicipalityId();
         this.name = municipality.getMunicipalityName();
         this.constituencyId = municipality.getConstituency().getConstituencyId();
     }

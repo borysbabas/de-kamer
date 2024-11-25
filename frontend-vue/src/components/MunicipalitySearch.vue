@@ -7,7 +7,7 @@
       <input type="text" placeholder="Amsterdam" @input="onSearchInput">
     </div>
     <div class="search-result" v-if="filteredList.length >= 1">
-      <p v-for="municipality in itemsInFilterList.splice(0, 10)" :key="municipality.municipalityId" @click="addMunicipality(municipality)">{{municipality.name}}</p>
+      <p v-for="municipality in municipalitiesInFilterList.splice(0, 10)" :key="municipality.municipalityId" @click="addMunicipality(municipality)">{{municipality.name}}</p>
     </div>
   </div>
 </template>
@@ -22,9 +22,9 @@ const filteredList = ref<Municipality[]>([]);
 
 // Filter out the selected municipalities from the search results
 const selectedList: Municipality[] = getSelectedMunicipalities()
-const itemsInFilterList = computed(() => {
-  const selectedIds = selectedList.value.map(item => item.id);
-  return filteredList.value.filter(item => !selectedIds.includes(item.id));
+const municipalitiesInFilterList = computed(() => {
+  const selectedIds = selectedList.value.map((municipality: Municipality) => municipality.municipalityId);
+  return filteredList.value.filter((municipality: Municipality) => !selectedIds.includes(municipality.municipalityId));
 });
 
 function onSearchInput(e: Event) {

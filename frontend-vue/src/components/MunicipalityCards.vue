@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import type {Municipality} from "@/types/Municipality";
 import type {PropType} from "vue";
+import {useAdditionalMunicipalitiesData} from "@/composables/useMunicipalities";
 
-defineProps({
+const props = defineProps({
   municipalities: {
     type: Object as PropType<Municipality[]>,
     required: true
   }
 })
+
+const {municipalityList} = useAdditionalMunicipalitiesData(props.municipalities);
+
+console.log(municipalityList.value);
+
 </script>
 
 <template>
