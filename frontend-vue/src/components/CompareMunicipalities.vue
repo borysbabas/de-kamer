@@ -7,17 +7,34 @@
       <img @click="removeMunicipality(municipality)" src="@/assets/svg/red-cross.svg" alt="red cross" />
     </div>
   </div>
-  <button>vergelijk</button>
+  <button @click="renderMunicipalityCards">vergelijk</button>
+  <MunicipalityCards :key="cardKey" :municipalities=toRaw(selectedMunicipalities)></MunicipalityCards>
 </template>
 
 <script setup lang="ts">
 
 import MunicipalitySearch from "@/components/MunicipalitySearch.vue";
 import {getSelectedMunicipalities, removeMunicipality} from "@/composables/useMunicipalities";
+import MunicipalityCards from "@/components/MunicipalityCards.vue";
+import {ref, toRaw} from "vue";
 
 const selectedMunicipalities = getSelectedMunicipalities();
+const cardKey = ref(0);
 
-function
+// Update the key of the MunicipalityCards component to force a re-render
+function renderMunicipalityCards() {
+  cardKey.value++;
+}
+
+async function testfetch() {
+  const result = await fetch("https://opendata.cbs.nl/ODataApi/odata/03759ned/TypedDataSet");
+
+  const data = await result.json();
+  console.log(data);
+}
+
+testfetch();
+
 </script>
 
 <style scoped>
