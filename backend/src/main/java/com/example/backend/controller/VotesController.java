@@ -56,9 +56,17 @@ public class VotesController {
                 affiliationVotes.getAffiliationVotes(),
                 affiliationVotes.getAffiliation().getAffiliationId());
 
+        List<CandidateVotesModel> allCandidateVotes = countryVotesService.getAllCountryVotes();
         List<CandidateDTO> candidates = candidateService.findCandidatesByAffiliationId(id)
                 .stream()
-                .map(CandidateDTO::new)
+                .map(candidate -> {
+                    CandidateVotesModel candidateVotes = allCandidateVotes.stream()
+                            .filter(cv -> cv.getCandidateId() == candidate.getCandidateId())
+                            .findFirst()
+                            .orElse(null);
+                    Long votes = candidateVotes != null ? candidateVotes.getVotes() : 0L;
+                    return new CandidateDTO(candidate, votes);
+                })
                 .collect(Collectors.toList());
 
         affiliationVotesModel.setCandidates(candidates);
