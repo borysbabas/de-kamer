@@ -35,10 +35,14 @@ public class CountryVotesService {
     public List<CandidateVotesModel> getAllCountryVotes() {
         List<CountryVotes> countryVotes = countryVotesRepository.findAll();
 
-        return countryVotes.stream().map(vote -> new CandidateVotesModel(vote)).toList();
+        return countryVotes.stream().map(CandidateVotesModel::new).toList();
     }
 
     public CandidateVotesModel getCountryVotesByCandidate(Candidate candidate) {
         return new CandidateVotesModel(countryVotesRepository.findByCandidate(candidate));
+    }
+
+    public CountryVotes findByCandidate(Candidate candidate) {
+        return this.countryVotesRepository.findByCandidate(candidate);
     }
 }

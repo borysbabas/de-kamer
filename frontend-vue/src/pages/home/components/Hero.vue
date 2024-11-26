@@ -33,11 +33,6 @@ watch(selectedOption, () => {
   z-index: 0;
 }
 
-.first {
-  padding-top: 150px !important;
-  margin: 0 auto;
-}
-
 .dropdown-select option {
   padding: 20px;
   border-radius: 0;
