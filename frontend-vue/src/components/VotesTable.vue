@@ -65,13 +65,18 @@ function handleConstituencyChange(event) {
 }
 
 function handlePageDown() {
-  if (n.value !== 0) {
-    n.value -= 1;
+  if (currentPage.value !== 1) {
+    currentPage.value -= 1;
+    fetchConstituencyVotes(selectedConstituency.value, currentPage.value);
   }
 }
 
 function handlePageUp() {
   n.value += 1;
+  if (currentPage.value < Math.ceil(tableLength.value / PAGINATION.value)) {
+    currentPage.value += 1;
+    fetchConstituencyVotes(selectedConstituency.value, currentPage.value);
+  }
 }
 
 void fetchConstituencies();
