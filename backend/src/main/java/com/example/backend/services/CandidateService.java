@@ -81,7 +81,7 @@ public class CandidateService {
     }
 
     public Long countDistinctCandidatesByAffiliation(Affiliation affiliation) {
-        return candidateRepository.countDistinctCandidatesByAffiliation(affiliation);
+        return (long) findDistinctByAffiliation(affiliation).size();
     }
 
     public List<Candidate> findCandidatesByAffiliation(Affiliation affiliation) {
