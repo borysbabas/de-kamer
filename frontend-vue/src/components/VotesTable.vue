@@ -1,4 +1,49 @@
 <template>
+  <select @change="handleConstituencyChange">
+    <option selected disabled value="">-- Kies een kieskring --</option>
+    <option v-for="constituency in constituencies" :key="constituency.constituencyId" :value="constituency.constituencyId">
+      {{ constituency.constituencyName }}
+    </option>
+  </select>
+  <table v-if="selectedConstituency">
+    <tr>
+      <th>Kandidaat</th>
+      <th>Partij</th>
+      <th>Aantal stemmen</th>
+    </tr>
+    <tr v-for="constituencyVote in constituencyVotes" :key="constituencyVote.candidateId">
+      <td>
+        {{ constituencyVote.candidateName }}
+      </td>
+      <td>
+        {{ constituencyVote.affiliationName }}
+      </td>
+      <td>
+        {{ constituencyVote.constituencyVotes }}
+      </td>
+    </tr>
+  </table>
+  <div class="pageSelector" v-if="selectedConstituency">
+    <p @click="handleFirstPage" :class="['pageButton', {'greyed-out': currentPage === 1 }]">
+      <<
+    </p>
+
+    <p @click="handlePageDown" :class="['pageButton', {'greyed-out': currentPage === 1 }]">
+      <
+    </p>
+
+    <p>
+      {{ currentPage }} / {{ Math.ceil(tableLength / PAGINATION) }}
+    </p>
+
+    <p @click="handlePageUp" :class="['pageButton', {'greyed-out': currentPage === Math.ceil(tableLength / PAGINATION) }]">
+      >
+    </p>
+
+    <p @click="handleLastPage" :class="['pageButton', {'greyed-out': currentPage === Math.ceil(tableLength / PAGINATION) }]">
+      >>
+    </p>
+  </div>
 </template>
 
 <script setup lang="ts">
