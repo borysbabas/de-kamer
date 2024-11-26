@@ -14,8 +14,8 @@ body {
     font-weight: normal;
     background-color: var(--light-primary);
     color: var(--light-primary);
+    letter-spacing: 1px;
 }
-
 
 h1 {
     font-size: 38px;
@@ -49,4 +49,16 @@ a {
 
 strong {
     font-weight: bold;
+}
+
+.angle-up-icon {
+    fill: var(--button-important);
+    width: 2rem;
+    cursor: pointer;
+}
+
+.angle-down-icon {
+    fill: var(--button-important);
+    width: 2rem;
+    cursor: pointer;
 }

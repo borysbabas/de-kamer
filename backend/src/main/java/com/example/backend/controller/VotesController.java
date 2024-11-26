@@ -9,6 +9,9 @@ import com.example.backend.models.ConstituencyVotesModel;
 import com.example.backend.services.AffiliationVotesService;
 import com.example.backend.services.ConstituencyService;
 import com.example.backend.services.ConstituencyVotesService;
+import com.example.backend.models.CandidateVotesModel;
+import com.example.backend.models.VoteModel;
+import com.example.backend.services.CountryVotesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,15 +25,17 @@ public class VotesController {
     private final AffiliationVotesService affiliationVotesService;
     private final ConstituencyService constituencyService;
     private final ConstituencyVotesService constituencyVotesService;
+    private final CountryVotesService countryVotesService;
 
     // Constant to define the amount of elements loaded into the votes table
     private static final int PAGINATION = 30;
 
     @Autowired
-    public VotesController(AffiliationVotesService affiliationVotesService, ConstituencyService constituencyService, ConstituencyVotesService constituencyVotesService) {
+    public VotesController(AffiliationVotesService affiliationVotesService, ConstituencyService constituencyService, ConstituencyVotesService constituencyVotesService, CountryVotesService countryVotesService) {
         this.affiliationVotesService = affiliationVotesService;
         this.constituencyService = constituencyService;
         this.constituencyVotesService = constituencyVotesService;
+        this.countryVotesService = countryVotesService;
     }
 
     @GetMapping(path = ApiPaths.AFFILIATION_SERVICE_VOTES)
@@ -72,5 +77,10 @@ public class VotesController {
             }
         }
         return constituencyVotesList;
+    }
+
+    @GetMapping(path = ApiPaths.CANDIDATE_SERVICE_VOTES)
+    public List<CandidateVotesModel> getTotalCandidateVotes() {
+        return countryVotesService.getAllCountryVotes();
     }
 }

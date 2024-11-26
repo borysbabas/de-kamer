@@ -2,11 +2,9 @@ package com.example.backend.controller;
 
 import com.example.backend.DTO.CandidateDTO;
 import com.example.backend.entities.Candidate;
-import com.example.backend.models.AffiliationNameModel;
-import com.example.backend.repositories.CandidateRepository;
+import com.example.backend.models.CandidateVotesModel;
 import com.example.backend.services.CandidateService;
-import org.apache.coyote.Response;
-import org.springframework.http.ResponseEntity;
+import com.example.backend.services.CountryVotesService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +14,11 @@ import java.util.stream.Collectors;
 @RestController
 public class CandidateController {
     private final CandidateService candidateService;
+    private final CountryVotesService countryVotesService;
 
-    public CandidateController(CandidateService candidateService) {
+    public CandidateController(CandidateService candidateService, CountryVotesService countryVotesService) {
         this.candidateService = candidateService;
+        this.countryVotesService = countryVotesService;
     }
 
     @GetMapping(path = "/candidates", produces = "application/json")
@@ -35,10 +35,10 @@ public class CandidateController {
 //        }
 //        return candidateDTOS;
     }
-    @GetMapping(path="/candidates/{candidateID}")
-    public CandidateDTO getCandidateByID(@PathVariable("candidateID") Long candidateID){
-        Candidate candidate = candidateService.getCandidateByCandidateID(candidateID);
-        return new CandidateDTO(candidate);
+    @GetMapping(path="/candidates/{candidateId}")
+    public CandidateVotesModel getCandidateById(@PathVariable("candidateId") Long candidateId){
+        Candidate candidate = candidateService.getCandidateByCandidateId(candidateId);
+        return countryVotesService.getCountryVotesByCandidate(candidate);
 
     }
 

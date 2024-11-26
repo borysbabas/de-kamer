@@ -19,10 +19,9 @@ const postMethod = async () => {
     }
   } catch (error) {
     console.log(error)
-
   }
-
 }
+
 const formData = ref({
   email: "",
   username: "",
@@ -104,5 +103,4 @@ a {
   color: var(--light-primary);
   text-decoration: underline;
 }
-
 </style>

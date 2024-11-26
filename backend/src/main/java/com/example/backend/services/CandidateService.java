@@ -63,9 +63,9 @@ public class CandidateService {
 
     public List<Candidate> findAll() {
         return candidateRepository.findAll();
-
     }
-    public Candidate getCandidateByCandidateID(Long id){
+
+    public Candidate getCandidateByCandidateId(Long id){
         return candidateRepository.getCandidateByCandidateId(id);
     }
 
