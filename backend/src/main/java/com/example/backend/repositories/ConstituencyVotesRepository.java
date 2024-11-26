@@ -11,6 +11,6 @@ import java.util.List;
 public interface ConstituencyVotesRepository extends JpaRepository<ConstituencyVotes, Long> {
     int countByConstituency(Constituency constituency);
 
-    @Query("SELECT cv FROM ConstituencyVotes cv WHERE cv.constituency = :constituency ORDER BY cv.totalVotes DESC LIMIT 30 OFFSET :offset")
-    List<ConstituencyVotes> findByConstituencyByPageOrderByTotalVotesDesc(@Param("constituency") Constituency constituency, @Param("offset") int offset);
+    @Query("SELECT cv FROM ConstituencyVotes cv WHERE cv.constituency = :constituency ORDER BY cv.totalVotes DESC LIMIT :pagination OFFSET :offset")
+    List<ConstituencyVotes> findByConstituencyByPageOrderByTotalVotesDesc(@Param("constituency") Constituency constituency, @Param("pagination") int pagination, @Param("offset") int offset);
 }

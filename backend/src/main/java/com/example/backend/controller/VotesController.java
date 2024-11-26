@@ -23,6 +23,9 @@ public class VotesController {
     private final ConstituencyService constituencyService;
     private final ConstituencyVotesService constituencyVotesService;
 
+    // Constant to define the amount of elements loaded into the votes table
+    private static final int PAGINATION = 30;
+
     @Autowired
     public VotesController(AffiliationVotesService affiliationVotesService, ConstituencyService constituencyService, ConstituencyVotesService constituencyVotesService) {
         this.affiliationVotesService = affiliationVotesService;
@@ -53,18 +56,20 @@ public class VotesController {
     @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES + "/{constituencyId}/{page}")
     public List<ConstituencyVotesModel> getConstituencyVotesByConstituencyIdByPage(@PathVariable("constituencyId") Long constituencyId, @PathVariable("page") Integer page) {
         Constituency constituency = constituencyService.findConstituencyById(constituencyId);
-        List<ConstituencyVotes> constituencyVotes = constituencyVotesService.getConstituencyVotesByConstituencyByPage(constituency, page);
+        List<ConstituencyVotes> constituencyVotes = constituencyVotesService.getConstituencyVotesByConstituencyByPage(constituency, PAGINATION, page);
         List<ConstituencyVotesModel> constituencyVotesList = new ArrayList<>();
         for (ConstituencyVotes constituencyVote : constituencyVotes) {
-            constituencyVotesList.add(new ConstituencyVotesModel(
-                    constituencyVote.getConstituency().getConstituencyName(),
-                    constituencyVote.getAffiliation().getAffiliationName(),
-                    constituencyVote.getCandidate().getFullName(),
-                    constituencyVote.getTotalVotes(),
-                    constituencyVote.getConstituency().getConstituencyId(),
-                    constituencyVote.getAffiliation().getAffiliationId(),
-                    constituencyVote.getCandidate().getCandidateId()
-            ));
+            if (!constituencyVote.getConstituency().getConstituencyName().equals("alle") && !constituencyVote.getConstituency().getConstituencyName().equals("Bonaire")) {
+                constituencyVotesList.add(new ConstituencyVotesModel(
+                        constituencyVote.getConstituency().getConstituencyName(),
+                        constituencyVote.getAffiliation().getAffiliationName(),
+                        constituencyVote.getCandidate().getFullName(),
+                        constituencyVote.getTotalVotes(),
+                        constituencyVote.getConstituency().getConstituencyId(),
+                        constituencyVote.getAffiliation().getAffiliationId(),
+                        constituencyVote.getCandidate().getCandidateId()
+                ));
+            }
         }
         return constituencyVotesList;
     }
