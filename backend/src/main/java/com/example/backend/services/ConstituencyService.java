@@ -30,7 +30,8 @@ public class ConstituencyService {
     }
 
     public List<Constituency> findAllConstituencies() {
-        return constituencyRepository.findAll();
+        System.out.println("Constituency service test");
+        return constituencyRepository.findAllByOrderByConstituencyNameAsc();
     }
 
     public Constituency findConstituencyById(Long constituencyId) {
