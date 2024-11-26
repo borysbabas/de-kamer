@@ -3,22 +3,19 @@ package com.example.backend.controller;
 import com.example.backend.DTO.CandidateDTO;
 import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.AffiliationVotes;
+import com.example.backend.entities.Candidate;
 import com.example.backend.entities.Constituency;
 import com.example.backend.entities.ConstituencyVotes;
 import com.example.backend.models.AffiliationVotesModel;
-import com.example.backend.models.ConstituencyVotesModel;
-import com.example.backend.services.AffiliationVotesService;
-import com.example.backend.services.ConstituencyService;
-import com.example.backend.services.ConstituencyVotesService;
 import com.example.backend.models.CandidateVotesModel;
-import com.example.backend.services.AffiliationVotesService;
-import com.example.backend.services.CandidateService;
-import com.example.backend.services.CountryVotesService;
+import com.example.backend.models.ConstituencyVotesModel;
+import com.example.backend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -96,20 +93,9 @@ public class VotesController {
                 affiliationVotes.getAffiliationVotes(),
                 affiliationVotes.getAffiliation().getAffiliationId());
 
-        List<CandidateVotesModel> allCandidateVotes = countryVotesService.getAllCountryVotes();
-        List<CandidateDTO> candidates = candidateService.findCandidatesByAffiliationId(id)
-                .stream()
-                .map(candidate -> {
-                    CandidateVotesModel candidateVotes = allCandidateVotes.stream()
-                            .filter(cv -> cv.getCandidateId() == candidate.getCandidateId())
-                            .findFirst()
-                            .orElse(null);
-                    Long votes = candidateVotes != null ? candidateVotes.getVotes() : 0L;
-                    return new CandidateDTO(candidate, votes);
-                })
-                .collect(Collectors.toList());
+        List<Candidate> candidates = candidateService.findDistinctByAffiliation(affiliationVotes.getAffiliation());
 
-        affiliationVotesModel.setCandidates(candidates);
+        affiliationVotesModel.setCandidates(candidates.stream().map(candidate -> new CandidateDTO(this.countryVotesService.findByCandidate(candidate))).toList());
         return affiliationVotesModel;
     }
 }

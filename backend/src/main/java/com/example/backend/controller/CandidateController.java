@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.DTO.CandidateDTO;
 import com.example.backend.entities.Candidate;
+import com.example.backend.services.AffiliationService;
 import com.example.backend.services.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +15,12 @@ import java.util.stream.Collectors;
 @RestController
 public class CandidateController {
     private final CandidateService candidateService;
+    private final AffiliationService affiliationService;
 
     @Autowired
-    public CandidateController(CandidateService candidateService) {
+    public CandidateController(CandidateService candidateService, AffiliationService affiliationService) {
         this.candidateService = candidateService;
+        this.affiliationService = affiliationService;
     }
 
     @GetMapping(path = "/candidates", produces = "application/json")
@@ -36,7 +39,10 @@ public class CandidateController {
 
     @GetMapping(path = "/party/{id}/candidates", produces = "application/json")
     public List<CandidateDTO> getCandidatesByAffiliationId(@PathVariable("id") Long affiliationId) {
-        List<Candidate> candidates = candidateService.findCandidatesByAffiliationId(affiliationId);
+
+        List<Candidate> candidates = candidateService.findCandidatesByAffiliation(
+                this.affiliationService.findAffiliationByAffiliationId(affiliationId)
+        );
         return candidates.stream()
                 .map(CandidateDTO::new)
                 .collect(Collectors.toList());

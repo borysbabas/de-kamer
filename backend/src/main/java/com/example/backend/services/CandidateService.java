@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CandidateService {
     private final CandidateRepository candidateRepository;
+
     private static final int MAX_SHORTCODE_LENGTH = 14;
     private final TwoKeyHashMap<Long, Long, Candidate> candidateTwoKeyCache = new TwoKeyHashMap<>();
     private final HashMap<String, Candidate> candidateShortCodeCache = new HashMap<>();
@@ -82,7 +84,19 @@ public class CandidateService {
         return candidateRepository.countDistinctCandidatesByAffiliation(affiliation);
     }
 
-    public List<Candidate> findCandidatesByAffiliationId(Long affiliationId) {
-        return candidateRepository.findCandidatesByAffiliationId(affiliationId);
+    public List<Candidate> findCandidatesByAffiliation(Affiliation affiliation) {
+        return candidateRepository.findCandidatesByAffiliation(affiliation);
+    }
+
+    public List<Candidate> findDistinctByAffiliation(Affiliation affiliation) {
+        Map<Integer, Candidate> candidateMap = new HashMap<>();
+        List<Candidate> candidateList = this.candidateRepository.findCandidatesByAffiliation(affiliation);
+        candidateList.forEach(candidate -> {
+            if (candidateMap.containsKey(candidate.hashCode())) {
+                return;
+            }
+            candidateMap.put(candidate.hashCode(), candidate);
+        });
+        return candidateMap.values().stream().toList();
     }
 }

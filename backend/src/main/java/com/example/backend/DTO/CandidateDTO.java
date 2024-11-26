@@ -1,6 +1,7 @@
 package com.example.backend.DTO;
 
 import com.example.backend.entities.Candidate;
+import com.example.backend.entities.CountryVotes;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ public class CandidateDTO {
     private String prefix;
     private String lastName;
     private String affiliationName;
-    private Long votes; // Add this field
+    private Long votes;
 
     public CandidateDTO(Candidate candidate) {
         this.candidateId = candidate.getCandidateId();
@@ -28,7 +29,17 @@ public class CandidateDTO {
         this.prefix = candidate.getLastNamePrefix();
         this.lastName = candidate.getLastName();
         this.affiliationName = candidate.getAffiliation().getAffiliationName();
-        this.votes = votes; // Set the votes
+        this.votes = votes;
+    }
+
+    public CandidateDTO(CountryVotes countryVotes) {
+        Candidate candidate = countryVotes.getCandidate();
+        this.candidateId = candidate.getCandidateId();
+        this.firstName = candidate.getFirstName();
+        this.prefix = candidate.getLastNamePrefix();
+        this.lastName = candidate.getLastName();
+        this.affiliationName = candidate.getAffiliation().getAffiliationName();
+        this.votes = countryVotes.getTotalVotes();
     }
 
     public CandidateDTO() {

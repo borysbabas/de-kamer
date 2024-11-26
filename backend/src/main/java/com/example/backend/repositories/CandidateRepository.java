@@ -19,6 +19,5 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long> {
     @Query("SELECT COUNT(DISTINCT c.shortCode) FROM Candidate c WHERE c.affiliation = ?1")
     Long countDistinctCandidatesByAffiliation(Affiliation affiliation);
 
-    @Query("SELECT c FROM Candidate c WHERE c.affiliation.affiliationId = ?1")
-    List<Candidate> findCandidatesByAffiliationId(Long affiliationId);
+    List<Candidate> findCandidatesByAffiliation(Affiliation affiliation);
 }
