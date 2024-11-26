@@ -25,9 +25,13 @@ const constituencies = ref<Constituency[]>([]);
 
 const constituencyVotes = ref<ConstituencyVotes[]>([]);
 
-const selectedConstituency = ref<any>();
+const selectedConstituency = ref<number>();
 
 const n = ref<number>(0);
+
+const currentPage = ref<number>(1);
+
+const PAGINATION = ref<number>(30);
 
 const tableLength = ref<number>();
 
