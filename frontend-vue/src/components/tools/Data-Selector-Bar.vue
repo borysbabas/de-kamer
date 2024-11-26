@@ -4,18 +4,24 @@
       <div class="layer">
         <div v-for="(option, index) in optionsList" :key="index" class="selectContainer">
           <p class="label-text">{{option?.label}}</p>
-          <selection-element :options="option?.options" @update:selected="setSelectedValue(index, $event)"></selection-element>
+          <selection-element :options="option" @update:selected="setSelectedValue(index, $event)"></selection-element>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import {onMounted, watch} from 'vue';
 import SelectionElement from "@/components/Selection-Element.vue";
-import {fetchChartData, fetchOptions, optionsList, setSelectOption} from "@/composables/useChartDataSelector";
+import {
+  fetchChartData,
+  fetchOptions,
+  optionsList,
+  setSelectOption
+} from "@/composables/useChartDataSelector";
 
 function setSelectedValue(index: number, selectedValue: string) {
+  console.log(index, selectedValue);
   setSelectOption(index, selectedValue);
 }
 
@@ -24,6 +30,7 @@ onMounted(() => {
   fetchOptions();
   fetchChartData();
 });
+
 
 
 </script>

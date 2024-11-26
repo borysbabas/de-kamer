@@ -78,6 +78,6 @@ function select(index: number, x: string, id: number) {
 .color-square {
   width: 20px;
   height: 20px;
-  border: 1px solid #000; /* Optional: Add a border to make the square more visible */
+  border: 1px solid #000;
 }
 </style>

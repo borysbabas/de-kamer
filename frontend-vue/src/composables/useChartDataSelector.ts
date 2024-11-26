@@ -1,22 +1,39 @@
-import { ref} from "vue";
+import {computed, ref} from "vue";
 import {setChartData} from "@/composables/useChartConfig";
+import {options} from "@/composables/useDropdown";
 
 export const optionsList = ref([]);
-export const selectedOption = ref(optionsList);
+export const selectedOption = ref({
+    0: {selected: 'Votes'},
+    1: {selected: null},
+    2: {selected: null},
+    3: {selected: null}
+});
 export const curretDataSet = ref([]);
 
 
-
-
 export const fetchOptions = async () => {
+    console.log('fetchOptions', selectedOption.value[2]?.selected);
     optionsList.value = [
-        {label: 'Type', options: ['Members', 'Votes'], selected: 'Members'},
-        {label: 'TEMP', options: ['Option 1', 'Option 2', 'Option 3']},
+        {label: 'Type', options: ['Members', 'Votes'], selected: selectedOption.value[0]?.selected ?? 'Votes'},
     ];
-    return optionsList;
+    if (optionsList.value[0].selected === 'Votes') {
+        optionsList.value.push({label: 'Op basis van', options: ['Landelijk', 'Gemeente', 'Stembereau'], selected: selectedOption.value[1]?.selected || 'Landelijk'});
+        optionsList.value.push({label: 'Zoeken op', options: ['Partij', 'Candidaat'], selected: selectedOption.value[2]?.selected || 'Partij'});
+        if (selectedOption.value[2]?.selected === 'Candidaat') {
+            optionsList.value.push({label: 'Partij', options: ['VVD', 'PVDA', 'CDA', 'D66'], selected: selectedOption.value[3]?.selected || 'VVD'});
+        } else {
+            //
+        }
+    }
 }
+
+
+
 export const setSelectOption = async (index: number, selectedValue: string) => {
-    optionsList.value[index].selected = selectedValue;
+    selectedOption.value[index].selected = selectedValue;
+    console.log('setSelectOption', selectedOption.value);
+    await fetchOptions();
     await fetchChartData();
 }
 
