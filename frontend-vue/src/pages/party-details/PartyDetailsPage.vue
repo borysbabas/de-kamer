@@ -11,7 +11,10 @@ const partyId = Array.isArray(route.params.partyId) ? route.params.partyId[0] : 
 interface PartyDetails {
   affiliationName: string;
   affiliationVotes: number;
-  affiliationId: number;
+  candidates: {
+    name: string;
+    votes: number;
+  }[];
 }
 
 const partyDetails = ref<PartyDetails | null>(null);
@@ -28,7 +31,6 @@ onMounted(async () => {
     <div v-if="partyDetails">
       <h1>{{ partyDetails.affiliationName }}</h1>
       <p>Votes: {{ partyDetails.affiliationVotes }}</p>
-      <p>ID: {{ partyDetails.affiliationId }}</p>
     </div>
     <div v-else>
       <p>Loading...</p>

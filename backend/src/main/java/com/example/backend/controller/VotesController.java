@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.DTO.CandidateDTO;
 import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.AffiliationVotes;
 import com.example.backend.models.AffiliationVotesModel;
@@ -12,37 +13,35 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class VotesController {
     private final AffiliationVotesService affiliationVotesService;
     private final CountryVotesService countryVotesService;
+    private final CandidateService candidateService;
 
     @Autowired
     public VotesController(AffiliationVotesService affiliationVotesService, CountryVotesService countryVotesService, CandidateService candidateService) {
         this.affiliationVotesService = affiliationVotesService;
         this.countryVotesService = countryVotesService;
+        this.candidateService = candidateService;
     }
 
     @GetMapping(path = ApiPaths.AFFILIATION_SERVICE_VOTES)
     public List<AffiliationVotesModel> getTotalAffiliationVotes() {
         List<AffiliationVotes> affiliationVotes = affiliationVotesService.findAllAffiliationVotes();
-        List<AffiliationVotesModel> affiliationVotesList = new ArrayList<>();
-        for (AffiliationVotes affiliationVote : affiliationVotes) {
-            affiliationVotesList.add(new AffiliationVotesModel(
-                    affiliationVote.getAffiliation().getAffiliationName(),
-                    affiliationVote.getAffiliationVotes(),
-                    affiliationVote.getAffiliation().getAffiliationId()
-            ));
-        }
-        return affiliationVotesList;
+        return affiliationVotes.stream()
+                .map(affiliationVote -> new AffiliationVotesModel(
+                        affiliationVote.getAffiliation().getAffiliationName(),
+                        affiliationVote.getAffiliationVotes(),
+                        affiliationVote.getAffiliation().getAffiliationId()))
+                .collect(Collectors.toList());
     }
 
     @GetMapping(path = ApiPaths.CANDIDATE_SERVICE_VOTES)
     public List<CandidateVotesModel> getTotalCandidateVotes() {
-
         return countryVotesService.getAllCountryVotes();
     }
 
@@ -52,9 +51,17 @@ public class VotesController {
         if (affiliationVotes == null) {
             return null;
         }
-        return new AffiliationVotesModel(
+        AffiliationVotesModel affiliationVotesModel = new AffiliationVotesModel(
                 affiliationVotes.getAffiliation().getAffiliationName(),
                 affiliationVotes.getAffiliationVotes(),
                 affiliationVotes.getAffiliation().getAffiliationId());
+
+        List<CandidateDTO> candidates = candidateService.findCandidatesByAffiliationId(id)
+                .stream()
+                .map(CandidateDTO::new)
+                .collect(Collectors.toList());
+
+        affiliationVotesModel.setCandidates(candidates);
+        return affiliationVotesModel;
     }
 }

@@ -65,7 +65,7 @@ public class CandidateService {
         return candidateRepository.findAll();
     }
 
-    public Candidate getCandidateByCandidateId(Long id){
+    public Candidate getCandidateByCandidateId(Long id) {
         return candidateRepository.getCandidateByCandidateId(id);
     }
 
@@ -80,5 +80,9 @@ public class CandidateService {
 
     public Long countDistinctCandidatesByAffiliation(Affiliation affiliation) {
         return candidateRepository.countDistinctCandidatesByAffiliation(affiliation);
+    }
+
+    public List<Candidate> findCandidatesByAffiliationId(Long affiliationId) {
+        return candidateRepository.findCandidatesByAffiliationId(affiliationId);
     }
 }
