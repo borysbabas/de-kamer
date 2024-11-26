@@ -111,7 +111,7 @@ onUnmounted(() => {
   justify-content: flex-start;
   align-items: start;
   text-align: left;
-  right: 14.5vw;
+  right: 10vw;
   width: 600px;
   position: relative;
 }
