@@ -63,15 +63,7 @@ public class VotesController {
         List<ConstituencyVotesModel> constituencyVotesList = new ArrayList<>();
         for (ConstituencyVotes constituencyVote : constituencyVotes) {
             if (!constituencyVote.getConstituency().getConstituencyName().equals("alle") && !constituencyVote.getConstituency().getConstituencyName().equals("Bonaire")) {
-                constituencyVotesList.add(new ConstituencyVotesModel(
-                        constituencyVote.getConstituency().getConstituencyName(),
-                        constituencyVote.getAffiliation().getAffiliationName(),
-                        constituencyVote.getCandidate().getFullName(),
-                        constituencyVote.getTotalVotes(),
-                        constituencyVote.getConstituency().getConstituencyId(),
-                        constituencyVote.getAffiliation().getAffiliationId(),
-                        constituencyVote.getCandidate().getCandidateId()
-                ));
+                constituencyVotesList.add(new ConstituencyVotesModel(constituencyVote));
             }
         }
         return constituencyVotesList;
