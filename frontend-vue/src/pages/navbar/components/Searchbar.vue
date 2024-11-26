@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import {computed, onMounted, onUnmounted, ref} from "vue"
-import {useRouter} from "vue-router"
+import {useRoute, useRouter} from "vue-router"
 
 const router = useRouter()
+const route = useRoute()
 const isFixed = ref(false)
+const forumStyle = ref({});
 const input = ref("");
 const debouncedSearch = debounce((value) => {
   input.value = value;
@@ -22,6 +24,14 @@ onMounted(() => {
   fetch("http://localhost:3001/candidates")
       .then(response => response.json())
       .then(json => candidateList.value = json)
+})
+onMounted(()=>{
+  const currentRoute = route.path;
+  if(currentRoute==="/forum"){
+    forumStyle.value={right:"14.5vw"}
+
+  }
+
 })
 
 const filteredList = computed(() => {
@@ -47,7 +57,6 @@ function debounce(func, delay) {
   }
 }
 
-//gets value of clicked LI item and redirects user to designated endpoint.
 function routeAssigner(candidate) {
   let candidateId = candidate.candidateId
   let firstName = candidate.firstName
@@ -64,7 +73,6 @@ function routeAssigner(candidate) {
   }
   router.push({name: "CandidateDetails", params: {candidateId: candidate.candidateId}})
 }
-
 const handleScroll = () => {
   if (window.scrollY > 50) {
     isFixed.value = true;
@@ -83,7 +91,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <li class="searchbar-container"><input @input="event=>debouncedSearch(event.target.value)" type="text"
+  <li :style="forumStyle" class="searchbar-container"><input @input="event=>debouncedSearch(event.target.value)" type="text"
                                          placeholder="Zoeken..."></li>
   <ul v-if="input.length > 0 && filteredList.length > 0"
       :class="{'fixed-searchbar' : isFixed, 'search-results': !isFixed}">
