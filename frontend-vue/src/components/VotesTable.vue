@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 
+// Types
 type Constituency = {
   constituencyId: number;
   constituencyName: string;
@@ -19,6 +20,7 @@ type ConstituencyVotes = {
   candidateId: number;
 }
 
+// Variables
 const constituencies = ref<Constituency[]>([]);
 
 const constituencyVotes = ref<ConstituencyVotes[]>([]);
@@ -29,6 +31,7 @@ const n = ref<number>(0);
 
 const tableLength = ref<number>();
 
+// Fetch functions
 async function fetchConstituencies() {
   try {
     const result = await fetch("http://localhost:3001/constituencies");
@@ -60,8 +63,18 @@ async function fetchConstituencyVotes(constituencyId) {
   }
 }
 
+// Handle functions
 function handleConstituencyChange(event) {
-  fetchConstituencyVotes(event.target.value);
+  currentPage.value = 1;
+  fetchConstituencyVotesCount(event.target.value);
+  fetchConstituencyVotes(event.target.value, currentPage.value);
+}
+
+function handleFirstPage() {
+  if (currentPage.value !== 1) {
+    currentPage.value = 1;
+    fetchConstituencyVotes(selectedConstituency.value, currentPage.value);
+  }
 }
 
 function handlePageDown() {
@@ -72,9 +85,15 @@ function handlePageDown() {
 }
 
 function handlePageUp() {
-  n.value += 1;
   if (currentPage.value < Math.ceil(tableLength.value / PAGINATION.value)) {
     currentPage.value += 1;
+    fetchConstituencyVotes(selectedConstituency.value, currentPage.value);
+  }
+}
+
+function handleLastPage() {
+  if (currentPage.value < Math.ceil(tableLength.value / PAGINATION.value)) {
+    currentPage.value = Math.ceil(tableLength.value / PAGINATION.value);
     fetchConstituencyVotes(selectedConstituency.value, currentPage.value);
   }
 }
