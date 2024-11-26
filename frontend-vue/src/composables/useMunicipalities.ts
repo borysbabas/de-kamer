@@ -18,8 +18,7 @@ export function useMunicipalities() {
 
     async function fetchMunicipalities() {
         isLoading.value = true
-        //TODO: Change endpoint path
-        fetch(BACKEND + "/municipality/all")
+        fetch(BACKEND + "/municipalities")
             .then(response => {
                 if (!response.ok) {
                     error.value = "error ..."
@@ -63,14 +62,15 @@ export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) 
         return `(RegioS%20eq%20%27GM${municipalityId}%27)`;
     }
 
-    const {metaDataCategories, ageKeyToValue} = useReadableCategories();
+    const {ageKeyToValue} = useReadableCategories();
 
 
     async function fetchAdditionalInformation(municipality: Municipality) {
+        const MUNICIPALITY_ID_LENGTH = 4;
         isLoading.value = true;
 
         const requestUrl = `https://opendata.cbs.nl/ODataFeed/odata/${DATA_SET_ID}/UntypedDataSet?%24filter=((Geslacht%20eq%20%27T001038%27))%20and%20((BurgerlijkeStaat%20eq%20%27T001019%27))%20and%20(${
-            buildFilter(pad(municipality.municipalityId, 4))
+            buildFilter(pad(municipality.municipalityId, MUNICIPALITY_ID_LENGTH))
         })%20and%20((Perioden%20eq%20%272021JJ00%27))&%24format=json`;
 
         const response = await fetch(requestUrl, {

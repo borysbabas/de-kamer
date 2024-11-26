@@ -18,12 +18,12 @@ console.log(municipalityList.value);
 
 <template>
   <div class="cards">
-    <div class="card" v-for="municipality in municipalities" :key="municipality">
+    <div class="card" v-for="municipality in municipalityList" :key="municipality">
       <h3>{{municipality.name}}</h3>
       <hr>
       <div class="data">
-        <div>Totaal aantal stemmen</div>
-        <div>b</div>
+        <div>Totaal aantal inwoners</div>
+        <div>{{municipality.additionalData[0].BevolkingOp1Januari_1}}</div>
         <div>Meest gestemde partij</div>
         <div>b</div>
         <div>Meest gestemde kandidaat</div>
