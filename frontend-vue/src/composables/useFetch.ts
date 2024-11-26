@@ -28,6 +28,13 @@ export async function fetchParties() {
     return allParties.value;
 }
 
+/*
+    * Fetches the party details from the API
+    * @param {string} partyId - The party ID
+    * @returns {Promise<any>} - The party details
+    *
+    * @throws {Error} - If the fetch operation fails
+ */
 export async function fetchPartyDetails(partyId: string) {
     const response = await fetch(`http://localhost:3001/votes/affiliations/${partyId}`);
     return await response.json();
