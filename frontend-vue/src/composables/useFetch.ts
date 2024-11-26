@@ -53,7 +53,6 @@ export const allCandidates = ref<any[]>([]);
 export const API_KEY = import.meta.env.VITE_API_KEY;
 export const APP_NAME = import.meta.env.VITE_APP_NAME;
 
-
 /*
     * Fetches the party images from the WikiMedia API
     * @returns {Promise<any[]>} - The party images
