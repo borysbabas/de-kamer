@@ -50,17 +50,26 @@ async function fetchConstituencies() {
   }
 }
 
-async function fetchConstituencyVotes(constituencyId) {
+async function fetchConstituencyVotesCount(constituencyId) {
   try {
     const result = await fetch(`http://localhost:3001/votes/constituencies/${constituencyId}`);
+    const result = await fetch(`http://localhost:3001/votes/constituencies/${constituencyId}/count`);
+
+    if (result.status !== 200) {
+      throw new Error("Failed to fetch constituency votes count");
+    }
+
+    tableLength.value = await result.json();
+  } catch (error) {
+    console.log(error)
+  }
+}
 
     if (result.status !== 200) {
       throw new Error("Failed to fetch constituency votes");
     }
 
     constituencyVotes.value = await result.json();
-    tableLength.value = constituencyVotes.value.length;
-    console.log(tableLength.value);
     selectedConstituency.value = constituencyId;
   } catch (error) {
     console.log(error);
