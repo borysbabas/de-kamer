@@ -77,9 +77,9 @@ export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) 
             method: "GET"
         });
 
+        isLoading.value = false;
         if (response.status !== 200) {
             error.value = "error handling";
-            isLoading.value = false;
             return;
         }
 

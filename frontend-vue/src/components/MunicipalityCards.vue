@@ -62,4 +62,8 @@ console.log(municipalityList.value);
     grid-template-columns: 1fr 2fr;
     gap: 10px;
   }
+
+  .cards {
+    margin: 20px 0;
+  }
 </style>

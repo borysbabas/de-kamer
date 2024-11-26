@@ -1,7 +1,6 @@
 <template>
   <Navbar></Navbar>
   <Results></Results>
-  <ChartTemplate></ChartTemplate>
   <Footer></Footer>
 </template>
 
@@ -14,5 +13,4 @@ import ChartTemplate from "@/components/tools/Chart-Template.vue";
 </script>
 
 <style scoped>
-
 </style>
