@@ -5,6 +5,12 @@ import type {Affiliation} from "@/types/Affiliation";
 export const allParties = ref<Affiliation[]>([]);
 export const mediaData = ref<any[]>([]);
 
+/*
+    * Fetches the party data from the API
+    * @returns {Promise<Affiliation[]>} - The party data
+    *
+    * @throws {Error} - If the fetch operation fails
+ */
 export async function fetchParties() {
     try {
         const response = await fetch("http://localhost:3001/votes/affiliations");
@@ -23,6 +29,12 @@ export async function fetchParties() {
     return allParties.value;
 }
 
+/*
+    * Fetches the candidate data from the API
+    * @returns {Promise<any[]>} - The candidate data
+    *
+    * @throws {Error} - If the fetch operation fails
+ */
 export async function fetchCandidateVotes() {
     try {
         const response = await fetch("http://localhost:3001/votes/candidates");
@@ -41,6 +53,16 @@ export const allCandidates = ref<any[]>([]);
 export const API_KEY = import.meta.env.VITE_API_KEY;
 export const APP_NAME = import.meta.env.VITE_APP_NAME;
 
+
+/*
+    * Fetches the party images from the WikiMedia API
+    * @returns {Promise<any[]>} - The party images
+    *
+    * Further information can be found in the WikiMedia API documentation:
+    * https://api.wikimedia.org/wiki/Learn
+    *
+    * @throws {Error} - If the fetch operation fails
+ */
 export async function fetchPartyImages() {
     const url = 'https://api.wikimedia.org/core/v1/wikipedia/nl/page/Lijst_van_politieke_partijen_in_Nederland/links/media?origin=*';
     try {
