@@ -34,7 +34,7 @@ public class VotesController {
     private static final int PAGINATION = 30;
 
     @Autowired
-    public VotesController(AffiliationVotesService affiliationVotesService, CountryVotesService countryVotesService, CandidateService candidateService) {
+    public VotesController(AffiliationVotesService affiliationVotesService, CountryVotesService countryVotesService, CandidateService candidateService, ConstituencyService constituencyService, ConstituencyVotesService constituencyVotesService) {
         this.affiliationVotesService = affiliationVotesService;
         this.constituencyService = constituencyService;
         this.constituencyVotesService = constituencyVotesService;
