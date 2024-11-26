@@ -89,5 +89,6 @@ void fetchConstituencies();
 }
 .greyed-out {
   color: #555555;
+  cursor: default;
 }
 </style>
