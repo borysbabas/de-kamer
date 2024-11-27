@@ -2,12 +2,13 @@
   <section class="first main">
     <h1>Uitslagen</h1>
     <compare-municipalities></compare-municipalities>
+    <votes-table></votes-table>
   </section>
 </template>
 
 <script setup lang="ts">
 
-
+import VotesTable from "@/components/VotesTable.vue";
 import CompareMunicipalities from "@/components/CompareMunicipalities.vue";
 </script>
 

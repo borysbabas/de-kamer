@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import {onMounted, onUnmounted, provide, ref} from "vue";
-import Searchbar from "@/components/Searchbar.vue";
-const userEmail = ref("")
-provide("updateEmail",(email:string)=>{
-  userEmail.value=email
-})
+import {useRoute} from "vue-router";
+import Searchbar from "@/pages/navbar/components/Searchbar.vue";
+
+const userEmail = ref("");
+provide("updateEmail", (email: string) => {
+  userEmail.value = email;
+});
 const searchBarState = ref(false);
 
 const toggleSearchBar = () => {
   searchBarState.value = !searchBarState.value;
 };
 
+/**
+ * Handles the scroll event
+ * If the user scrolls down, the navbar will be fixed to the top
+ */
 const handleScroll = () => {
   const navbar = document.getElementById("navbar");
   if (window.scrollY > 50) {
@@ -19,15 +25,16 @@ const handleScroll = () => {
     navbar?.classList.remove("fixed-top");
   }
 };
-onMounted(()=>{
-  const searchDOM=document.getElementById("searchbar");
-  if(searchDOM){
-    searchDOM.addEventListener("focusout",()=>this.searchBarState.value=false)
+
+onMounted(() => {
+  const searchDOM = document.getElementById("searchbar");
+  if (searchDOM) {
+    searchDOM.addEventListener("focusout", () => this.searchBarState.value = false);
+  } else {
+    console.log("error");
   }
-  else{
-    console.log("error")
-  }
-})
+});
+
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
 });
@@ -36,9 +43,10 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 
-const navbar = ref({
-  margin: '50px',
-})
+const navbarMargin = ref("50px");
+
+const route = useRoute();
+const isForumPage = ref(route.path.startsWith("/forum"));
 
 </script>
 
@@ -46,11 +54,19 @@ const navbar = ref({
   <div id="navbar" class="nav">
     <div>
       <ul>
-        <li class="navbar-logo"><router-link to="/">DeKamer.</router-link></li>
+        <li class="navbar-logo">
+          <router-link to="/">DeKamer.</router-link>
+        </li>
         <li class="buttons">
-          <Searchbar v-if="searchBarState" id="searchbar" class="searchbar"></Searchbar>
-          <router-link to="/uitslagen"><p class="nav-text">Uitslagen</p></router-link>
-          <router-link to="/info"><p class="nav-text">Info</p></router-link>
+          <template v-if="isForumPage">
+            <router-link to="/forum/login"><p class="nav-text">Login</p></router-link>
+            <router-link to="/forum/register"><p class="nav-text">Register</p></router-link>
+          </template>
+          <template v-else>
+            <router-link to="/uitslagen"><p class="nav-text">Uitslagen</p></router-link>
+            <router-link to="/info"><p class="nav-text">Info</p></router-link>
+            <router-link to="/forum"><p class="nav-text">Forum</p></router-link>
+          </template>
           <svg @click="toggleSearchBar" xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
                viewBox="0 0 512 512">
             <path
@@ -67,7 +83,7 @@ const navbar = ref({
   position: fixed;
   width: 100%;
   padding: 0 var(--page-padding);
-  margin: v-bind(navbar.margin) 0;
+  margin: v-bind(navbarMargin) 0;
   box-sizing: border-box;
   font-family: var(--font), sans-serif;
   z-index: 1;
@@ -79,7 +95,7 @@ const navbar = ref({
   border-radius: 10px;
 }
 
-.fixed-top{
+.fixed-top {
   width: 100%;
   margin: 0;
   padding: 0;

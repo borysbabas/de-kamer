@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CandidateService {
     private final CandidateRepository candidateRepository;
+
     private static final int MAX_SHORTCODE_LENGTH = 14;
     private final TwoKeyHashMap<Long, Long, Candidate> candidateTwoKeyCache = new TwoKeyHashMap<>();
     private final HashMap<String, Candidate> candidateShortCodeCache = new HashMap<>();
@@ -65,7 +67,7 @@ public class CandidateService {
         return candidateRepository.findAll();
     }
 
-    public Candidate getCandidateByCandidateId(Long id){
+    public Candidate getCandidateByCandidateId(Long id) {
         return candidateRepository.getCandidateByCandidateId(id);
     }
 
@@ -79,6 +81,22 @@ public class CandidateService {
     }
 
     public Long countDistinctCandidatesByAffiliation(Affiliation affiliation) {
-        return candidateRepository.countDistinctCandidatesByAffiliation(affiliation);
+        return (long) findDistinctByAffiliation(affiliation).size();
+    }
+
+    public List<Candidate> findCandidatesByAffiliation(Affiliation affiliation) {
+        return candidateRepository.findCandidatesByAffiliation(affiliation);
+    }
+
+    public List<Candidate> findDistinctByAffiliation(Affiliation affiliation) {
+        Map<Integer, Candidate> candidateMap = new HashMap<>();
+        List<Candidate> candidateList = this.candidateRepository.findCandidatesByAffiliation(affiliation);
+        candidateList.forEach(candidate -> {
+            if (candidateMap.containsKey(candidate.hashCode())) {
+                return;
+            }
+            candidateMap.put(candidate.hashCode(), candidate);
+        });
+        return candidateMap.values().stream().toList();
     }
 }

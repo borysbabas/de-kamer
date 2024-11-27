@@ -9,7 +9,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "candidates")
 public class Candidate {
-    public Candidate() {}
+    public Candidate() {
+    }
 
     public Candidate(Candidate candidate) {
         this.candidateId = candidate.getCandidateId();
@@ -86,6 +87,7 @@ public class Candidate {
     /**
      * check if two objects are equal.
      * They are equal if the initials, lastname, locality and affiliation are equal
+     *
      * @param o The object to check
      * @return true or false
      */
@@ -109,6 +111,7 @@ public class Candidate {
      * - last name
      * - locality
      * - affiliation
+     *
      * @return the newly made hashcode
      */
     @Override
