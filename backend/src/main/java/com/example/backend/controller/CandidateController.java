@@ -63,7 +63,6 @@ public class CandidateController {
 
     @GetMapping(path = "/party/{id}/candidates", produces = "application/json")
     public List<CandidateDTO> getCandidatesByAffiliationId(@PathVariable("id") Long affiliationId) {
-
         List<Candidate> candidates = candidateService.findCandidatesByAffiliation(
                 this.affiliationService.findAffiliationByAffiliationId(affiliationId)
         );

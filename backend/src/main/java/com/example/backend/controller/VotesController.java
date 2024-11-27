@@ -8,6 +8,7 @@ import com.example.backend.entities.Constituency;
 import com.example.backend.entities.ConstituencyVotes;
 import com.example.backend.models.AffiliationVotesModel;
 import com.example.backend.models.CandidateVotesModel;
+import com.example.backend.models.ConstituencyVotesModel;
 import com.example.backend.services.*;
 import com.example.backend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +105,7 @@ public class VotesController {
                 affiliationVotes.getAffiliationVotes(),
                 affiliationVotes.getAffiliation().getAffiliationId());
 
-        List<Candidate> candidates = candidateService.findDistinctByAffiliation(affiliationVotes.getAffiliation());
+        List<Candidate> candidates = candidateService.findCandidatesByAffiliation(affiliationVotes.getAffiliation());
 
         affiliationVotesModel.setCandidates(candidates.stream().map(candidate -> new CandidateDTO(this.countryVotesService.findByCandidate(candidate))).toList());
         return affiliationVotesModel;
