@@ -5,6 +5,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ApiPaths {
     public static final String AFFILIATION_SERVICE = "/affiliation";
+    public static final String AFFILIATION_SERVICE_ALL = "/all";
     public static final String AFFILIATION_SERVICE_MEMBER_COUNT = "/members/count";
 
     public static final String VOTES = "/votes";
