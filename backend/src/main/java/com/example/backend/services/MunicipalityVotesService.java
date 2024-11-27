@@ -2,6 +2,7 @@ package com.example.backend.services;
 
 import com.example.backend.entities.Municipality;
 import com.example.backend.entities.MunicipalityVotes;
+import com.example.backend.models.MunicipalityAffiliationVotesModel;
 import com.example.backend.models.MunicipalityVoteModel;
 import com.example.backend.repositories.MunicipalityVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,9 @@ public class MunicipalityVotesService {
     }
     public List<MunicipalityVoteModel> getTop5MunicipalitiesByCandidateId(Long candidateId){
         return municipalityVotesRepository.findTop5CandidateId(candidateId);
+    }
+
+    public List<MunicipalityAffiliationVotesModel> getMunicipalityAffiliationVotes(long municipalityId){
+        return municipalityVotesRepository.getMunicipalityAffiliationVotes(municipalityId);
     }
 }

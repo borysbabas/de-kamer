@@ -126,4 +126,9 @@ public class VotesController {
         affiliationVotesModel.setCandidates(candidates.stream().map(candidate -> new CandidateDTO(this.countryVotesService.findByCandidate(candidate))).toList());
         return affiliationVotesModel;
     }
+
+    @GetMapping(path = ApiPaths.MUNICIPALITY_GET_AFFILIATION_VOTES)
+    public List<MunicipalityAffiliationVotesModel> getMunicipalityAffiliationVotes(@PathVariable("municipalityId") long municipalityId) {
+        return this.municipalityVotesService.getMunicipalityAffiliationVotes(municipalityId);
+    }
 }
