@@ -28,7 +28,7 @@ console.log(municipalityList.value);
         <div>Meest gestemde partij</div>
         <div>{{ municipality.affiliations[0].affiliationName }} ({{municipality.affiliations[0].totalVotes}})</div>
         <div>Meest gestemde kandidaat</div>
-        <div>{{ municipality.topCandidate.firstName + " " + municipality.topCandidate.lastName }}</div>
+        <div>{{ municipality.topCandidate.firstName + " " + municipality.topCandidate.lastName }} ({{municipality.topCandidate.votes}})</div>
       </div>
     </div>
   </div>

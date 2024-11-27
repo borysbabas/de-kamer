@@ -154,6 +154,6 @@ public class VotesController {
 
     @GetMapping(path = "/votes/municipality/{municipalityId}/top")
     public CandidateDTO getTopCandidateByMunicipality(@PathVariable("municipalityId") long municipalityId) {
-        return new CandidateDTO(this.municipalityVotesService.getTopMunicipalityByMunicipalityId(municipalityId).getCandidate());
+        return new CandidateDTO(this.municipalityVotesService.getTopMunicipalityByMunicipalityId(municipalityId));
     }
 }

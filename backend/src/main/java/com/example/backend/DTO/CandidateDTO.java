@@ -2,6 +2,7 @@ package com.example.backend.DTO;
 
 import com.example.backend.entities.Candidate;
 import com.example.backend.entities.CountryVotes;
+import com.example.backend.entities.MunicipalityVotes;
 import lombok.Getter;
 import lombok.Setter;
 @Setter
@@ -23,6 +24,15 @@ public class CandidateDTO {
         this.affiliationName = candidate.getAffiliation().getAffiliationName();
         this.gender=candidate.getGender();
 
+    }
+
+    public CandidateDTO(MunicipalityVotes municipalityVotes) {
+        this.candidateId = municipalityVotes.getCandidate().getCandidateId();
+        this.firstName = municipalityVotes.getCandidate().getFirstName();
+        this.prefix = municipalityVotes.getCandidate().getLastNamePrefix();
+        this.lastName = municipalityVotes.getCandidate().getLastName();
+        this.affiliationName = municipalityVotes.getCandidate().getAffiliation().getAffiliationName();
+        this.votes = municipalityVotes.getTotalVotes();
     }
 
     public CandidateDTO(CountryVotes countryVotes) {
