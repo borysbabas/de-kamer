@@ -1,5 +1,6 @@
 package com.example.backend.repositories;
 
+import com.example.backend.entities.Candidate;
 import com.example.backend.entities.Municipality;
 import com.example.backend.entities.MunicipalityVotes;
 import com.example.backend.models.MunicipalityAffiliationVotesModel;
@@ -19,6 +20,8 @@ public interface MunicipalityVotesRepository extends JpaRepository<MunicipalityV
     List<MunicipalityVoteModel> findTop5CandidateId(@Param("candidateId")Long candidateId);
 
     // SUM and ORDER BY cannot be used in the JPA query, so we need to use native query
-    @Query("SELECT new com.example.backend.models.MunicipalityAffiliationVotesModel(mv.municipality, mv.affiliation, SUM(mv.totalVotes), mv.municipality.municipalityId) FROM MunicipalityVotes mv WHERE mv.municipality.municipalityId=?1 GROUP BY mv.affiliation.affiliationId")
+    @Query("SELECT new com.example.backend.models.MunicipalityAffiliationVotesModel(mv.municipality, mv.affiliation, SUM(mv.totalVotes), mv.municipality.municipalityId) FROM MunicipalityVotes mv WHERE mv.municipality.municipalityId=?1 GROUP BY mv.affiliation.affiliationId ORDER BY SUM(mv.totalVotes) DESC")
     List<MunicipalityAffiliationVotesModel> getMunicipalityAffiliationVotes(long municipalityId);
+
+    List<MunicipalityVotes> findAllByMunicipalityMunicipalityIdOrderByTotalVotesDesc(Long municipalityId);
 }

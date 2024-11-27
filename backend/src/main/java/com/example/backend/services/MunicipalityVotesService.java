@@ -37,4 +37,8 @@ public class MunicipalityVotesService {
     public List<MunicipalityAffiliationVotesModel> getMunicipalityAffiliationVotes(long municipalityId){
         return municipalityVotesRepository.getMunicipalityAffiliationVotes(municipalityId);
     }
+
+    public MunicipalityVotes getTopMunicipalityByMunicipalityId(Long municipalityId){
+        return municipalityVotesRepository.findAllByMunicipalityMunicipalityIdOrderByTotalVotesDesc(municipalityId).get(0);
+    }
 }

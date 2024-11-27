@@ -85,6 +85,8 @@ export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) 
 
         const populationDataSet: PopulationDataSet = await response.json();
 
+        municipality.affiliations = await getAffiliationVotesForMunicipality(municipality);
+        municipality.topCandidate = await getTopCandidatesForMunicipality(municipality);
 
         municipalityList.value.push({
             ...municipality,
@@ -94,7 +96,7 @@ export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) 
                     Leeftijd: ageKeyToValue.value.get(populationData.Leeftijd),
                     BevolkingOp1Januari_1: populationData.BevolkingOp1Januari_1?.trim(),
                 }
-            }),
+            })
         });
     }
 
@@ -164,6 +166,37 @@ export async function getMunicipalityById(id: number) {
     }
 
     return await result.json();
+}
+
+export async function getAffiliationVotesForMunicipality(municipality: Municipality) {
+
+    async function fetchAffiliations(municipalityId: number) {
+        const result = await fetch(BACKEND + `/votes/municipality/${municipalityId}/affiliations`, {
+            method: "GET"
+        });
+        if (result.status !== 200) {
+            return;
+        }
+
+        return await result.json();
+    }
+
+    return await fetchAffiliations(municipality.municipalityId)
+}
+
+export async function getTopCandidatesForMunicipality(municipality: Municipality) {
+    async function fetchTopCandidates(municipalityId: number) {
+        const result = await fetch(BACKEND + `/votes/municipality/${municipalityId}/top`, {
+            method: "GET"
+        });
+        if (result.status !== 200) {
+            return;
+        }
+
+        return await result.json();
+    }
+
+    return await fetchTopCandidates(municipality.municipalityId)
 }
 
 export function addMunicipality(value: Municipality): void {

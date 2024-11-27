@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {Municipality} from "@/types/Municipality";
 import type {PropType} from "vue";
-import {useAdditionalMunicipalitiesData} from "@/composables/useMunicipalities";
+import { useAdditionalMunicipalitiesData} from "@/composables/useMunicipalities";
 
 const props = defineProps({
   municipalities: {
@@ -11,6 +11,7 @@ const props = defineProps({
 })
 
 const {municipalityList} = useAdditionalMunicipalitiesData(props.municipalities);
+
 
 console.log(municipalityList.value);
 
@@ -25,10 +26,9 @@ console.log(municipalityList.value);
         <div>Totaal aantal inwoners</div>
         <div>{{municipality.additionalData[0].BevolkingOp1Januari_1}}</div>
         <div>Meest gestemde partij</div>
-        <div>b</div>
+        <div>{{ municipality.affiliations[0].affiliationName }} ({{municipality.affiliations[0].totalVotes}})</div>
         <div>Meest gestemde kandidaat</div>
-        <div>b</div>
-
+        <div>{{ municipality.topCandidate.firstName + " " + municipality.topCandidate.lastName }}</div>
       </div>
     </div>
   </div>

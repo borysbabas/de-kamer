@@ -5,4 +5,6 @@ export type Municipality = {
     municipalityId: number;
     name: string;
     additionalData?: PopulationData[];
+    affiliations?: [];
+    topCandidate?: {};
 }
