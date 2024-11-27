@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import VotesTable from "@/components/VotesTable.vue";
 </script>
 
 <template>
@@ -12,6 +13,7 @@
         <input class="searchbar" type="text" placeholder="Zoek je gemeente">
       </div>
     </div>
+    <votes-table></votes-table>
   </section>
 </template>
 

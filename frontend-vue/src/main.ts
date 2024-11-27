@@ -9,6 +9,7 @@ import LoginPage from "@/pages/login/LoginPage.vue";
 import RegisterPage from "@/pages/register/RegisterPage.vue";
 import CandidateDetailsPage from "@/pages/candidate-details/CandidateDetailsPage.vue";
 import ForumPage from "@/pages/forum/ForumHome.vue";
+import PartyDetailsPage from "@/pages/party-details/PartyDetailsPage.vue";
 
 const router: Router = createRouter({
     history: createWebHistory(),
@@ -18,7 +19,8 @@ const router: Router = createRouter({
         {path: "/forum", component: ForumPage, name: "Forum"},
         {path: "/forum/login", component: LoginPage, name: "Login"},
         {path: "/forum/register", component: RegisterPage, name: "Register"},
-        {path: "/candidate/:candidateId", name: "CandidateDetails", component: CandidateDetailsPage, props: true}
+        {path: "/candidate/:candidateId", name: "CandidateDetails", component: CandidateDetailsPage, props: true},
+        {path: '/party/:partyId', name: 'PartyDetails', component: PartyDetailsPage},
     ]
 })
 
