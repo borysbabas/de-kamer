@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CountryVotesRepository extends JpaRepository<CountryVotes, Long> {
     CountryVotes findByCandidate(Candidate candidate);
+    CountryVotes getByCandidateCandidateId(long candidateId);
 }
