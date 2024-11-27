@@ -5,9 +5,9 @@ import {options} from "@/composables/useDropdown";
 export const optionsList = ref([]);
 export const selectedOption = ref({
     0: {selected: 'Votes'},
-    1: {selected: null},
-    2: {selected: null},
-    3: {selected: null}
+    1: {selected: 'Landelijk'},
+    2: {selected: 'Partij'},
+    3: {selected: 'VVD'},
 });
 export const curretDataSet = ref([]);
 
@@ -35,7 +35,6 @@ export const fetchOptions = async () => {
 
 export const setSelectOption = async (index: number, selectedValue: string) => {
     selectedOption.value[index].selected = selectedValue;
-    console.log('setSelectOption', selectedOption.value);
     await fetchOptions();
     await fetchChartData();
 }
@@ -64,13 +63,36 @@ const getPartyList = async () => {
 
 
 export const fetchChartData = async () => {
+    console.log('fetchChartData', selectedOption.value);
     let data;
     switch (selectedOption.value[0].selected) {
         case 'Members':
             data = await getMembers();
             break;
         case 'Votes':
-            data = await getVotes();
+            switch (selectedOption.value[1].selected) {
+                case 'Landelijk':
+                    switch (selectedOption.value[2].selected) {
+                        case 'Partij':
+                            data = await getVotes();
+                            break;
+                        case 'Candidaat':
+                            data = [];
+                            console.log(await fetch("http://localhost:3001/votes/candidate/affiliation/" + selectedOption.value[3]?.selected || 'VVD'));
+                            break;
+                        default:
+                            data = [];
+                    }
+                    break;
+                case 'Gemeente':
+                    data = [0];
+                    break;
+                case 'Stembereau':
+                    data = [0];
+                    break;
+                default:
+                    data = [];
+            }
             break;
         default:
             data = [];
