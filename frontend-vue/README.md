@@ -1,45 +1,82 @@
-# frontend-vue
+# **Project Structure Documentation**
 
-This template should help get you started developing with Vue 3 in Vite.
+This structure represents a Vue.js frontend application categorized by features and components. Below is a tree-style
+representation along with explanations of the folder purpose:
 
-## Recommended IDE Setup
+---
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## **Tree Structure**
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+```plaintext
+frontend-vue/
+├── .vite/                             # Vite configuration folder (e.g., cache)
+├── dist/                              # Compiled application build files
+├── node_modules/                      # Project dependencies
+├── public/                            # Static files (served directly as-is)
+├── src/                               # Application source code
+│   ├── assets/                        # Static assets like favicon, fonts, or styles
+│   ├── img/                           # All image assets for the application
+│   ├── components/                    # Shared or reusable Vue components
+│   │   ├── pages/                     # Page-specific components
+│   │   ├── tools/                     # General-purpose tools/components
+│   │       ├── CustomTable.vue
+│   │       ├── VotesTable.vue
+│   ├── composables/                   # Vue composable utilities (reusable logic)
+│   ├── pages/                         # Feature-based page components
+│   │   ├── candidate-details/         # Candidate details page
+│   │   │   ├── components/
+│   │   │   ├── CandidateDetailsPage.vue
+│   │   ├── footer/                    # Footer components
+│   │   ├── forum/                     # Forum page
+│   │   │   ├── components/
+│   │   │   │   ├── ForumHome.vue
+│   │   ├── home/                      # Home page
+│   │   │   ├── components/
+│   │   │   │   ├── HomePage.vue
+│   │   ├── login/                     # Login page
+│   │   │   ├── components/
+│   │   │   │   ├── LoginPage.vue
+│   │   ├── navbar/                    # Navigation bar components
+│   │   │   ├── Navbar.vue
+│   │   ├── party-details/             # Party details page
+│   │   │   ├── components/
+│   │   │   │   ├── PartyDetailsPage.vue
+│   │   ├── register/                  # Registration page
+│   │   │   ├── components/
+│   │   │   │   ├── RegisterPage.vue
+│   │   ├── results/                   # Results page
+│   │   │   ├── components/
+│   │   │   │   ├── ResultsPage.vue
+│   ├── types/                         # TypeScript type definitions
+│   ├── App.vue                        # Main Vue application file
+│   ├── main.ts                        # Application entry point
+│   ├── shims-vue.d.ts                 # TypeScript shim for Vue files
 ```
 
-### Compile and Hot-Reload for Development
+---
 
-```sh
-npm run dev
-```
+## **Categorization Explanation**
 
-### Type-Check, Compile and Minify for Production
+### 1. **Top-Level Folders:**
 
-```sh
-npm run build
-```
+- `.vite/`: Used internally by Vite for caching and performance optimization.
+- `dist/`: Contains build files after running `npm run build`.
+- `node_modules/`: External dependencies managed by npm/yarn.
+- `public/`: Static files such as logos or manifest files that don't need processing.
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### 2. **Source (`src/`):**
 
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- `assets/`: Stores project-specific assets (images, styles).
+- `components/`: General and reusable Vue components, categorized further into:
+    - `pages/`: Components specific to a page feature.
+    - `tools/`: Utility components shared across multiple pages.
+- `composables/`: Logic and utilities written as Vue 3 composition functions.
+- `pages/`: Organized into feature-based folders:
+    - **candidate-details**, **forum**, **home**, etc.: Each folder corresponds to a major feature or route in the app
+      and contains:
+        - `components/`: Subcomponents for the page.
+        - Main `.vue` file implementing the page's functionality.
+- `types/`: Contains `.ts` files for shared TypeScript definitions.
+- `App.vue`: Root application component.
+- `main.ts`: Entry point where Vue and plugins are initialized.
+- `shims-vue.d.ts`: TypeScript support for Vue single-file components.
