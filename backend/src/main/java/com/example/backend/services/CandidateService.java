@@ -7,6 +7,7 @@ import com.example.backend.utils.TwoKeyHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,15 +38,7 @@ public class CandidateService {
 
     public String toShortCode(Candidate candidate) {
         String initials = candidate.getInitials().replace(".", "");
-        String replacedLastName = candidate.getLastName().replaceAll("[.-]| ", "");
-        String shortCode = replacedLastName + initials;
-
-        // if the total length is over 14, reduce the last name's length by the excess amount
-        if (initials.length() + replacedLastName.length() > MAX_SHORTCODE_LENGTH) {
-            int excessLength = (initials.length() + replacedLastName.length()) - MAX_SHORTCODE_LENGTH;
-
-            shortCode = replacedLastName.substring(0, replacedLastName.length() - excessLength) + initials;
-        }
+        String shortCode = getShortCode(candidate, initials);
 
         // Adds a 1 if shortcode already exists
         Candidate shortCodeCandidate = findFirstByShortCode(shortCode);
@@ -56,9 +49,25 @@ public class CandidateService {
         return shortCode;
     }
 
-    public List<Candidate> findAll(){
-        return candidateRepository.findAll();
+    private static String getShortCode(Candidate candidate, String initials) {
+        String replacedLastName = candidate.getLastName().replaceAll("[.-]| |'", "");
+        String shortCode = replacedLastName + initials;
 
+        // if the total length is over 14, reduce the last name's length by the excess amount
+        if (initials.length() + replacedLastName.length() > MAX_SHORTCODE_LENGTH) {
+            int excessLength = (initials.length() + replacedLastName.length()) - MAX_SHORTCODE_LENGTH;
+
+            shortCode = replacedLastName.substring(0, replacedLastName.length() - excessLength) + initials;
+        }
+        return shortCode;
+    }
+
+    public List<Candidate> findAll() {
+        return candidateRepository.findAll();
+    }
+
+    public Candidate getCandidateByCandidateId(Long id){
+        return candidateRepository.getCandidateByCandidateId(id);
     }
 
     public Candidate getCandidateByMemberIdAndAffiliation(Long id, Affiliation affiliation) {
@@ -72,5 +81,15 @@ public class CandidateService {
 
     public Long countDistinctCandidatesByAffiliation(Affiliation affiliation) {
         return candidateRepository.countDistinctCandidatesByAffiliation(affiliation);
+    }
+    public List<Candidate> getCandidatesByAffiliationId(Long affiliationId) {
+        return candidateRepository.getCandidatesByAffiliationAffiliationId(affiliationId);
+    }
+
+    public List<Candidate> getCandidatesByAffiliationName(String affiliationName) {
+        return candidateRepository.getCandidatesByAffiliationAffiliationName(affiliationName);
+    }
+    public List<Candidate> findCandidatesByAffiliation(Affiliation affiliation) {
+        return candidateRepository.findCandidatesByAffiliation(affiliation);
     }
 }

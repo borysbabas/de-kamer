@@ -4,6 +4,7 @@
     --button-important: #E74C3C;
     --button-important-hover: #800000;
     --button: #20638F;
+    --button-hover: #164e61;
     --font: Beiruti, sans-serif;
     --animation-duration: 0.3s;
     --page-padding: 128px;
@@ -12,10 +13,10 @@
 body {
     font-family: var(--font), sans-serif;
     font-weight: normal;
-    background-color: var(--light-primary);
+    background-color: var(--dark-primary);
     color: var(--light-primary);
+    letter-spacing: 1px;
 }
-
 
 h1 {
     font-size: 38px;
@@ -49,4 +50,32 @@ a {
 
 strong {
     font-weight: bold;
+}
+
+.angle-up-icon {
+    fill: var(--button-important);
+    width: 2rem;
+    cursor: pointer;
+}
+
+.angle-down-icon {
+    fill: var(--button-important);
+    width: 2rem;
+    cursor: pointer;
+}
+
+.main {
+    min-height: calc(100vh - 150px);
+    object-fit: cover;
+    background-color: var(--dark-primary);
+    color: var(--light-primary);
+    padding: 0 var(--page-padding);
+    position: relative;
+    border-bottom: var(--light-primary) 1px solid;
+    z-index: 0;
+}
+
+.first {
+    padding-top: 150px !important;
+    margin: 0 auto;
 }

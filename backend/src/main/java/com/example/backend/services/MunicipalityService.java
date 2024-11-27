@@ -3,7 +3,10 @@ package com.example.backend.services;
 import com.example.backend.entities.Municipality;
 import com.example.backend.repositories.MunicipalityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MunicipalityService {
@@ -16,5 +19,13 @@ public class MunicipalityService {
 
     public void addMunicipality(Municipality municipality) {
         municipalityRepository.save(municipality);
+    }
+
+    public List<Municipality> getAllMunicipalities() {
+        return municipalityRepository.findAllAndSort();
+    }
+
+    public Municipality getMunicipalityByMunicipalityId(long id) {
+        return this.municipalityRepository.getMunicipalitiesByMunicipalityId(id);
     }
 }
