@@ -41,6 +41,6 @@ public class CountryVotesService {
     }
 
     public CandidateVotesModel getCountryVotesByCandidate(Candidate candidate) {
-        return new CandidateVotesModel(countryVotesRepository.findByCandidate(candidate));
+        return new CandidateVotesModel(countryVotesRepository.getByCandidateCandidateId(candidate.getCandidateId()));
     }
 }

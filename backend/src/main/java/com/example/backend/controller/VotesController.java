@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class VotesController {
@@ -43,12 +45,30 @@ public class VotesController {
         }
         return affiliationVotesList;
     }
+//    @GetMapping(path="/votes/candidate/affiliation/{affiliationName}")
+//    public List<CandidateVotesModel> getVotesByAffiliation(@PathVariable String affiliationName) {
+//        List<Candidate> candidateList = candidateService.getCandidatesByAffiliationName(affiliationName);
+//        List<CandidateVotesModel> candidateVotesList = new ArrayList<>();
+//        for (Candidate candidate : candidateList) {
+//            candidateVotesList.add(countryVotesService.getCountryVotesByCandidate(candidate));
+//        }
+//        return candidateVotesList;
+//    }
+
     @GetMapping(path="/votes/candidate/affiliation/{affiliationName}")
-    public List<CandidateVotesModel> getVotesByAffiliation(@PathVariable String affiliationName) {
+    public List<CandidateVotesModel> getVotesByAffiliationId(@PathVariable String  affiliationName) {
         List<Candidate> candidateList = candidateService.getCandidatesByAffiliationName(affiliationName);
+        Map<Integer, Candidate> candidateMap = new HashMap<>();
         List<CandidateVotesModel> candidateVotesList = new ArrayList<>();
         for (Candidate candidate : candidateList) {
-            candidateVotesList.add(countryVotesService.getCountryVotesByCandidate(candidate));
+            Candidate newCandidate = null;
+            if (candidateMap.containsKey(candidate.hashCode())) {
+                newCandidate = candidateMap.get(candidate.hashCode());
+            } else {
+                candidateMap.put(candidate.hashCode(), candidate);
+                newCandidate = candidate;
+            }
+            candidateVotesList.add(countryVotesService.getCountryVotesByCandidate(newCandidate));
         }
         return candidateVotesList;
     }

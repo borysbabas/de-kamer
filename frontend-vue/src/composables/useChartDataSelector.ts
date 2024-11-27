@@ -12,7 +12,6 @@ export const selectedOption = ref({
 export const curretDataSet = ref([]);
 
 export const fetchOptions = async () => {
-    console.log('fetchOptions', selectedOption.value[2]?.selected);
     const typeOption = {label: 'Type', options: ['Members', 'Votes'], selected: selectedOption.value[0]?.selected ?? 'Votes'};
     optionsList.value = [typeOption];
 
@@ -39,13 +38,11 @@ export const setSelectOption = async (index: number, selectedValue: string) => {
     await fetchChartData();
 }
 export const getPartyCandidateList = async (affilationName: String) => {
-    console.log('getPartyCandidateList', affilationName);
     const data =  await fetch("http://localhost:3001/candidates/affiliation/" + affilationName)
         .then((response) => response.json())
         .then((data) => {
             return data;
         });
-    console.log(data, data.map((item: any) => item.firstName + ' ' + item.lastName));
     return data.map((item: any) => item.firstName + ' ' + item.lastName);
 }
 
@@ -56,14 +53,12 @@ const getPartyList = async () => {
         .then((data) => {
             return data;
         });
-    console.log(data);
     return data.map((item: any) => item.affiliationName);
 }
 
 
 
 export const fetchChartData = async () => {
-    console.log('fetchChartData', selectedOption.value);
     let data;
     switch (selectedOption.value[0].selected) {
         case 'Members':
@@ -78,7 +73,10 @@ export const fetchChartData = async () => {
                             break;
                         case 'Candidaat':
                             data = [];
-                            console.log(await fetch("http://localhost:3001/votes/candidate/affiliation/" + selectedOption.value[3]?.selected || 'VVD'));
+                            await getVotesCandidateByAffiliation(selectedOption.value[3].selected).then((result) => {
+                                data = result;
+                            });
+
                             break;
                         default:
                             data = [];
@@ -99,6 +97,13 @@ export const fetchChartData = async () => {
     }
     curretDataSet.value = data;
     await setChartData();
+}
+async function getVotesCandidateByAffiliation(affilationName: String) {
+    return await fetch("http://localhost:3001/votes/candidate/affiliation/" + affilationName)
+        .then((response) => response.json())
+        .then((data) => {
+            return data;
+        });
 }
 
 async function getMembers() {

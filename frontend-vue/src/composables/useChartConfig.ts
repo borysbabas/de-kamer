@@ -12,7 +12,6 @@ export const sortData = (order: string) => {
 
 export const setChartData = async () => {
     if (curretDataSet.value.length === 0) {
-        console.log('No data to set', curretDataSet.value);
         return;
     }
     chartData.value = normalizeData(formatChartData(curretDataSet.value));
@@ -24,8 +23,27 @@ export const formatChartData = (data: any) => {
         curretId = 0;
         const type = findType(data[0]);
         const formatData = data.map((item: any) => {
-            const value = type === "Members" ? item.memberCount : item.affiliationVotes;
-            return constructObject(item.affiliationName, value, item?.color);
+            let value = null
+            let itemName = null;
+            switch (type) {
+                case "Members":
+                value = item.memberCount;
+                itemName = item.affiliationName;
+                break;
+                case "Member Votes":
+                value = item.votes;
+                itemName = item.name;
+                break;
+                case "Votes":
+                value = item.affiliationVotes;
+                itemName = item.affiliationName;
+                break
+                default:
+                value = item.affiliationVotes;
+                itemName = item.affiliationName;
+                break;
+            }
+            return constructObject(itemName, value, item?.color);
         });
         return type ? { name: type, formatData } : null;
 }
@@ -68,6 +86,7 @@ function getRandomColor() {
 }
 function findType(item: any) {
     if (item?.affiliationName) {
+        if (item.hasOwnProperty('votes')) return "Member Votes";
         if (item.hasOwnProperty('memberCount')) return "Members";
         if (item.hasOwnProperty('affiliationVotes')) return "Votes";
     }
