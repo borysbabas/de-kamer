@@ -21,7 +21,6 @@ import {
 } from "@/composables/useChartDataSelector";
 
 function setSelectedValue(index: number, selectedValue: string) {
-  console.log(index, selectedValue);
   setSelectOption(index, selectedValue);
 }
 
