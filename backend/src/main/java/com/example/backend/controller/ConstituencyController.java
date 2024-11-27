@@ -24,7 +24,7 @@ public class ConstituencyController {
     public List<ConstituencyModel> getAllConstituencies() {
         List<Constituency> constituencies = constituencyService.findAllConstituencies();
         List<ConstituencyModel> constituencyList = new ArrayList<>();
-        System.out.println(constituencyList);
+
         for (Constituency constituency : constituencies) {
             constituencyList.add(new ConstituencyModel(
                     constituency.getConstituencyName(),
