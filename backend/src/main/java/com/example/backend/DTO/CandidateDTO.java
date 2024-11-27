@@ -13,6 +13,7 @@ public class CandidateDTO {
     private String prefix;
     private String lastName;
     private String affiliationName;
+    private String gender;
     private Long votes;
 
     public CandidateDTO(Candidate candidate) {
@@ -21,15 +22,8 @@ public class CandidateDTO {
         this.prefix = candidate.getLastNamePrefix();
         this.lastName = candidate.getLastName();
         this.affiliationName = candidate.getAffiliation().getAffiliationName();
-    }
+        this.gender=candidate.getGender();
 
-    public CandidateDTO(Candidate candidate, Long votes) {
-        this.candidateId = candidate.getCandidateId();
-        this.firstName = candidate.getFirstName();
-        this.prefix = candidate.getLastNamePrefix();
-        this.lastName = candidate.getLastName();
-        this.affiliationName = candidate.getAffiliation().getAffiliationName();
-        this.votes = votes;
     }
 
     public CandidateDTO(CountryVotes countryVotes) {
