@@ -48,7 +48,7 @@ select {
   color: var(--light-primary);
   border: 10px solid var(--button-important);
   padding: 2px;
-  width: 120px;
+  width: auto;
   border-radius: 10px;
   font-size: 20px;
   cursor: pointer;
