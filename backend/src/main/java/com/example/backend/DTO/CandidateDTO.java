@@ -21,5 +21,4 @@ public class CandidateDTO {
         this.lastName=candidate.getLastName();
         this.affiliationName=candidate.getAffiliation().getAffiliationName();
     }
-
 }

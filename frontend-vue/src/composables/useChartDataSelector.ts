@@ -1,5 +1,6 @@
 import {ref} from "vue";
 import {setChartData} from "@/composables/useChartConfig";
+import {options} from "@/composables/useDropdown";
 
 export const optionsList = ref([]);
 export const selectedOption = ref({
@@ -21,8 +22,13 @@ export const fetchOptions = async () => {
         optionsList.value.push(basisOption, searchOption);
 
         if (searchOption.selected === 'Candidaat') {
-            const partyOption = {label: 'Partij', options: ['VVD', 'PVDA', 'CDA', 'D66'], selected: selectedOption.value[3]?.selected || 'VVD'};
+            const partyOption = {label: 'Partij', options: await getPartyList(), selected: selectedOption.value[3]?.selected || 'VVD'};
             optionsList.value.push(partyOption);
+            if (basisOption.selected === 'Gemeente' || basisOption.selected === 'Stembereau') {
+                const candidateList = await getPartyCandidateList(partyOption.selected);
+                const CandidateOption = {label: 'Candidaat', options:candidateList , selected: selectedOption.value[4]?.selected || candidateList[0]};
+                optionsList.value.push(CandidateOption);
+            }
         }
     }
 }
@@ -32,16 +38,27 @@ export const setSelectOption = async (index: number, selectedValue: string) => {
     console.log('setSelectOption', selectedOption.value);
     await fetchOptions();
     await fetchChartData();
-    console.log(await getPartyList())
 }
-
-
-const getPartyList = async () => {
-    return await fetch("http://localhost:3001/affiliations")
+export const getPartyCandidateList = async (affilationName: String) => {
+    console.log('getPartyCandidateList', affilationName);
+    const data =  await fetch("http://localhost:3001/candidates/affiliation/" + affilationName)
         .then((response) => response.json())
         .then((data) => {
             return data;
         });
+    console.log(data, data.map((item: any) => item.firstName + ' ' + item.lastName));
+    return data.map((item: any) => item.firstName + ' ' + item.lastName);
+}
+
+
+const getPartyList = async () => {
+    const data =  await fetch("http://localhost:3001/affiliation/all")
+        .then((response) => response.json())
+        .then((data) => {
+            return data;
+        });
+    console.log(data);
+    return data.map((item: any) => item.affiliationName);
 }
 
 
