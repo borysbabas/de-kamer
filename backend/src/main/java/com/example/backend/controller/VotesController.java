@@ -10,13 +10,16 @@ import com.example.backend.models.AffiliationVotesModel;
 import com.example.backend.models.CandidateVotesModel;
 import com.example.backend.models.ConstituencyVotesModel;
 import com.example.backend.services.*;
+import com.example.backend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -68,6 +71,23 @@ public class VotesController {
         }
         return constituencyVotesList;
     }
+    @GetMapping(path="/votes/candidate/affiliation/{affiliationName}")
+    public List<CandidateVotesModel> getVotesByAffiliationId(@PathVariable String  affiliationName) {
+        List<Candidate> candidateList = candidateService.getCandidatesByAffiliationName(affiliationName);
+        Map<Integer, Candidate> candidateMap = new HashMap<>();
+        List<CandidateVotesModel> candidateVotesList = new ArrayList<>();
+        for (Candidate candidate : candidateList) {
+            Candidate newCandidate = null;
+            if (candidateMap.containsKey(candidate.hashCode())) {
+                newCandidate = candidateMap.get(candidate.hashCode());
+            } else {
+                candidateMap.put(candidate.hashCode(), candidate);
+                newCandidate = candidate;
+            }
+            candidateVotesList.add(countryVotesService.getCountryVotesByCandidate(newCandidate));
+        }
+        return candidateVotesList;
+    }
 
     @GetMapping(path = ApiPaths.CANDIDATE_SERVICE_VOTES)
     public List<CandidateVotesModel> getTotalCandidateVotes() {
@@ -85,7 +105,7 @@ public class VotesController {
                 affiliationVotes.getAffiliationVotes(),
                 affiliationVotes.getAffiliation().getAffiliationId());
 
-        List<Candidate> candidates = candidateService.findDistinctByAffiliation(affiliationVotes.getAffiliation());
+        List<Candidate> candidates = candidateService.findCandidatesByAffiliation(affiliationVotes.getAffiliation());
 
         affiliationVotesModel.setCandidates(candidates.stream().map(candidate -> new CandidateDTO(this.countryVotesService.findByCandidate(candidate))).toList());
         return affiliationVotesModel;

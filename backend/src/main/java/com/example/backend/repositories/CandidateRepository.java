@@ -14,6 +14,8 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long> {
     Candidate getFirstCandidateByMemberIdAndAffiliation(Long memberId, Affiliation affiliation);
 
     Candidate getCandidateByCandidateId(Long id);
-
+    List<Candidate> getCandidatesByAffiliationAffiliationName(String affiliationName);
+    List<Candidate> getCandidatesByAffiliationAffiliationId (Long affiliationId);
+    long countDistinctCandidatesByAffiliation(Affiliation affiliation);
     List<Candidate> findCandidatesByAffiliation(Affiliation affiliation);
 }

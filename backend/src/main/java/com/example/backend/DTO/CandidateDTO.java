@@ -4,11 +4,10 @@ import com.example.backend.entities.Candidate;
 import com.example.backend.entities.CountryVotes;
 import lombok.Getter;
 import lombok.Setter;
-
 @Setter
 @Getter
 public class CandidateDTO {
-    private Long candidateId;
+    private  Long candidateId;
     private String firstName;
     private String prefix;
     private String lastName;
