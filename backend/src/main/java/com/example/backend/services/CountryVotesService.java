@@ -24,6 +24,8 @@ public class CountryVotesService {
         this.countryVotesRepository.save(countryVotes);
     }
 
+
+
     public CountryVotes findCountryVoteByShortCode(String shortCode) {
         Candidate candidate = candidateService.findFirstByShortCode(shortCode);
         if (candidate == null) {
