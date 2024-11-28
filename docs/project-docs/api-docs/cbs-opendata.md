@@ -1,4 +1,4 @@
-# Getting country data 
+# CBS open data API 
 
 I acquired the country data from the [Cbs' opendata](https://opendata.cbs.nl/portal.html?_la=nl&_catalog=CBS) website.
 

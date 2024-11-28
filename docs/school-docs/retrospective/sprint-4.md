@@ -43,7 +43,7 @@ pie
 
 #### Tops
 - Goede feature voor het inladen van de politieke afbeeldingen op de landingspagina.
-- Goed dat je met  externe API's werkt.
+- Goed dat je met externe API's werkt.
 
 ### Senna
 
