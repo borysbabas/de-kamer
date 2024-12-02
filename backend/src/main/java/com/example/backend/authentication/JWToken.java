@@ -1,6 +1,7 @@
 package com.example.backend.authentication;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -36,7 +37,8 @@ public class JWToken {
     }
     private static Key getKey(String passphrase){
         byte[] hmacKey = passphrase.getBytes(StandardCharsets.UTF_8);
-        return new SecretKeySpec(hmacKey, SignatureAlgorithm.HS512.getJcaName());
+//        return new SecretKeySpec(hmacKey, SignatureAlgorithm.HS512.getJcaName());
+        return Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
 
 }
