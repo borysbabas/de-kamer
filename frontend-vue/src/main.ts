@@ -10,7 +10,6 @@ import RegisterPage from "@/pages/register/RegisterPage.vue";
 import CandidateDetailsPage from "@/pages/candidate-details/CandidateDetailsPage.vue";
 import ForumPage from "@/pages/forum/ForumHome.vue";
 import PartyDetailsPage from "@/pages/party-details/PartyDetailsPage.vue";
-
 const router: Router = createRouter({
     history: createWebHistory(),
     routes: [

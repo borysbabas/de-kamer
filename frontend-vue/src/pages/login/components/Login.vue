@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref} from "vue"
+import * as process from "node:process";
+const apiURL=import.meta.env.VITE_API_URL
 const loginCredentials = ref({
   email: "",
   password: "",
@@ -10,7 +12,7 @@ const loginCredentials = ref({
  * @param email The email to inject
  */
 const submitLogin = async () => {
-  const response = await fetch("http://localhost:3001/login", {
+  const response = await fetch(apiURL,+"/forum/login"+ {
     method: "POST",
     headers: {"Content-type": "application/json"},
     body: JSON.stringify(loginCredentials.value),
