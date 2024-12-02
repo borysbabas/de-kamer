@@ -12,9 +12,6 @@ const props = defineProps({
 
 const {municipalityList} = useAdditionalMunicipalitiesData(props.municipalities);
 
-
-console.log(municipalityList.value);
-
 </script>
 
 <template>

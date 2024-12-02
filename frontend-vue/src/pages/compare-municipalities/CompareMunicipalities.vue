@@ -4,7 +4,7 @@
   <div class="selected-municipalities">
     <div v-for="municipality in selectedMunicipalities" :key="municipality.municipalityId">
       <div>{{municipality.name}}</div>
-      <img @click="removeMunicipality(municipality)" src="@/assets/svg/red-cross.svg" alt="red cross" />
+      <img @click="removeMunicipality(municipality)" src="../../assets/svg/red-cross.svg" alt="red cross" />
     </div>
   </div>
   <button @click="renderMunicipalityCards">vergelijk</button>
@@ -13,19 +13,20 @@
 
 <script setup lang="ts">
 
-import MunicipalitySearch from "@/components/MunicipalitySearch.vue";
-import {getSelectedMunicipalities, removeMunicipality, useReadableCategories} from "@/composables/useMunicipalities";
-import MunicipalityCards from "@/components/MunicipalityCards.vue";
+import MunicipalitySearch from "@/pages/compare-municipalities/components/MunicipalitySearch.vue";
+import {getSelectedMunicipalities, removeMunicipality} from "@/composables/useMunicipalities";
+import MunicipalityCards from "@/pages/compare-municipalities/components/MunicipalityCards.vue";
 import {ref, toRaw} from "vue";
 
 const selectedMunicipalities = getSelectedMunicipalities();
 const cardKey = ref(0);
 
-// Update the key of the MunicipalityCards component to force a re-render
+/**
+ * Update the key of the MunicipalityCards component to force a re-render
+ */
 function renderMunicipalityCards() {
   cardKey.value++;
 }
-
 
 </script>
 
