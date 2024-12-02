@@ -1,6 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.entities.User;
+import com.example.backend.entities.Account;
 import com.example.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +19,7 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public String addUser(@RequestBody User user){
+    public String addUser(@RequestBody Account user){
         userService.saveUser(user);
         return "successfully added user";
 
