@@ -12,7 +12,7 @@ const loginCredentials = ref({
  * @param email The email to inject
  */
 const submitLogin = async () => {
-  const response = await fetch(apiURL,+"/forum/login"+ {
+  const response = await fetch(apiURL+"/login", {
     method: "POST",
     headers: {"Content-type": "application/json"},
     body: JSON.stringify(loginCredentials.value),
