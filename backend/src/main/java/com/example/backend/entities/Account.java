@@ -19,7 +19,7 @@ public class Account {
     private String email;
     private String password;
     private String role;
-    private String callName;
+    private String userName;
 
     public boolean verifyPassword(String rawPassword){
         return org.springframework.security.crypto.bcrypt.BCrypt.checkpw(rawPassword, this.password);}
