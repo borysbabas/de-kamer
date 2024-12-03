@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 @Configuration
 @RestController
@@ -47,14 +49,29 @@ public class AuthenticationController {
     @PostMapping(path="/register")
     public ResponseEntity<Account> saveAccount(@RequestBody ObjectNode signUpInfo){
         String email = signUpInfo.get("email").asText();
+        String userName = signUpInfo.get("username").asText();
         String password = signUpInfo.get("password").asText();
+        String dateOfBirthString= signUpInfo.get("dateOfBirth").asText();
+
+        Date dateOfBirth;
+        try{
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            dateOfBirth = simpleDateFormat.parse(dateOfBirthString);
+
+        }catch(Exception exception){
+            System.out.println(exception);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
+        }
         Account account = new Account();
         if(!accountService.findByQuery(email).isEmpty()){
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
         account.setEmail(email);
         account.setRole("user");
+        account.setUserName(userName);
         account.setPassword(accountService.hashPassword(password));
+        account.setDateOfBirth(dateOfBirth);
 
         accountService.saveAccount(account);
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
