@@ -23,10 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -121,14 +118,11 @@ public class VotesController {
 
     @PostMapping(path = ApiPaths.MUNICIPALITY_SERVICE_VOTES)
     public List<MunicipalityVotesModel> getMunicipalityVotesByMunicipalities(@RequestBody MunicipalityIdModel[] municipalityIdModels) {
-        List<Municipality> municipalities = new ArrayList<>();
-        for (MunicipalityIdModel municipalityIdModel : municipalityIdModels) {
-            municipalities.add(this.municipalityService.getMunicipalityByMunicipalityId(municipalityIdModel.getMunicipalityId()));
-        }
+        List<Municipality> municipalities = Arrays.stream(municipalityIdModels).map(municipalityIdModel ->
+                this.municipalityService.getMunicipalityByMunicipalityId((municipalityIdModel.getMunicipalityId()))).toList();
 
         return this.municipalityVotesService.getByMunicipalities(municipalities).stream().map(MunicipalityVotesModel::new).toList();
     }
-    
 
     @GetMapping(path = ApiPaths.AFFILIATION_SERVICE_GETBYID)
     public AffiliationVotesModel getAffiliationVotesById(@PathVariable("id") long id) {
@@ -153,7 +147,7 @@ public class VotesController {
     }
 
     @GetMapping(path = "/votes/municipality/{municipalityId}/top")
-    public CandidateDTO getTopCandidateByMunicipality(@PathVariable("municipalityId") long municipalityId) {
-        return new CandidateDTO(this.municipalityVotesService.getTopMunicipalityByMunicipalityId(municipalityId));
+    public CandidateVotesModel getTopCandidateByMunicipality(@PathVariable("municipalityId") long municipalityId) {
+        return new CandidateVotesModel(this.municipalityVotesService.getTopMunicipalityByMunicipalityId(municipalityId));
     }
 }

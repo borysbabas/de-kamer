@@ -26,15 +26,6 @@ public class CandidateDTO {
 
     }
 
-    public CandidateDTO(MunicipalityVotes municipalityVotes) {
-        this.candidateId = municipalityVotes.getCandidate().getCandidateId();
-        this.firstName = municipalityVotes.getCandidate().getFirstName();
-        this.prefix = municipalityVotes.getCandidate().getLastNamePrefix();
-        this.lastName = municipalityVotes.getCandidate().getLastName();
-        this.affiliationName = municipalityVotes.getCandidate().getAffiliation().getAffiliationName();
-        this.votes = municipalityVotes.getTotalVotes();
-    }
-
     public CandidateDTO(CountryVotes countryVotes) {
         Candidate candidate = countryVotes.getCandidate();
         this.candidateId = candidate.getCandidateId();
