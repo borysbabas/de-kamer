@@ -1,14 +1,22 @@
 <template>
-  <h2>Gemeentes vergelijk-tool</h2>
-  <municipality-search></municipality-search>
-  <div class="selected-municipalities">
-    <div v-for="municipality in selectedMunicipalities" :key="municipality.municipalityId">
-      <div>{{municipality.name}}</div>
-      <img @click="removeMunicipality(municipality)" src="../../assets/svg/red-cross.svg" alt="red cross" />
+  <div class="municipality-comparison">
+    <div class="title">
+      <h2>Gemeentes vergelijk-tool</h2>
+    </div>
+    <div class="municipality-selection">
+      <municipality-search></municipality-search>
+      <div class="selected-municipalities">
+        <div v-for="municipality in selectedMunicipalities" :key="municipality.municipalityId">
+          <div>{{municipality.name}}</div>
+          <img @click="removeMunicipality(municipality)" src="../../assets/svg/red-cross.svg" alt="red cross" />
+        </div>
+      </div>
+      <button @click="renderMunicipalityCards">vergelijk</button>
+    </div>
+    <div class="municipality-cards">
+      <MunicipalityCards :key="cardKey" :municipalities=toRaw(selectedMunicipalities)></MunicipalityCards>
     </div>
   </div>
-  <button @click="renderMunicipalityCards">vergelijk</button>
-  <MunicipalityCards :key="cardKey" :municipalities=toRaw(selectedMunicipalities)></MunicipalityCards>
 </template>
 
 <script setup lang="ts">
@@ -31,6 +39,23 @@ function renderMunicipalityCards() {
 </script>
 
 <style scoped>
+  .municipality-comparison {
+    border: 2px solid var(--light-primary);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .title {
+    background-color: var(--dark-secondary);
+    padding: 13px 40px;
+    border-bottom: 2px solid var(--light-primary);
+  }
+
+  .municipality-selection {
+    padding: 32px 40px;
+    border-bottom: 2px solid var(--light-primary);
+  }
+
   h2 {
     margin-bottom: 8px;
   }
@@ -44,6 +69,10 @@ function renderMunicipalityCards() {
     gap: 10px;
     flex-wrap: wrap;
     margin: 10px 0;
+  }
+
+  .municipality-cards {
+    padding: 32px 40px;
   }
 
   .selected-municipalities > div {
