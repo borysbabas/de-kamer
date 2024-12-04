@@ -131,10 +131,10 @@ public class VotesController {
                     if (countryVotes != null) {
                         return new CandidateDTO(countryVotes);
                     } else {
-                        return null; // or handle this case as needed
+                        return null;
                     }
                 })
-                .filter(Objects::nonNull) // filter out null values
+                .filter(Objects::nonNull)
                 .toList());
         return affiliationVotesModel;
     }
