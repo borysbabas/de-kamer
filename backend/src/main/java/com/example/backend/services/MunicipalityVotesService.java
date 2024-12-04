@@ -1,13 +1,13 @@
 package com.example.backend.services;
 
+import com.example.backend.entities.Municipality;
 import com.example.backend.entities.MunicipalityVotes;
+import com.example.backend.models.MunicipalityAffiliationVotesModel;
 import com.example.backend.models.MunicipalityVoteModel;
 import com.example.backend.repositories.MunicipalityVotesRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @Service
@@ -22,7 +22,23 @@ public class MunicipalityVotesService {
     public void addMunicipalityVote(MunicipalityVotes municipalityVotes) {
         this.municipalityVotesRepository.save(municipalityVotes);
     }
+
+    public List<MunicipalityVotes> getAll() {
+        return this.municipalityVotesRepository.findAll();
+    }
+
+    public List<MunicipalityVotes> getByMunicipalities(List<Municipality> municipalities) {
+        return this.municipalityVotesRepository.findByMunicipalityIn(municipalities);
+    }
     public List<MunicipalityVoteModel> getTop5MunicipalitiesByCandidateId(Long candidateId){
         return municipalityVotesRepository.findTop5CandidateId(candidateId);
+    }
+
+    public List<MunicipalityAffiliationVotesModel> getMunicipalityAffiliationVotes(long municipalityId){
+        return municipalityVotesRepository.getMunicipalityAffiliationVotes(municipalityId);
+    }
+
+    public MunicipalityVotes getTopMunicipalityByMunicipalityId(Long municipalityId){
+        return municipalityVotesRepository.findAllByMunicipalityMunicipalityIdOrderByTotalVotesDesc(municipalityId).get(0);
     }
 }

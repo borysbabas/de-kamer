@@ -7,6 +7,7 @@ import com.example.backend.utils.TwoKeyHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -80,5 +81,15 @@ public class CandidateService {
 
     public Long countDistinctCandidatesByAffiliation(Affiliation affiliation) {
         return candidateRepository.countDistinctCandidatesByAffiliation(affiliation);
+    }
+    public List<Candidate> getCandidatesByAffiliationId(Long affiliationId) {
+        return candidateRepository.getCandidatesByAffiliationAffiliationId(affiliationId);
+    }
+
+    public List<Candidate> getCandidatesByAffiliationName(String affiliationName) {
+        return candidateRepository.getCandidatesByAffiliationAffiliationName(affiliationName);
+    }
+    public List<Candidate> findCandidatesByAffiliation(Affiliation affiliation) {
+        return candidateRepository.findCandidatesByAffiliation(affiliation);
     }
 }

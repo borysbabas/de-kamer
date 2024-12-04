@@ -1,7 +1,11 @@
 ## Guerilla test
+
 In this file the answers and first impressions of the selected student peers are gathered. There will be a short summary of what the key points of improving are.
+
 ### Analysis
-**Alif** :
+
+**Alif**:
+
 1. There is missing a concrete Welcome when first visiting the page.
 2. It looks better when using the dark theme but you must need a button for the light and or dark theme.
 3. What is displayed now is sufficient. the only thing I would change is put the description on top and the political affiliation's on top.
@@ -12,6 +16,7 @@ In this file the answers and first impressions of the selected student peers are
 8. Yes, but as mentioned before there must be more buttons to visit different pages on the site.
 
 **Hamed** :
+
 1. The design feels clean and professional.
 2. I like the dark mode. It's  easier for the eyes. Especially when reading long content.
 3. I would like to see a comparison tool where I can quickly compare affiliation policies.
@@ -22,6 +27,7 @@ In this file the answers and first impressions of the selected student peers are
 8. The buttons and links are clear.
 
 ### Report
+
 Both candidates where positive about the current design. However there were a few subjects that needed improving.
 
 Alif gave us as feedback to add a more concrete welcoming page.

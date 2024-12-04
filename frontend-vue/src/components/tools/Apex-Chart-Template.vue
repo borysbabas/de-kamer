@@ -6,16 +6,6 @@
             @click="sort"
             class="sortbutton"
         >Sort items</button>
-        <select
-            v-model="selectedChart"
-            @change="updateChart"
-            class="selectOptions"
-        >
-          <option
-              v-for="key in Object.keys(chartData)"
-              :key="key"
-          >{{ key }}</option>
-        </select>
       </div>
       <div class="chartContainer">
         <div
@@ -25,8 +15,6 @@
         <apex-chart-interface
             class="apex-interface"
             v-if="interface"
-
-            :chartData="dataset[0]"
             @hide-hightlight="hideHightlight"
             @select="select"
       ></apex-chart-interface>
@@ -40,25 +28,22 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import ApexCharts from 'apexcharts'
-import * as apex from '@/components/tools/chartConfig/ApexChartConfig'
 import ApexChartInterface from "@/components/tools/chartConfig/Apex-Chart-Interface.vue";
+import {chartData, setChartData, sortData} from "@/composables/useChartConfig";
+import {curretDataSet} from "@/composables/useChartDataSelector";
 
-
-const props = defineProps<{
-  chartData: any[],
+defineProps<{
   interface: boolean,
   chartType?: string,
   chartTypeInfo?: number,
 }>()
 
 let chart: ApexCharts;
-let dataset: any[] = [];
 let sorted = ref(false);
-let selectedChart = ref('');
 
 
 // Chart configuration
-var options = {
+let options = {
   series: [
     {
       name: 'Data',
@@ -95,41 +80,37 @@ var options = {
 onMounted(() => {
   chart = new ApexCharts(document.querySelector("#chart"), options);
   chart.render();
-  watch(() => props.chartData, (newChartData) => {
-    if (props.chartData.length !== 0) {
-      selectedChart.value = Object.keys(props.chartData)[0];
-      updateChart();
-    }
-  }, { immediate: true });
+  setChartData();
+  watch(curretDataSet, () => {
+    updateChart();
+  });
 });
 
 function updateChart() {
-  dataset = apex.normalizeData(apex.formatData(props.chartData[selectedChart.value]));
-  chart.updateSeries(dataset);
-  sorted = true;
-  sort();
+  chart.updateSeries(chartData.value);
+  sorted = false;
 }
 
 function sort() {
   if (sorted) {
-    dataset = apex.sortData(dataset, 'asc');
-    chart.updateSeries(dataset);
+    chartData.value = sortData('asc');
+    chart.updateSeries(chartData.value);
     sorted = false;
     return;
   }
   sorted = true;
-  dataset = apex.sortData(dataset, 'desc');
-  chart.updateSeries(dataset);
+  chartData.value = sortData('desc');
+  chart.updateSeries(chartData.value);
 }
-
-function hideHightlight(id: number) {
-  dataset = apex.hideHighlight(dataset, id);
-  chart.updateSeries(dataset);
-  sorted = !sorted;
-  sort();
-}
+// Old function I need this code later
+// function hideHightlight(id: number) {
+//   chartData = apex.hideHighlight(dataset, id);
+//   chart.updateSeries(dataset);
+//   sorted = !sorted;
+//   sort();
+// }
 function select(id: number) {
-  const selectedItem = dataset[0].data.find(item => item.id === id);
+  const selectedItem = chartData.value[0].data.find(item => item.id === id);
   console.log("Selected Item:", selectedItem);
 }
 
@@ -150,20 +131,6 @@ function select(id: number) {
   font-family: inherit;
   margin-right: 10px;
 }
-.selectOptions {
-  background-color: var(--button-important);
-  color: var(--light-primary);
-  border: 10px solid var(--button-important);
-  padding: 2px;
-  width: 120px;
-  border-radius: 10px;
-  font-size: 20px;
-  cursor: pointer;
-  font-family: inherit;
-  overflow: auto; /* Add overflow to handle the items */
-  max-height: 200px; /* Set a max height to allow scrolling */
-}
-
 .selectOptions option  {
   padding: 30px;
   font-size: 20px;

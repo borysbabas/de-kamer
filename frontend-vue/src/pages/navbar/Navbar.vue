@@ -52,6 +52,30 @@ const isForumPage = ref(route.path.startsWith("/forum"));
 
 <template>
   <div id="navbar" class="nav">
+    <div>
+      <ul>
+        <li class="navbar-logo">
+          <router-link to="/">DeKamer.</router-link>
+        </li>
+        <li class="buttons">
+          <Searchbar v-if="searchBarState" id="searchbar" class="searchbar"></Searchbar>
+          <template v-if="isForumPage">
+            <router-link to="/forum/login"><p class="nav-text">Login</p></router-link>
+            <router-link to="/forum/register"><p class="nav-text">Register</p></router-link>
+          </template>
+          <template v-else>
+            <router-link to="/uitslagen"><p class="nav-text">Uitslagen</p></router-link>
+            <router-link to="/info"><p class="nav-text">Info</p></router-link>
+            <router-link to="/forum"><p class="nav-text">Forum</p></router-link>
+          </template>
+          <svg @click="toggleSearchBar" xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
+               viewBox="0 0 512 512">
+            <path
+                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
+          </svg>
+        </li>
+      </ul>
+    </div>
     <ul>
       <li class="navbar-logo">
         <router-link to="/">DeKamer.</router-link>
@@ -80,27 +104,30 @@ const isForumPage = ref(route.path.startsWith("/forum"));
 
 <style>
 .nav {
-  background-color: var(--button-important);
   position: fixed;
-  width: calc(100vw - (var(--page-padding) * 2));
-  margin: v-bind(navbarMargin) var(--page-padding);
+  width: 100%;
+  padding: 0 var(--page-padding);
+  margin: v-bind(navbarMargin) 0;
   box-sizing: border-box;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   font-family: var(--font), sans-serif;
   z-index: 1;
-  height: 50px;
   transition-duration: 0.3s;
+}
+
+.nav > div {
+  background-color: var(--button-important);
+  border-radius: 10px;
 }
 
 .fixed-top {
   width: 100%;
   margin: 0;
-  padding: 0 var(--page-padding);
+  padding: 0;
+}
+
+.fixed-top > div {
+  padding: 8px var(--page-padding);
   border-radius: 0;
-  height: 70px;
 }
 
 .fixed-top li {
