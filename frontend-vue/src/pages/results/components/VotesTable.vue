@@ -1,48 +1,65 @@
 <template>
-  <select @change="handleConstituencyChange">
-    <option selected disabled value="">-- Kies een kieskring --</option>
-    <option v-for="constituency in constituencies" :key="constituency.constituencyId" :value="constituency.constituencyId">
-      {{ constituency.constituencyName }}
-    </option>
-  </select>
-  <table v-if="selectedConstituency">
-    <tr>
-      <th>Kandidaat</th>
-      <th>Partij</th>
-      <th>Aantal stemmen</th>
-    </tr>
-    <tr v-for="constituencyVote in constituencyVotes" :key="constituencyVote.candidateId">
-      <td>
-        {{ constituencyVote.candidateName }}
-      </td>
-      <td>
-        {{ constituencyVote.affiliationName }}
-      </td>
-      <td>
-        {{ constituencyVote.constituencyVotes }}
-      </td>
-    </tr>
-  </table>
-  <div class="pageSelector" v-if="selectedConstituency">
-    <p @click="handleFirstPage" :class="['pageButton', {'greyed-out': currentPage === 1 }]">
-      <<
-    </p>
+  <div class="table-container">
+    <h2>
+      Voorkeursstemmen tabel
+    </h2>
+    <select @change="handleConstituencyChange" class="constituency-select">
+      <option selected disabled value="">Selecteer een kieskring </option>
+      <option v-for="constituency in constituencies" :key="constituency.constituencyId" :value="constituency.constituencyId">
+        {{ constituency.constituencyName }}
+      </option>
+    </select>
+    <table v-if="selectedConstituency" class="votes-table">
+      <thead>
+        <tr>
+          <th>Kandidaat</th>
+          <th>Partij</th>
+          <th>Aantal stemmen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="constituencyVote in constituencyVotes" :key="constituencyVote.candidateId">
+          <td>
+            {{ constituencyVote.candidateName }}
+          </td>
+          <td>
+            {{ constituencyVote.affiliationName }}
+          </td>
+          <td>
+            {{ constituencyVote.constituencyVotes }}
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td class="page-selector right-align">
+            <p @click="handleFirstPage" :class="['page-button', {'greyed-out': currentPage === 1 }]">
+              <<
+            </p>
 
-    <p @click="handlePageDown" :class="['pageButton', {'greyed-out': currentPage === 1 }]">
-      <
-    </p>
+            <p @click="handlePageDown" :class="['page-button', {'greyed-out': currentPage === 1 }]">
+              <
+            </p>
+          </td>
 
-    <p>
-      {{ currentPage }} / {{ Math.ceil(tableLength / PAGINATION) }}
-    </p>
+          <td class="center-align">
+            <p>
+              {{ currentPage }} / {{ Math.ceil(tableLength / PAGINATION) }}
+            </p>
+          </td>
 
-    <p @click="handlePageUp" :class="['pageButton', {'greyed-out': currentPage === Math.ceil(tableLength / PAGINATION) }]">
-      >
-    </p>
+          <td class="page-selector left-align">
+            <p @click="handlePageUp" :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / PAGINATION) }]">
+              >
+            </p>
 
-    <p @click="handleLastPage" :class="['pageButton', {'greyed-out': currentPage === Math.ceil(tableLength / PAGINATION) }]">
-      >>
-    </p>
+            <p @click="handleLastPage" :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / PAGINATION) }]">
+              >>
+            </p>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 </template>
 
@@ -76,7 +93,7 @@ const n = ref<number>(0);
 
 const currentPage = ref<number>(1);
 
-const PAGINATION = ref<number>(30);
+const PAGINATION = ref<number>(20);
 
 const tableLength = ref<number>();
 
@@ -163,13 +180,48 @@ void fetchConstituencies();
 </script>
 
 <style scoped>
-.pageSelector {
+.table-container {
+  padding: 10px 0 10px 0;
+}
+
+.constituency-select {
+  background-color: var(--dark-primary);
+  color: var(--light-primary);
+  font-family: Beiruti, sans-serif;
+  font-size: larger;
+  border: none;
+}
+.constituency-select option:hover {
+  background-color: var(--button);
+}
+
+.votes-table thead th, tbody td {
+  border: solid var(--light-primary) 2px;
+  border-radius: 5px;
+  padding: 5px;
+  min-width: 275px;
+}
+.votes-table thead {
+  background-color: var(--button);
+}
+
+.center-align p {
+  text-align: center;
+}
+
+.page-selector {
   display: flex;
 }
-.pageSelector p {
+.page-selector p {
   margin: 0 10px;
 }
-.pageButton {
+.right-align {
+  justify-content: right;
+}
+.left-align {
+  justify-content: left;
+}
+.page-button {
   cursor: pointer;
 }
 .greyed-out {
