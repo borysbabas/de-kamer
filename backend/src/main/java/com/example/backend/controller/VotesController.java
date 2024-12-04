@@ -40,7 +40,7 @@ public class VotesController {
     private final CandidateService candidateService;
 
     // Constant to define the amount of elements loaded into the votes table
-    private static final int PAGINATION = 30;
+    private static final int PAGINATION = 20;
 
     @Autowired
     public VotesController(
@@ -85,9 +85,7 @@ public class VotesController {
         List<ConstituencyVotes> constituencyVotes = constituencyVotesService.getConstituencyVotesByConstituencyByPage(constituency, PAGINATION, page);
         List<ConstituencyVotesModel> constituencyVotesList = new ArrayList<>();
         for (ConstituencyVotes constituencyVote : constituencyVotes) {
-            if (!constituencyVote.getConstituency().getConstituencyName().equals("alle") && !constituencyVote.getConstituency().getConstituencyName().equals("Bonaire")) {
-                constituencyVotesList.add(new ConstituencyVotesModel(constituencyVote));
-            }
+            constituencyVotesList.add(new ConstituencyVotesModel(constituencyVote));
         }
         return constituencyVotesList;
     }
