@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type {Municipality} from "@/types/Municipality";
-import type {PropType} from "vue";
+import {computed, type PropType} from "vue";
 import { useAdditionalMunicipalitiesData} from "@/composables/useMunicipalities";
+import type {MunicipalityCard} from "@/types/MunicipalityCard";
 
 const props = defineProps({
   municipalities: {
@@ -10,8 +11,14 @@ const props = defineProps({
   }
 })
 
-const {municipalityList} = useAdditionalMunicipalitiesData(props.municipalities);
+const cards: MunicipalityCard[] = [];
 
+const {municipalityList, isLoading} = useAdditionalMunicipalitiesData(props.municipalities);
+
+/**
+ * Format a number to the Dutch number format
+ * @param {string | number} value
+ */
 function formatNumber(value: string | number) {
   let numberValue = value;
   if (typeof value === "string") {
@@ -20,81 +27,120 @@ function formatNumber(value: string | number) {
   return numberValue.toLocaleString("nl-NL");
 }
 
+/**
+ * Reset the cards array to the initial state
+ * From the initial state, the cards array is filled with the data from the municipalities
+ */
+function resetCards() {
+  cards.length = 0;
+  cards.push(
+      {
+        title: "Aantal inwoners",
+        municipalities: [],
+      },
+      {
+        title: "Meest gestemde partijen",
+        municipalities: [],
+      },
+      {
+        title: "Meest gestemde kandidaten",
+        municipalities: [],
+      },
+      {
+        title: "Opkomst percentage",
+        municipalities: [],
+      },
+      {
+        title: "Gemiddelde leeftijd",
+        subtitle: "in jaren",
+        municipalities: [],
+      },
+      {
+        title: "Kiesgerechtigden",
+        municipalities: [],
+      },
+  );
+}
+
+/**
+ * Returns a string representing a number in fixed-point notation using a comma(,) instead of a dot(.).
+ * @param value The number to be converted to a string.
+ * @param fractionDigits Number of digits after the decimal point. Must be in the range 0 - 20, inclusive.
+ */
+function toDutchFixed(value: number, fractionDigits: number = 1) {
+  return value.toFixed(fractionDigits).replace(".", ",");
+}
+
+/**
+ * Add the data from the municipalities to the cards array
+ * Each card has a title and an array of municipalities with their data
+ */
+const municipalityCards = computed(() => {
+  if (isLoading.value) {
+    return [];
+  }
+  resetCards();
+  cards.forEach((card, cardIndex) => {
+    municipalityList.value.forEach((municipality) => {
+      switch (cardIndex) {
+        case 0:
+          card.municipalities.push({
+            municipalityName: municipality.name,
+            value: formatNumber(municipality.additionalData?.population),
+          });
+          break;
+        case 1:
+          card.municipalities.push({
+            municipalityName: municipality.name,
+            value: municipality.affiliations[0].affiliationName,
+            subValue: `${formatNumber(municipality.affiliations[0].totalVotes)} stemmen`,
+          });
+          break;
+        case 2:
+          card.municipalities.push({
+            municipalityName: municipality.name,
+            value: municipality.topCandidate.name,
+            subValue: `${formatNumber(municipality.topCandidate.votes)} stemmen`,
+          });
+          break;
+        case 3:
+          card.municipalities.push({
+            municipalityName: municipality.name,
+            value: `${toDutchFixed(municipality.additionalData.turnoutPercentage)}%`,
+          });
+          break;
+        case 4:
+          card.municipalities.push({
+            municipalityName: municipality.name,
+            value: toDutchFixed(municipality.additionalData.averageAge),
+          });
+          break;
+        case 5:
+          card.municipalities.push({
+            municipalityName: municipality.name,
+            value: formatNumber(municipality.additionalData.eligibleVoters),
+          });
+          break;
+      }
+    });
+  });
+  return cards;
+});
+
 </script>
 
 <template>
-  <div class="cards">
-    <div class="card">
+  <div class="cards" v-if="municipalityList.length > 0">
+    <div class="card" v-for="card in municipalityCards" :key="card.municipality">
       <div class="title">
-        <h3>Aantal inwoners</h3>
+        <h3>{{card.title}}</h3>
+        <p v-if="card.subtitle">{{card.subtitle}}</p>
       </div>
       <div class="municipalities">
-        <div v-for="municipality in municipalityList" :key="municipality">
-          <h2 class="value">{{formatNumber(municipality.additionalData[0].BevolkingOp1Januari_1)}}</h2>
-          <div class="municipality">{{municipality.name}}</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="title">
-        <h3>Meest gestemde partijen</h3>
-      </div>
-      <div class="municipalities">
-        <div v-for="municipality in municipalityList" :key="municipality">
-          <h2 class="value">{{municipality.affiliations[0].affiliationName}}</h2>
-          <p>{{formatNumber(municipality.affiliations[0].totalVotes)}} stemmen</p>
-          <div class="municipality">{{municipality.name}}</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="title">
-        <h3>Meest gestemde kandidaten</h3>
-      </div>
-      <div class="municipalities">
-        <div v-for="municipality in municipalityList" :key="municipality">
-          <h2 class="value">{{municipality.topCandidate.name}}</h2>
-          <p>{{formatNumber(municipality.topCandidate.votes)}} stemmen  </p>
-          <div class="municipality">{{municipality.name}}</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="title">
-        <h3>Opkomst percentage</h3>
-      </div>
-      <div class="municipalities">
-        <div v-for="municipality in municipalityList" :key="municipality">
-          <h2 class="value">{{formatNumber(municipality.additionalData[0].BevolkingOp1Januari_1)}}</h2>
-          <div class="municipality">{{municipality.name}}</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="title">
-        <h3>Aantal gehaalde zetels</h3>
-      </div>
-      <div class="municipalities">
-        <div v-for="municipality in municipalityList" :key="municipality">
-          <h2 class="value">{{formatNumber(municipality.additionalData[0].BevolkingOp1Januari_1)}}</h2>
-          <div class="municipality">{{municipality.name}}</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="title">
-        <h3>Gemiddelde leeftijd</h3>
-        <p>in jaren</p>
-      </div>
-      <div class="municipalities">
-        <div v-for="municipality in municipalityList" :key="municipality">
-          <h2 class="value">{{formatNumber(municipality.additionalData[0].BevolkingOp1Januari_1)}}</h2>
-          <div class="municipality">{{municipality.name}}</div>
+        <div v-for="municipality in card.municipalities" :key="municipality.municipalityName">
+          <h2 class="value">{{municipality.value}}</h2>
+          <p v-if="municipality.subValue">{{municipality.subValue}}</p>
+          <div class="municipality">{{municipality.municipalityName}}</div>
         </div>
       </div>
     </div>
@@ -128,7 +174,7 @@ function formatNumber(value: string | number) {
     background-color: var(--dark-secondary);
     padding: 13px 20px;
     border-bottom: 1px solid var(--light-primary);
-    flex-grow: 1;
+    min-height: 36px;
   }
 
   .municipalities {
