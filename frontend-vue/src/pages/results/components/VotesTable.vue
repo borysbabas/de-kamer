@@ -65,22 +65,8 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
-
-// Types
-type Constituency = {
-  constituencyId: number;
-  constituencyName: string;
-}
-
-type ConstituencyVotes = {
-  constituencyName: string;
-  affiliationName: string;
-  candidateName: string;
-  constituencyVotes: number;
-  constituencyId: number;
-  affiliationId: number;
-  candidateId: number;
-}
+import type {Constituency} from "@/types/Constituency";
+import type {ConstituencyVotes} from "@/types/ConstituencyVotes";
 
 // Variables
 const constituencies = ref<Constituency[]>([]);
