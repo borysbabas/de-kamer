@@ -104,10 +104,8 @@ public class VotesController {
 
     @PostMapping(path = ApiPaths.MUNICIPALITY_SERVICE_VOTES)
     public List<MunicipalityVotesModel> getMunicipalityVotesByMunicipalities(@RequestBody MunicipalityIdModel[] municipalityIdModels) {
-        List<Municipality> municipalities = new ArrayList<>();
-        for (MunicipalityIdModel municipalityIdModel : municipalityIdModels) {
-            municipalities.add(this.municipalityService.getMunicipalityByMunicipalityId(municipalityIdModel.getMunicipalityId()));
-        }
+        List<Municipality> municipalities = Arrays.stream(municipalityIdModels).map(municipalityIdModel ->
+                this.municipalityService.getMunicipalityByMunicipalityId((municipalityIdModel.getMunicipalityId()))).toList();
 
         return this.municipalityVotesService.getByMunicipalities(municipalities).stream().map(MunicipalityVotesModel::new).toList();
     }
@@ -145,7 +143,7 @@ public class VotesController {
     }
 
     @GetMapping(path = "/votes/municipality/{municipalityId}/top")
-    public CandidateDTO getTopCandidateByMunicipality(@PathVariable("municipalityId") long municipalityId) {
-        return new CandidateDTO(this.municipalityVotesService.getTopMunicipalityByMunicipalityId(municipalityId));
+    public CandidateVotesModel getTopCandidateByMunicipality(@PathVariable("municipalityId") long municipalityId) {
+        return new CandidateVotesModel(this.municipalityVotesService.getTopMunicipalityByMunicipalityId(municipalityId));
     }
 }
