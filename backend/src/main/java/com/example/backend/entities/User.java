@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 @Entity
 @Table(name = "users")
-public class User{
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -17,4 +19,6 @@ public class User{
     @Column(name = "name")
     private String name;
 
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
 }
