@@ -37,9 +37,4 @@ onMounted(() => {
   position: relative;
   z-index: 0;
 }
-
-.first {
-  padding-top: 150px !important;
-  margin: 0 auto;
-}
 </style>
