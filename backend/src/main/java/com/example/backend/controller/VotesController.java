@@ -74,7 +74,7 @@ public class VotesController {
         return constituencyVotesList;
     }
 
-    @GetMapping(path = "/votes/candidate/affiliation/{affiliationName}")
+    @GetMapping(path = ApiPaths.CANDIDATE_VOTES_BY_AFFILIATION_NAME)
     public List<CandidateVotesModel> getVotesByAffiliationId(@PathVariable String affiliationName) {
         List<Candidate> candidateList = candidateService.getCandidatesByAffiliationName(affiliationName);
         Map<Integer, Candidate> candidateMap = new HashMap<>();
@@ -142,7 +142,7 @@ public class VotesController {
         return this.municipalityVotesService.getMunicipalityAffiliationVotes(municipalityId);
     }
 
-    @GetMapping(path = "/votes/municipality/{municipalityId}/top")
+    @GetMapping(path = ApiPaths.MUNCIIPALITY_GET_TOP_CANDIDATE)
     public CandidateVotesModel getTopCandidateByMunicipality(@PathVariable("municipalityId") long municipalityId) {
         return new CandidateVotesModel(this.municipalityVotesService.getTopMunicipalityByMunicipalityId(municipalityId));
     }
