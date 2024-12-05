@@ -19,7 +19,10 @@ const {municipalityList, isLoading} = useAdditionalMunicipalitiesData(props.muni
  * Format a number to the Dutch number format
  * @param {string | number} value
  */
-function formatNumber(value: string | number) {
+function formatNumber(value: string | number ) {
+  if (!value) {
+    return undefined;
+  }
   let numberValue = value;
   if (typeof value === "string") {
     numberValue = parseInt(value);
@@ -68,6 +71,12 @@ function resetCards() {
  * @param fractionDigits Number of digits after the decimal point. Must be in the range 0 - 20, inclusive.
  */
 function toDutchFixed(value: number, fractionDigits: number = 1) {
+  if (fractionDigits < 0 || fractionDigits > 20) {
+    throw new RangeError("fractionDigits must be in the range 0 - 20, inclusive.");
+  }
+  if (!value) {
+    return undefined;
+  }
   return value.toFixed(fractionDigits).replace(".", ",");
 }
 
@@ -86,27 +95,30 @@ const municipalityCards = computed(() => {
         case 0:
           card.municipalities.push({
             municipalityName: municipality.name,
-            value: formatNumber(municipality.additionalData?.population),
+            value: formatNumber(municipality.additionalData.population),
           });
           break;
         case 1:
           card.municipalities.push({
             municipalityName: municipality.name,
             value: municipality.affiliations[0].affiliationName,
-            subValue: `${formatNumber(municipality.affiliations[0].totalVotes)} stemmen`,
+            subValue: formatNumber(municipality.affiliations[0].totalVotes),
+            subValueSuffix: " stemmen",
           });
           break;
         case 2:
           card.municipalities.push({
             municipalityName: municipality.name,
             value: municipality.topCandidate.name,
-            subValue: `${formatNumber(municipality.topCandidate.votes)} stemmen`,
+            subValue: formatNumber(municipality.topCandidate.votes),
+            subValueSuffix: " stemmen",
           });
           break;
         case 3:
           card.municipalities.push({
             municipalityName: municipality.name,
-            value: `${toDutchFixed(municipality.additionalData.turnoutPercentage)}%`,
+            value: toDutchFixed(municipality.additionalData.turnoutPercentage),
+            valueSuffix: "%",
           });
           break;
         case 4:
@@ -131,15 +143,17 @@ const municipalityCards = computed(() => {
 
 <template>
   <div class="cards" v-if="municipalityList.length > 0">
-    <div class="card" v-for="card in municipalityCards" :key="card.municipality">
+    <div class="card" v-for="card in municipalityCards.filter((c) => {
+      return c.municipalities[0].value !== undefined;
+    })" :key="card.municipality">
       <div class="title">
         <h3>{{card.title}}</h3>
         <p v-if="card.subtitle">{{card.subtitle}}</p>
       </div>
       <div class="municipalities">
         <div v-for="municipality in card.municipalities" :key="municipality.municipalityName">
-          <h2 class="value">{{municipality.value}}</h2>
-          <p v-if="municipality.subValue">{{municipality.subValue}}</p>
+          <h2 class="value">{{municipality.value}}{{municipality.valueSuffix}}</h2>
+          <p v-if="municipality.subValue">{{municipality.subValue}}{{municipality.subValueSuffix}}</p>
           <div class="municipality">{{municipality.municipalityName}}</div>
         </div>
       </div>

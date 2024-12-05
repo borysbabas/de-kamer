@@ -97,63 +97,76 @@ export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) 
     async function fetchAdditionalInformation(municipality: Municipality) {
         const MUNICIPALITY_ID_LENGTH = 4;
         isLoading.value = true;
+        municipality.additionalData = {};
 
         const requestUrl = `https://opendata.cbs.nl/ODataFeed/odata/${DATA_SET_ID}/UntypedDataSet?%24filter=((Geslacht%20eq%20%27T001038%27))%20and%20((BurgerlijkeStaat%20eq%20%27T001019%27))%20and%20(${
             buildFilter(pad(municipality.municipalityId, MUNICIPALITY_ID_LENGTH))
         })%20and%20((Perioden%20eq%20%272021JJ00%27))&%24format=json`;
 
-        const response = await fetch(requestUrl, {
-            method: "GET"
-        });
-
-        if (response.status !== 200) {
-            error.value = "error handling";
-            return;
+        let response;
+        try {
+            response = await fetch(requestUrl, {
+                method: "GET"
+            });
+        } catch (e) {
+            error.value = "error fetching";
         }
 
-        const populationDataSet: PopulationDataSet = await response.json();
+        let eligibleVoters: number;
 
-        let totalPopulation = 0;
-        let totalAge = 0;
-        let underage = 0;
+        if (response && response.status === 200) {
+            error.value = null;
+            const populationDataSet: PopulationDataSet = await response.json();
 
-        for (const populationData of populationDataSet.value) {
-            const age = ageKeyToValue.value.get(populationData.Leeftijd);
-            const amount = parseInt(populationData.BevolkingOp1Januari_1.trim());
-            if (totalPopulation === 0) {
-                if (age === "Totaal") {
-                    totalPopulation = amount;
-                    continue;
+            let totalPopulation = 0;
+            let totalAge = 0;
+            let underage = 0;
+
+            for (const populationData of populationDataSet.value) {
+                const age = ageKeyToValue.value.get(populationData.Leeftijd);
+                const amount = parseInt(populationData.BevolkingOp1Januari_1.trim());
+                if (totalPopulation === 0) {
+                    if (age === "Totaal") {
+                        totalPopulation = amount;
+                        continue;
+                    }
                 }
+                const ageNumber = parseInt(age.replace(/ .*/gm, "").trim());
+                if (ageNumber < LEGAL_VOTE_AGE) {
+                    underage += amount;
+                }
+                totalAge += (amount * ageNumber);
             }
-            const ageNumber = parseInt(age.replace(/ .*/gm, "").trim());
-            if (ageNumber < LEGAL_VOTE_AGE) {
-                underage += amount;
-            }
-            totalAge += (amount * ageNumber);
-        }
 
-        const eligibleVoters = totalPopulation - underage;
+            eligibleVoters = totalPopulation - underage;
 
-        const affiliations: Affiliation[] = await getAffiliationVotesForMunicipality(municipality);
-
-        // Sum up the total votes for the municipality
-        const totalVotes = affiliations.reduce((acc, affiliation) => acc + affiliation.totalVotes, 0);
-
-        municipality.affiliations = affiliations;
-        municipality.topCandidate = await getTopCandidatesForMunicipality(municipality);
-
-        isLoading.value = false;
-
-        municipalityList.value.push({
-            ...municipality,
-            additionalData: {
+            municipality.additionalData = {
                 averageAge: totalAge / totalPopulation,
                 population: totalPopulation,
                 eligibleVoters: eligibleVoters,
-                turnoutPercentage: totalVotes / eligibleVoters * 100,
-            },
-        });
+                turnoutPercentage: undefined,
+            };
+
+        }
+
+        try {
+            const affiliations: Affiliation[] = await getAffiliationVotesForMunicipality(municipality);
+            municipality.affiliations = affiliations;
+            municipality.topCandidate = await getTopCandidatesForMunicipality(municipality);
+
+            if (eligibleVoters) {
+                // Sum up the total votes for the municipality
+                const totalVotes = affiliations.reduce((acc, affiliation) => acc + affiliation.totalVotes, 0);
+                municipality.additionalData.turnoutPercentage = totalVotes / eligibleVoters * 100;
+            }
+        } catch (e) {
+            error.value = "error fetching affiliations";
+        }
+
+
+        isLoading.value = false;
+
+        municipalityList.value.push(municipality);
     }
 
     onMounted(() => {
