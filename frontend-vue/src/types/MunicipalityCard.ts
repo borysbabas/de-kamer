@@ -3,7 +3,9 @@ export type MunicipalityCard = {
     subtitle?: string;
     municipalities: {
         value: string;
+        valueSuffix?: string;
         subValue?: string;
+        subValueSuffix?: string;
         municipalityName: string;
     }[];
 }
