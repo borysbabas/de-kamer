@@ -47,4 +47,5 @@ public void setPassphrase(String passphrase) {
 public void setTokenDurationOfValidity(int tokenDurationOfValidity){
         this.tokenDurationOfValidity=tokenDurationOfValidity;
 }
+
 }

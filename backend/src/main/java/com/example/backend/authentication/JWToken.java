@@ -45,15 +45,20 @@ public class JWToken {
     }
     public static JWToken decode(String token, String issuer, String passphrase)throws ExpiredJwtException, MalformedJwtException{
         Key key = getKey(passphrase);
-        Jws<Claims> jws= Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+        Jws<Claims> jws= Jwts.parser().setSigningKey(key).build().parseClaimsJws(token);
         Claims claims = jws.getBody();
 
         if(!claims.getIssuer().equals(issuer)){
             throw new MalformedJwtException("invalid issuer");
         }
         JWToken jwToken = new JWToken(claims.getSubject(),Long.valueOf(claims.getId()),claims.get(JWT_ROLE_CLAIM).toString());
-        jwToken.setIpAdress((String) claims.get(JWT_IPADDRESS_CLAIM));
         return jwToken;
     }
 
+
+
+    public boolean isAdmin() {
+        return role != null && role.contains("admin");
+
+    }
 }

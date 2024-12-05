@@ -23,14 +23,13 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             return;
         }
         try{
-            JWToken jwToken = JWToken.decode(encryptedToken.replace("Bearer", ""),
-            this.apiConfig.getPhrase());
+            JWToken jwToken = JWToken.decode(encryptedToken.replace("Bearer ", ""), this.apiConfig.getIssuer(), this.apiConfig.getPassphrase());
             request.setAttribute(JWToken.JWT_ATTRIBUTE_NAME, jwToken);
-            filterChain.doFilter(request,response);
+            chain.doFilter(request,response);
 
         }catch(RuntimeException e){
-            response.sendError(HttpServletReponse.SC_UNAUTHORIZED);
-            e.getMessage()+"you need to login first")
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            e.getMessage();
         }
     }
 }
