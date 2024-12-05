@@ -27,4 +27,12 @@ public class AccountService {
     public List<Account> findByQuery(String email) {
         return accountRepository.findByQuery(email);
     }
+    public Account deleteById(Long id){
+        Account account = this.accountRepository.findById(id).orElse(null);
+        if( account!=null){
+            this.accountRepository.deleteById(id);
+        }
+        return account;
+
+    }
 }

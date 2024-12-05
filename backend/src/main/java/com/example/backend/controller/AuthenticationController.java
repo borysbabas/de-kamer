@@ -6,17 +6,17 @@ import com.example.backend.entities.Account;
 import com.example.backend.repositories.AccountRepository;
 import com.example.backend.services.AccountService;
 import com.example.backend.utils.NotAcceptableException;
+import com.example.backend.utils.ResourceNotFoundException;
+import com.example.backend.utils.UnAuthorizedException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -78,6 +78,18 @@ public class AuthenticationController {
 
 
 
+    }
+    @DeleteMapping(path="{id}")
+    public Account deleteOneAccount(@PathVariable()long id,@RequestAttribute(name=JWToken.JWT_ATTRIBUTE_NAME)JWToken jwtInfo){
+        if(jwtInfo==null||!jwtInfo.isAdmin()){
+            throw new UnAuthorizedException("Admin role is required to remove an account");
+        }
+
+        Account account= this.accountService.deleteById(id);
+        if(account==null){
+            throw new ResourceNotFoundException("Cannot delete an account with id");
+        }
+        return account;
     }
 
 }

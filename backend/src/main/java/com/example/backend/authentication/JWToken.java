@@ -8,8 +8,11 @@ import java.security.Key;
 import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 public class JWToken {
+    public static final String JWT_ATTRIBUTE_NAME ="jwtAttribute" ;
     private static final String JWT_ROLE_CLAIM="role";
     private static final String JWT_IPADDRESS_CLAIM="ipa";
+    private static final String JWT_CALLNAME_CLAIM="sub";
+    private static final String JWT_ACCOUNTID_CLAIM="id";
 
     private String callName;
     private Long accountId;
@@ -39,6 +42,18 @@ public class JWToken {
         byte[] hmacKey = passphrase.getBytes(StandardCharsets.UTF_8);
 //        return new SecretKeySpec(hmacKey, SignatureAlgorithm.HS512.getJcaName());
         return Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    }
+    public static JWToken decode(String token, String issuer, String passphrase)throws ExpiredJwtException, MalformedJwtException{
+        Key key = getKey(passphrase);
+        Jws<Claims> jws= Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+        Claims claims = jws.getBody();
+
+        if(!claims.getIssuer().equals(issuer)){
+            throw new MalformedJwtException("invalid issuer");
+        }
+        JWToken jwToken = new JWToken(claims.getSubject(),Long.valueOf(claims.getId()),claims.get(JWT_ROLE_CLAIM).toString());
+        jwToken.setIpAdress((String) claims.get(JWT_IPADDRESS_CLAIM));
+        return jwToken;
     }
 
 }
