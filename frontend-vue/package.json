@@ -8,6 +8,8 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "start": "npx http-server -p {PORT} ./dist",
     "preview": "vite preview",
+    "build-production": "vite build --mode=production",
+    "build-development": "vite build --mode=development",
     "test:unit": "vitest",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
