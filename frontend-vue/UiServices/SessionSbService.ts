@@ -36,9 +36,9 @@ export default class SessionSbService {
 
         if (response.ok) {
             const token = response.headers.get("Authorization");
-            console.log(token)
             if (token) {
-                this.saveTokenIntoBrowserStorage(token.split(" ")[1]);
+                const correctedToken = token.slice(6);
+                this.saveTokenIntoBrowserStorage(correctedToken);
             }
             return true;
         }
