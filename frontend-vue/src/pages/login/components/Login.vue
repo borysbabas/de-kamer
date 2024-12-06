@@ -10,7 +10,7 @@ const loginCredentials = ref({
  * @param email The email to inject
  */
 const submitLogin = async () => {
-  const response = await fetch("http://localhost:3001/login", {
+  const response = await fetch(import.meta.env.VITE_API_URL + "/login", {
     method: "POST",
     headers: {"Content-type": "application/json"},
     body: JSON.stringify(loginCredentials.value),

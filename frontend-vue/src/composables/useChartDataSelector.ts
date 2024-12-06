@@ -38,7 +38,7 @@ export const setSelectOption = async (index: number, selectedValue: string) => {
     await fetchChartData();
 }
 export const getPartyCandidateList = async (affilationName: String) => {
-    const data =  await fetch("http://localhost:3001/candidates/affiliation/" + affilationName)
+    const data =  await fetch(import.meta.env.VITE_API_URL + "/candidates/affiliation/" + affilationName)
         .then((response) => response.json())
         .then((data) => {
             return data;
@@ -48,7 +48,7 @@ export const getPartyCandidateList = async (affilationName: String) => {
 
 
 const getPartyList = async () => {
-    const data =  await fetch("http://localhost:3001/affiliation/all")
+    const data =  await fetch( import.meta.env.VITE_API_URL + "/affiliation/all")
         .then((response) => response.json())
         .then((data) => {
             return data;
@@ -99,7 +99,7 @@ export const fetchChartData = async () => {
     await setChartData();
 }
 async function getVotesCandidateByAffiliation(affilationName: String) {
-    return await fetch("http://localhost:3001/votes/candidate/affiliation/" + affilationName)
+    return await fetch(import.meta.env.VITE_API_URL + "/votes/candidate/affiliation/" + affilationName)
         .then((response) => response.json())
         .then((data) => {
             return data;
@@ -107,7 +107,7 @@ async function getVotesCandidateByAffiliation(affilationName: String) {
 }
 
 async function getMembers() {
-    return await fetch("http://localhost:3001/affiliation/members/count")
+    return await fetch(import.meta.env.VITE_API_URL + "/affiliation/members/count")
         .then((response) => response.json())
         .then((data) => {
             return data;
@@ -115,7 +115,7 @@ async function getMembers() {
 }
 
 async function getVotes() {
-    return await fetch("http://localhost:3001/votes/affiliations")
+    return await fetch(import.meta.env.VITE_API_URL + "/votes/affiliations")
         .then((response) => response.json())
         .then((data) => {
             return data;

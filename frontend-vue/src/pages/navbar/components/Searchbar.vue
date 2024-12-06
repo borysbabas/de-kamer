@@ -21,7 +21,7 @@ const candidateModel = ref({
 
 const candidateList = ref([])
 onMounted(() => {
-  fetch("http://localhost:3001/candidates")
+  fetch(import.meta.env.VITE_API_URL + "/candidates")
       .then(response => response.json())
       .then(json => candidateList.value = json)
 })

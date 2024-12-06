@@ -27,7 +27,7 @@ async function fetchCandidate() {
   candidateId.value = route.params.candidateId;
   if (candidateId.value) {
     const response = await fetch(
-        `http://localhost:3001/candidates/${candidateId.value}`
+        import.meta.env.VITE_API_URL + `/candidates/${candidateId.value}`
     );
     const json = await response.json();
     fetchedData.value = json;
@@ -76,7 +76,7 @@ async function fetchMunicipalityData() {
   candidateId.value = route.params.candidateId;
   if (candidateId.value) {
     const response = await fetch(
-        `http://localhost:3001/get-municipality-votes-by-candidateId/${candidateId.value}`
+        import.meta.env.VITE_API_URL + `/get-municipality-votes-by-candidateId/${candidateId.value}`
     );
     const json = await response.json();
     if (isChartResized.value === true) {
