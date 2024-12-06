@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { ref} from "vue"
-import * as process from "node:process";
+import{inject} from "vue";
+
+
 const apiURL=import.meta.env.VITE_API_URL
+
+const sessionService = inject("sessionService")
+
 const loginCredentials = ref({
   email: "",
   password: "",
@@ -12,16 +17,20 @@ const loginCredentials = ref({
  * @param email The email to inject
  */
 const submitLogin = async () => {
-  const response = await fetch(apiURL+"/login", {
-    method: "POST",
-    headers: {"Content-type": "application/json"},
-    body: JSON.stringify(loginCredentials.value),
-  })
-  if (response.ok) {
-    const result = await response.json()
-    console.log("Succesvol POST request.", result)
-    injectEmail(result.email.value)
+  if (!sessionService){
+    console.error("session service error")
+    return
   }
+  const succes = await sessionService.asyncSignIn(
+      loginCredentials.value.email,
+      loginCredentials.value.password
+  );
+  if (succes){
+    console.log("login succesfull")
+  }else{
+    console.error("login failed")
+  }
+
 }
 </script>
 

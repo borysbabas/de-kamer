@@ -17,6 +17,15 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String encryptedToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         String requestURI = request.getRequestURI();
+        if ("OPTIONS".equals(request.getMethod())) {
+            response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+            response.setHeader("Access-Control-Max-Age", "1800");
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
         if (requestURI.startsWith("/authentication")){
             if(requestURI.equals("/authentication/login")||requestURI.equals("/authentication/register")){
                 chain.doFilter(request,response);
