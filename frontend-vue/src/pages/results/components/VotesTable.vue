@@ -206,9 +206,27 @@ void fetchConstituencies();
 .votes-table thead {
   background-color: var(--button);
 }
+.votes-table tfoot td {
+  padding: 3px;
+}
 
-.center-align p {
+.center-align {
+  display: flex;
+  justify-content: center;
+}
+.pagination-input {
+  background-color: var(--dark-primary);
+  color: var(--light-primary);
+  border: none;
+  border-bottom: solid var(--light-primary) 1px;
+  max-width: 20px;
   text-align: center;
+}
+.pagination-label {
+  margin-left: 20px;
+}
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
 
 .page-selector {
