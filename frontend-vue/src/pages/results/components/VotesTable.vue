@@ -44,18 +44,20 @@
             </p>
           </td>
 
-          <td class="center-align">
-            <p>
-              {{ currentPage }} / {{ Math.ceil(tableLength / PAGINATION) }}
-            </p>
+          <td>
+            <div class="center-align">
+              <p>
+                {{ currentPage }} / {{ Math.ceil(tableLength / pagination) }}
+              </p>
+            </div>
           </td>
 
           <td class="page-selector left-align">
-            <p @click="handlePageUp" :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / PAGINATION) }]">
+            <p @click="handlePageUp" :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / pagination) }]">
               >
             </p>
 
-            <p @click="handleLastPage" :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / PAGINATION) }]">
+            <p @click="handleLastPage" :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / pagination) }]">
               >>
             </p>
           </td>
@@ -81,7 +83,7 @@ const n = ref<number>(0);
 
 const currentPage = ref<number>(1);
 
-const PAGINATION = ref<number>(20);
+let pagination = ref<number>(20);
 
 const tableLength = ref<number>();
 
@@ -133,34 +135,34 @@ async function fetchConstituencyVotes(constituencyId, page) {
 function handleConstituencyChange(event) {
   currentPage.value = 1;
   fetchConstituencyVotesCount(event.target.value);
-  fetchConstituencyVotes(event.target.value, currentPage.value);
+  fetchConstituencyVotes(event.target.value, pagination.value, currentPage.value);
 }
 
 function handleFirstPage() {
   if (currentPage.value !== 1) {
     currentPage.value = 1;
-    fetchConstituencyVotes(selectedConstituency.value, currentPage.value);
+    fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value);
   }
 }
 
 function handlePageDown() {
   if (currentPage.value !== 1) {
     currentPage.value -= 1;
-    fetchConstituencyVotes(selectedConstituency.value, currentPage.value);
+    fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value);
   }
 }
 
 function handlePageUp() {
-  if (currentPage.value < Math.ceil(tableLength.value / PAGINATION.value)) {
+  if (currentPage.value < Math.ceil(tableLength.value / pagination.value)) {
     currentPage.value += 1;
-    fetchConstituencyVotes(selectedConstituency.value, currentPage.value);
+    fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value);
   }
 }
 
 function handleLastPage() {
-  if (currentPage.value < Math.ceil(tableLength.value / PAGINATION.value)) {
-    currentPage.value = Math.ceil(tableLength.value / PAGINATION.value);
-    fetchConstituencyVotes(selectedConstituency.value, currentPage.value);
+  if (currentPage.value < Math.ceil(tableLength.value / pagination.value)) {
+    currentPage.value = Math.ceil(tableLength.value / pagination.value);
+    fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value);
   }
 }
 
