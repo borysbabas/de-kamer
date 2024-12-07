@@ -75,17 +75,17 @@ import type {ConstituencyVotes} from "@/types/ConstituencyVotes";
 // Variables
 const constituencies = ref<Constituency[]>([]);
 
-const constituencyVotes = ref<ConstituencyVotes[]>([]);
+let constituencyVotes = ref<ConstituencyVotes[]>([]);
 
-const selectedConstituency = ref<number>();
+let selectedConstituency = ref<number>();
 
-const n = ref<number>(0);
+let n = ref<number>(0);
 
-const currentPage = ref<number>(1);
+let currentPage = ref<number>(1);
 
 let pagination = ref<number>(20);
 
-const tableLength = ref<number>();
+let tableLength = ref<number>();
 
 // Fetch functions
 async function fetchConstituencies() {
