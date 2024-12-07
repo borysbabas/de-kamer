@@ -23,6 +23,10 @@ export default class SessionSbService {
         }
         this._currentToken = token;
     }
+    clearToken(){
+        window.localStorage.removeItem(this.BROWSER_STORAGE_ITEM_NAME)
+        window.sessionStorage.removeItem(this.BROWSER_STORAGE_ITEM_NAME)
+    }
 
 
     async asyncSignIn(email, password) {
