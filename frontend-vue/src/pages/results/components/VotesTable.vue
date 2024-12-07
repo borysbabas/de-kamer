@@ -9,6 +9,8 @@
         {{ constituency.constituencyName }}
       </option>
     </select>
+    <label class="pagination-label" for="pagination">Rijen per pagina: </label>
+    <input class="pagination-input" v-model="pagination" id="pagination" type="number" min="5" max="50" @change="handlePaginationChange">
     <table v-if="selectedConstituency" class="votes-table">
       <thead>
         <tr>
