@@ -116,9 +116,9 @@ async function fetchConstituencyVotesCount(constituencyId) {
   }
 }
 
-async function fetchConstituencyVotes(constituencyId, page) {
+async function fetchConstituencyVotes(constituencyId, pagination, page) {
   try {
-    const result = await fetch(`http://localhost:3001/votes/constituencies/${constituencyId}/${page}`);
+    const result = await fetch(`http://localhost:3001/votes/constituencies/${constituencyId}/${pagination}/${page}`);
 
     if (result.status !== 200) {
       throw new Error("Failed to fetch constituency votes");
