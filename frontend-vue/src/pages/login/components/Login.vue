@@ -3,8 +3,6 @@ import { ref} from "vue"
 import{inject} from "vue";
 
 
-const apiURL=import.meta.env.VITE_API_URL
-
 const sessionService = inject("sessionService")
 
 const loginCredentials = ref({
@@ -12,10 +10,6 @@ const loginCredentials = ref({
   password: "",
 })
 
-/**
- * Injects the email into the navbar
- * @param email The email to inject
- */
 const submitLogin = async () => {
   if (!sessionService){
     console.error("session service error")

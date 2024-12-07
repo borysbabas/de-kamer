@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import {onMounted, onUnmounted, provide, ref} from "vue";
+import {inject, onMounted, onUnmounted, provide, ref} from "vue";
 import {useRoute} from "vue-router";
 import Searchbar from "@/pages/navbar/components/Searchbar.vue";
-
-const userEmail = ref("");
-provide("updateEmail", (email: string) => {
-  userEmail.value = email;
-});
+//navbar status
+const navbarMargin = ref("50px");
+const route = useRoute();
+const isForumPage = ref(route.path.startsWith("/forum"));
 const searchBarState = ref(false);
-
 const toggleSearchBar = () => {
   searchBarState.value = !searchBarState.value;
 };
+//services
+const sessionService = inject("sessionService")
 
 /**
  * Handles the scroll event
@@ -25,6 +25,8 @@ const handleScroll = () => {
     navbar?.classList.remove("fixed-top");
   }
 };
+const Authenticated= ref(sessionService.getTokenFromBrowserStorage())
+const userName=ref("")
 
 onMounted(() => {
   const searchDOM = document.getElementById("searchbar");
@@ -43,10 +45,6 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 
-const navbarMargin = ref("50px");
-
-const route = useRoute();
-const isForumPage = ref(route.path.startsWith("/forum"));
 
 </script>
 
@@ -60,8 +58,10 @@ const isForumPage = ref(route.path.startsWith("/forum"));
         <li class="buttons">
           <Searchbar v-if="searchBarState" id="searchbar" class="searchbar"></Searchbar>
           <template v-if="isForumPage">
-            <router-link to="/forum/login"><p class="nav-text">Login</p></router-link>
-            <router-link to="/forum/register"><p class="nav-text">Register</p></router-link>
+            <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text">Login</p></router-link>
+            <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text">Register</p></router-link>
+            <router-link v-if="Authenticated"><p class="nav-text">{{ userName }}</p></router-link>
+            <router-link v-if="Authenticated"><p class="nav-text">Sign out</p></router-link>
           </template>
           <template v-else>
             <router-link to="/uitslagen"><p class="nav-text">Uitslagen</p></router-link>
