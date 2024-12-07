@@ -166,6 +166,18 @@ function handleLastPage() {
   }
 }
 
+function handlePaginationChange() {
+  if (pagination.value > 50) {
+    pagination.value = 50;
+  } else if (pagination.value < 5) {
+    pagination.value = 5;
+  }
+  currentPage.value = 1;
+  if (selectedConstituency.value) {
+    fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value)
+  }
+}
+
 void fetchConstituencies();
 </script>
 
