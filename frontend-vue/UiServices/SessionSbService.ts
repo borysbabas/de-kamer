@@ -1,4 +1,3 @@
-
 export default class SessionSbService {
     constructor(resourcesURL, browserStorageItemName) {
         this.RESOURCES_URL = resourcesURL;
@@ -23,9 +22,21 @@ export default class SessionSbService {
         }
         this._currentToken = token;
     }
+    saveUserNameIntoBrowserStorage(username){
+        window.sessionStorage.setItem("username", username)
+
+
+    }
+    getUsernameFormBrowserStorage(){
+        return window.sessionStorage.getItem("username")
+    }
     clearToken(){
         window.localStorage.removeItem(this.BROWSER_STORAGE_ITEM_NAME)
         window.sessionStorage.removeItem(this.BROWSER_STORAGE_ITEM_NAME)
+    }
+    clearUserName(){
+        window.sessionStorage.removeItem("username")
+
     }
 
 
@@ -40,14 +51,18 @@ export default class SessionSbService {
 
         if (response.ok) {
             const token = response.headers.get("Authorization");
+            const responseData = await response.json()
+            const username = responseData?.userName
             if (token) {
                 const correctedToken = token.slice(6);
                 this.saveTokenIntoBrowserStorage(correctedToken);
+                this.saveUserNameIntoBrowserStorage(username)
             }
             return true;
         }
         return false;
     }
+
     async asyncSignUp(registerForm){
          const body = JSON.stringify(registerForm);
         const response = await fetch(`${this.RESOURCES_URL}/register`,{

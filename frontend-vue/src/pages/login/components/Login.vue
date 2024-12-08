@@ -20,7 +20,8 @@ const submitLogin = async () => {
       loginCredentials.value.password
   );
   if (succes){
-    console.log("login succesfull",succes)
+    console.log("login succesfull")
+    window.location.href="/forum"
   }else{
     console.error("login failed")
   }
