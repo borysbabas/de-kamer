@@ -16,7 +16,7 @@ export class FetchInterceptor {
 
     request(url, options = {}) {
         const token = this.sessionService?.getTokenFromBrowserStorage();
-        if(url.includes("api.wikimedia.org")){
+        if(url.includes("api.wikimedia.org")|| url.includes("https://opendata.cbs.nl")){
             return [url,options]
         }
         if (!token) {
@@ -59,6 +59,9 @@ export class FetchInterceptor {
 
         if (response.status === 401) {
             console.log("Unauthorized 401")
+            this.sessionService.clearToken()
+            this.sessionService.clearUserName()
+            window.location.href("/login")
         }
     }
 }
