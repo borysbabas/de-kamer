@@ -16,7 +16,9 @@ export class FetchInterceptor {
 
     request(url, options = {}) {
         const token = this.sessionService?.getTokenFromBrowserStorage();
-
+        if(url.includes("api.wikimedia.org")){
+            return [url,options]
+        }
         if (!token) {
             return [url, options];
         }
