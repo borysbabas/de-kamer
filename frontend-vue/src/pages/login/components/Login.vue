@@ -20,7 +20,7 @@ const submitLogin = async () => {
       loginCredentials.value.password
   );
   if (succes){
-    console.log("login succesfull")
+    console.log("login succesfull",succes)
   }else{
     console.error("login failed")
   }

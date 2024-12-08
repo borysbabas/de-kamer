@@ -56,7 +56,7 @@ export class FetchInterceptor {
         console.error("API error response: ", response);
 
         if (response.status === 401) {
-            this.sessionService.clearToken();
+            console.log("Unauthorized 401")
         }
     }
 }
