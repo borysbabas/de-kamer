@@ -1,6 +1,7 @@
 package com.example.backend.services;
 
 import com.example.backend.entities.Post;
+import com.example.backend.models.PostModel;
 import com.example.backend.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,8 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public List<Post> findAllPosts() {
-        return postRepository.findAll();
+    public List<PostModel> findAllPosts() {
+        return postRepository.findAll().stream().map(PostModel::new).toList();
     }
 
     public void addPost(Post post) {
