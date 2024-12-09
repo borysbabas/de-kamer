@@ -12,11 +12,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 @Component
 public class JWTRequestFilter extends OncePerRequestFilter {
-    ApiConfig apiConfig = new ApiConfig();
+    private final ApiConfig apiConfig = new ApiConfig();
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
+
         String encryptedToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         String requestURI = request.getRequestURI();
+
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
             response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -26,29 +30,25 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_OK);
             return;
         }
-        if (requestURI.startsWith("/authentication")){
-            if(requestURI.equals("/authentication/login")||requestURI.equals("/authentication/register")){
-                chain.doFilter(request,response);
-            }
-            if (encryptedToken == null) {
-                if(!response.isCommitted()){
 
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No token provided");}
-                return;
-            }
-        try {
-            JWToken jwToken = JWToken.decode(encryptedToken.replace("Bearer ", ""), this.apiConfig.getIssuer(), this.apiConfig.getPassphrase());
-            request.setAttribute(JWToken.JWT_ATTRIBUTE_NAME, jwToken);
+        if (requestURI.equals("/authentication/login") || requestURI.equals("/authentication/register")) {
             chain.doFilter(request, response);
+            return;
+        }
 
+        if (encryptedToken == null || !encryptedToken.startsWith("Bearer ")) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No token provided");
+            return;
+        }
+
+        try {
+            String token = encryptedToken.replace("Bearer ", "");
+            JWToken jwToken = JWToken.decode(token, this.apiConfig.getIssuer(), this.apiConfig.getPassphrase());
+            request.setAttribute(JWToken.JWT_ATTRIBUTE_NAME, jwToken);
         } catch (RuntimeException e) {
-            if(!response.isCommitted()){
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-            }
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+            return;
         }
         chain.doFilter(request, response);
-    }else{
-            chain.doFilter(request, response);
-        }
     }
 }
