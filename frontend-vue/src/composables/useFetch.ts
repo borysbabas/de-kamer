@@ -73,7 +73,7 @@ export const APP_NAME = import.meta.env.VITE_APP_NAME;
     * @throws {Error} - If the fetch operation fails
  */
 export async function fetchPartyImages() {
-    const url = 'https://api.wikimedia.org/core/v1/wikipedia/nl/page/Lijst_van_politieke_partijen_in_Nederland/links/media?origin=*';
+    const url = 'https://api.wikimedia.org/core/v1/wikipedia/nl/page/Lijst_van_politieke_partijen_in_Nederland/links/media';
     try {
         const response = await fetch(url, {
             headers: {
@@ -81,10 +81,15 @@ export async function fetchPartyImages() {
                 'Api-User-Agent': APP_NAME,
             },
         });
-        if (!response.ok) {
-            console.error(`HTTP error! status: ${response.status}`);
-        }
+        // if (!response.ok) {
+        //     console.error(`HTTP error! status: ${response.status}`);
+        //     return;
+        // }
         const data = await response.json();
+        if(!data.files){
+            console.error("No files found in the response")
+            return
+        }
         const excludedTitles = ["1rightarrow blue.svg", "Commons-logo.svg", "Evolution of Dutch political parties since 1888.svg", "Flag of the Netherlands.svg", "Leden2018-1.png", "Ledental politieke partijen.png", "OOjs UI icon article-ltr.svg", "OOjs UI icon edit-ltr.svg", "Flag of the Netherlands.svg"];
 
         const partyNames = allParties.value.map(party => ({
@@ -114,6 +119,7 @@ export async function fetchPartyImages() {
         });
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
+        return;
     }
     return mediaData.value;
 }
