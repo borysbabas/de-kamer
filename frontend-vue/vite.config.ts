@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import dotenv from "dotenv"
+import dotenv from 'dotenv'
 
 dotenv.config({path:"./.env"})
 // https://vitejs.dev/config/
