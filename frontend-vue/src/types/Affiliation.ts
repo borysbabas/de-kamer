@@ -3,4 +3,5 @@ export type Affiliation = {
     affiliationName: string;
     imageUrl?: string;
     affiliationVotes: number;
+    totalVotes?: number;
 }

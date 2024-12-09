@@ -1,5 +1,6 @@
 package com.example.backend;
 
+import com.example.backend.authentication.JWToken;
 import com.example.backend.models.XmlFileModel;
 import com.example.backend.xmlreader.FileDiscovery;
 import com.example.backend.xmlreader.XmlStreamReaderV1;
@@ -27,7 +28,7 @@ public class BackendApplication {
 
     public static final String storedUsersPath = "backend/src/main/java/com/example/backend/storedUsers";
     private static final String XML_DIR = "res/";
-    private static final boolean RUN_PARSER = false;
+    private static final boolean RUN_PARSER = true;
     public static final boolean ENTER_POLLING_STATION_VOTES = true;
     public static final boolean addZeroVotes = false;
 
@@ -36,6 +37,10 @@ public class BackendApplication {
 
     public static void main(String[] args) throws XMLStreamException, FileNotFoundException {
         ApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);
+        JWToken token = new JWToken("JOHN DOE", 123L, "user");
+        String jwt = token.encode("myApp", "mySecretKey", 3600);
+        System.out.println(jwt);
+
 
         if (!RUN_PARSER) {
             return;

@@ -1,25 +1,31 @@
 <script setup lang="ts">
 import { ref} from "vue"
+import{inject} from "vue";
+
+
+const sessionService = inject("sessionService")
+
 const loginCredentials = ref({
   email: "",
   password: "",
 })
 
-/**
- * Injects the email into the navbar
- * @param email The email to inject
- */
 const submitLogin = async () => {
-  const response = await fetch("http://localhost:3001/login", {
-    method: "POST",
-    headers: {"Content-type": "application/json"},
-    body: JSON.stringify(loginCredentials.value),
-  })
-  if (response.ok) {
-    const result = await response.json()
-    console.log("Succesvol POST request.", result)
-    injectEmail(result.email.value)
+  if (!sessionService){
+    console.error("session service error")
+    return
   }
+  const succes = await sessionService.asyncSignIn(
+      loginCredentials.value.email,
+      loginCredentials.value.password
+  );
+  if (succes){
+    console.log("login succesfull")
+    window.location.href="/forum"
+  }else{
+    console.error("login failed")
+  }
+
 }
 </script>
 

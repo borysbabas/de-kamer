@@ -2,6 +2,7 @@ package com.example.backend.models;
 
 import com.example.backend.entities.Candidate;
 import com.example.backend.entities.CountryVotes;
+import com.example.backend.entities.MunicipalityVotes;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ public class CandidateVotesModel {
     private String prefix;
     private String affiliationName;
     private String gender;
+    private String locality;
     private long votes;
 
     public CandidateVotesModel(CountryVotes countryVotes) {
@@ -27,6 +29,19 @@ public class CandidateVotesModel {
         this.affiliationName = countryVotes.getAffiliation().getAffiliationName();
         this.name = getFullName(candidate.getInitials(), this.prefix, this.lastName);
         this.gender=candidate.getGender();
+    }
+
+    public CandidateVotesModel(MunicipalityVotes municipalityVotes) {
+        Candidate candidate = municipalityVotes.getCandidate();
+        this.candidateId = candidate.getCandidateId();
+        this.firstName = candidate.getFirstName();
+        this.prefix = candidate.getLastNamePrefix();
+        this.lastName = candidate.getLastName();
+        this.affiliationName = candidate.getAffiliation().getAffiliationName();
+        this.gender = candidate.getGender();
+        this.locality = candidate.getLocality();
+        this.votes = municipalityVotes.getTotalVotes();
+        this.name = getFullName(candidate.getInitials(), candidate.getLastNamePrefix(), candidate.getLastName());
     }
 
     public String getFullName(String initials, String lastnamePrefix, String lastname) {
