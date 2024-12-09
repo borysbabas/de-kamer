@@ -25,11 +25,15 @@ onMounted(() => {
       <h2 class="top-posts-title">Top Posts</h2>
       <ul class="post-list">
         <li class="post" v-for="post in topPosts" :key="post.postId">
-          <h3 class="post-title">{{ post.title }}</h3>
+          <div class="post-title-container">
+            <h3 class="post-title">{{ post.title }}</h3>
+          </div>
+          <div class="post-container">
           <p class="post-description">{{ post.description }}</p>
           <div class="post-info">
           <p class="post-user">Posted by User ID: {{ post.userId }} </p>
             <p class="post-date">{{ post.dateCreated }}</p></div>
+          </div>
         </li>
       </ul>
     </div>
@@ -56,7 +60,7 @@ onMounted(() => {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
-  padding: 0;
+  padding: 0 !important;
 }
 
 .post {
@@ -67,12 +71,27 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  padding: 0 !important;
+}
+
+.post-title-container {
+  background-color: var(--dark-secondary);
+  padding: 13px 20px;
+  border-bottom: 1px solid var(--light-primary);
+  min-height: 36px;
+  border-radius: 10px 10px 0 0;
 }
 
 .post-title {
   font-size: 1.5rem;
   margin: 0;
+}
+
+.post-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin: 13px 20px;
 }
 
 .post-description {
