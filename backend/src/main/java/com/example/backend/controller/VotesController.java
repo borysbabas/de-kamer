@@ -2,31 +2,13 @@ package com.example.backend.controller;
 
 import com.example.backend.DTO.CandidateDTO;
 import com.example.backend.config.ApiPaths;
-import com.example.backend.entities.AffiliationVotes;
-import com.example.backend.entities.Municipality;
+import com.example.backend.entities.*;
 import com.example.backend.models.*;
-import com.example.backend.services.AffiliationVotesService;
-import com.example.backend.services.CountryVotesService;
-import com.example.backend.services.MunicipalityService;
-import com.example.backend.services.MunicipalityVotesService;
-import com.example.backend.entities.Candidate;
-import com.example.backend.entities.Constituency;
-import com.example.backend.entities.ConstituencyVotes;
-import com.example.backend.models.AffiliationVotesModel;
-import com.example.backend.models.CandidateVotesModel;
-import com.example.backend.services.*;
 import com.example.backend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -86,8 +68,9 @@ public class VotesController {
         }
         return constituencyVotesList;
     }
-    @GetMapping(path="/votes/candidate/affiliation/{affiliationName}")
-    public List<CandidateVotesModel> getVotesByAffiliationId(@PathVariable String  affiliationName) {
+
+    @GetMapping(path = ApiPaths.CANDIDATE_VOTES_BY_AFFILIATION_NAME)
+    public List<CandidateVotesModel> getVotesByAffiliationId(@PathVariable String affiliationName) {
         List<Candidate> candidateList = candidateService.getCandidatesByAffiliationName(affiliationName);
         Map<Integer, Candidate> candidateMap = new HashMap<>();
         List<CandidateVotesModel> candidateVotesList = new ArrayList<>();
@@ -116,14 +99,11 @@ public class VotesController {
 
     @PostMapping(path = ApiPaths.MUNICIPALITY_SERVICE_VOTES)
     public List<MunicipalityVotesModel> getMunicipalityVotesByMunicipalities(@RequestBody MunicipalityIdModel[] municipalityIdModels) {
-        List<Municipality> municipalities = new ArrayList<>();
-        for (MunicipalityIdModel municipalityIdModel : municipalityIdModels) {
-            municipalities.add(this.municipalityService.getMunicipalityByMunicipalityId(municipalityIdModel.getMunicipalityId()));
-        }
+        List<Municipality> municipalities = Arrays.stream(municipalityIdModels).map(municipalityIdModel ->
+                this.municipalityService.getMunicipalityByMunicipalityId((municipalityIdModel.getMunicipalityId()))).toList();
 
         return this.municipalityVotesService.getByMunicipalities(municipalities).stream().map(MunicipalityVotesModel::new).toList();
     }
-    
 
     @GetMapping(path = ApiPaths.AFFILIATION_SERVICE_GETBYID)
     public AffiliationVotesModel getAffiliationVotesById(@PathVariable("id") long id) {
@@ -138,7 +118,17 @@ public class VotesController {
 
         List<Candidate> candidates = candidateService.findCandidatesByAffiliation(affiliationVotes.getAffiliation());
 
-        affiliationVotesModel.setCandidates(candidates.stream().map(candidate -> new CandidateDTO(this.countryVotesService.findByCandidate(candidate))).toList());
+        affiliationVotesModel.setCandidates(candidates.stream()
+                .map(candidate -> {
+                    CountryVotes countryVotes = this.countryVotesService.findByCandidate(candidate);
+                    if (countryVotes != null) {
+                        return new CandidateDTO(countryVotes);
+                    } else {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .toList());
         return affiliationVotesModel;
     }
 
@@ -147,8 +137,8 @@ public class VotesController {
         return this.municipalityVotesService.getMunicipalityAffiliationVotes(municipalityId);
     }
 
-    @GetMapping(path = "/votes/municipality/{municipalityId}/top")
-    public CandidateDTO getTopCandidateByMunicipality(@PathVariable("municipalityId") long municipalityId) {
-        return new CandidateDTO(this.municipalityVotesService.getTopMunicipalityByMunicipalityId(municipalityId));
+    @GetMapping(path = ApiPaths.MUNCIIPALITY_GET_TOP_CANDIDATE)
+    public CandidateVotesModel getTopCandidateByMunicipality(@PathVariable("municipalityId") long municipalityId) {
+        return new CandidateVotesModel(this.municipalityVotesService.getTopMunicipalityByMunicipalityId(municipalityId));
     }
 }
