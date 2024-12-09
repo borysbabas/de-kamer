@@ -18,6 +18,6 @@ public class PostModel {
         this.title = post.getTitle();
         this.description = post.getDescription();
         this.dateCreated = post.getDateCreated().toString();
-        this.userId = post.getUser().getId();
+        this.userId = post.getId().getId();
     }
 }

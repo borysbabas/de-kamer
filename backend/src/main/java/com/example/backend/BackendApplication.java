@@ -28,7 +28,7 @@ public class BackendApplication {
 
     public static final String storedUsersPath = "backend/src/main/java/com/example/backend/storedUsers";
     private static final String XML_DIR = "res/";
-    private static final boolean RUN_PARSER = true;
+    private static final boolean RUN_PARSER = false;
     public static final boolean ENTER_POLLING_STATION_VOTES = true;
     public static final boolean addZeroVotes = false;
 
@@ -40,7 +40,6 @@ public class BackendApplication {
         JWToken token = new JWToken("JOHN DOE", 123L, "user");
         String jwt = token.encode("myApp", "mySecretKey", 3600);
         System.out.println(jwt);
-
 
         if (!RUN_PARSER) {
             return;

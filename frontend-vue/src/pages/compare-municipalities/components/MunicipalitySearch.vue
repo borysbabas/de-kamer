@@ -4,7 +4,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" @click="searchbarClick">
         <path fill="#000" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
       </svg>
-      <input type="text" placeholder="Amsterdam" @input="onSearchInput">
+      <input class="search-input" type="text" placeholder="Amsterdam" @input="onSearchInput">
     </div>
     <div class="search-result" v-if="filteredList.length >= 1">
       <p v-for="municipality in municipalitiesInFilterList.splice(0, 10)" :key="municipality.municipalityId" @click="addMunicipality(municipality)">{{municipality.name}}</p>
@@ -125,6 +125,11 @@ function enterPressedOnFocus(e: KeyboardEvent) {
     background-color: transparent;
     font-size: 1rem;
     flex-grow: 1;
+  }
+
+  .search-input {
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
   .search-wrapper {

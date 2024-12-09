@@ -221,12 +221,21 @@ void fetchConstituencies();
   border-bottom: solid var(--light-primary) 1px;
   max-width: 20px;
   text-align: center;
+  padding: 3px;
 }
 .pagination-label {
   margin-left: 20px;
 }
-input[type=number]::-webkit-inner-spin-button {
+
+/* Hide the up and down spinner in Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
+  margin: 0;
 }
 
 .page-selector {
