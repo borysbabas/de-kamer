@@ -39,7 +39,7 @@ const formData = ref({
         <input v-model="formData.dateOfBirth" type="date" placeholder="date of birth.">
         <input v-model="formData.password" type="password" placeholder="Password">
         <button id="submit-btn" type="submit" @click="submitRegisterForm">Submit</button>
-        <router-link to="/login"><a>Login</a></router-link>
+        <router-link to="/forum/login"><a>Login</a></router-link>
       </div>
     </form>
   </section>
