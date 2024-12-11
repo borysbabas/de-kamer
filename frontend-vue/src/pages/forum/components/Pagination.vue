@@ -37,7 +37,6 @@ defineProps({
   border-radius: 10px 10px 0 0;
   border: 1px solid var(--light-primary);
   border-bottom: none;
-  width: 100%
 }
 
 .pagination button {

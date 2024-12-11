@@ -4,64 +4,68 @@
       Voorkeursstemmen tabel
     </h2>
     <select @change="handleConstituencyChange" class="constituency-select">
-      <option selected disabled value="">Selecteer een kieskring </option>
-      <option v-for="constituency in constituencies" :key="constituency.constituencyId" :value="constituency.constituencyId">
+      <option selected disabled value="">Selecteer een kieskring</option>
+      <option v-for="constituency in constituencies" :key="constituency.constituencyId"
+              :value="constituency.constituencyId">
         {{ constituency.constituencyName }}
       </option>
     </select>
     <label class="pagination-label" for="pagination">Rijen per pagina: </label>
-    <input class="pagination-input" v-model="pagination" id="pagination" type="number" min="5" max="50" @change="handlePaginationChange">
+    <input class="pagination-input" v-model="pagination" id="pagination" type="number" min="5" max="50"
+           @change="handlePaginationChange">
     <table v-if="selectedConstituency" class="votes-table">
       <thead>
-        <tr>
-          <th>Kandidaat</th>
-          <th>Partij</th>
-          <th>Aantal stemmen</th>
-        </tr>
+      <tr>
+        <th>Kandidaat</th>
+        <th>Partij</th>
+        <th>Aantal stemmen</th>
+      </tr>
       </thead>
       <tbody>
-        <tr v-for="constituencyVote in constituencyVotes" :key="constituencyVote.candidateId">
-          <td>
-            {{ constituencyVote.candidateName }}
-          </td>
-          <td>
-            {{ constituencyVote.affiliationName }}
-          </td>
-          <td>
-            {{ constituencyVote.constituencyVotes }}
-          </td>
-        </tr>
+      <tr v-for="constituencyVote in constituencyVotes" :key="constituencyVote.candidateId">
+        <td>
+          {{ constituencyVote.candidateName }}
+        </td>
+        <td>
+          {{ constituencyVote.affiliationName }}
+        </td>
+        <td>
+          {{ constituencyVote.constituencyVotes }}
+        </td>
+      </tr>
       </tbody>
       <tfoot>
-        <tr>
-          <td class="page-selector right-align">
-            <p @click="handleFirstPage" :class="['page-button', {'greyed-out': currentPage === 1 }]">
-              <<
-            </p>
+      <tr>
+        <td class="page-selector right-align">
+          <p @click="handleFirstPage" :class="['page-button', {'greyed-out': currentPage === 1 }]">
+            <<
+          </p>
 
-            <p @click="handlePageDown" :class="['page-button', {'greyed-out': currentPage === 1 }]">
-              <
-            </p>
-          </td>
+          <p @click="handlePageDown" :class="['page-button', {'greyed-out': currentPage === 1 }]">
+            <
+          </p>
+        </td>
 
-          <td>
-            <div class="center-align">
-              <p>
-                {{ currentPage }} / {{ Math.ceil(tableLength / pagination) }}
-              </p>
-            </div>
-          </td>
-
-          <td class="page-selector left-align">
-            <p @click="handlePageUp" :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / pagination) }]">
-              >
+        <td>
+          <div class="center-align">
+            <p>
+              {{ currentPage }} / {{ Math.ceil(tableLength / pagination) }}
             </p>
+          </div>
+        </td>
 
-            <p @click="handleLastPage" :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / pagination) }]">
-              >>
-            </p>
-          </td>
-        </tr>
+        <td class="page-selector left-align">
+          <p @click="handlePageUp"
+             :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / pagination) }]">
+            >
+          </p>
+
+          <p @click="handleLastPage"
+             :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / pagination) }]">
+            >>
+          </p>
+        </td>
+      </tr>
       </tfoot>
     </table>
   </div>
@@ -78,8 +82,6 @@ const constituencies = ref<Constituency[]>([]);
 let constituencyVotes = ref<ConstituencyVotes[]>([]);
 
 let selectedConstituency = ref<number>();
-
-let n = ref<number>(0);
 
 let currentPage = ref<number>(1);
 
@@ -193,6 +195,7 @@ void fetchConstituencies();
   font-size: larger;
   border: none;
 }
+
 .constituency-select option:hover {
   background-color: var(--button);
 }
@@ -203,9 +206,11 @@ void fetchConstituencies();
   padding: 5px;
   min-width: 275px;
 }
+
 .votes-table thead {
   background-color: var(--button);
 }
+
 .votes-table tfoot td {
   padding: 3px;
 }
@@ -214,6 +219,7 @@ void fetchConstituencies();
   display: flex;
   justify-content: center;
 }
+
 .pagination-input {
   background-color: var(--dark-primary);
   color: var(--light-primary);
@@ -223,6 +229,7 @@ void fetchConstituencies();
   text-align: center;
   padding: 3px;
 }
+
 .pagination-label {
   margin-left: 20px;
 }
@@ -230,6 +237,7 @@ void fetchConstituencies();
 /* Hide the up and down spinner in Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -241,18 +249,23 @@ input[type="number"]::-webkit-outer-spin-button {
 .page-selector {
   display: flex;
 }
+
 .page-selector p {
   margin: 0 10px;
 }
+
 .right-align {
   justify-content: right;
 }
+
 .left-align {
   justify-content: left;
 }
+
 .page-button {
   cursor: pointer;
 }
+
 .greyed-out {
   color: #555555;
   cursor: default;

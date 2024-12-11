@@ -17,8 +17,8 @@ onMounted(() => {
     <div class="top-posts">
       <h2 class="top-posts-title">Top Posts</h2>
       <PostList :posts="posts"/>
-      <Pagination :currentPage="currentPage" :totalPages="totalPages" :goToPage="goToPage"/>
     </div>
+    <Pagination :currentPage="currentPage" :totalPages="totalPages" :goToPage="goToPage"/>
   </section>
 </template>
 
@@ -31,6 +31,10 @@ onMounted(() => {
   padding: 20px var(--page-padding);
   position: relative;
   z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0;
 }
 
 .forum-title {
