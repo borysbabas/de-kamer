@@ -74,7 +74,9 @@ const chartOptions1 = ref({
   xaxis: {
     labels: {
       show: true,
-      rotation: -45,
+      style: {
+        colors: "var(--light-primary)",
+      }
     }
   },
   colors: ["#00E396"],
