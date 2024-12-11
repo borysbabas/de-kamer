@@ -16,7 +16,7 @@ import java.util.*;
 @RestController
 public class BackendApplication {
     private static final String XML_DIR = "res/";
-    private static final boolean RUN_PARSER = true;
+    private static final boolean RUN_PARSER = false;
     public static final boolean ENTER_POLLING_STATION_VOTES = true;
     public static final boolean addZeroVotes = false;
 
