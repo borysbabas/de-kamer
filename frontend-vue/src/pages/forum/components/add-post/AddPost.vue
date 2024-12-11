@@ -194,8 +194,16 @@ button:hover {
 
 ::v-deep .markdown-content ul {
   list-style-type: disc;
-  margin: 1em 0;
   padding-left: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+::v-deep .markdown-content ul li {
+  margin: 0;
+  padding: 0;
 }
 
 ::v-deep .markdown-content ol {
