@@ -1,16 +1,44 @@
+<template>
+  <Navbar></Navbar>
+  <section class="main">
+    <div class="container">
+      <div class="wrapper">
+        <H1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
+          {{ fetchedData.lastName }}</H1>
+        <H2 v-if="fetchedData.gender !== ``">geslacht: {{ fetchedData.gender }}</H2>
+        <H2>Totaal aantal stemmen op {{ fetchedData.name }}: {{ fetchedData.votes }}</H2>
+        <H2>Partij: {{ fetchedData.affiliationName }}</H2>
+        <div
+            id="chart1"
+            class="apex-chart"
+        >
+        </div>
+          <div
+              id="chart2"
+              class="apex-chart"
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+  <Footer></Footer>
+</template>
+
 <script setup lang="ts">
 import Navbar from "@/pages/navbar/Navbar.vue";
 import Footer from "@/pages/footer/Footer.vue"
 import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
-import {Chart, registerables} from "chart.js";
+import ApexCharts from "apexcharts";
 
-Chart.register(...registerables);
 
 const route = useRoute();
 const candidateId = ref(null);
-const municipalityData = ref<any[]>([]);
-let isChartResized: boolean = ref(false);
+let chart1: ApexCharts;
+let chart2: ApexCharts;
+let chartData = ref([]);
+
+window.ApexCharts = ApexCharts;
 
 const fetchedData = ref({
   candidateId: "",
@@ -23,53 +51,100 @@ const fetchedData = ref({
   votes: ""
 });
 
+const chartOptions1 = ref({
+  series: [
+    {
+      name: "Data",
+      type: "bar",
+      data: [{x: "test", y: 1}, {x: "test2", y: 2}]
+    }
+  ],
+  chart: {
+    id: "chart1",
+    width: "100%",
+    height: 400,
+    type: "line",
+    toolbar: {
+      show: false,
+    },
+    zoom: {
+      show: false,
+    },
+  },
+  colors: ["#00E396"],
+  dataLabels: {
+    enabled: false
+  },
+  legend: {
+    show: false,
+    position: "top"
+  },
+  tooltip: {
+    enabled: true,
+    theme: "dark",
+    x: {
+      show: true
+    }
+  }
+});
+
+const chartOptions2 = ref({
+  series: [
+    {
+      name: "Data",
+      type: "bar",
+      data: [{x: "test", y: 1}, {x: "test2", y: 2}]
+    }
+  ],
+  chart: {
+    id: "chart2",
+    width: "100%",
+    height: 200,
+    type: "line",
+    brush: {
+      enabled: true,
+      target: "chart1"
+    },
+    toolbar: {
+      show: false,
+    },
+    zoom: {
+      show: false,
+    },
+    selection: {
+      enabled: true,
+      xaxis: {
+        min: 0,
+        max: 10.
+      }
+    }
+  },
+  colors: ["#00E396"],
+  dataLabels: {
+    enabled: false
+  },
+  legend: {
+    show: false,
+    position: "top"
+  },
+  tooltip: {
+    enabled: true,
+    theme: "dark",
+    x: {
+      show: false
+    }
+  }
+});
 async function fetchCandidate() {
   candidateId.value = route.params.candidateId;
   if (candidateId.value) {
     const response = await fetch(
         `http://localhost:3001/candidates/${candidateId.value}`
     );
-    const json = await response.json();
-    fetchedData.value = json;
+    fetchedData.value = await response.json();
   } else {
     console.log("error");
   }
-}
-
-function createChart() {
-  const dataArray = municipalityData.value;
-  const labels = dataArray.map((municipality: { municipalityName: string }) => municipality.municipalityName);
-  const data = dataArray.map((municipality: { totalVotes: number }) => municipality.totalVotes);
-  const ctx = document.getElementById("municipalityChart") as HTMLCanvasElement;
-
-  if (window.myChart instanceof Chart) {
-    window.myChart.destroy();
-  }
-
-  window.myChart = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: "Aantal stemmen",
-          data: data,
-          backgroundColor: "rgba(54, 162, 235, 0.2)",
-          borderColor: "rgba(54, 162, 235, 1)",
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          type: "linear",
-        },
-      },
-    },
-  });
 }
 
 async function fetchMunicipalityData() {
@@ -79,19 +154,51 @@ async function fetchMunicipalityData() {
         `http://localhost:3001/get-municipality-votes-by-candidateId/${candidateId.value}`
     );
     const json = await response.json();
-    if (isChartResized.value === true) {
-      municipalityData.value = json.slice(0, 10);
-      createChart();
-    } else if (isChartResized.value === false) {
-      municipalityData.value = json
-      createChart()
-    }
+console.log(json);
+   let municipalityData = json.map((item) => {
+      return {
+        x: item.municipalityName,
+        y: item.totalVotes
+      };
+    });
+    chartData.value = [{name: "Stemmen", data: municipalityData}];
   }
 }
+const updateChartData = () => {
+  chart1.updateSeries(chartData.value);
+  chart2.updateSeries(chartData.value);
+};
+const chartSelection = (xaxis) => {
+  const filteredData = chartData.value[0].data.filter(item => item.x >= xaxis.min && item.x <= xaxis.max);
+  chart1.updateSeries([{ name: "Stemmen", data: filteredData }]);
+};
 
-onMounted(() => {
-  fetchCandidate();
-  fetchMunicipalityData();
+const initChart = () => {
+  const chart1Element = document.querySelector("#chart1");
+  const chart2Element = document.querySelector("#chart2");
+
+  if (chart1Element && chart2Element) {
+    chart1 = new ApexCharts(chart1Element, chartOptions1.value); // Initialize chart1 first
+    chart1.render();
+
+
+    chart2 = new ApexCharts(chart2Element, chartOptions2.value); // Then chart2
+    chart2.render();
+
+    chart2.addEventListener('brushScrolled', (event) => {
+      const { xaxis } = event.detail
+      chartSelection(xaxis);
+    })
+  } else {
+    console.error("Chart elements not found");
+  }
+};
+
+onMounted(async () => {
+  await fetchCandidate();
+  await fetchMunicipalityData();
+  initChart();
+  updateChartData();
 });
 
 watch(
@@ -104,24 +211,6 @@ watch(
 );
 </script>
 
-<template>
-  <Navbar></Navbar>
-  <section class="main">
-    <div class="container">
-      <div class="wrapper">
-        <H1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
-          {{ fetchedData.lastName }}</H1>
-        <H2 v-if="fetchedData.gender !== ``">geslacht: {{ fetchedData.gender }}</H2>
-        <H2>Totaal aantal stemmen op {{ fetchedData.name }}: {{ fetchedData.votes }}</H2>
-        <H2>Partij: {{ fetchedData.affiliationName }}</H2>
-        <canvas id="municipalityChart"></canvas>
-        <input type="checkbox" id="checkbox" @click="fetchMunicipalityData" v-model="isChartResized">
-        <label for="checkbox">Top 10 gemeentes weergeven</label>
-      </div>
-    </div>
-  </section>
-  <Footer></Footer>
-</template>
 
 <style scoped>
 .main {
@@ -133,8 +222,9 @@ watch(
   position: relative;
   z-index: 0;
 }
-
 .container {
   padding-top: 160px;
 }
 </style>
+
+// https://apexcharts.com/vue-chart-demos/line-charts/brush-chart/
