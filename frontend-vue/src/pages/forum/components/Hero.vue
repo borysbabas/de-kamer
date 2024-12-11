@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
 
 const topPosts = ref<any[]>([]);
 
@@ -29,10 +29,10 @@ onMounted(() => {
             <h3 class="post-title">{{ post.title }}</h3>
           </div>
           <div class="post-container">
-          <p class="post-description">{{ post.description }}</p>
-          <div class="post-info">
-          <p class="post-user">Posted by User ID: {{ post.userId }} </p>
-            <p class="post-date">{{ post.dateCreated }}</p></div>
+            <p class="post-description">{{ post.description }}</p>
+            <div class="post-info">
+              <p class="post-user">Posted by: {{ post.userName }} </p>
+              <p class="post-date">{{ post.dateCreated }}</p></div>
           </div>
         </li>
       </ul>
@@ -46,7 +46,7 @@ onMounted(() => {
   object-fit: cover;
   background-color: var(--dark-primary);
   color: var(--light-primary);
-  padding: 0 var(--page-padding);
+  padding: 20px var(--page-padding);
   position: relative;
   z-index: 0;
 }
@@ -57,21 +57,28 @@ onMounted(() => {
 }
 
 .post-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
   list-style: none;
   padding: 0 !important;
+  margin-bottom: 50px;
+  align-items: start;
 }
 
 .post {
   border: 1px solid var(--light-primary);
   border-radius: 10px;
-  width: 200px;
-  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0 !important;
+  padding: 0;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.post:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .post-title-container {
@@ -90,8 +97,8 @@ onMounted(() => {
 .post-container {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  margin: 13px 20px;
+  gap: 20px;
+  padding: 20px;
 }
 
 .post-description {

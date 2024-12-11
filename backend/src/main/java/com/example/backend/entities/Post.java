@@ -30,7 +30,7 @@ public class Post {
     private Timestamp dateCreated;
 
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
     private Account id;
 }

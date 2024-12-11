@@ -10,7 +10,7 @@ public class PostModel {
     private Long id;
     private String title;
     private String description;
-    private Long userId;
+    private String userName;
     private String dateCreated;
 
     public PostModel(Post post) {
@@ -19,9 +19,9 @@ public class PostModel {
         this.description = post.getDescription();
         this.dateCreated = post.getDateCreated().toString();
         if (post.getId() != null) {
-            this.userId = post.getId().getId();
+            this.userName = post.getId().getUserName();
         } else {
-            this.userId = null;
+            this.userName = null;
         }
     }
 }
