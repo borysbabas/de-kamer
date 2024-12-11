@@ -71,6 +71,12 @@ const chartOptions1 = ref({
       show: false,
     },
   },
+  xaxis: {
+    labels: {
+      show: true,
+      rotation: -45,
+    }
+  },
   colors: ["#00E396"],
   dataLabels: {
     enabled: false
@@ -84,7 +90,12 @@ const chartOptions1 = ref({
     theme: "dark",
     x: {
       show: true
-    }
+    },
+    y: {
+      formatter: function (val) {
+        return val;
+        }
+    },
   }
 });
 
@@ -113,10 +124,16 @@ const chartOptions2 = ref({
     },
     selection: {
       enabled: true,
+      type: "x",
       xaxis: {
         min: 0,
-        max: 10.
+        max: 20.
       }
+    }
+  },
+  xaxis: {
+    labels: {
+      show: false
     }
   },
   colors: ["#00E396"],
@@ -131,7 +148,12 @@ const chartOptions2 = ref({
     enabled: true,
     theme: "dark",
     x: {
-      show: false
+      show: true
+    },
+    y: {
+      formatter: function (val) {
+        return val;
+      }
     }
   }
 });
@@ -167,10 +189,6 @@ console.log(json);
 const updateChartData = () => {
   chart1.updateSeries(chartData.value);
   chart2.updateSeries(chartData.value);
-};
-const chartSelection = (xaxis) => {
-  const filteredData = chartData.value[0].data.filter(item => item.x >= xaxis.min && item.x <= xaxis.max);
-  chart1.updateSeries([{ name: "Stemmen", data: filteredData }]);
 };
 
 const initChart = () => {
