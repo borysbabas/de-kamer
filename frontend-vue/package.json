@@ -14,9 +14,11 @@
   },
   "dependencies": {
     "apexcharts": "^4.0.0",
+    "axios": "^1.7.9",
     "chart.js": "^4.4.4",
     "dotenv": "^16.4.7",
     "fetch-intercept": "2.4.0",
+    "highlight.js": "^11.10.0",
     "vue": "^3.4.29",
     "vue-chartjs": "^5.3.1",
     "vue-router": "^4.4.5",
