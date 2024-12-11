@@ -9,14 +9,22 @@ const router = useRouter();
 function goToPartyDetails(partyId: number) {
   router.push({name: 'PartyDetails', params: {partyId}});
 }
+
+function findLogoPath(affiliationName) {
+  if (affiliationName) {
+    return `src/assets/affiliation-logos/${affiliationName}.png`;
+  } else {
+    return `src/assets/affiliation-logos/Lijst30.png`;
+  }
+}
 </script>
 
 <template>
   <div class="parties">
-    <div v-for="(party, index) in sortedItems.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
-      <img class="party-img" :alt="mediaData[index]?.title || party.affiliationName"
+    <div v-for="(party) in sortedItems.slice(0, visibleBlocks)" :key="party.affiliationId" class="party">
+      <img class="party-img" :alt="party.affiliationName"
            @click="goToPartyDetails(party.affiliationId)"
-           :src="mediaData[index]?.images[0]?.url || party.imageUrl"
+           :src="findLogoPath(party.affiliationName)"
            width="200" height="200">
       <p class="party-votes" v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
         {{ party.affiliationVotes }} stemmen
