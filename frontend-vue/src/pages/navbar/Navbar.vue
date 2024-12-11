@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {inject, onMounted, onUnmounted, provide, ref, watch} from "vue";
+import {inject, onMounted, onUnmounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import Searchbar from "@/pages/navbar/components/Searchbar.vue";
 //navbar status
@@ -12,13 +12,11 @@ const toggleSearchBar = () => {
 };
 //services
 const sessionService = inject("sessionService")
-const userName =ref(sessionService.getUsernameFormBrowserStorage())
-const Authenticated= ref(sessionService.getTokenFromBrowserStorage())
+const userName = ref(sessionService.getUsernameFormBrowserStorage())
+const Authenticated = ref(sessionService.getTokenFromBrowserStorage())
 
 
-
-
-function handleSignOut(){
+function handleSignOut() {
   sessionService.clearToken()
   sessionService.clearUserName()
   window.location.reload()
@@ -52,7 +50,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
-
 </script>
 
 <template>
@@ -68,8 +65,9 @@ onUnmounted(() => {
             <router-link to="/forum"><p class="nav-text">Forum</p></router-link>
             <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text">Login</p></router-link>
             <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text">Register</p></router-link>
-            <router-link v-if="Authenticated"><p class="nav-text"> Welcome, {{ userName }}</p></router-link>
-            <router-link v-if="Authenticated"><p @click="handleSignOut" class="nav-text">Sign out</p></router-link>
+            <router-link v-if="Authenticated" to="#"><p class="nav-text"> Welcome, {{ userName }}</p></router-link>
+            <router-link v-if="Authenticated" to="#"><p @click="handleSignOut" class="nav-text">Sign out</p>
+            </router-link>
           </template>
           <template v-else>
             <router-link to="/uitslagen"><p class="nav-text">Uitslagen</p></router-link>
