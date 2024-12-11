@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import axios from "axios";
 import { marked } from "marked";
 import hljs from "highlight.js";
 import MarkdownMenu from "@/pages/forum/components/add-post/MarkdownMenu.vue";
@@ -11,14 +10,28 @@ const renderedDescription = ref("");
 
 const addPost = async () => {
   try {
-    await axios.post("/posts", {
+    const postData = {
       title: postTitle.value,
       description: postDescription.value,
+    };
+    const response = await fetch("http://localhost:3001/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${window.sessionStorage.getItem(
+          "your_token_key"
+        )}`,
+      },
+      body: JSON.stringify(postData),
     });
-    postTitle.value = "";
-    postDescription.value = "";
-    renderedDescription.value = "";
-    alert("Post added successfully!");
+    if (response.ok) {
+      postTitle.value = "";
+      postDescription.value = "";
+      renderedDescription.value = "";
+      alert("Post added successfully!");
+    } else {
+      console.error("Error adding post");
+    }
   } catch (error) {
     console.error("Error adding post:", error);
   }
