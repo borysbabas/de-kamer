@@ -30,6 +30,5 @@ public class ApiPaths {
     public static final String MUNICIPALITY_SERVIVE_GETMUNICIPALITYVOTESBYCANDIDATEID = "/get-municipality-votes-by-candidateId/{candidateId}";
 
     public static final String POST_SERVICE = "/posts";
-    public static final String GET_POSTS = POST_SERVICE + "/all";
     public static final String FIND_POST_BY_ID = POST_SERVICE + "/{postId}";
 }
