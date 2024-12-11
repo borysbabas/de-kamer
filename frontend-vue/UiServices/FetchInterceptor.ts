@@ -1,4 +1,5 @@
 import fetchIntercept from "fetch-intercept";
+import {options} from "@/composables/useDropdown";
 
 export class FetchInterceptor {
     sessionService;
@@ -22,7 +23,6 @@ export class FetchInterceptor {
         if (!token) {
             return [url, options];
         }
-
         const newOptions = { ...options };
         newOptions.headers = {
             ...(options.headers || {}),
@@ -61,7 +61,7 @@ export class FetchInterceptor {
             console.log("Unauthorized 401")
             this.sessionService.clearToken()
             this.sessionService.clearUserName()
-            window.location.href("/login")
+            window.location.href("http://localhost:3000/forum/login")
         }
     }
 }

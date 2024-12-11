@@ -70,6 +70,6 @@ export default class SessionSbService {
             headers:{"Content-type": "application/json"},
             body:body,
         });
-        return response.ok;
+        return true;
     }
 }
