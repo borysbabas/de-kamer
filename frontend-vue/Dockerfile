@@ -6,5 +6,5 @@ COPY ./dist ./dist
 COPY ./package.json ./package.json
 COPY ./package-lock.json .
 RUN npm install
-ENTRYPOINT npx http-server -p 3000 ./dist
+ENTRYPOINT ["npx", "http-server", "-p", "3000", "./dist"]
 
