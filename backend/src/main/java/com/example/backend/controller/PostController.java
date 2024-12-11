@@ -25,7 +25,7 @@ public class PostController {
         return postService.findAllPosts();
     }
 
-    @PostMapping
+    @PostMapping(path = ApiPaths.POST_SERVICE)
     public void addPost(@RequestBody Post post) {
         postService.addPost(post);
     }
