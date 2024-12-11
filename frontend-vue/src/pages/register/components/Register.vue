@@ -5,7 +5,18 @@ import {inject} from "vue";
 const sessionService = inject("sessionService")
 
 async function submitRegisterForm(){
-  sessionService.asyncSignUp(formData.value)
+  const response = await sessionService.asyncSignUp(formData.value)
+  console.log(response)
+  if(response){
+    let btn = document.getElementById("submit-btn")
+    btn.style.backgroundColor="green"
+    btn.innerHTML = "succesfully registered!"
+
+  }else{
+    let btn = document.getElementById("submit-btn")
+    btn.style.backgroundColor="red"
+    btn.innerHTML = "Something went wrong..."
+  }
 
 }
 
@@ -27,8 +38,8 @@ const formData = ref({
         <input v-model="formData.username" placeholder="Username">
         <input v-model="formData.dateOfBirth" type="date" placeholder="date of birth.">
         <input v-model="formData.password" type="password" placeholder="Password">
-        <button type="submit" @click="submitRegisterForm">Submit</button>
-        <router-link to="/login"><a>Login</a></router-link>
+        <button id="submit-btn" type="submit" @click="submitRegisterForm">Submit</button>
+        <router-link to="/forum/login"><a>Login</a></router-link>
       </div>
     </form>
   </section>
