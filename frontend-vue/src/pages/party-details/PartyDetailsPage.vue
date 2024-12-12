@@ -25,7 +25,7 @@ const partyDetails = ref<PartyDetails | null>(null);
 const sortOrder = ref('desc');
 
 const sortCandidates = () => {
-  if (partyDetails.value) {
+  if (partyDetails.value && partyDetails.value.candidates) {
     partyDetails.value.candidates.sort((a, b) => {
       return sortOrder.value === 'desc' ? b.votes - a.votes : a.votes - b.votes;
     });

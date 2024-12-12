@@ -26,10 +26,12 @@ public class ConstituencyController {
         List<ConstituencyModel> constituencyList = new ArrayList<>();
 
         for (Constituency constituency : constituencies) {
-            constituencyList.add(new ConstituencyModel(
-                    constituency.getConstituencyName(),
-                    constituency.getConstituencyId()
-            ));
+            // Exclude constituencies "alle" and "Bonaire", because they have little to no data elsewhere in the database
+            if (!constituency.getConstituencyName().equals("alle") && !constituency.getConstituencyName().equals("Bonaire"))
+                constituencyList.add(new ConstituencyModel(
+                        constituency.getConstituencyName(),
+                        constituency.getConstituencyId()
+                ));
         }
         return constituencyList;
     }

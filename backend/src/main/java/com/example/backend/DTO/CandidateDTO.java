@@ -17,6 +17,7 @@ public class CandidateDTO {
     private Long votes;
 
     public CandidateDTO(Candidate candidate) {
+
         this.candidateId = candidate.getCandidateId();
         this.firstName = candidate.getFirstName();
         this.prefix = candidate.getLastNamePrefix();
@@ -24,15 +25,6 @@ public class CandidateDTO {
         this.affiliationName = candidate.getAffiliation().getAffiliationName();
         this.gender=candidate.getGender();
 
-    }
-
-    public CandidateDTO(MunicipalityVotes municipalityVotes) {
-        this.candidateId = municipalityVotes.getCandidate().getCandidateId();
-        this.firstName = municipalityVotes.getCandidate().getFirstName();
-        this.prefix = municipalityVotes.getCandidate().getLastNamePrefix();
-        this.lastName = municipalityVotes.getCandidate().getLastName();
-        this.affiliationName = municipalityVotes.getCandidate().getAffiliation().getAffiliationName();
-        this.votes = municipalityVotes.getTotalVotes();
     }
 
     public CandidateDTO(CountryVotes countryVotes) {

@@ -8,8 +8,8 @@
 
 <script setup lang="ts">
 
-import VotesTable from "@/components/VotesTable.vue";
-import CompareMunicipalities from "@/components/CompareMunicipalities.vue";
+import VotesTable from "@/pages/results/components/VotesTable.vue";
+import CompareMunicipalities from "@/pages/compare-municipalities/CompareMunicipalities.vue";
 </script>
 
 <style scoped>

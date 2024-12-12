@@ -1,25 +1,38 @@
 <script setup lang="ts">
 import { ref} from "vue"
+import{inject} from "vue";
+
+
+const sessionService = inject("sessionService")
+const buttonText=ref("Log in");
+const buttonColor=ref("")
+
+
 const loginCredentials = ref({
   email: "",
   password: "",
 })
 
-/**
- * Injects the email into the navbar
- * @param email The email to inject
- */
 const submitLogin = async () => {
-  const response = await fetch("http://localhost:3001/login", {
-    method: "POST",
-    headers: {"Content-type": "application/json"},
-    body: JSON.stringify(loginCredentials.value),
-  })
-  if (response.ok) {
-    const result = await response.json()
-    console.log("Succesvol POST request.", result)
-    injectEmail(result.email.value)
+  if (!sessionService){
+    console.error("session service error")
+    return
   }
+  const succes = await sessionService.asyncSignIn(
+      loginCredentials.value.email,
+      loginCredentials.value.password
+  );
+  if (succes){
+    buttonText.value="Succesfully logged in!"
+    buttonColor.value="green"
+    window.location.href="/forum"
+  }else{
+    buttonText.value="Login failed"
+    buttonColor.value="red"
+
+
+  }
+
 }
 </script>
 
@@ -30,8 +43,8 @@ const submitLogin = async () => {
         <h2>Enter your credentials</h2>
         <input v-model="loginCredentials.email" placeholder="E-mail">
         <input v-model="loginCredentials.password" placeholder="Password" type="password">
-        <button @click="submitLogin">Log in</button>
-        <router-link to="/register"><a>Create account</a></router-link>
+        <button id="submit-btn" :style="{backgroundColor: buttonColor}" @click="submitLogin">{{buttonText}}</button>
+        <router-link to="/forum/register"><a>Create account</a></router-link>
       </div>
     </form>
   </section>

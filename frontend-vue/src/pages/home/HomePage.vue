@@ -5,12 +5,11 @@ import Footer from "@/pages/footer/Footer.vue";
 import AboutUs from "@/pages/home/components/AboutUs.vue";
 import Graph from "@/pages/home/components/Graph.vue";
 import {onMounted} from "vue";
-import {fetchCandidateVotes, fetchParties, fetchPartyImages} from "@/composables/useFetch";
+import {fetchCandidateVotes, fetchParties} from "@/composables/useFetch";
 
 onMounted(() => {
   fetchParties()
   fetchCandidateVotes();
-  fetchPartyImages();
 });
 </script>
 

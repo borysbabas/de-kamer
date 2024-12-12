@@ -1,25 +1,23 @@
 <script setup lang="ts">
 import {ref} from "vue"
+import {inject} from "vue";
 
-const postMethod = async () => {
-  try {
-    const response = await fetch("http://localhost:3001/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData.value)
-    });
-    if (response.ok) {
-      const result = await response.json();
-      console.log("data succesvol verstuurd", result)
+const sessionService = inject("sessionService")
 
-    } else {
-      console.error("data niet succesvol verstuurd.", response.statusText)
-    }
-  } catch (error) {
-    console.log(error)
+async function submitRegisterForm(){
+  const response = await sessionService.asyncSignUp(formData.value)
+  console.log(response)
+  if(response){
+    let btn = document.getElementById("submit-btn")
+    btn.style.backgroundColor="green"
+    btn.innerHTML = "succesfully registered!"
+
+  }else{
+    let btn = document.getElementById("submit-btn")
+    btn.style.backgroundColor="red"
+    btn.innerHTML = "Something went wrong..."
   }
+
 }
 
 const formData = ref({
@@ -40,8 +38,8 @@ const formData = ref({
         <input v-model="formData.username" placeholder="Username">
         <input v-model="formData.dateOfBirth" type="date" placeholder="date of birth.">
         <input v-model="formData.password" type="password" placeholder="Password">
-        <button type="submit" @click="postMethod">Submit</button>
-        <router-link to="/login"><a>Login</a></router-link>
+        <button id="submit-btn" type="submit" @click="submitRegisterForm">Submit</button>
+        <router-link to="/forum/login"><a>Login</a></router-link>
       </div>
     </form>
   </section>

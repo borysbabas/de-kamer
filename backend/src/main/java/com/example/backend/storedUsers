@@ -8,3 +8,5 @@
 {email=waluigi@yahoo.com, username=waluigi, dateOfBirth=1970-09-09, password=Motor}
 {email=test@test.com, username=test, dateOfBirth=2000-09-09, password=test}
 {email=test, username=testa, dateOfBirth=5325-03-24, password=test}
+{email=, username=, dateOfBirth=2005-01-04, password=}
+{email=Johndoe@gmail.com, username=JohnDoe, dateOfBirth=2024-12-02, password=geheim}
