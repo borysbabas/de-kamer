@@ -1,5 +1,5 @@
 <template>
-  <section class="main">
+  <section class="recent-posts">
     <h1>Recent posts</h1>
     <p>The recent posts from our community</p>
     <PostList :posts="posts" />
@@ -53,7 +53,7 @@ fetchRecentPosts();
 </script>
 
 <style scoped>
-.main {
+.recent-posts {
   min-height: calc(100vh - 150px);
   object-fit: cover;
   background-color: var(--dark-primary);
