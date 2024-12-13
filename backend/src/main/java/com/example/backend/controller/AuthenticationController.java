@@ -25,48 +25,59 @@ import java.util.List;
 @RestController
 @RequestMapping("/authentication")
 public class AuthenticationController {
-    @Autowired
     ApiConfig apiConfig;
     private final AccountService accountService;
 
     @Autowired
-    public AuthenticationController(AccountService accountService){
+    public AuthenticationController(AccountService accountService, ApiConfig apiConfig) {
+        this.apiConfig = apiConfig;
         this.accountService=accountService;
     }
+
     @PostMapping(path="/login")
-    public ResponseEntity<Account> authenticateAccount(@RequestBody ObjectNode signInInfo){
+    public ResponseEntity<Account> authenticateAccount(@RequestBody ObjectNode signInInfo) {
         String email = signInInfo.get("email").asText();
         String password =signInInfo.get("password").asText();
-        List<Account> accounts= accountService.findByQuery(email);
-        Account account = accounts.size() == 1? accounts.get(0):null;
-        if (account==null || !account.verifyPassword(password)){
+
+        List<Account> accounts = accountService.findByQuery(email);
+        Account account = accounts.size() == 1
+                ? accounts.get(0)
+                : null;
+
+        if (account == null || !account.verifyPassword(password)) {
             throw new NotAcceptableException("cannot authenitcate account with email:"+ email);
         }
         JWToken jwToken = new JWToken(account.getUserName(), account.getId(), account.getRole());
-        String tokenString = jwToken.encode(this.apiConfig.getIssuer(), this.apiConfig.getPassphrase(), this.apiConfig.getTokenDurationOfValidity());
-        return ResponseEntity.accepted().header(HttpHeaders.AUTHORIZATION, "Bearer"+tokenString).body(account);
+        String tokenString = jwToken.encode(
+                this.apiConfig.getIssuer(),
+                this.apiConfig.getPassphrase(),
+                this.apiConfig.getTokenDurationOfValidity()
+        );
+        return ResponseEntity.accepted().header(HttpHeaders.AUTHORIZATION, "Bearer" + tokenString).body(account);
     }
+
     @PostMapping(path="/register")
-    public ResponseEntity<Account> saveAccount(@RequestBody ObjectNode signUpInfo){
+    public ResponseEntity<Account> saveAccount(@RequestBody ObjectNode signUpInfo) {
         String email = signUpInfo.get("email").asText();
         String userName = signUpInfo.get("username").asText();
         String password = signUpInfo.get("password").asText();
         String dateOfBirthString= signUpInfo.get("dateOfBirth").asText();
-
         Date dateOfBirth;
+
         try{
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             dateOfBirth = simpleDateFormat.parse(dateOfBirthString);
 
-        }catch(Exception exception){
+        } catch(Exception exception){
             System.out.println(exception);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-
         }
+
         Account account = new Account();
-        if(!accountService.findByQuery(email).isEmpty()){
+        if (!accountService.findByQuery(email).isEmpty()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
+
         account.setEmail(email);
         account.setRole("user");
         account.setUserName(userName);
@@ -75,13 +86,11 @@ public class AuthenticationController {
 
         accountService.saveAccount(account);
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
-
-
-
     }
+
     @DeleteMapping(path="{id}")
-    public Account deleteOneAccount(@PathVariable()long id,@RequestAttribute(name=JWToken.JWT_ATTRIBUTE_NAME)JWToken jwtInfo){
-        if(jwtInfo==null||!jwtInfo.isAdmin()){
+    public Account deleteOneAccount(@PathVariable() long id, @RequestAttribute(name = JWToken.JWT_ATTRIBUTE_NAME) JWToken jwtInfo) {
+        if(jwtInfo == null ||!jwtInfo.isAdmin()) {
             throw new UnAuthorizedException("Admin role is required to remove an account");
         }
 
@@ -91,5 +100,4 @@ public class AuthenticationController {
         }
         return account;
     }
-
 }
