@@ -6,14 +6,14 @@ import Footer from "@/pages/footer/Footer.vue";
 
 const posts = ref<any[]>([]);
 
-async function fetchPosts() {
-  // Replace with your API endpoint
-  const response = await fetch(import.meta.env.VITE_API_URL + "/forum/posts");
-  posts.value = await response.json();
-}
+// async function fetchPosts() {
+//   // Replace with your API endpoint
+//   const response = await fetch(import.meta.env.VITE_API_URL + "/forum/posts");
+//   posts.value = await response.json();
+// }
 
 onMounted(() => {
-  fetchPosts();
+  // fetchPosts();
 });
 </script>
 

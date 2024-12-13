@@ -17,6 +17,7 @@ public class CandidateDTO {
     private Long votes;
 
     public CandidateDTO(Candidate candidate) {
+
         this.candidateId = candidate.getCandidateId();
         this.firstName = candidate.getFirstName();
         this.prefix = candidate.getLastNamePrefix();

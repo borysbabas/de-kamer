@@ -36,13 +36,6 @@ public class CandidateController {
                 .stream()
                 .map(CandidateDTO::new)
                 .collect(Collectors.toList());
-//
-//        List<Candidate> candidates = candidateService.findAll();
-//        List<CandidateDTO> candidateDTOS = new ArrayList<>();
-//        for (Candidate candidate : candidates) {
-//            candidateDTOS.add(new CandidateDTO(candidate));
-//        }
-//        return candidateDTOS;
     }
     @GetMapping(path="/candidates/affiliation/{affiliationName}", produces = "application/json")
     public List<CandidateDTO> getCandidatesByAffiliationName(@PathVariable("affiliationName") String affiliationName){
@@ -51,9 +44,6 @@ public class CandidateController {
                 .map(CandidateDTO::new)
                 .collect(Collectors.toList());
     }
-
-
-
 
     @GetMapping(path = "/candidates/{candidateId}")
     public CandidateDTO getCandidateById(@PathVariable("candidateId") Long candidateId) {

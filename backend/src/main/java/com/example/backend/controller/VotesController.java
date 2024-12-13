@@ -21,9 +21,6 @@ public class VotesController {
     private final MunicipalityService municipalityService;
     private final CandidateService candidateService;
 
-    // Constant to define the amount of elements loaded into the votes table
-    private static final int PAGINATION = 30;
-
     @Autowired
     public VotesController(
             AffiliationVotesService affiliationVotesService,
@@ -61,15 +58,13 @@ public class VotesController {
         return constituencyVotesService.getConstituencyVotesCountByConstituency(constituency);
     }
 
-    @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES + "/{constituencyId}/{page}")
-    public List<ConstituencyVotesModel> getConstituencyVotesByConstituencyIdByPage(@PathVariable("constituencyId") Long constituencyId, @PathVariable("page") Integer page) {
+    @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES + "/{constituencyId}/{pagination}/{page}")
+    public List<ConstituencyVotesModel> getConstituencyVotesByConstituencyIdByPage(@PathVariable("constituencyId") Long constituencyId, @PathVariable("pagination") Integer pagination, @PathVariable("page") Integer page) {
         Constituency constituency = constituencyService.findConstituencyById(constituencyId);
-        List<ConstituencyVotes> constituencyVotes = constituencyVotesService.getConstituencyVotesByConstituencyByPage(constituency, PAGINATION, page);
+        List<ConstituencyVotes> constituencyVotes = constituencyVotesService.getConstituencyVotesByConstituencyByPage(constituency, pagination, page);
         List<ConstituencyVotesModel> constituencyVotesList = new ArrayList<>();
         for (ConstituencyVotes constituencyVote : constituencyVotes) {
-            if (!constituencyVote.getConstituency().getConstituencyName().equals("alle") && !constituencyVote.getConstituency().getConstituencyName().equals("Bonaire")) {
-                constituencyVotesList.add(new ConstituencyVotesModel(constituencyVote));
-            }
+            constituencyVotesList.add(new ConstituencyVotesModel(constituencyVote));
         }
         return constituencyVotesList;
     }

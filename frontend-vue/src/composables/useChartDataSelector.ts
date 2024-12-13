@@ -56,8 +56,6 @@ const getPartyList = async () => {
     return data.map((item: any) => item.affiliationName);
 }
 
-
-
 export const fetchChartData = async () => {
     let data;
     switch (selectedOption.value[0].selected) {
