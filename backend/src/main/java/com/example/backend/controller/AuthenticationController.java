@@ -3,24 +3,24 @@ package com.example.backend.controller;
 import com.example.backend.authentication.JWToken;
 import com.example.backend.config.ApiConfig;
 import com.example.backend.entities.Account;
-import com.example.backend.repositories.AccountRepository;
 import com.example.backend.services.AccountService;
 import com.example.backend.utils.NotAcceptableException;
 import com.example.backend.utils.ResourceNotFoundException;
 import com.example.backend.utils.UnAuthorizedException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+@Slf4j
 @Configuration
 @RestController
 @RequestMapping("/authentication")
@@ -69,7 +69,7 @@ public class AuthenticationController {
             dateOfBirth = simpleDateFormat.parse(dateOfBirthString);
 
         } catch(Exception exception){
-            System.out.println(exception);
+            log.error("e: ", exception);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 

@@ -75,13 +75,8 @@ public class VotesController {
         Map<Integer, Candidate> candidateMap = new HashMap<>();
         List<CandidateVotesModel> candidateVotesList = new ArrayList<>();
         for (Candidate candidate : candidateList) {
-            Candidate newCandidate = null;
-            if (candidateMap.containsKey(candidate.hashCode())) {
-                newCandidate = candidateMap.get(candidate.hashCode());
-            } else {
-                candidateMap.put(candidate.hashCode(), candidate);
-                newCandidate = candidate;
-            }
+            Candidate newCandidate = candidateMap.computeIfAbsent(candidate.hashCode(), k -> candidate);
+
             candidateVotesList.add(countryVotesService.getCountryVotesByCandidate(newCandidate));
         }
         return candidateVotesList;

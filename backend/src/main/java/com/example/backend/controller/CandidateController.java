@@ -1,13 +1,9 @@
 package com.example.backend.controller;
 
-import com.example.backend.config.ApiConfig;
-import com.example.backend.config.ApiPaths;
 import com.example.backend.DTO.CandidateDTO;
 import com.example.backend.entities.Candidate;
-import com.example.backend.models.CandidateVotesModel;
 import com.example.backend.services.AffiliationService;
 import com.example.backend.services.CandidateService;
-import com.example.backend.services.CountryVotesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,15 +14,11 @@ import java.util.stream.Collectors;
 @RestController
 public class CandidateController {
     private final CandidateService candidateService;
-    private final CountryVotesService countryVotesService;
-    private final ApiConfig apiConfig;
     private final AffiliationService affiliationService;
 
     @Autowired
-    public CandidateController(CandidateService candidateService, CountryVotesService countryVotesService, ApiConfig apiConfig, AffiliationService affiliationService) {
+    public CandidateController(CandidateService candidateService, AffiliationService affiliationService) {
         this.candidateService = candidateService;
-        this.countryVotesService = countryVotesService;
-        this.apiConfig = apiConfig;
         this.affiliationService = affiliationService;
     }
 

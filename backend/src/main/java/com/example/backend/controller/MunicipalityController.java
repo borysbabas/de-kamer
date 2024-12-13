@@ -23,9 +23,7 @@ public class MunicipalityController {
     @GetMapping(path = ApiPaths.MUNICIPALITY_ALL)
     public List<MunicipalityModel> getMunicipalities() {
         List<MunicipalityModel> municipalityModels = new ArrayList<>();
-        this.municipalityService.getAllMunicipalities().forEach(municipality -> {
-            municipalityModels.add(new MunicipalityModel(municipality));
-        });
+        this.municipalityService.getAllMunicipalities().forEach(municipality -> municipalityModels.add(new MunicipalityModel(municipality)));
         return municipalityModels;
     }
 
