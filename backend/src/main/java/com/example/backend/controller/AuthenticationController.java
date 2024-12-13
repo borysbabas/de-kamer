@@ -20,12 +20,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+// TODO: Remove requestmapping to be consistent with the other controllers
 @Slf4j
 @Configuration
 @RestController
 @RequestMapping("/authentication")
 public class AuthenticationController {
-    ApiConfig apiConfig;
+    private final ApiConfig apiConfig;
     private final AccountService accountService;
 
     @Autowired
@@ -34,10 +35,11 @@ public class AuthenticationController {
         this.accountService=accountService;
     }
 
+    // TODO: Replace with constant in ApiPaths
     @PostMapping(path="/login")
     public ResponseEntity<Account> authenticateAccount(@RequestBody ObjectNode signInInfo) {
         String email = signInInfo.get("email").asText();
-        String password =signInInfo.get("password").asText();
+        String password = signInInfo.get("password").asText();
 
         List<Account> accounts = accountService.findByQuery(email);
         Account account = accounts.size() == 1
@@ -45,7 +47,7 @@ public class AuthenticationController {
                 : null;
 
         if (account == null || !account.verifyPassword(password)) {
-            throw new NotAcceptableException("cannot authenitcate account with email:"+ email);
+            throw new NotAcceptableException("cannot authenticate account with email:"+ email);
         }
         JWToken jwToken = new JWToken(account.getUserName(), account.getId(), account.getRole());
         String tokenString = jwToken.encode(
@@ -56,15 +58,17 @@ public class AuthenticationController {
         return ResponseEntity.accepted().header(HttpHeaders.AUTHORIZATION, "Bearer" + tokenString).body(account);
     }
 
+    // TODO: Replace with constant in ApiPaths
     @PostMapping(path="/register")
     public ResponseEntity<Account> saveAccount(@RequestBody ObjectNode signUpInfo) {
+        // TODO: Add some validation in the backend to check if the fields are valid
         String email = signUpInfo.get("email").asText();
         String userName = signUpInfo.get("username").asText();
         String password = signUpInfo.get("password").asText();
         String dateOfBirthString= signUpInfo.get("dateOfBirth").asText();
         Date dateOfBirth;
 
-        try{
+        try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             dateOfBirth = simpleDateFormat.parse(dateOfBirthString);
 
@@ -88,6 +92,7 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
     }
 
+    // TODO: Replace with constant in ApiPaths
     @DeleteMapping(path="{id}")
     public Account deleteOneAccount(@PathVariable() long id, @RequestAttribute(name = JWToken.JWT_ATTRIBUTE_NAME) JWToken jwtInfo) {
         if(jwtInfo == null ||!jwtInfo.isAdmin()) {

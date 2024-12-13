@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import {inject, onMounted, onUnmounted, provide, ref, watch} from "vue";
+import {inject, onMounted, onUnmounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import Searchbar from "@/pages/navbar/components/Searchbar.vue";
+
 //navbar status
 const navbarMargin = ref("50px");
 const route = useRoute();
@@ -10,13 +11,11 @@ const searchBarState = ref(false);
 const toggleSearchBar = () => {
   searchBarState.value = !searchBarState.value;
 };
+
 //services
 const sessionService = inject("sessionService")
 const userName =ref(sessionService.getUsernameFormBrowserStorage())
 const Authenticated= ref(sessionService.getTokenFromBrowserStorage())
-
-
-
 
 function handleSignOut(){
   sessionService.clearToken()
@@ -36,6 +35,7 @@ const handleScroll = () => {
     navbar?.classList.remove("fixed-top");
   }
 };
+
 onMounted(() => {
   const searchDOM = document.getElementById("searchbar");
   if (searchDOM) {

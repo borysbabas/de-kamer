@@ -26,6 +26,7 @@ public class AccountService {
         return encoder.encode(password);
     }
 
+    // TODO: Change all the method names to be more descriptive
     public List<Account> findByQuery(String email) {
         return accountRepository.findByQuery(email);
     }

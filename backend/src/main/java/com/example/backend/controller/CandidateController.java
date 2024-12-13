@@ -22,6 +22,7 @@ public class CandidateController {
         this.affiliationService = affiliationService;
     }
 
+    // TODO: Replace with constant in ApiPaths
     @GetMapping(path = "/candidates", produces = "application/json")
     public List<CandidateDTO> getAllCandidates() {
         return candidateService.findAll()
@@ -29,6 +30,8 @@ public class CandidateController {
                 .map(CandidateDTO::new)
                 .collect(Collectors.toList());
     }
+
+    // TODO: Replace with constant in ApiPaths
     @GetMapping(path="/candidates/affiliation/{affiliationName}", produces = "application/json")
     public List<CandidateDTO> getCandidatesByAffiliationName(@PathVariable("affiliationName") String affiliationName){
         return candidateService.getCandidatesByAffiliationName(affiliationName)
@@ -37,12 +40,14 @@ public class CandidateController {
                 .collect(Collectors.toList());
     }
 
+    // TODO: Replace with constant in ApiPaths
     @GetMapping(path = "/candidates/{candidateId}")
     public CandidateDTO getCandidateById(@PathVariable("candidateId") Long candidateId) {
         Candidate candidate = candidateService.getCandidateByCandidateId(candidateId);
         return new CandidateDTO(candidate);
     }
 
+    // TODO: Replace with constant in ApiPaths
     @GetMapping(path = "/party/{id}/candidates", produces = "application/json")
     public List<CandidateDTO> getCandidatesByAffiliationId(@PathVariable("id") Long affiliationId) {
         List<Candidate> candidates = candidateService.findCandidatesByAffiliation(
