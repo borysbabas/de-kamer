@@ -11,7 +11,7 @@ public class ApiConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOriginPatterns(
-                        "http://localhost:3000", "http*://*.hva.nl:*", "https://de-kamer.eu/*"
+                        "http://localhost:3000", "http://*.hva.nl:*", "https://de-kamer.eu"
                 ).allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 }
