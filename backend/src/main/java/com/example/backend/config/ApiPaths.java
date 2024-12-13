@@ -7,6 +7,9 @@ public class ApiPaths {
     public static final String AFFILIATION_SERVICE = "/affiliation";
     public static final String AFFILIATION_SERVICE_ALL = "/all";
     public static final String AFFILIATION_SERVICE_MEMBER_COUNT = "/members/count";
+    public static final String CHART_SERVICE = "/chart";
+
+    public static final String CANDIDATE_SERVICE_GET_AFFILIATION_VOTES = "/votes/{affiliationId}";
 
     public static final String CONSTITUENCY_SERVICE = "/constituencies";
 
