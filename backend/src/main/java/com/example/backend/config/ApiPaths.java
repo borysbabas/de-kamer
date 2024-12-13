@@ -32,4 +32,6 @@ public class ApiPaths {
     public static final String POST_SERVICE = "/posts";
     public static final String GET_POSTS = POST_SERVICE + "/all";
     public static final String FIND_POST_BY_ID = POST_SERVICE + "/{postId}";
+    public static final String POST_SERVICE_COUNT = POST_SERVICE + "/count";
+    public static final String POST_SERVICE_RECENT = POST_SERVICE + "/recent";
 }

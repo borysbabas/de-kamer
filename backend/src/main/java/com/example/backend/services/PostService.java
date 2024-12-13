@@ -29,4 +29,12 @@ public class PostService {
     public void deletePost(Long postId) {
         postRepository.deleteById(postId);
     }
+
+    public long getPostCount() {
+        return postRepository.count();
+    }
+
+    public List<PostModel> getRecentPosts(int postsPerPage, int currentPage) {
+        return postRepository.findAllByPageOrderByDateCreatedDesc(postsPerPage, (currentPage - 1) * postsPerPage).stream().map(PostModel::new).toList();
+    }
 }

@@ -34,4 +34,14 @@ public class PostController {
     public void deletePost(@PathVariable("postId") Long postId) {
         postService.deletePost(postId);
     }
+
+    @GetMapping(path = ApiPaths.POST_SERVICE_COUNT)
+    public long getPostCount() {
+        return postService.getPostCount();
+    }
+
+    @GetMapping(path = ApiPaths.POST_SERVICE_RECENT + "/{postsPerPage}/{currentPage}")
+    public List<PostModel> getRecentPosts(@PathVariable("postsPerPage") Integer postsPerPage, @PathVariable("currentPage") Integer currentPage) {
+        return postService.getRecentPosts(postsPerPage, currentPage);
+    }
 }
