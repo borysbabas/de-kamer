@@ -82,25 +82,26 @@ onMounted(() => {
   chart.render();
   setChartData();
   watch(curretDataSet, () => {
+    console.log("Data changed", curretDataSet.value);
     updateChart();
   });
 });
 
 function updateChart() {
-  chart.updateSeries(chartData.value);
+  chart.updateSeries([chartData.value]);
   sorted = false;
 }
 
 function sort() {
   if (sorted) {
     chartData.value = sortData('asc');
-    chart.updateSeries(chartData.value);
+    chart.updateSeries([chartData.value]);
     sorted = false;
     return;
   }
   sorted = true;
   chartData.value = sortData('desc');
-  chart.updateSeries(chartData.value);
+  chart.updateSeries([chartData.value]);
 }
 // Old function I need this code later
 // function hideHightlight(id: number) {

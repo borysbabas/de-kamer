@@ -11,6 +11,8 @@ export const selectedOption = ref({
 });
 export const curretDataSet = ref([]);
 
+export const partyList = ref([]);
+
 export const fetchOptions = async () => {
     const typeOption = {label: 'Type', options: ['Members', 'Votes'], selected: selectedOption.value[0]?.selected ?? 'Votes'};
     optionsList.value = [typeOption];
@@ -53,6 +55,7 @@ const getPartyList = async () => {
         .then((data) => {
             return data;
         });
+    partyList.value = data;
     return data.map((item: any) => item.affiliationName);
 }
 
@@ -73,7 +76,7 @@ export const fetchChartData = async () => {
                             break;
                         case 'Candidaat':
                             data = [];
-                            await getVotesCandidateByAffiliation(selectedOption.value[3].selected).then((result) => {
+                            await getVotesByAffilation(selectedOption.value[3].selected).then((result) => {
                                 data = result;
                             });
 
@@ -98,16 +101,24 @@ export const fetchChartData = async () => {
     curretDataSet.value = data;
     await setChartData();
 }
-async function getVotesCandidateByAffiliation(affilationName: String) {
-    return await fetch("http://localhost:3001/votes/candidate/affiliation/" + affilationName)
+
+function getAffilationId(affilationName: string) {
+    return partyList.value.find((item: any) => item.affiliationName === affilationName).affiliationId;
+}
+
+
+async function getVotesByAffilation(affilationName: string) {
+    const affilationId = getAffilationId(affilationName);
+    return await fetch("http://localhost:3001/chart/votes/" + affilationId)
         .then((response) => response.json())
         .then((data) => {
+            console.log(data, affilationId);
             return data;
         });
 }
 
 async function getMembers() {
-    return await fetch("http://localhost:3001/affiliation/members/count")
+    return await fetch("http://localhost:3001/chart/members/count")
         .then((response) => response.json())
         .then((data) => {
             return data;
@@ -115,7 +126,7 @@ async function getMembers() {
 }
 
 async function getVotes() {
-    return await fetch("http://localhost:3001/votes/affiliations")
+    return await fetch("http://localhost:3001/chart/votes/affiliations")
         .then((response) => response.json())
         .then((data) => {
             return data;
