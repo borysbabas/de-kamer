@@ -43,7 +43,6 @@ public class AffiliationService {
         return affiliationRepository.findAll();
     }
 
-
     public Affiliation findFirstByAffiliationNameStartingWith(String name) {
         return affiliationRepository.findFirstByAffiliationNameStartingWithIgnoreCase(name);
     }
