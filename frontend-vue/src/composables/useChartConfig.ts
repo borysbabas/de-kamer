@@ -10,16 +10,16 @@ export const sortData = (order: string) => {
 }
 
 export const setChartData = async () => {
+    console.log('setChartData', curretDataSet.value);
     if (curretDataSet.value.length === 0) {
         return;
     }
 
     curretDataSet.value.data.forEach((item: any) => {
-        if (!item.fillColor) {
+        if (!item.fillColor || item.fillColor.trim() === '') {
             item.fillColor = getRandomColor();
         }
     });
-
     chartData.value = curretDataSet.value;
     sortData('asc');
 }

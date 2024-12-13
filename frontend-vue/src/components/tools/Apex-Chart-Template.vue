@@ -52,6 +52,7 @@ let options = {
   ],
   chart: {
     width: '100%',
+    height: '100%',
     type: "bar",
   },
   plotOptions: {
@@ -159,12 +160,18 @@ function select(id: number) {
   justify-content: center;
   align-content: flex-start;
   margin: 10px;
+  min-height: 600px;
+  height: 100%;
 }
 .apex-interface {
   width: 25%;
+  height: auto;
+  overflow-x: auto;
 }
 .apex-chart {
   width: 75%;
+  height: auto;
+  //max-height: 4000px;
   margin-right: 50px;
 }
 

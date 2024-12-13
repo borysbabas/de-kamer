@@ -31,18 +31,21 @@ public class ChartController {
     private final CountryVotesService countryVotesService;
     private final AffiliationService affiliationService;
     private final AffiliationVotesService affiliationVotesService;
+    private final MunicipalityVotesService municipalityVotesService;
 
     @Autowired
     public ChartController(
             CandidateService candidateService,
             CountryVotesService countryVotesService,
             AffiliationService affiliationService,
-            AffiliationVotesService affiliationVotesService
+            AffiliationVotesService affiliationVotesService,
+            MunicipalityVotesService municipalityVotesService
     ) {
         this.candidateService = candidateService;
         this.countryVotesService = countryVotesService;
         this.affiliationService = affiliationService;
         this.affiliationVotesService = affiliationVotesService;
+        this.municipalityVotesService = municipalityVotesService;
     }
 
 
@@ -109,5 +112,25 @@ public class ChartController {
         return response;
     }
 
+    @GetMapping(path = ApiPaths.MUNICIPALITY_SERVIVE_GETMUNICIPALITYVOTESBYCANDIDATEID)
+    public Map<String, Object> getMunicipalitiesByCandidateId(@PathVariable("candidateId") Long candidateId) {
+        List<MunicipalityVoteModel> municipalityVotes = municipalityVotesService.getTop5MunicipalitiesByCandidateId(candidateId);
+        List<Map<String, Object>> data = new ArrayList<>();
+        int idCounter = 1;
+
+        for (MunicipalityVoteModel vote : municipalityVotes) {
+            Map<String, Object> dataPoint = new HashMap<>();
+            dataPoint.put("x", vote.getMunicipalityName());
+            dataPoint.put("y", vote.getTotalVotes());
+            dataPoint.put("id", idCounter++);
+            data.add(dataPoint);
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("name", "Stemmen");
+        response.put("data", data);
+
+        return response;
+    }
 
 }

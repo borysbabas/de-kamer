@@ -8,10 +8,12 @@ export const selectedOption = ref({
     1: {selected: 'Landelijk'},
     2: {selected: 'Partij'},
     3: {selected: 'VVD'},
+    4: {selected: 'Mark Rutte'}
 });
 export const curretDataSet = ref([]);
 
-export const partyList = ref([]);
+const partyList = ref([]);
+const candidateList = ref([]);
 
 export const fetchOptions = async () => {
     const typeOption = {label: 'Type', options: ['Members', 'Votes'], selected: selectedOption.value[0]?.selected ?? 'Votes'};
@@ -45,6 +47,7 @@ export const getPartyCandidateList = async (affilationName: String) => {
         .then((data) => {
             return data;
         });
+    candidateList.value = data;
     return data.map((item: any) => item.firstName + ' ' + item.lastName);
 }
 
@@ -86,18 +89,37 @@ export const fetchChartData = async () => {
                     }
                     break;
                 case 'Gemeente':
-                    data = [0];
-                    break;
+                    switch (selectedOption.value[2].selected) {
+                        case 'Partij':
+                            data = [];
+                            break;
+                        case 'Candidaat':
+                            data = []
+                            await getMunicplaityVotesByCandidate(selectedOption.value[4].selected).then((result) => {
+                                console.log(result , 'result');
+                                data = result;
+                            });
+                            break;
+                        default:
+                           // data = [];
+                    }
                 case 'Stembereau':
-                    data = [0];
-                    break;
+                    switch (selectedOption.value[2].selected) {
+                        case 'Partij':
+                            // data = [];
+                            break;
+                        case 'Candidaat':
+                            // data = [];
+                            break;
+                    }
                 default:
-                    data = [];
+                    // data = [];
             }
             break;
         default:
-            data = [];
+            // data = [];
     }
+    console.log(data, 'data');
     curretDataSet.value = data;
     await setChartData();
 }
@@ -132,7 +154,22 @@ async function getVotes() {
             return data;
         });
 }
+async function  getMunicipalityList() {
+    return await fetch("http://localhost:3001/municipality/all")
+        .then((response) => response.json())
+        .then((data) => {
+            return data;
+        });
+}
 
+async function getMunicplaityVotesByCandidate(candidateName: string) {
+    const candidateId = candidateList.value.find((item: any) => item.firstName + ' ' + item.lastName === candidateName).candidateId;
+    return await fetch("http://localhost:3001/chart/get-municipality-votes-by-candidateId/" + candidateId)
+        .then((response) => response.json())
+        .then((data) => {
+            return data;
+        });
+}
 
 // temp posible options
 // members, votes
