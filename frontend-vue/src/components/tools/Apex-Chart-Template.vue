@@ -90,6 +90,11 @@ onMounted(() => {
 
 function updateChart() {
   chart.updateSeries([chartData.value]);
+  chart.updateOptions({
+    chart: {
+      height: '100%',
+    }}
+  )
   sorted = false;
 }
 
@@ -166,7 +171,6 @@ function select(id: number) {
 .apex-interface {
   width: 25%;
   height: auto;
-  overflow-x: auto;
 }
 .apex-chart {
   width: 75%;
