@@ -13,6 +13,13 @@ export const setChartData = async () => {
     if (curretDataSet.value.length === 0) {
         return;
     }
+
+    curretDataSet.value.data.forEach((item: any) => {
+        if (!item.fillColor) {
+            item.fillColor = getRandomColor();
+        }
+    });
+
     chartData.value = curretDataSet.value;
     sortData('asc');
 }
