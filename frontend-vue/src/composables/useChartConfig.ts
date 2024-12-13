@@ -6,7 +6,7 @@ export let chartData = ref([]);
 export const sortData = (order: string) => {
     console.log('sortData', order, chartData.value);
     const sortedData = chartData.value.data.sort((a: any, b: any) => order === 'asc' ? b.y - a.y : a.y - b.y);
-    return [{ name: chartData.value.name, data: sortedData }];
+    return { name: chartData.value.name, data: sortedData };
 }
 
 export const setChartData = async () => {

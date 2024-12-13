@@ -2,7 +2,7 @@
   <div class="interface-background">
     <div class="interface-layers">
       <div
-          v-for="(item, key) in chartData[0]?.data"
+          v-for="(item, key) in chartData?.data"
           :key="key"
           class="items"
       > {{ item.x || "Unknown" }}
