@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.DTO.CandidateDTO;
+import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.Candidate;
 import com.example.backend.services.AffiliationService;
 import com.example.backend.services.CandidateService;
@@ -22,8 +23,7 @@ public class CandidateController {
         this.affiliationService = affiliationService;
     }
 
-    // TODO: Replace with constant in ApiPaths
-    @GetMapping(path = "/candidates", produces = "application/json")
+    @GetMapping(path = ApiPaths.CANDIDATES_SERVICE, produces = "application/json")
     public List<CandidateDTO> getAllCandidates() {
         return candidateService.findAll()
                 .stream()

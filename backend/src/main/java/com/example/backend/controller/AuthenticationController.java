@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.authentication.JWToken;
 import com.example.backend.config.ApiConfig;
+import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.Account;
 import com.example.backend.services.AccountService;
 import com.example.backend.utils.NotAcceptableException;
@@ -20,11 +21,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-// TODO: Remove requestmapping to be consistent with the other controllers
 @Slf4j
 @Configuration
 @RestController
-@RequestMapping("/authentication")
+@RequestMapping(path = ApiPaths.AUTHENTICATION_SERVICE)
 public class AuthenticationController {
     private final ApiConfig apiConfig;
     private final AccountService accountService;
@@ -35,13 +35,12 @@ public class AuthenticationController {
         this.accountService=accountService;
     }
 
-    // TODO: Replace with constant in ApiPaths
-    @PostMapping(path="/login")
+    @PostMapping(path=ApiPaths.AUTHENTICATION_SERVICE_LOGIN)
     public ResponseEntity<Account> authenticateAccount(@RequestBody ObjectNode signInInfo) {
         String email = signInInfo.get("email").asText();
         String password = signInInfo.get("password").asText();
 
-        List<Account> accounts = accountService.findByQuery(email);
+        List<Account> accounts = accountService.findByEmail(email);
         Account account = accounts.size() == 1
                 ? accounts.get(0)
                 : null;
@@ -58,14 +57,15 @@ public class AuthenticationController {
         return ResponseEntity.accepted().header(HttpHeaders.AUTHORIZATION, "Bearer" + tokenString).body(account);
     }
 
-    // TODO: Replace with constant in ApiPaths
-    @PostMapping(path="/register")
+    @PostMapping(path=ApiPaths.AUTHENTICATION_SERVICE_REGISTER)
     public ResponseEntity<Account> saveAccount(@RequestBody ObjectNode signUpInfo) {
-        // TODO: Add some validation in the backend to check if the fields are valid
         String email = signUpInfo.get("email").asText();
         String userName = signUpInfo.get("username").asText();
         String password = signUpInfo.get("password").asText();
         String dateOfBirthString= signUpInfo.get("dateOfBirth").asText();
+        if(email==null || userName == null || password == null || dateOfBirthString == null){
+            throw new NotAcceptableException("missing required fields");
+        }
         Date dateOfBirth;
 
         try {
@@ -78,7 +78,7 @@ public class AuthenticationController {
         }
 
         Account account = new Account();
-        if (!accountService.findByQuery(email).isEmpty()) {
+        if (!accountService.findByEmail(email).isEmpty()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
 
@@ -92,8 +92,7 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
     }
 
-    // TODO: Replace with constant in ApiPaths
-    @DeleteMapping(path="{id}")
+    @DeleteMapping(path= ApiPaths.AUTHENTICATION_SERVICE_DELETE)
     public Account deleteOneAccount(@PathVariable() long id, @RequestAttribute(name = JWToken.JWT_ATTRIBUTE_NAME) JWToken jwtInfo) {
         if(jwtInfo == null ||!jwtInfo.isAdmin()) {
             throw new UnAuthorizedException("Admin role is required to remove an account");
