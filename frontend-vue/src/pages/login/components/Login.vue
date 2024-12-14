@@ -49,13 +49,6 @@ const submitLogin = async () => {
 </template>
 
 <style scoped>
-.login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 56px);
-  background-color: var(--dark-primary);
-}
 
 form {
   display: flex;

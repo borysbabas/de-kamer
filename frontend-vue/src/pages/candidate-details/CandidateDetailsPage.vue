@@ -1,6 +1,6 @@
 <template>
   <Navbar></Navbar>
-  <section class="main">
+  <section>
     <div class="container">
       <div class="wrapper">
         <H1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
@@ -233,16 +233,7 @@ watch(
 
 
 <style scoped>
-.main {
-  object-fit: cover;
-  background-color: var(--dark-primary);
-  color: var(--light-primary);
-  padding: 0 var(--page-padding);
-  position: relative;
-  z-index: 0;
-  min-height: 100vh;
-  overflow: hidden;
-}
+
 .container {
   padding-top: 160px;
 }

@@ -43,7 +43,7 @@ onMounted(async () => {
 
 <template>
   <Navbar></Navbar>
-  <section class="first main">
+  <section>
     <div v-if="partyDetails">
       <h1>{{ partyDetails.affiliationName }}</h1>
       <p>Votes: {{ partyDetails.affiliationVotes }}</p>

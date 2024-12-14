@@ -7,7 +7,7 @@ import LoadLess from "@/pages/home/components/LoadLess.vue";
 </script>
 
 <template>
-  <section class="first main">
+  <section>
     <Dropdown></Dropdown>
     <Parties></Parties>
     <LoadMore></LoadMore>
@@ -16,16 +16,6 @@ import LoadLess from "@/pages/home/components/LoadLess.vue";
 </template>
 
 <style scoped>
-.main {
-  min-height: calc(100vh - 150px);
-  object-fit: cover;
-  background-color: var(--dark-primary);
-  color: var(--light-primary);
-  padding: 0 var(--page-padding);
-  position: relative;
-  border-bottom: var(--light-primary) 1px solid;
-  z-index: 0;
-}
 
 .dropdown-select option {
   padding: 20px;

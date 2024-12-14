@@ -32,7 +32,7 @@ const formData = ref({
 </script>
 
 <template>
-  <section class="register">
+  <section class="login">
     <form @submit.prevent>
       <div class="wrapper">
         <h2>Enter your information</h2>
@@ -48,14 +48,6 @@ const formData = ref({
 </template>
 
 <style scoped>
-.register {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 56px);
-  background-color: var(--dark-primary);
-}
-
 form {
   display: flex;
   justify-content: center;

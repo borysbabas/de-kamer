@@ -55,6 +55,8 @@ function findLogoPath(affiliationName: string) {
 }
 
 .party {
+  max-width: 200px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -66,13 +68,13 @@ function findLogoPath(affiliationName: string) {
 }
 
 .party-img {
-  width: 200px;
-  height: 200px;
+  width: 100%;
   aspect-ratio: 1/1;
   overflow: hidden;
   cursor: pointer;
   background-color: var(--light-primary);
   padding: 10px;
+  box-sizing: border-box;
   transition-duration: var(--animation-duration);
 }
 
@@ -89,5 +91,11 @@ function findLogoPath(affiliationName: string) {
 
 .party-votes, .party-name {
   text-align: center;
+}
+
+@media only screen and (max-width: 480px) {
+  .party {
+    max-width: 100%;
+  }
 }
 </style>

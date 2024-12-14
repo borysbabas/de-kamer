@@ -90,7 +90,7 @@ onUnmounted(() => {
 .nav {
   position: fixed;
   width: 100%;
-  padding: 0 var(--page-padding);
+  padding: 0 var(--page-side-padding);
   margin: v-bind(navbarMargin) 0;
   box-sizing: border-box;
   font-family: var(--font), sans-serif;
@@ -110,7 +110,7 @@ onUnmounted(() => {
 }
 
 .fixed-top > div {
-  padding: 8px var(--page-padding);
+  padding: 8px var(--page-side-padding);
   border-radius: 0;
 }
 
