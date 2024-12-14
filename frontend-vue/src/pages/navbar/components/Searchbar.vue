@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import {computed, onMounted, onUnmounted, ref} from "vue"
 import {useRoute, useRouter} from "vue-router"
+import {removeMunicipality} from "@/composables/useMunicipalities";
 
 const router = useRouter()
-const route = useRoute()
 const isFixed = ref(false)
-const forumStyle = ref({});
 const input = ref("");
 const debouncedSearch = debounce((value) => {
   input.value = value;
 }, 350)
+const scrollBarWidth = ref<string>("0px");
 
 const candidateModel = ref({
   candidateId: "",
@@ -19,19 +19,13 @@ const candidateModel = ref({
   affiliationName: "",
 })
 
-const candidateList = ref([])
+const candidateList = ref([]);
+
 onMounted(() => {
   fetch(import.meta.env.VITE_API_URL + "/candidates")
       .then(response => response.json())
-      .then(json => candidateList.value = json)
-})
-onMounted(()=>{
-  const currentRoute = route.path;
-  if(currentRoute==="/forum"){
-    forumStyle.value={right:"14.5vw"}
-
-  }
-
+      .then(json => candidateList.value = json);
+  scrollBarWidth.value = getScrollbarWidth();
 })
 
 const filteredList = computed(() => {
@@ -81,6 +75,37 @@ const handleScroll = () => {
   }
 };
 
+function clearSearch() {
+  input.value = "";
+  (document.querySelector(".searchbar-container input") as HTMLInputElement).value = "";
+}
+
+/**
+ * Get the width of the scrollbar
+ * @returns The width of the scrollbar
+ * @source https://stackoverflow.com/questions/13382516/getting-scroll-bar-width-using-javascript
+ */
+function getScrollbarWidth(): string {
+  // Creating invisible container
+  const outer = document.createElement('div');
+  outer.style.visibility = 'hidden';
+  outer.style.overflow = 'scroll'; // forcing scrollbar to appear
+  outer.style.msOverflowStyle = 'scrollbar'; // needed for WinJS apps
+  document.body.appendChild(outer);
+
+  // Creating inner element and placing it in the container
+  const inner = document.createElement('div');
+  outer.appendChild(inner);
+
+  // Calculating difference between container's full width and the child width
+  const scrollbarWidth = (outer.offsetWidth - inner.offsetWidth);
+
+  // Removing temporary elements from the DOM
+  outer.parentNode.removeChild(outer);
+
+  return `${scrollbarWidth}px`;
+}
+
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
 });
@@ -91,85 +116,81 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <li :style="forumStyle" class="searchbar-container"><input @input="event=>debouncedSearch(event.target.value)" type="text"
-                                         placeholder="Zoeken..."></li>
-  <ul v-if="input.length > 0 && filteredList.length > 0"
-      :class="{'fixed-searchbar' : isFixed, 'search-results': !isFixed}">
-    <li v-for="candidate in filteredList" :key="candidate.candidateId" @click="routeAssigner(candidate)">
+  <div class="searchbar-container">
+    <input @input="event=>debouncedSearch(event.target.value)" type="text" placeholder="Zoeken...">
+    <img @click="clearSearch" src="@/assets/svg/red-cross.svg" alt="red cross" />
+  </div>
+  <ul v-if="input.length > 0 && filteredList.length > 0">
+    <li v-for="candidate in filteredList.splice(0, 50)" :key="candidate.candidateId" @click="routeAssigner(candidate)">
       {{ candidate.firstName }}
       <span v-if="candidate.prefix">{{ candidate.prefix }}</span>
-      {{ candidate.lastName }}- {{ candidate.affiliationName }}
+      {{ candidate.lastName }} - {{ candidate.affiliationName }}
     </li>
   </ul>
 </template>
 
 <style scoped>
-.fixed-searchbar {
-  top: 60px;
-  right: 36vw;
-  width: 600px;
-  background-color: white;
-  color: black;
-  position: absolute;
-  flex-direction: column;
-}
 
 .searchbar-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: start;
-  text-align: left;
-  right: 10vw;
-  width: 600px;
+  max-height: 30px;
+  height: 100%;
   position: relative;
 }
 
-.search-results {
-  right: 32.1vw;
-  width: 600px;
-  background-color: white;
-  color: black;
+.searchbar-container img {
   position: absolute;
-  top: 50px;
+  right: 0;
+  top: 50%;
+  width: 17px;
+  padding: 5px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.searchbar-container input {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  border: none;
+  box-sizing: border-box;
+  padding: 0 30px 0 20px;
+  font-size: 1.05rem;
+  background-color: var(--light-primary);
+}
+
+ul {
+  position: absolute;
+  display: flex;
   flex-direction: column;
+  top: 56px;
+  padding: 5px 0;
+  box-sizing: border-box;
+  background-color: var(--light-primary);
+  gap: 5px;
+  max-height: 50vh;
+  overflow: auto;
+  box-shadow: 0 0 10px #00000040;
 }
 
-input {
-  border-style: none;
-  width: 600px;
-  height: 20px;
-  border-radius: 5px;
-  padding: 5px 10px;
-  font-size: 0.9rem;
+ul li {
+  color: var(--dark-primary);
+  padding: 7px 20px;
+  transition-duration: 100ms;
+  font-size: 1.1rem;
 }
 
-.fixed-searchbar li {
-  width: 568px;
-  font-size: 1rem;
-}
-
-li {
-  width: 568px;
-  font-size: 1rem;
-}
-
-.search-results li {
-  border: solid white 0.5px;
+ul li:hover {
+  background-color: var(--dark-primary);
+  color: var(--light-primary);
   cursor: pointer;
+  border-radius: 4px;
 }
 
-.search-results li:hover {
-  border-color: #20638F;
-}
-
-.fixed-searchbar li {
-  border: solid white 0.5px;
-  cursor: pointer;
-  padding: 10px 15px;
-  margin: 0 20px;
-}
-
-.fixed-searchbar li:hover {
-  border-color: #20638F
+@media only screen and (max-width: 480px) {
+  ul {
+    left: 0;
+    width: calc(100vw - var(--page-side-padding) * 2 - v-bind(scrollBarWidth));
+    box-sizing: border-box;
+  }
 }
 </style>
