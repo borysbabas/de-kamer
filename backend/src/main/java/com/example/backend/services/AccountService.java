@@ -2,7 +2,7 @@ package com.example.backend.services;
 
 import com.example.backend.entities.Account;
 import com.example.backend.repositories.AccountRepository;
-import io.jsonwebtoken.security.Password;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,27 +12,29 @@ import java.util.List;
 public class AccountService {
     private final AccountRepository accountRepository;
 
-    public AccountService(AccountRepository accountRepository){
-        this.accountRepository=accountRepository;
+    @Autowired
+    public AccountService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
     }
+
     public void saveAccount(Account account){
         accountRepository.save(account);
     }
+
     public String hashPassword(String password){
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.encode(password);
-
     }
 
-    public List<Account> findByQuery(String email) {
-        return accountRepository.findByQuery(email);
+    public List<Account> findByEmail(String email) {
+        return accountRepository.findByEmail(email);
     }
-    public Account deleteById(Long id){
+
+    public Account deleteById(Long id) {
         Account account = this.accountRepository.findById(id).orElse(null);
-        if( account!=null){
+        if( account != null){
             this.accountRepository.deleteById(id);
         }
         return account;
-
     }
 }
