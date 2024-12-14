@@ -1,5 +1,6 @@
 package com.example.backend.authentication;
 
+import com.example.backend.config.ApiConfig;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Arrays;
 
 @Component
 public class JWTRequestFilter extends OncePerRequestFilter {
@@ -16,14 +19,23 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        System.out.println(request);
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+        URL origin = new URL(request.getRequestURL().toString());
+        String originString = switch (origin.getHost()) {
+            case "localhost" -> ApiConfig.getDevelopmentOrigin();
+            case "de-kamer.eu", "backend-f15s.onrender.com" -> ApiConfig.getProductionOrigin();
+            default ->
+                    origin.getProtocol() + "://" + origin.getHost() + (origin.getPort() > -1 ? ":" + origin.getPort() : "");
+        };
+
+        boolean allowedOrigin = Arrays.asList(ApiConfig.getAllowedOrigins()).contains(originString);
+
+        if (allowedOrigin) {
+            response.setHeader("Access-Control-Allow-Origin", originString);
             response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
             response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Max-Age", "1800");
             response.setStatus(HttpServletResponse.SC_OK);
-            return;
         }
 
         chain.doFilter(request, response);

@@ -14,9 +14,9 @@ public class ApiPaths {
 
     public static final String CANDIDATES_SERVICE="/candidates";
 
-    public static final String AUTHENTICATION_SERVICE_LOGIN= AUTHENTICATION_SERVICE+"login";
-    public static final String AUTHENTICATION_SERVICE_REGISTER = AUTHENTICATION_SERVICE+"register";
-    public static final String AUTHENTICATION_SERVICE_DELETE = AUTHENTICATION_SERVICE+"{id}";
+    public static final String AUTHENTICATION_SERVICE_LOGIN= AUTHENTICATION_SERVICE + "/login";
+    public static final String AUTHENTICATION_SERVICE_REGISTER = AUTHENTICATION_SERVICE + "/register";
+    public static final String AUTHENTICATION_SERVICE_DELETE = AUTHENTICATION_SERVICE + "/{id}";
 
 
     public static final String VOTES = "/votes";
