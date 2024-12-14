@@ -1,4 +1,5 @@
 package com.example.backend.authentication;
+
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -6,7 +7,7 @@ import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
-import javax.crypto.spec.SecretKeySpec;
+
 public class JWToken {
     public static final String JWT_ATTRIBUTE_NAME ="jwtAttribute" ;
     private static final String JWT_ROLE_CLAIM="role";

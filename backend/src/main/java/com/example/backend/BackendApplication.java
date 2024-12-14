@@ -1,6 +1,5 @@
 package com.example.backend;
 
-import com.example.backend.authentication.JWToken;
 import com.example.backend.models.XmlFileModel;
 import com.example.backend.xmlreader.FileDiscovery;
 import com.example.backend.xmlreader.XmlStreamReaderV1;
