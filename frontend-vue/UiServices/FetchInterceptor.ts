@@ -61,7 +61,7 @@ export class FetchInterceptor {
             console.log("Unauthorized 401")
             this.sessionService.clearToken()
             this.sessionService.clearUserName()
-            window.location.href("http://localhost:3000/forum/login")
+            window.location.href("/forum/login")
         }
     }
 }

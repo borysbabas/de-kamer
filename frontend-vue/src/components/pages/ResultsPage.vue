@@ -19,7 +19,7 @@ let result = ref<any[]>([])
 
 // Temporary data source
 async function getChartData() {
-  return await fetch("http://localhost:3001/affiliation/members/count")
+  return await fetch(import.meta.env.VITE_API_URL + "/affiliation/members/count")
       .then((response) => response.json())
       .then((data) => {
         return data;
@@ -27,7 +27,7 @@ async function getChartData() {
 }
 
 async function getChartData2() {
-  return await fetch("http://localhost:3001/votes/affiliations")
+  return await fetch(import.meta.env.VITE_API_URL + "/votes/affiliations")
       .then((response) => response.json())
       .then((data) => {
         return data;

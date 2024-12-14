@@ -3,7 +3,7 @@ import {curretDataSet} from "@/composables/useChartDataSelector";
 
 let curretId = 0;
 
-export let chartData = ref([]);
+export const chartData = ref([]);
 
 export const sortData = (order: string) => {
     const sortedData = chartData.value[0].data.sort((a: any, b: any) => order === 'asc' ? b.y - a.y : a.y - b.y);

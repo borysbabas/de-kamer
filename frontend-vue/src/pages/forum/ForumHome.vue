@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
+import {onMounted, ref} from "vue";
 import ForumHero from "@/pages/forum/components/Hero.vue";
 import Navbar from "@/pages/navbar/Navbar.vue";
 import Footer from "@/pages/footer/Footer.vue";
@@ -8,7 +8,7 @@ const posts = ref<any[]>([]);
 
 // async function fetchPosts() {
 //   // Replace with your API endpoint
-//   const response = await fetch('http://localhost:3001/forum/posts');
+//   const response = await fetch(import.meta.env.VITE_API_URL + "/forum/posts");
 //   posts.value = await response.json();
 // }
 
