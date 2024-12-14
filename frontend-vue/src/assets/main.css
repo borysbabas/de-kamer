@@ -44,7 +44,6 @@ h2 {
 p {
     font-size: 16px;
     font-weight: normal;
-    text-align: justify;
 }
 
 a {
@@ -78,7 +77,7 @@ section {
     box-sizing: border-box;
     background-color: var(--dark-primary);
     color: var(--light-primary);
-    padding: 0 var(--page-side-padding);
+    padding: 50px var(--page-side-padding);
     position: relative;
     border-bottom: var(--light-primary) 1px solid;
     /* 150 for top margin, 56px for footer*/
