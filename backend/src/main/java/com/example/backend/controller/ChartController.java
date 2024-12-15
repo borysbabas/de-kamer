@@ -75,12 +75,12 @@ public class ChartController {
     @GetMapping(path = ApiPaths.AFFILIATION_SERVICE_MEMBER_COUNT)
     public Map<String, Object> getAllMemberCount() {
         List<Map<String, Object>> data = new ArrayList<>();
-        List<Affiliation> affiliations = affiliationService.getAllAffiliations();
+        List<MemberCountModel> affiliations = affiliationService.getMemberCount();
 
-        for (Affiliation affiliation : affiliations) {
+        for (MemberCountModel affiliation : affiliations) {
             Map<String, Object> dataPoint = new HashMap<>();
             dataPoint.put("x", affiliation.getAffiliationName());
-            dataPoint.put("y", candidateService.countDistinctCandidatesByAffiliation(affiliation));
+            dataPoint.put("y", affiliation.getMemberCount());
             dataPoint.put("id", affiliation.getAffiliationId());
             data.add(dataPoint);
         }

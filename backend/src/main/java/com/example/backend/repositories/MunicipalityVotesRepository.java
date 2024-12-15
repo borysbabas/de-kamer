@@ -19,14 +19,6 @@ public interface MunicipalityVotesRepository extends JpaRepository<MunicipalityV
     List<MunicipalityVoteModel> findTop5CandidateId(@Param("candidateId")Long candidateId);
 
 
-//    @Query("SELECT DISTINCT new com.example.backend.models.MunicipalityVoteModel(m.municipalityName, mv.totalVotes) " +
-//            "FROM MunicipalityVotes mv " +
-//            "JOIN mv.municipality m " +
-//            "ON mv.affiliation.affiliationId = :affiliationId " +
-//            "ORDER BY mv.totalVotes DESC")
-//    List<MunicipalityVoteModel> findMunicipalitiesByAffiliationId(@Param("affiliationId") Long affiliationId);
-//
-
     @Query("SELECT new com.example.backend.models.MunicipalityVoteModel(mv.municipality, SUM (mv.totalVotes))" +
             " FROM MunicipalityVotes mv" +
             " WHERE mv.affiliation.affiliationId = :affiliationId" +
