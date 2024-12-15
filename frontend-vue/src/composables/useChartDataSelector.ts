@@ -32,6 +32,9 @@ export const fetchOptions = async () => {
                 const CandidateOption = {label: 'Candidaat', options:candidateList , selected: selectedOption.value[4]?.selected || candidateList[0]};
                 optionsList.value.push(CandidateOption);
             }
+        } else if (basisOption.selected === 'Gemeente' || basisOption.selected === 'Stembereau') {
+            const partyOption = {label: 'Partij', options: await getPartyList(), selected: selectedOption.value[3]?.selected || 'VVD'};
+            optionsList.value.push(partyOption);
         }
     }
 }
@@ -91,7 +94,10 @@ export const fetchChartData = async () => {
                 case 'Gemeente':
                     switch (selectedOption.value[2].selected) {
                         case 'Partij':
-                            data = [];
+                            data = []
+                            await getMunicipalityVotesByAffilation(selectedOption.value[3].selected).then((result) => {
+                                data = result;
+                            });
                             break;
                         case 'Candidaat':
                             data = []
@@ -171,5 +177,13 @@ async function getMunicplaityVotesByCandidate(candidateName: string) {
         });
 }
 
+async function getMunicipalityVotesByAffilation(affilationName: string) {
+    const affilationId = getAffilationId(affilationName);
+    return await fetch("http://localhost:3001/chart/get-municipality-votes-by-affiliationId/" + affilationId)
+        .then((response) => response.json())
+        .then((data) => {
+            return data;
+        });
+}
 // temp posible options
 // members, votes

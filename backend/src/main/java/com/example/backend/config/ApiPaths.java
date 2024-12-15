@@ -31,4 +31,5 @@ public class ApiPaths {
     public static final String MUNICIPALITY_ID = MUNICIPALITY_SERVICE + "/id/{id}";
     public static final String MUNICIPALITY_ALL = "/municipalities";
     public static final String MUNICIPALITY_SERVIVE_GETMUNICIPALITYVOTESBYCANDIDATEID = "/get-municipality-votes-by-candidateId/{candidateId}";
+    public static final String MUNICIPALITY_SERVICE_GET_MUNICIPALITYVOTES_BY_AFFILIATIONID = "/get-municipality-votes-by-affiliationId/{affiliationId}";
 }

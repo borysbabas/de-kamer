@@ -43,9 +43,7 @@ function select(index: number, x: string, id: number) {
   flex-direction: column;
   background-color: var(--dark-primary);
   color: var(--light-primary);
-  padding: 20px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding: 20px 30px;
   border-radius: 10px;
   margin-top: 10px;
 }

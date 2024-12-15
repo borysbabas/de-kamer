@@ -1,6 +1,5 @@
 package com.example.backend.repositories;
 
-import com.example.backend.entities.Candidate;
 import com.example.backend.entities.Municipality;
 import com.example.backend.entities.MunicipalityVotes;
 import com.example.backend.models.MunicipalityAffiliationVotesModel;
@@ -19,9 +18,25 @@ public interface MunicipalityVotesRepository extends JpaRepository<MunicipalityV
     @Query("SELECT DISTINCT new com.example.backend.models.MunicipalityVoteModel(m.municipalityName, mv.totalVotes) "+"FROM MunicipalityVotes mv "+"JOIN mv.municipality m "+ "WHERE mv.candidate.candidateId = :candidateId "+"ORDER BY mv.totalVotes DESC")
     List<MunicipalityVoteModel> findTop5CandidateId(@Param("candidateId")Long candidateId);
 
+
+//    @Query("SELECT DISTINCT new com.example.backend.models.MunicipalityVoteModel(m.municipalityName, mv.totalVotes) " +
+//            "FROM MunicipalityVotes mv " +
+//            "JOIN mv.municipality m " +
+//            "ON mv.affiliation.affiliationId = :affiliationId " +
+//            "ORDER BY mv.totalVotes DESC")
+//    List<MunicipalityVoteModel> findMunicipalitiesByAffiliationId(@Param("affiliationId") Long affiliationId);
+//
+
+    @Query("SELECT new com.example.backend.models.MunicipalityVoteModel(mv.municipality, SUM (mv.totalVotes))" +
+            " FROM MunicipalityVotes mv" +
+            " WHERE mv.affiliation.affiliationId = :affiliationId" +
+            " GROUP BY mv.municipality.municipalityId")
+    List<MunicipalityVoteModel> findAllByAffiliationAffiliationId(Long affiliationId);
+
     // SUM and ORDER BY cannot be used in the JPA query, so we need to use native query
     @Query("SELECT new com.example.backend.models.MunicipalityAffiliationVotesModel(mv.municipality, mv.affiliation, SUM(mv.totalVotes), mv.municipality.municipalityId) FROM MunicipalityVotes mv WHERE mv.municipality.municipalityId=?1 GROUP BY mv.affiliation.affiliationId ORDER BY SUM(mv.totalVotes) DESC")
     List<MunicipalityAffiliationVotesModel> getMunicipalityAffiliationVotes(long municipalityId);
 
     List<MunicipalityVotes> findAllByMunicipalityMunicipalityIdOrderByTotalVotesDesc(Long municipalityId);
+
 }
