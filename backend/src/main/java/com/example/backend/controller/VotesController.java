@@ -53,14 +53,14 @@ public class VotesController {
     }
 
     // TODO: Replace with constant in ApiPaths
-    @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES + "/{constituencyId}/count")
+    @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES_COUNT)
     public int getConstituencyVotesCountByConstituencyId(@PathVariable("constituencyId") Long constituencyId) {
         Constituency constituency = constituencyService.findConstituencyById(constituencyId);
         return constituencyVotesService.getConstituencyVotesCountByConstituency(constituency);
     }
 
     // TODO: Replace with constant in ApiPaths
-    @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES + "/{constituencyId}/{pagination}/{page}")
+    @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES)
     public List<ConstituencyVotesModel> getConstituencyVotesByConstituencyIdByPage(@PathVariable("constituencyId") Long constituencyId, @PathVariable("pagination") Integer pagination, @PathVariable("page") Integer page) {
         Constituency constituency = constituencyService.findConstituencyById(constituencyId);
         List<ConstituencyVotes> constituencyVotes = constituencyVotesService.getConstituencyVotesByConstituencyByPage(constituency, pagination, page);
