@@ -52,7 +52,6 @@ let options = {
   ],
   chart: {
     width: '100%',
-    height: '100%',
     type: "bar",
   },
   plotOptions: {
@@ -82,6 +81,7 @@ onMounted(() => {
   chart = new ApexCharts(document.querySelector("#chart"), options);
   chart.render();
   setChartData();
+  extendItemHeight();
   watch(curretDataSet, () => {
     console.log("Data changed", curretDataSet.value);
     updateChart();
@@ -90,12 +90,18 @@ onMounted(() => {
 
 function updateChart() {
   chart.updateSeries([chartData.value]);
-  chart.updateOptions({
-    chart: {
-      height: '100%',
-    }}
-  )
   sorted = false;
+  extendItemHeight();
+}
+
+function extendItemHeight() {
+  if (!chartData.value.data) return;
+  chart.updateOptions({
+  chart: {
+    height: chartData.value.data.length * 20 + 100,
+  }
+  });
+  chart.updateOptions([chartData.value]);
 }
 
 function sort() {
@@ -174,8 +180,6 @@ function select(id: number) {
 }
 .apex-chart {
   width: 75%;
-  height: auto;
-  //max-height: 4000px;
   margin-right: 50px;
 }
 
