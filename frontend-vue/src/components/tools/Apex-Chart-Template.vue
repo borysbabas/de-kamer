@@ -176,7 +176,7 @@ function select(id: number) {
 }
 .apex-interface {
   width: 25%;
-  height: auto;
+  height: 100%;
 }
 .apex-chart {
   width: 75%;

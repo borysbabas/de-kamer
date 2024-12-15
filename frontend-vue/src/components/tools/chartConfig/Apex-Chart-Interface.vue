@@ -52,9 +52,10 @@ function select(index: number, x: string, id: number) {
 .interface-layers {
   background: var(--light-primary);
   padding: 10px;
-  height: 100%;
   width: 100%;
   border-radius: 10px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 .items {
   color: black;
