@@ -23,8 +23,10 @@ const formData = ref({
   username: "",
   dateOfBirth: "",
   password: "",
-
 })
+
+// TODO: Add validation for email, username, dateOfBirth, and password
+// TODO: Let the user know which field failed validation
 </script>
 
 <template>

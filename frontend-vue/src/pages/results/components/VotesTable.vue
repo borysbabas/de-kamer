@@ -92,7 +92,7 @@ let tableLength = ref<number>();
 // Fetch functions
 async function fetchConstituencies() {
   try {
-    const result = await fetch("http://localhost:3001/constituencies");
+    const result = await fetch(import.meta.env.VITE_API_URL + "/constituencies");
 
     if (result.status !== 200) {
       throw new Error("Failed to fetch constituencies");
@@ -106,7 +106,7 @@ async function fetchConstituencies() {
 
 async function fetchConstituencyVotesCount(constituencyId) {
   try {
-    const result = await fetch(`http://localhost:3001/votes/constituencies/${constituencyId}/count`);
+    const result = await fetch(`${import.meta.env.VITE_API_URL}/votes/constituencies/${constituencyId}/count`);
 
     if (result.status !== 200) {
       throw new Error("Failed to fetch constituency votes count");
@@ -120,7 +120,7 @@ async function fetchConstituencyVotesCount(constituencyId) {
 
 async function fetchConstituencyVotes(constituencyId, pagination, page) {
   try {
-    const result = await fetch(`http://localhost:3001/votes/constituencies/${constituencyId}/${pagination}/${page}`);
+    const result = await fetch(`${import.meta.env.VITE_API_URL}/votes/constituencies/${constituencyId}/${pagination}/${page}`);
 
     if (result.status !== 200) {
       throw new Error("Failed to fetch constituency votes");
