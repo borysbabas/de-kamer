@@ -1,17 +1,50 @@
 <script setup lang="ts">
 
-import {inject, ref} from "vue";
+import {computed, inject, ref} from "vue";
 
+/**
+ * private variables
+ */
 const sessionService: any = inject("sessionService")
-const selectedSubject = ref("email")
+let isPopUpVisible = ref(false)
+const selectedSubject = ref("")
+const changeEmailString = computed(() => {
+  return `verander uw ${selectedSubject.value}`
+})
+
+/**
+ * handles the button click
+ * @param selectedSubjectParam defines which part of the account is being changed
+ */
+function handleBtnClick(selectedSubjectParam: any) {
+  isPopUpVisible.value=true
+  switch (selectedSubjectParam) {
+    case "email":
+      selectedSubject.value = "email";
+      break;
+    case "username":
+      selectedSubject.value = "gebruikersnaam";
+      break;
+    case "password":
+      selectedSubject.value = "wachtwoord";
+      break;
+    case "dateOfBirth":
+      selectedSubject.value = "geboortedatum";
+      break;
+  }
+
+}
 
 </script>
 
 <template>
-  <section class="popup">
+  <section v-if="isPopUpVisible" class="popup">
     <div class="popup-wrapper">
       <div class="popup-container">
-        <p>Huidige {{selectedSubject}} : mathijs.langhorst@hva.nl  </p>
+        <button @click="isPopUpVisible=false" class="close-btn">X</button>
+        <h3 class="popup-p">Huidige {{ selectedSubject }} : mathijs.langhorst@hva.nl </h3>
+        <input class="popup-input" :placeholder="changeEmailString">
+        <button>bevestigen</button>
       </div>
     </div>
   </section>
@@ -22,25 +55,25 @@ const selectedSubject = ref("email")
         <div class="box">
           email:
           <div class="box-button">
-            <button>wijzig</button>
+            <button @click="handleBtnClick('email')">wijzig</button>
           </div>
         </div>
         <div class="box">
           gebruikersnaam:
           <div class="box-button">
-            <button>wijzig</button>
+            <button @click="handleBtnClick('username')">wijzig</button>
           </div>
         </div>
         <div class="box">
           wachtwoord:
           <div class="box-button">
-            <button>wijzig</button>
+            <button @click="handleBtnClick('password')">wijzig</button>
           </div>
         </div>
         <div class="box">
-          geboorte datum:
+          geboortedatum:
           <div class="box-button">
-            <button>wijzig</button>
+            <button @click="handleBtnClick('dateOfBirth')">wijzig</button>
           </div>
         </div>
         <div class="box">
@@ -58,6 +91,53 @@ const selectedSubject = ref("email")
 </template>
 
 <style scoped>
+.popup-p{
+  color: var(--dark-secondary); /* Dark text for the paragraph */
+  margin-bottom: 15px;
+}
+.popup-input{
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid var(--dark-secondary);
+  border-radius: 4px;
+  background-color: #fff;
+  color: var(--dark-secondary);
+}
+.popup-container{
+  background-color: var(--light-primary); /* Light primary background */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.popup-wrapper {
+  position: relative;
+  width: 500px;
+  height: 250px;
+  background-color: white;
+  color: black;
+}
+
 .box-button {
   margin-left: auto;
 }
