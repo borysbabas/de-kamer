@@ -185,5 +185,7 @@ async function getMunicipalityVotesByAffilation(affilationName: string) {
             return data;
         });
 }
+
+
 // temp posible options
 // members, votes

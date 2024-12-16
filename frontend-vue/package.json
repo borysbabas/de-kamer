@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
+    "start": "npx http-server -p {PORT} ./dist",
     "preview": "vite preview",
+    "build-production": "vite build --mode=production",
+    "build-development": "vite build --mode=development",
     "test:unit": "vitest",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
@@ -14,6 +17,8 @@
   },
   "dependencies": {
     "apexcharts": "^4.0.0",
+    "chart.js": "^4.4.4",
+    "http-server": "^14.1.1",
     "dotenv": "^16.4.7",
     "fetch-intercept": "2.4.0",
     "vue": "^3.4.29",
@@ -31,6 +36,7 @@
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.5.1",
+    "dotenv-webpack": "^8.1.0",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
     "jsdom": "^24.1.0",

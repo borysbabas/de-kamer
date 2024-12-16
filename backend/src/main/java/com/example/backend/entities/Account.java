@@ -4,15 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
-
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +21,4 @@ public class Account {
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Amsterdam")
     private Date dateOfBirth;
-
-    public boolean verifyPassword(String rawPassword){
-        return org.springframework.security.crypto.bcrypt.BCrypt.checkpw(rawPassword, this.password);}
 }

@@ -1,7 +1,6 @@
 package com.example.backend.controller;
 
 import com.example.backend.config.ApiPaths;
-import com.example.backend.entities.MunicipalityVotes;
 import com.example.backend.models.MunicipalityVoteModel;
 import com.example.backend.services.MunicipalityVotesService;
 import org.springframework.web.bind.annotation.GetMapping;

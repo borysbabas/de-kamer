@@ -52,36 +52,14 @@ public class VotesController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES + "/{constituencyId}/count")
-    public int getConstituencyVotesCountByConstituencyId(@PathVariable("constituencyId") Long constituencyId) {
-        Constituency constituency = constituencyService.findConstituencyById(constituencyId);
-        return constituencyVotesService.getConstituencyVotesCountByConstituency(constituency);
-    }
-
-    @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES + "/{constituencyId}/{pagination}/{page}")
-    public List<ConstituencyVotesModel> getConstituencyVotesByConstituencyIdByPage(@PathVariable("constituencyId") Long constituencyId, @PathVariable("pagination") Integer pagination, @PathVariable("page") Integer page) {
-        Constituency constituency = constituencyService.findConstituencyById(constituencyId);
-        List<ConstituencyVotes> constituencyVotes = constituencyVotesService.getConstituencyVotesByConstituencyByPage(constituency, pagination, page);
-        List<ConstituencyVotesModel> constituencyVotesList = new ArrayList<>();
-        for (ConstituencyVotes constituencyVote : constituencyVotes) {
-            constituencyVotesList.add(new ConstituencyVotesModel(constituencyVote));
-        }
-        return constituencyVotesList;
-    }
-
     @GetMapping(path = ApiPaths.CANDIDATE_VOTES_BY_AFFILIATION_NAME)
     public List<CandidateVotesModel> getVotesByAffiliationId(@PathVariable String affiliationName) {
         List<Candidate> candidateList = candidateService.getCandidatesByAffiliationName(affiliationName);
         Map<Integer, Candidate> candidateMap = new HashMap<>();
         List<CandidateVotesModel> candidateVotesList = new ArrayList<>();
         for (Candidate candidate : candidateList) {
-            Candidate newCandidate = null;
-            if (candidateMap.containsKey(candidate.hashCode())) {
-                newCandidate = candidateMap.get(candidate.hashCode());
-            } else {
-                candidateMap.put(candidate.hashCode(), candidate);
-                newCandidate = candidate;
-            }
+            Candidate newCandidate = candidateMap.computeIfAbsent(candidate.hashCode(), k -> candidate);
+
             candidateVotesList.add(countryVotesService.getCountryVotesByCandidate(newCandidate));
         }
         return candidateVotesList;
