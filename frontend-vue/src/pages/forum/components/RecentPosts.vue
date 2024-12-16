@@ -1,6 +1,6 @@
 <template>
   <section class="recent-posts">
-    <h1>Recent posts</h1>
+    <h1 class="recent-posts-title">Recent posts</h1>
     <p>The recent posts from our community</p>
     <PostList :posts="posts" />
     <Pagination :go-to-page="goToPage" :total-pages="totalPages" :current-page="currentPage" />
@@ -61,5 +61,13 @@ fetchRecentPosts();
   padding: 0 var(--page-padding);
   position: relative;
   z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.recent-posts-title {
+  margin-top: 20px;
+  padding-bottom: 20px !important;
 }
 </style>

@@ -28,7 +28,7 @@ onMounted(() => {
   object-fit: cover;
   background-color: var(--dark-primary);
   color: var(--light-primary);
-  padding: 20px var(--page-padding);
+  padding: 0 var(--page-padding);
   position: relative;
   z-index: 0;
   display: flex;
