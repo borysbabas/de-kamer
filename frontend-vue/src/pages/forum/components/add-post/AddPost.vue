@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import {inject, ref, shallowReactive, watch} from "vue";
 import { marked } from "marked";
 import hljs from "highlight.js";
 import MarkdownMenu from "@/pages/forum/components/add-post/MarkdownMenu.vue";
+const sessionService: any = inject("sessionService");
 
 const postTitle = ref("");
 const postDescription = ref("");
@@ -18,9 +19,7 @@ const addPost = async () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${window.sessionStorage.getItem(
-          "your_token_key"
-        )}`,
+        Authorization: `Bearer ${sessionService.getTokenFromBrowserStorage()}`,
       },
       body: JSON.stringify(postData),
     });
@@ -29,6 +28,8 @@ const addPost = async () => {
       postDescription.value = "";
       renderedDescription.value = "";
       alert("Post added successfully!");
+    } else if (response.status === 403) {
+      alert("You need to be logged in");
     } else {
       console.error("Error adding post");
     }

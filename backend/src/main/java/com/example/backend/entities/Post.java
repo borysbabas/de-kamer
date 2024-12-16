@@ -16,7 +16,7 @@ public class Post {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "post_id")
     private long postId;
 
@@ -30,7 +30,7 @@ public class Post {
     private Timestamp dateCreated;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference
     private Account id;
 }

@@ -5,6 +5,8 @@ import com.example.backend.entities.Post;
 import com.example.backend.models.PostModel;
 import com.example.backend.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,11 +28,15 @@ public class PostController {
     }
 
     @PostMapping(path = ApiPaths.POST_SERVICE)
-    public void addPost(@RequestBody Post post) {
+    public ResponseEntity<String> addPost(@RequestBody Post post) {
+        if (post.getId() == null) {
+            return new ResponseEntity<>("User ID not found", HttpStatus.FORBIDDEN);
+        }
         postService.addPost(post);
+        return new ResponseEntity<>("Post added successfully", HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/{postId}")
+    @DeleteMapping(path = ApiPaths.FIND_POST_BY_ID)
     public void deletePost(@PathVariable("postId") Long postId) {
         postService.deletePost(postId);
     }
