@@ -21,7 +21,8 @@ public class ApiPaths {
 
     public static final String VOTES = "/votes";
     public static final String AFFILIATION_SERVICE_VOTES = VOTES + "/affiliations";
-    public static final String CONSTITUENCY_SERVICE_VOTES = VOTES + "/constituencies";
+    public static final String CONSTITUENCY_SERVICE_VOTES = VOTES + "/constituencies/{constituencyId}/{pagination}/{page}";
+    public static final String CONSTITUENCY_SERVICE_VOTES_COUNT = VOTES + "/constituencies/{constituencyId}/count";
     public static final String CANDIDATE_SERVICE_VOTES = VOTES + "/candidates";
     public static final String CANDIDATE_VOTES_BY_AFFILIATION_NAME = VOTES + "/candidate/affiliation/{affiliationName}";
     public static final String MUNICIPALITIES_SERVICE_VOTES = VOTES + "/municipalities";
