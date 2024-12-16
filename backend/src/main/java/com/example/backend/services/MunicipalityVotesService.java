@@ -41,4 +41,12 @@ public class MunicipalityVotesService {
     public MunicipalityVotes getTopMunicipalityByMunicipalityId(Long municipalityId){
         return municipalityVotesRepository.findAllByMunicipalityMunicipalityIdOrderByTotalVotesDesc(municipalityId).get(0);
     }
+
+    public int getMunicipalityVotesCountByMunicipality(Municipality municipality) {
+        return municipalityVotesRepository.countMunicipalityVotesByMunicipality(municipality);
+    }
+
+    public List<MunicipalityVotes> getMunicipalityVotesByMunicipalityByPage(Municipality municipality, int pagination, int page) {
+        return municipalityVotesRepository.findByMunicipalityByPageOrderByTotalVotesDesc(municipality, pagination, (page - 1) * pagination);
+    }
 }
