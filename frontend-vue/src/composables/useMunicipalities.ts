@@ -4,7 +4,6 @@ import type {PopulationDataSet} from "@/types/PopulationDataSet";
 import type {MetaDataCategory, CategoryValue} from "@/types/MetaDataCategory";
 import {MetaDataName} from "@/types/MetaDataCategory";
 import type {Affiliation} from "@/types/Affiliation";
-import * as process from "node:process";
 
 // define constants
 const DATA_SET_ID = "03759ned";

@@ -82,6 +82,7 @@ function focusOutside(e: FocusEvent) {
 function focusIn(e: FocusEvent) {
   const input = e.target as HTMLInputElement;
   filterInput(input.value);
+  showSearchResults();
 }
 
 /**
@@ -89,6 +90,14 @@ function focusIn(e: FocusEvent) {
  */
 function searchbarClick() {
   document.querySelector("input")?.focus();
+  showSearchResults();
+}
+
+/**
+ * Shows the search results when the user types in the input field
+ */
+function showSearchResults() {
+  document.querySelector(".search-result")?.classList.remove("hidden");
 }
 
 /**
@@ -100,6 +109,7 @@ function enterPressedOnFocus(e: KeyboardEvent) {
     const input = document.querySelector("input") as HTMLInputElement;
     input.focus();
     filterInput(input.value);
+    showSearchResults();
   }
 }
 
@@ -138,6 +148,10 @@ function enterPressedOnFocus(e: KeyboardEvent) {
     background-color: #fff;
     border-radius: 0 0 8px 8px;
     padding: 10px 0;
+  }
+
+  .search-result.hidden {
+    display: none;
   }
 
   .search-result p {
