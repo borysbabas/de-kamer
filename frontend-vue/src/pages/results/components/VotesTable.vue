@@ -3,15 +3,21 @@
     <h2>
       Voorkeursstemmen tabel
     </h2>
-    <select @change="handleConstituencyChange" class="constituency-select">
+    <select @change="handleConstituencyChange" class="table-select">
       <option selected disabled value="">Selecteer een kieskring </option>
       <option v-for="constituency in constituencies" :key="constituency.constituencyId" :value="constituency.constituencyId">
         {{ constituency.constituencyName }}
       </option>
     </select>
+    <select v-if="municipalities.length > 0" @change="handleMunicipalityChange" class="table-select">
+      <option selected value="0">Geen gemeente gekozen</option>
+      <option v-for="municipality in municipalities" :key="municipality.municipalityId" :value="municipality.municipalityId">
+        {{ municipality.name }}
+      </option>
+    </select>
     <label class="pagination-label" for="pagination">Rijen per pagina: </label>
     <input class="pagination-input" v-model="pagination" id="pagination" type="number" min="5" max="50" @change="handlePaginationChange">
-    <table v-if="selectedConstituency" class="votes-table">
+    <table v-if="selectedConstituency || selectedMunicipality || selectedPollingStation" class="votes-table">
       <thead>
         <tr>
           <th>Kandidaat</th>
@@ -20,26 +26,26 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="constituencyVote in constituencyVotes" :key="constituencyVote.candidateId">
+        <tr v-for="candidateVote in votesTableData" :key="candidateVote.candidateId">
           <td>
-            {{ constituencyVote.candidateName }}
+            {{ candidateVote.candidateName }}
           </td>
           <td>
-            {{ constituencyVote.affiliationName }}
+            {{ candidateVote.affiliationName }}
           </td>
           <td>
-            {{ constituencyVote.constituencyVotes }}
+            {{ candidateVote.totalVotes }}
           </td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
           <td class="page-selector right-align">
-            <p @click="handleFirstPage" :class="['page-button', {'greyed-out': currentPage === 1 }]">
+            <p @click="handlePageChange(1)" :class="['page-button', {'greyed-out': currentPage === 1 }]">
               <<
             </p>
 
-            <p @click="handlePageDown" :class="['page-button', {'greyed-out': currentPage === 1 }]">
+            <p @click="handlePageChange(currentPage - 1)" :class="['page-button', {'greyed-out': currentPage === 1 }]">
               <
             </p>
           </td>
@@ -53,11 +59,11 @@
           </td>
 
           <td class="page-selector left-align">
-            <p @click="handlePageUp" :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / pagination) }]">
+            <p @click="handlePageChange(currentPage + 1)" :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / pagination) }]">
               >
             </p>
 
-            <p @click="handleLastPage" :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / pagination) }]">
+            <p @click="handlePageChange(Math.ceil(tableLength / pagination))" :class="['page-button', {'greyed-out': currentPage === Math.ceil(tableLength / pagination) }]">
               >>
             </p>
           </td>
@@ -71,21 +77,23 @@
 import {ref} from "vue";
 import type {Constituency} from "@/types/Constituency";
 import type {ConstituencyVotes} from "@/types/ConstituencyVotes";
+import type {Municipality} from "@/types/Municipality";
+import type {MunicipalityVotes} from "@/types/MunicipalityVotes";
 
 // Variables
 const constituencies = ref<Constituency[]>([]);
+const municipalities = ref<Municipality[]>([]);
+const pollingStations = ref<PollingStation[]>([]);
 
-let constituencyVotes = ref<ConstituencyVotes[]>([]);
+const votesTableData = ref<ConstituencyVotes[] | MunicipalityVotes[] | PollingStationVotes[]>([]);
 
-let selectedConstituency = ref<number>();
+const selectedConstituency = ref<number>();
+const selectedMunicipality = ref<number>();
+const selectedPollingStation = ref<number>();
 
-let n = ref<number>(0);
-
-let currentPage = ref<number>(1);
-
-let pagination = ref<number>(20);
-
-let tableLength = ref<number>();
+const currentPage = ref<number>(1);
+const pagination = ref<number>(20);
+const tableLength = ref<number>();
 
 // Fetch functions
 async function fetchConstituencies() {
@@ -124,8 +132,51 @@ async function fetchConstituencyVotes(constituencyId, pagination, page) {
       throw new Error("Failed to fetch constituency votes");
     }
 
-    constituencyVotes.value = await result.json();
+    votesTableData.value = await result.json();
     selectedConstituency.value = constituencyId;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function fetchMunicipalities(constituencyId) {
+  try {
+    const result = await fetch(`${import.meta.env.VITE_API_URL}/municipalities/constituency/${constituencyId}`);
+
+    if (result.status !== 200) {
+      throw new Error("Failed to fetch municipalities");
+    }
+
+    municipalities.value = await result.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function fetchMunicipalityVotesCount(municipalityId) {
+  try {
+    const result = await fetch(`${import.meta.env.VITE_API_URL}/votes/municipalities/${municipalityId}/count`);
+
+    if (result.status !== 200) {
+      throw new Error("Failed to fetch municipality votes count");
+    }
+
+    tableLength.value = await result.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function fetchMunicipalityVotes(municipalityId, pagination, page) {
+  try {
+    const result = await fetch(`${import.meta.env.VITE_API_URL}/votes/municipalities/${municipalityId}/${pagination}/${page}`);
+
+    if (result.status !== 200) {
+      throw new Error("Failed to fetch municipality votes");
+    }
+
+    votesTableData.value = await result.json();
+    selectedMunicipality.value = municipalityId;
   } catch (error) {
     console.log(error);
   }
@@ -136,33 +187,30 @@ function handleConstituencyChange(event) {
   currentPage.value = 1;
   fetchConstituencyVotesCount(event.target.value);
   fetchConstituencyVotes(event.target.value, pagination.value, currentPage.value);
+  fetchMunicipalities(event.target.value);
 }
 
-function handleFirstPage() {
-  if (currentPage.value !== 1) {
-    currentPage.value = 1;
+function handleMunicipalityChange(event) {
+  currentPage.value = 1;
+  if (event.target.value > 0) {
+    fetchMunicipalityVotesCount(event.target.value);
+    fetchMunicipalityVotes(event.target.value, pagination.value, currentPage.value);
+  //   TODO: add fetch polling stations
+  } else {
+    selectedMunicipality.value = event.target.value;
+    fetchConstituencyVotesCount(selectedConstituency.value);
     fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value);
   }
 }
 
-function handlePageDown() {
-  if (currentPage.value !== 1) {
-    currentPage.value -= 1;
-    fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value);
-  }
-}
-
-function handlePageUp() {
-  if (currentPage.value < Math.ceil(tableLength.value / pagination.value)) {
-    currentPage.value += 1;
-    fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value);
-  }
-}
-
-function handleLastPage() {
-  if (currentPage.value < Math.ceil(tableLength.value / pagination.value)) {
-    currentPage.value = Math.ceil(tableLength.value / pagination.value);
-    fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value);
+function handlePageChange(selectedPage: number) {
+  if (selectedPage > 0 && selectedPage <= Math.ceil(tableLength.value / pagination.value)) {
+    currentPage.value = selectedPage;
+    if (selectedMunicipality.value > 0) {
+      fetchMunicipalityVotes(selectedMunicipality.value, pagination.value, currentPage.value);
+    } else {
+      fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value);
+    }
   }
 }
 
@@ -186,14 +234,14 @@ void fetchConstituencies();
   padding: 10px 0 10px 0;
 }
 
-.constituency-select {
+.table-select {
   background-color: var(--dark-primary);
   color: var(--light-primary);
   font-family: Beiruti, sans-serif;
   font-size: larger;
   border: none;
 }
-.constituency-select option:hover {
+.table-select option:hover {
   background-color: var(--button);
 }
 
@@ -246,6 +294,6 @@ input[type=number]::-webkit-inner-spin-button {
 }
 .greyed-out {
   color: #555555;
-  cursor: default;
+  cursor: not-allowed;
 }
 </style>
