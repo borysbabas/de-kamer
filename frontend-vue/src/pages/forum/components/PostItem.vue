@@ -53,7 +53,7 @@ const renderedDescription = computed(() => {
   flex-direction: column;
   justify-content: space-between;
   padding: 0;
-  height: 200px;
+  height: fit-content;
   transition: transform 0.2s, box-shadow 0.2s;
   overflow: hidden;
 }
@@ -92,7 +92,7 @@ const renderedDescription = computed(() => {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
-  line-clamp: 0;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 
