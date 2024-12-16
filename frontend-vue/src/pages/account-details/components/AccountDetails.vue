@@ -8,6 +8,10 @@ const api =import.meta.env.VITE_API_URL
 /**
  * private variables
  */
+const fetchedEmail = ref("");
+const fetchedUsername = ref("")
+const fetchedPassword = ref("")
+const fetchedDateOfBirth= ref("")
 const sessionService: any = inject("sessionService")
 let isPopUpVisible = ref(false)
 const selectedSubject = ref("")
@@ -37,13 +41,29 @@ function handleBtnClick(selectedSubjectParam: any) {
   }
 
 }
-onMounted(()=>{
+onMounted(async ()=>{
   const token = sessionService.getTokenFromBrowserStorage()
   const payload  = token.split(".")[1]
   const decodedPayload = atob(payload)
   const parsedPayload = JSON.parse(decodedPayload)
   const userID=parsedPayload.jti
-  fetch(api+"/")
+  try{
+  const response = await fetch(api+`/accountdetails/${userID}`)
+    if(response.ok){
+      const userData = await response.json();
+      fetchedEmail.value=userData.email;
+      fetchedUsername.value=userData.userName;
+      fetchedPassword.value=userData.password;
+      fetchedDateOfBirth.value=userData.dateOfBirth;
+
+
+
+
+
+    }
+  }catch(error){
+    console.error("Error fetching user details", error)
+  }
 })
 </script>
 
@@ -63,25 +83,25 @@ onMounted(()=>{
       <h1>Account details</h1>
       <div class="container">
         <div class="box">
-          email:
+          email: {{fetchedEmail}}
           <div class="box-button">
             <button @click="handleBtnClick('email')">wijzig</button>
           </div>
         </div>
         <div class="box">
-          gebruikersnaam:
+          gebruikersnaam: {{fetchedUsername}}
           <div class="box-button">
             <button @click="handleBtnClick('username')">wijzig</button>
           </div>
         </div>
         <div class="box">
-          wachtwoord:
+          wachtwoord: {{fetchedPassword}}
           <div class="box-button">
             <button @click="handleBtnClick('password')">wijzig</button>
           </div>
         </div>
         <div class="box">
-          geboortedatum:
+          geboortedatum: {{fetchedDateOfBirth}}
           <div class="box-button">
             <button @click="handleBtnClick('dateOfBirth')">wijzig</button>
           </div>
