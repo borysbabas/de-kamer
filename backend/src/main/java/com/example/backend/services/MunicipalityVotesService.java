@@ -39,6 +39,7 @@ public class MunicipalityVotesService {
     }
 
     public MunicipalityVotes getTopMunicipalityByMunicipalityId(Long municipalityId){
-        return municipalityVotesRepository.findAllByMunicipalityMunicipalityIdOrderByTotalVotesDesc(municipalityId).get(0);
+
+        return municipalityVotesRepository.findTopByMunicipalityMunicipalityIdOrderByTotalVotesDesc(municipalityId).orElse(null);
     }
 }

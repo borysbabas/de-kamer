@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MunicipalityVotesRepository extends JpaRepository<MunicipalityVotes, Long> {
@@ -23,5 +24,5 @@ public interface MunicipalityVotesRepository extends JpaRepository<MunicipalityV
     @Query("SELECT new com.example.backend.models.MunicipalityAffiliationVotesModel(mv.municipality, mv.affiliation, SUM(mv.totalVotes), mv.municipality.municipalityId) FROM MunicipalityVotes mv WHERE mv.municipality.municipalityId=?1 GROUP BY mv.affiliation.affiliationId ORDER BY SUM(mv.totalVotes) DESC")
     List<MunicipalityAffiliationVotesModel> getMunicipalityAffiliationVotes(long municipalityId);
 
-    List<MunicipalityVotes> findAllByMunicipalityMunicipalityIdOrderByTotalVotesDesc(Long municipalityId);
+    Optional<MunicipalityVotes> findTopByMunicipalityMunicipalityIdOrderByTotalVotesDesc(Long municipalityId);
 }
