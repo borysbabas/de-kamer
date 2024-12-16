@@ -64,7 +64,6 @@ export default class SessionSbService {
         return false;
     }
 
-    // TODO: Add validation for the register form
     async asyncSignUp(registerForm){
          const body = JSON.stringify(registerForm);
         const response = await fetch(`${this.RESOURCES_URL}/register`,{

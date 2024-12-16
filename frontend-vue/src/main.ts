@@ -1,5 +1,5 @@
 import './assets/reset.css'
-import {createApp} from 'vue'
+import {createApp, inject} from 'vue'
 import App from "./App.vue"
 import type {Router} from "vue-router";
 import {createRouter, createWebHistory} from "vue-router";
@@ -12,6 +12,7 @@ import ForumPage from "@/pages/forum/ForumHome.vue";
 import PartyDetailsPage from "@/pages/party-details/PartyDetailsPage.vue";
 import AccountDetailsPage from "@/pages/account-details/AccountDetailsPage.vue";
 
+const sessionsService = inject("sessionService")
 const router: Router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -20,10 +21,19 @@ const router: Router = createRouter({
         {path: "/forum", component: ForumPage, name: "Forum"},
         {path: "/forum/login", component: LoginPage, name: "Login"},
         {path: "/forum/register", component: RegisterPage, name: "Register"},
-        {path:"/forum/account-details", component:AccountDetailsPage, name:"AccountDetails"},
+        {path:"/forum/account-details", component:AccountDetailsPage, name:"AccountDetails", meta:{requiresAuth:true}},
         {path: "/candidate/:candidateId", name: "CandidateDetails", component: CandidateDetailsPage, props: true},
         {path: '/party/:partyId', name: 'PartyDetails', component: PartyDetailsPage},
     ]
 })
+router.beforeEach((to,from,next)=>{
+    if(to.matched.some(record=>record.meta.requiresAuth)){
+        const token = localStorage.getItem("JWT_STORAGE_ITEM")
+        if(!token){
+            return next({path:"/forum/login"})
+        }
+    }
+    next();
+});
 
 createApp(App).use(router).mount('#app');
