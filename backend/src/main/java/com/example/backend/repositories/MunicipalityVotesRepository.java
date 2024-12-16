@@ -1,6 +1,5 @@
 package com.example.backend.repositories;
 
-import com.example.backend.entities.Candidate;
 import com.example.backend.entities.Municipality;
 import com.example.backend.entities.MunicipalityVotes;
 import com.example.backend.models.MunicipalityAffiliationVotesModel;
@@ -24,4 +23,12 @@ public interface MunicipalityVotesRepository extends JpaRepository<MunicipalityV
     List<MunicipalityAffiliationVotesModel> getMunicipalityAffiliationVotes(long municipalityId);
 
     List<MunicipalityVotes> findAllByMunicipalityMunicipalityIdOrderByTotalVotesDesc(Long municipalityId);
+
+    @Query("SELECT COUNT(mv) " +
+            "FROM MunicipalityVotes mv " +
+            "WHERE mv.municipality = :municipality " +
+            "AND mv.id IN (SELECT MIN(subMv.id) FROM MunicipalityVotes subMv WHERE subMv.municipality = :municipality GROUP BY subMv.candidate)"
+    )
+    int countMunicipalityVotesByMunicipality(@Param("municipality") Municipality municipality);
+
 }
