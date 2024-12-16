@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {inject, ref, shallowReactive, watch} from "vue";
+import {inject, ref, watch} from "vue";
 import { marked } from "marked";
 import hljs from "highlight.js";
 import MarkdownMenu from "@/pages/forum/components/add-post/MarkdownMenu.vue";
