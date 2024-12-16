@@ -2,7 +2,7 @@
 import ForumHero from "@/pages/forum/components/Hero.vue";
 import Navbar from "@/pages/navbar/Navbar.vue";
 import Footer from "@/pages/footer/Footer.vue";
-import RecentPosts from "@/pages/forum/components/RecentPosts.vue";
+import RecentPosts from "@/pages/forum/components/recent-posts/RecentPosts.vue";
 </script>
 
 <template>
