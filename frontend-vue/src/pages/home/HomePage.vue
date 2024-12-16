@@ -17,7 +17,6 @@ onMounted(() => {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Beiruti:wght@200..900&display=swap" rel="stylesheet">
-
   <Navbar></Navbar>
   <Hero></Hero>
   <section class="main">

@@ -3,7 +3,6 @@ package com.example.backend.services;
 import com.example.backend.entities.Municipality;
 import com.example.backend.repositories.MunicipalityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

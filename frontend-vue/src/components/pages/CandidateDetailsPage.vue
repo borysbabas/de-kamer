@@ -22,7 +22,7 @@ async function fetchCandidate() {
   candidateId.value = route.params.candidateId
   console.log(candidateId.value)
   if (candidateId.value) {
-    await fetch(`http://localhost:3001/candidates/${candidateId.value}`).then(response => response.json().then(json => fetchedData.value = json))
+    await fetch(import.meta.env.VITE_API_URL + `/candidates/${candidateId.value}`).then(response => response.json().then(json => fetchedData.value = json))
   } else {
     console.log("error")
   }

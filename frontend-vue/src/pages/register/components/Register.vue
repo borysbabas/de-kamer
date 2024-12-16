@@ -1,23 +1,21 @@
 <script setup lang="ts">
-import {ref} from "vue"
-import {inject} from "vue";
+import {inject, ref} from "vue"
 
 const sessionService = inject("sessionService")
 
-async function submitRegisterForm(){
+async function submitRegisterForm() {
   const response = await sessionService.asyncSignUp(formData.value)
   console.log(response)
-  if(response){
+  if (response) {
     let btn = document.getElementById("submit-btn")
-    btn.style.backgroundColor="green"
+    btn.style.backgroundColor = "green"
     btn.innerHTML = "succesfully registered!"
 
-  }else{
+  } else {
     let btn = document.getElementById("submit-btn")
-    btn.style.backgroundColor="red"
+    btn.style.backgroundColor = "red"
     btn.innerHTML = "Something went wrong..."
   }
-
 }
 
 const formData = ref({
@@ -25,8 +23,10 @@ const formData = ref({
   username: "",
   dateOfBirth: "",
   password: "",
-
 })
+
+// TODO: Add validation for email, username, dateOfBirth, and password
+// TODO: Let the user know which field failed validation
 </script>
 
 <template>

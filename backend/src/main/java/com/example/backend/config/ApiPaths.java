@@ -10,12 +10,21 @@ public class ApiPaths {
 
     public static final String CONSTITUENCY_SERVICE = "/constituencies";
 
+    public static final String AUTHENTICATION_SERVICE="/authentication";
+
+    public static final String CANDIDATES_SERVICE="/candidates";
+
+    public static final String AUTHENTICATION_SERVICE_LOGIN= AUTHENTICATION_SERVICE + "/login";
+    public static final String AUTHENTICATION_SERVICE_REGISTER = AUTHENTICATION_SERVICE + "/register";
+    public static final String AUTHENTICATION_SERVICE_DELETE = AUTHENTICATION_SERVICE + "/{id}";
+
+
     public static final String VOTES = "/votes";
     public static final String AFFILIATION_SERVICE_VOTES = VOTES + "/affiliations";
-    public static final String CONSTITUENCY_SERVICE_VOTES = VOTES + "/constituencies";
+    public static final String CONSTITUENCY_SERVICE_VOTES = VOTES + "/constituencies/{constituencyId}/{pagination}/{page}";
+    public static final String CONSTITUENCY_SERVICE_VOTES_COUNT = VOTES + "/constituencies/{constituencyId}/count";
     public static final String CANDIDATE_SERVICE_VOTES = VOTES + "/candidates";
     public static final String CANDIDATE_VOTES_BY_AFFILIATION_NAME = VOTES + "/candidate/affiliation/{affiliationName}";
-    public static final String CANDIDATE_BY_AFFILIATION = "/members/{affiliationName}";
     public static final String MUNICIPALITIES_SERVICE_VOTES = VOTES + "/municipalities";
     public static final String MUNICIPALITY_SERVICE_VOTES = VOTES + "/municipality";
     public static final String AFFILIATION_SERVICE_GETBYID = VOTES + "/affiliations/{id}";
@@ -30,7 +39,6 @@ public class ApiPaths {
     public static final String MUNICIPALITY_SERVIVE_GETMUNICIPALITYVOTESBYCANDIDATEID = "/get-municipality-votes-by-candidateId/{candidateId}";
 
     public static final String POST_SERVICE = "/posts";
-    public static final String GET_POSTS = POST_SERVICE + "/all";
     public static final String FIND_POST_BY_ID = POST_SERVICE + "/{postId}";
     public static final String POST_SERVICE_COUNT = POST_SERVICE + "/count";
     public static final String POST_SERVICE_RECENT = POST_SERVICE + "/recent";

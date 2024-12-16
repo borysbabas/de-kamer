@@ -4,9 +4,9 @@ import type {PopulationDataSet} from "@/types/PopulationDataSet";
 import type {MetaDataCategory, CategoryValue} from "@/types/MetaDataCategory";
 import {MetaDataName} from "@/types/MetaDataCategory";
 import type {Affiliation} from "@/types/Affiliation";
+import * as process from "node:process";
 
 // define constants
-const BACKEND = "http://localhost:3001";
 const DATA_SET_ID = "03759ned";
 const LEGAL_VOTE_AGE = 18;
 
@@ -29,7 +29,8 @@ export function useMunicipalities() {
      */
     async function fetchMunicipalities() {
         isLoading.value = true
-        fetch(BACKEND + "/municipalities")
+
+        fetch(import.meta.env.VITE_API_URL + "/municipalities")
             .then(response => {
                 if (!response.ok) {
                     error.value = "error ..."
@@ -41,6 +42,7 @@ export function useMunicipalities() {
                 isLoading.value = false
             })
             .catch(err => {
+                console.error(err.message);
                 isLoading.value = false
                 error.value = err.message
             })
@@ -250,7 +252,7 @@ export async function getAffiliationVotesForMunicipality(municipality: Municipal
      * @returns {Promise<Affiliation[]>} - A promise that resolves to the list of affiliations.
      */
     async function fetchAffiliations(municipalityId: number) {
-        const result = await fetch(BACKEND + `/votes/municipality/${municipalityId}/affiliations`, {
+        const result = await fetch(import.meta.env.VITE_API_URL + `/votes/municipality/${municipalityId}/affiliations`, {
             method: "GET"
         });
         if (result.status !== 200) {
@@ -275,7 +277,7 @@ export async function getTopCandidatesForMunicipality(municipality: Municipality
      * @returns {Promise<any>} - A promise that resolves to the list of top candidates.
      */
     async function fetchTopCandidates(municipalityId: number) {
-        const result = await fetch(BACKEND + `/votes/municipality/${municipalityId}/top`, {
+        const result = await fetch(import.meta.env.VITE_API_URL + `/votes/municipality/${municipalityId}/top`, {
             method: "GET"
         });
         if (result.status !== 200) {

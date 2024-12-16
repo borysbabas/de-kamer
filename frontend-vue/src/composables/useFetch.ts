@@ -13,7 +13,7 @@ export const mediaData = ref<any[]>([]);
  */
 export async function fetchParties() {
     try {
-        const response = await fetch("http://localhost:3001/votes/affiliations");
+        const response = await fetch(import.meta.env.VITE_API_URL + "/votes/affiliations");
         if (!response.ok) {
             console.error('Network response was not ok');
         }
@@ -36,7 +36,7 @@ export async function fetchParties() {
     * @throws {Error} - If the fetch operation fails
  */
 export async function fetchPartyDetails(partyId: string) {
-    const response = await fetch(`http://localhost:3001/votes/affiliations/${partyId}`);
+    const response = await fetch(import.meta.env.VITE_API_URL + `/votes/affiliations/${partyId}`);
     return await response.json();
 }
 
@@ -48,7 +48,7 @@ export async function fetchPartyDetails(partyId: string) {
  */
 export async function fetchCandidateVotes() {
     try {
-        const response = await fetch("http://localhost:3001/votes/candidates");
+        const response = await fetch(import.meta.env.VITE_API_URL + "/votes/candidates");
         if (!response.ok) {
             console.error('Network response was not ok');
         }
