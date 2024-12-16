@@ -1,9 +1,12 @@
 package com.example.backend.services;
 
+import com.example.backend.entities.Municipality;
 import com.example.backend.entities.PollingStation;
 import com.example.backend.repositories.PollingStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PollingStationService {
@@ -16,5 +19,13 @@ public class PollingStationService {
 
     public void addPollingStation(PollingStation pollingStation) {
         pollingStationRepository.save(pollingStation);
+    }
+
+    public List<PollingStation> getPollingStationsByMunicipality(Municipality municipality) {
+        return pollingStationRepository.getPollingStationsByMunicipality(municipality);
+    }
+
+    public PollingStation getPollingStationById(Long pollingStationId) {
+        return pollingStationRepository.getPollingStationById(pollingStationId);
     }
 }
