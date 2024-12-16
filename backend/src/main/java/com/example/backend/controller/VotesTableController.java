@@ -1,10 +1,8 @@
 package com.example.backend.controller;
 
 import com.example.backend.DTO.MunicipalityVotesDTO;
-import com.example.backend.entities.Constituency;
-import com.example.backend.entities.ConstituencyVotes;
-import com.example.backend.entities.Municipality;
-import com.example.backend.entities.MunicipalityVotes;
+import com.example.backend.DTO.PollingStationVotesDTO;
+import com.example.backend.entities.*;
 import com.example.backend.DTO.ConstituencyVotesDTO;
 import com.example.backend.services.*;
 import com.example.backend.config.ApiPaths;
@@ -67,5 +65,22 @@ public class VotesTableController {
             municipalityVotesList.add(new MunicipalityVotesDTO(municipalityVote));
         }
         return municipalityVotesList;
+    }
+
+    @GetMapping(path = ApiPaths.POLLING_STATION_SERVICE_VOTES_COUNT)
+    public int getPollingStationVotesCountByPollingStationId(@PathVariable("pollingStationId") Long pollingStationId) {
+        PollingStation pollingStation = pollingStationService.getPollingStationById(pollingStationId);
+        return pollingStationVotesService.getPollingStationVotesCountByPollingStation(pollingStation);
+    }
+
+    @GetMapping(path = ApiPaths.POLLING_STATION_SERVICE_VOTES)
+    public List<PollingStationVotesDTO> getPollingStationVotesByPollingStationIdByPage(@PathVariable("pollingStationId") Long pollingStationId, @PathVariable("pagination") Integer pagination, @PathVariable("page") Integer page) {
+        PollingStation pollingStation = pollingStationService.getPollingStationById(pollingStationId);
+        List<PollingStationVotesDTO> pollingStationVotesList = new ArrayList<>();
+        List<PollingStationVotes> pollingStationVotes = pollingStationVotesService.getPollingStationVotesByPollingStationByPage(pollingStation, pagination, page);
+        for (PollingStationVotes pollingStationVote : pollingStationVotes) {
+            pollingStationVotesList.add(new PollingStationVotesDTO(pollingStationVote));
+        }
+        return pollingStationVotesList;
     }
 }
