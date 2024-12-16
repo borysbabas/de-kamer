@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.DTO.MunicipalityDTO;
 import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.Constituency;
 import com.example.backend.entities.Municipality;
@@ -38,14 +39,16 @@ public class MunicipalityController {
     }
 
     @GetMapping(path = ApiPaths.MUNICIPALITY_SERVICE_BY_CONSTITUENCY)
-    public List<MunicipalityModel> getMunicipalitiesByConstituency(@PathVariable Long constituencyId) {
+    public List<MunicipalityDTO> getMunicipalitiesByConstituency(@PathVariable Long constituencyId) {
         Constituency constituency = constituencyService.findConstituencyById(constituencyId);
-        List<MunicipalityModel> municipalityList = new ArrayList<>();
+        List<MunicipalityDTO> municipalityList = new ArrayList<>();
         List<Municipality> municipalities = municipalityService.getMunicipalitiesByConstituency(constituency);
 
         for (Municipality municipality : municipalities) {
-            municipalityList.add(new MunicipalityModel(
-                    municipality
+            municipalityList.add(new MunicipalityDTO(
+                    municipality.getMunicipalityName(),
+                    municipality.getMunicipalityId(),
+                    municipality.getConstituency().getConstituencyId()
             ));
         }
 
