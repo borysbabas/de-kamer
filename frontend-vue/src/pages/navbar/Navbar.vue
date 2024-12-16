@@ -68,7 +68,7 @@ onUnmounted(() => {
           <template v-if="isForumPage">
             <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text clickable">Login</p></router-link>
             <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text clickable">Register</p></router-link>
-            <div v-if="Authenticated"><p class="nav-text clickable"> Welcome, {{ userName }}</p></div>
+            <router-link to="/forum/account-details" v-if="Authenticated"><p class="nav-text clickable"> Welcome, {{ userName }}</p></router-link>
             <div v-if="Authenticated"><p @click="handleSignOut" class="nav-text clickable">Sign out</p></div>
           </template>
           <template v-else>
