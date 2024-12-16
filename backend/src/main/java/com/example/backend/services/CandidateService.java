@@ -88,4 +88,7 @@ public class CandidateService {
     public List<Candidate> findCandidatesByAffiliation(Affiliation affiliation) {
         return candidateRepository.findCandidatesByAffiliation(affiliation);
     }
+    public List<Candidate> getCandidatesByAffiliationId(Long affiliationId) {
+        return candidateRepository.getCandidatesByAffiliationAffiliationId(affiliationId);
+    }
 }
