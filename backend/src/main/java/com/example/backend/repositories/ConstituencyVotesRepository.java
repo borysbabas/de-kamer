@@ -2,6 +2,7 @@ package com.example.backend.repositories;
 
 import com.example.backend.entities.Constituency;
 import com.example.backend.entities.ConstituencyVotes;
+import com.example.backend.models.ConstituencyVotesModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,4 +37,17 @@ public interface ConstituencyVotesRepository extends JpaRepository<ConstituencyV
             @Param("pagination") int pagination,
             @Param("offset") int offset
     );
+
+    @Query("SELECT new com.example.backend.models.ConstituencyVotesModel(cv.constituency.constituencyName, SUM(cv.totalVotes)) " +
+            "FROM ConstituencyVotes cv " +
+            "WHERE cv.affiliation.affiliationId = :affiliationId " +
+            "GROUP BY cv.constituency.constituencyName")
+    List<ConstituencyVotesModel> findTotalVotesByAffiliationGroupedByConstituency(@Param("affiliationId") Long affiliationId);
+
+    @Query("SELECT new com.example.backend.models.ConstituencyVotesModel(cv.constituency.constituencyName, SUM(cv.totalVotes)) " +
+            "FROM ConstituencyVotes cv " +
+            "WHERE cv.affiliation.affiliationId = :affiliationId " +
+            "AND cv.candidate.candidateId = :candidateId " +
+            "GROUP BY cv.constituency.constituencyName")
+    List<ConstituencyVotesModel> findTotalVotesByAffiliationGroupedByConstituencyAndCandidate(@Param("affiliationId") Long affiliationId, @Param("candidateId") Long candidateId);
 }

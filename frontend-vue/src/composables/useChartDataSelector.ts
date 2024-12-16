@@ -4,7 +4,7 @@ import {options} from "@/composables/useDropdown";
 
 export const optionsList = ref([]);
 export const selectedOption = ref({
-    0: {selected: 'Votes'},
+    0: {selected: 'Stemmen'},
     1: {selected: 'Landelijk'},
     2: {selected: 'Partij'},
     3: {selected: 'VVD'},
@@ -16,23 +16,23 @@ const partyList = ref([]);
 const candidateList = ref([]);
 
 export const fetchOptions = async () => {
-    const typeOption = {label: 'Type', options: ['Members', 'Votes'], selected: selectedOption.value[0]?.selected ?? 'Votes'};
+    const typeOption = {label: 'Type', options: ['Kanditaten', 'Stemmen'], selected: selectedOption.value[0]?.selected ?? 'Stemmen'};
     optionsList.value = [typeOption];
 
-    if (typeOption.selected === 'Votes') {
-        const basisOption = {label: 'Op basis van', options: ['Landelijk', 'Gemeente', 'Stembereau'], selected: selectedOption.value[1]?.selected || 'Landelijk'};
-        const searchOption = {label: 'Zoeken op', options: ['Partij', 'Candidaat'], selected: selectedOption.value[2]?.selected || 'Partij'};
+    if (typeOption.selected === 'Stemmen') {
+        const basisOption = {label: 'Op basis van', options: ['Landelijk', 'Gemeente', 'Kieskring'], selected: selectedOption.value[1]?.selected || 'Landelijk'};
+        const searchOption = {label: 'Zoeken op', options: ['Partij', 'Kandidaat'], selected: selectedOption.value[2]?.selected || 'Partij'};
         optionsList.value.push(basisOption, searchOption);
 
-        if (searchOption.selected === 'Candidaat') {
+        if (searchOption.selected === 'Kandidaat') {
             const partyOption = {label: 'Partij', options: await getPartyList(), selected: selectedOption.value[3]?.selected || 'VVD'};
             optionsList.value.push(partyOption);
-            if (basisOption.selected === 'Gemeente' || basisOption.selected === 'Stembereau') {
+            if (basisOption.selected === 'Gemeente' || basisOption.selected === 'Kieskring') {
                 const candidateList = await getPartyCandidateList(partyOption.selected);
-                const CandidateOption = {label: 'Candidaat', options:candidateList , selected: selectedOption.value[4]?.selected || candidateList[0]};
+                const CandidateOption = {label: 'Kandidaat', options:candidateList , selected: selectedOption.value[4]?.selected || candidateList[0]};
                 optionsList.value.push(CandidateOption);
             }
-        } else if (basisOption.selected === 'Gemeente' || basisOption.selected === 'Stembereau') {
+        } else if (basisOption.selected === 'Gemeente' || basisOption.selected === 'Kieskring') {
             const partyOption = {label: 'Partij', options: await getPartyList(), selected: selectedOption.value[3]?.selected || 'VVD'};
             optionsList.value.push(partyOption);
         }
@@ -70,22 +70,21 @@ const getPartyList = async () => {
 export const fetchChartData = async () => {
     let data;
     switch (selectedOption.value[0].selected) {
-        case 'Members':
+        case 'Kanditaten':
             data = await getMembers();
             break;
-        case 'Votes':
+        case 'Stemmen':
             switch (selectedOption.value[1].selected) {
                 case 'Landelijk':
                     switch (selectedOption.value[2].selected) {
                         case 'Partij':
                             data = await getVotes();
                             break;
-                        case 'Candidaat':
+                        case 'Kandidaat':
                             data = [];
                             await getVotesByAffilation(selectedOption.value[3].selected).then((result) => {
                                 data = result;
                             });
-
                             break;
                         default:
                             data = [];
@@ -99,7 +98,7 @@ export const fetchChartData = async () => {
                                 data = result;
                             });
                             break;
-                        case 'Candidaat':
+                        case 'Kandidaat':
                             data = []
                             await getMunicplaityVotesByCandidate(selectedOption.value[4].selected).then((result) => {
                                 console.log(result , 'result');
@@ -108,18 +107,32 @@ export const fetchChartData = async () => {
                             break;
                         default:
                            // data = [];
+                            break;
                     }
-                case 'Stembereau':
+                    break;
+                case 'Kieskring':
                     switch (selectedOption.value[2].selected) {
                         case 'Partij':
-                            // data = [];
+                            data = [];
+                            await getConstituencyByAffilation(selectedOption.value[3].selected).then((result) => {
+                                data = result;
+                                console.log(data, 'data');
+                            });
                             break;
-                        case 'Candidaat':
-                            // data = [];
+                        case 'Kandidaat':
+                            data = [];
+                            await getConstituencyByCandidate(selectedOption.value[4].selected).then((result) => {
+                                data = result;
+                            });
+                            break;
+                        default:
+                            data = [];
                             break;
                     }
+                    break;
                 default:
                     // data = [];
+                    break;
             }
             break;
         default:
@@ -180,6 +193,25 @@ async function getMunicplaityVotesByCandidate(candidateName: string) {
 async function getMunicipalityVotesByAffilation(affilationName: string) {
     const affilationId = getAffilationId(affilationName);
     return await fetch("http://localhost:3001/chart/get-municipality-votes-by-affiliationId/" + affilationId)
+        .then((response) => response.json())
+        .then((data) => {
+            return data;
+        });
+}
+
+async function getConstituencyByAffilation(affilationName: string) {
+    const affilationId = getAffilationId(affilationName);
+    return await fetch("http://localhost:3001/chart/votes/constituency/affiliation/" + affilationId)
+        .then((response) => response.json())
+        .then((data) => {
+            return data;
+        });
+}
+
+async function getConstituencyByCandidate(candidateName: string) {
+    const candidateId = candidateList.value.find((item: any) => item.firstName + ' ' + item.lastName === candidateName).candidateId;
+    const affilationId = getAffilationId(selectedOption.value[3].selected);
+    return await fetch("http://localhost:3001/chart/votes/constituency/affiliation/"+ affilationId + "/candidate/" + candidateId)
         .then((response) => response.json())
         .then((data) => {
             return data;

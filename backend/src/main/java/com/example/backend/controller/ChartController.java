@@ -33,6 +33,7 @@ public class ChartController {
     private final AffiliationService affiliationService;
     private final AffiliationVotesService affiliationVotesService;
     private final MunicipalityVotesService municipalityVotesService;
+    private final ConstituencyVotesService constituencyVotesService;
 
     @Autowired
     public ChartController(
@@ -40,19 +41,21 @@ public class ChartController {
             CountryVotesService countryVotesService,
             AffiliationService affiliationService,
             AffiliationVotesService affiliationVotesService,
-            MunicipalityVotesService municipalityVotesService
+            MunicipalityVotesService municipalityVotesService,
+            ConstituencyVotesService constituencyVotesService
     ) {
         this.candidateService = candidateService;
         this.countryVotesService = countryVotesService;
         this.affiliationService = affiliationService;
         this.affiliationVotesService = affiliationVotesService;
         this.municipalityVotesService = municipalityVotesService;
+        this.constituencyVotesService = constituencyVotesService;
     }
 
 
     @GetMapping(path = ApiPaths.CANDIDATE_SERVICE_GET_AFFILIATION_VOTES)
     public Map<String, Object> getVotesByAffiliationId(@PathVariable Long affiliationId) {
-        List<Candidate> candidateList = candidateService.getCandidatesByAffiliationId(affiliationId);
+        List<Candidate> candidateList = countryVotesService.getCandidatesByAffiliationId(affiliationId);
         Map<Integer, Candidate> candidateMap = new HashMap<>();
         List<Map<String, Object>> data = new ArrayList<>();
 
@@ -143,6 +146,47 @@ public class ChartController {
         for (MunicipalityVoteModel vote : municipalityVotes) {
             Map<String, Object> dataPoint = new HashMap<>();
             dataPoint.put("x", vote.getMunicipalityName());
+            dataPoint.put("y", vote.getTotalVotes());
+            dataPoint.put("id", idCounter++);
+            data.add(dataPoint);
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("name", "Stemmen");
+        response.put("data", data);
+
+        return response;
+    }
+
+    @GetMapping(path = ApiPaths.CONSTITUENCY_VOTES_BY_AFFILIATION)
+    public Map<String, Object> getConstituencyVotesByAffiliationId(@PathVariable("affiliationId") Long affiliationId) {
+        List<ConstituencyVotesModel> constituencyVotes = constituencyVotesService.getConstituencyVotesByAffiliationId(affiliationId);
+        List<Map<String, Object>> data = new ArrayList<>();
+        int idCounter = 1;
+
+        for (ConstituencyVotesModel vote : constituencyVotes) {
+            Map<String, Object> dataPoint = new HashMap<>();
+            dataPoint.put("x", vote.getConstituencyName());
+            dataPoint.put("y", vote.getTotalVotes());
+            dataPoint.put("id", idCounter++);
+            data.add(dataPoint);
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("name", "Stemmen");
+        response.put("data", data);
+
+        return response;
+    }
+    @GetMapping(path = ApiPaths.CONSTITUENCY_VOTES_BY_CANDIDATE)
+    public Map<String, Object> getConstituencyVotesByAffiliationIdAndCandidateId(@PathVariable("affiliationId") Long affiliationId, @PathVariable("candidateId") Long candidateId) {
+        List<ConstituencyVotesModel> constituencyVotes = constituencyVotesService.getConstituencyVotesByAffiliationIdAndCandidateId(affiliationId, candidateId);
+        List<Map<String, Object>> data = new ArrayList<>();
+        int idCounter = 1;
+
+        for (ConstituencyVotesModel vote : constituencyVotes) {
+            Map<String, Object> dataPoint = new HashMap<>();
+            dataPoint.put("x", vote.getConstituencyName());
             dataPoint.put("y", vote.getTotalVotes());
             dataPoint.put("id", idCounter++);
             data.add(dataPoint);

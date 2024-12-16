@@ -3,6 +3,7 @@ package com.example.backend.repositories;
 import com.example.backend.entities.Affiliation;
 import com.example.backend.entities.Candidate;
 import com.example.backend.entities.CountryVotes;
+import com.example.backend.models.CandidateVotesModel;
 import com.example.backend.models.MemberCountModel;
 import com.example.backend.models.MunicipalityVoteModel;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,6 @@ public interface CountryVotesRepository extends JpaRepository<CountryVotes, Long
             " FROM CountryVotes cv" +
             " GROUP BY cv.affiliation.affiliationId")
     List<MemberCountModel> getMemberCount();
+
+    List<CountryVotes> findByAffiliationAffiliationId(Long affiliationId);
 }
