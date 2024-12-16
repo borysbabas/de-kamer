@@ -11,7 +11,7 @@ import {ref, defineProps, defineEmits, onMounted} from 'vue';
 
 const props = defineProps({
   options: {
-    type: Array as () => string[],
+    type: Object as () => string[],
     required: true
   }
 });

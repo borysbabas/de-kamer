@@ -7,6 +7,9 @@ public class ApiPaths {
     public static final String AFFILIATION_SERVICE = "/affiliation";
     public static final String AFFILIATION_SERVICE_ALL = "/all";
     public static final String AFFILIATION_SERVICE_MEMBER_COUNT = "/members/count";
+    public static final String CHART_SERVICE = "/chart";
+
+    public static final String CANDIDATE_SERVICE_GET_AFFILIATION_VOTES = "/votes/{affiliationId}";
 
     public static final String CONSTITUENCY_SERVICE = "/constituencies";
 
@@ -41,6 +44,9 @@ public class ApiPaths {
     public static final String MUNICIPALITY_ID = MUNICIPALITY_SERVICE + "/id/{id}";
     public static final String MUNICIPALITY_ALL = "/municipalities";
     public static final String MUNICIPALITY_SERVIVE_GETMUNICIPALITYVOTESBYCANDIDATEID = "/get-municipality-votes-by-candidateId/{candidateId}";
+    public static final String MUNICIPALITY_SERVICE_GET_MUNICIPALITYVOTES_BY_AFFILIATIONID = "/get-municipality-votes-by-affiliationId/{affiliationId}";
+    public static final String CONSTITUENCY_VOTES_BY_AFFILIATION = VOTES + "/constituency/affiliation/{affiliationId}";
+    public static final String CONSTITUENCY_VOTES_BY_CANDIDATE = VOTES + "/constituency/affiliation/{affiliationId}/candidate/{candidateId}";
     public static final String MUNICIPALITY_SERVICE_BY_CONSTITUENCY = MUNICIPALITY_ALL + "/constituency/{constituencyId}";
 
     public static final String POLLING_STATION_SERVICE = "/polling-station";
