@@ -47,6 +47,6 @@ public class MunicipalityVotesService {
     }
 
     public List<MunicipalityVotes> getMunicipalityVotesByMunicipalityByPage(Municipality municipality, int pagination, int page) {
-        return municipalityVotesRepository.findByMunicipalityByPageOrderByTotalVotesDesc(municipality, pagination, (page - 1) * 30);
+        return municipalityVotesRepository.findByMunicipalityByPageOrderByTotalVotesDesc(municipality, pagination, (page - 1) * pagination);
     }
 }
