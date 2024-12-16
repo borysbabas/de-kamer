@@ -1,6 +1,9 @@
 <script setup lang="ts">
 
-import {computed, inject, ref} from "vue";
+import {computed, inject, onMounted, ref} from "vue";
+
+//api
+const api =import.meta.env.VITE_API_URL
 
 /**
  * private variables
@@ -34,7 +37,14 @@ function handleBtnClick(selectedSubjectParam: any) {
   }
 
 }
-
+onMounted(()=>{
+  const token = sessionService.getTokenFromBrowserStorage()
+  const payload  = token.split(".")[1]
+  const decodedPayload = atob(payload)
+  const parsedPayload = JSON.parse(decodedPayload)
+  const userID=parsedPayload.jti
+  fetch(api+"/")
+})
 </script>
 
 <template>
