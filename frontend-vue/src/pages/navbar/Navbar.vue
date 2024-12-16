@@ -68,7 +68,7 @@ onUnmounted(() => {
           <template v-if="isForumPage">
             <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text clickable">Login</p></router-link>
             <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text clickable">Register</p></router-link>
-            <div v-if="Authenticated"><p class="nav-text"> Welcome, {{ userName }}</p></div>
+            <div v-if="Authenticated"><p class="nav-text clickable"> Welcome, {{ userName }}</p></div>
             <div v-if="Authenticated"><p @click="handleSignOut" class="nav-text clickable">Sign out</p></div>
           </template>
           <template v-else>
@@ -132,6 +132,9 @@ onUnmounted(() => {
 
 .nav-text {
   font-size: 20px;
+}
+.clickable{
+  cursor: pointer;
 }
 
 .nav-text.clickable::after {
