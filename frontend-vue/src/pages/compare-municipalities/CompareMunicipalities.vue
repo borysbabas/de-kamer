@@ -11,6 +11,7 @@
           <img @click="removeMunicipality(municipality)" src="../../assets/svg/red-cross.svg" alt="red cross" />
         </div>
       </div>
+      <p></p>
       <button @click="renderMunicipalityCards">vergelijk</button>
     </div>
     <div class="municipality-cards">
