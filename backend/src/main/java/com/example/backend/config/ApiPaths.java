@@ -30,6 +30,8 @@ public class ApiPaths {
     public static final String AFFILIATION_SERVICE_GETBYID = VOTES + "/affiliations/{id}";
     public static final String MUNICIPALITY_GET_AFFILIATION_VOTES = VOTES + "/municipality/{municipalityId}/affiliations";
     public static final String MUNCIIPALITY_GET_TOP_CANDIDATE = VOTES + "/municipality/{municipalityId}/top";
+    public static final String MUNICIPALITY_SERVICE_VOTES_COUNT = VOTES + "/municipalities/{municipalityId}/count";
+    public static final String MUNICIPALITY_SERVICE_VOTES_BY_MUNICIPALITY = VOTES + "/municipalities/{municipalityId}/{pagination}/{page}";
 
     public static final String AFFILIATION_SERVICE_GETBYNAME = "/get-by-name/{name}";
 
@@ -37,4 +39,5 @@ public class ApiPaths {
     public static final String MUNICIPALITY_ID = MUNICIPALITY_SERVICE + "/id/{id}";
     public static final String MUNICIPALITY_ALL = "/municipalities";
     public static final String MUNICIPALITY_SERVIVE_GETMUNICIPALITYVOTESBYCANDIDATEID = "/get-municipality-votes-by-candidateId/{candidateId}";
+    public static final String MUNICIPALITY_SERVICE_BY_CONSTITUENCY = MUNICIPALITY_ALL + "/constituency/{constituencyId}";
 }
