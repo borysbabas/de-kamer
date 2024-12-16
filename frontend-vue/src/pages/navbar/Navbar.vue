@@ -25,7 +25,8 @@ function handleSignOut(){
 
 /**
  * Handles the scroll event
- * If the user scrolls down, the navbar will be fixed to the top
+ * If the user scrolls down, the navbar will be fixed to the top.
+ * test
  */
 const handleScroll = () => {
   const navbar = document.getElementById("navbar");
