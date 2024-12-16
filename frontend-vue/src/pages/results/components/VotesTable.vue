@@ -9,10 +9,16 @@
         {{ constituency.constituencyName }}
       </option>
     </select>
-    <select v-if="municipalities.length > 0" @change="handleMunicipalityChange" class="table-select">
+    <select v-model="selectedMunicipality" v-if="municipalities.length > 0" @change="handleMunicipalityChange" class="table-select">
       <option selected value="0">Geen gemeente gekozen</option>
       <option v-for="municipality in municipalities" :key="municipality.municipalityId" :value="municipality.municipalityId">
-        {{ municipality.name }}
+        {{ municipality.municipalityName }}
+      </option>
+    </select>
+    <select v-model="selectedPollingStation" v-if="pollingStations.length > 0" @change="handlePollingStationChange" class="table-select">
+      <option selected value="0">Geen stembureau gekozen</option>
+      <option v-for="pollingStation in pollingStations" :key="pollingStation.pollingStationId" :value="pollingStation.pollingStationId">
+        {{ pollingStation.pollingStationName }}
       </option>
     </select>
     <label class="pagination-label" for="pagination">Rijen per pagina: </label>
@@ -79,6 +85,8 @@ import type {Constituency} from "@/types/Constituency";
 import type {ConstituencyVotes} from "@/types/ConstituencyVotes";
 import type {Municipality} from "@/types/Municipality";
 import type {MunicipalityVotes} from "@/types/MunicipalityVotes";
+import type {PollingStation} from "@/types/PollingStation";
+import type {PollingStationVotes} from "@/types/PollingStationVotes";
 
 // Variables
 const constituencies = ref<Constituency[]>([]);
@@ -182,9 +190,56 @@ async function fetchMunicipalityVotes(municipalityId, pagination, page) {
   }
 }
 
+async function fetchPollingStations(municipalityId) {
+  try {
+    const result = await fetch(`${import.meta.env.VITE_API_URL}/polling-station/municipality/${municipalityId}`);
+
+    if (result.status !== 200) {
+      throw new Error("Failed to fetch polling stations");
+    }
+
+    pollingStations.value = await result.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function fetchPollingStationVotesCount(pollingStationId) {
+  try {
+    const result = await fetch(`${import.meta.env.VITE_API_URL}/votes/polling-stations/${pollingStationId}/count`);
+
+    if (result.status !== 200) {
+      throw new Error("Failed to fetch polling station votes count");
+    }
+
+    tableLength.value = await result.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function fetchPollingStationVotes(pollingStationId, pagination, page) {
+  try {
+    const result = await fetch(`${import.meta.env.VITE_API_URL}/votes/polling-stations/${pollingStationId}/${pagination}/${page}`);
+
+    if (result.status !== 200) {
+      throw new Error("Failed to fetch polling station votes");
+    }
+
+    votesTableData.value = await result.json();
+    selectedPollingStation.value = pollingStationId;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // Handle functions
 function handleConstituencyChange(event) {
   currentPage.value = 1;
+  selectedMunicipality.value = 0;
+  municipalities.value = [];
+  selectedPollingStation.value = 0;
+  pollingStations.value = [];
   fetchConstituencyVotesCount(event.target.value);
   fetchConstituencyVotes(event.target.value, pagination.value, currentPage.value);
   fetchMunicipalities(event.target.value);
@@ -192,10 +247,12 @@ function handleConstituencyChange(event) {
 
 function handleMunicipalityChange(event) {
   currentPage.value = 1;
+  selectedPollingStation.value = 0;
+  pollingStations.value = [];
   if (event.target.value > 0) {
     fetchMunicipalityVotesCount(event.target.value);
     fetchMunicipalityVotes(event.target.value, pagination.value, currentPage.value);
-  //   TODO: add fetch polling stations
+    fetchPollingStations(event.target.value);
   } else {
     selectedMunicipality.value = event.target.value;
     fetchConstituencyVotesCount(selectedConstituency.value);
@@ -203,10 +260,24 @@ function handleMunicipalityChange(event) {
   }
 }
 
+function handlePollingStationChange(event) {
+  currentPage.value = 1;
+  if (event.target.value > 0) {
+    fetchPollingStationVotesCount(event.target.value);
+    fetchPollingStationVotes(event.target.value, pagination.value, currentPage.value);
+  } else {
+    selectedPollingStation.value = event.target.value;
+    fetchMunicipalityVotesCount(selectedMunicipality.value);
+    fetchMunicipalityVotes(selectedMunicipality.value, pagination.value, currentPage.value);
+  }
+}
+
 function handlePageChange(selectedPage: number) {
   if (selectedPage > 0 && selectedPage <= Math.ceil(tableLength.value / pagination.value)) {
     currentPage.value = selectedPage;
-    if (selectedMunicipality.value > 0) {
+    if (selectedPollingStation.value > 0) {
+      fetchPollingStationVotes(selectedPollingStation.value, pagination.value, currentPage.value);
+    } else if (selectedMunicipality.value > 0) {
       fetchMunicipalityVotes(selectedMunicipality.value, pagination.value, currentPage.value);
     } else {
       fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value);
