@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.DTO.AccountDTO;
 import com.example.backend.authentication.JWToken;
 import com.example.backend.config.ApiConfig;
 import com.example.backend.config.ApiPaths;
@@ -24,7 +25,6 @@ import java.util.List;
 @Slf4j
 @Configuration
 @RestController
-@RequestMapping(path = ApiPaths.AUTHENTICATION_SERVICE)
 public class AuthenticationController {
     private final ApiConfig apiConfig;
     private final AccountService accountService;
@@ -36,16 +36,17 @@ public class AuthenticationController {
     }
 
     @PostMapping(path=ApiPaths.AUTHENTICATION_SERVICE_LOGIN)
-    public ResponseEntity<Account> authenticateAccount(@RequestBody ObjectNode signInInfo) {
+    public ResponseEntity<AccountDTO> authenticateAccount(@RequestBody ObjectNode signInInfo) {
         String email = signInInfo.get("email").asText();
         String password = signInInfo.get("password").asText();
 
         List<Account> accounts = accountService.findByEmail(email);
-        Account account = accounts.size() == 1
-                ? accounts.get(0)
-                : null;
 
-        if (account == null || !account.verifyPassword(password)) {
+        AccountDTO account = new AccountDTO(accounts.size() == 1
+                ? accounts.get(0)
+                : new Account());
+
+        if (account.getId() == null || !account.verifyPassword(password)) {
             throw new NotAcceptableException("cannot authenticate account with email:"+ email);
         }
         JWToken jwToken = new JWToken(account.getUserName(), account.getId(), account.getRole());
@@ -54,6 +55,8 @@ public class AuthenticationController {
                 this.apiConfig.getPassphrase(),
                 this.apiConfig.getTokenDurationOfValidity()
         );
+
+        account.setJwtToken(tokenString);
         return ResponseEntity.accepted().header(HttpHeaders.AUTHORIZATION, "Bearer" + tokenString).body(account);
     }
 

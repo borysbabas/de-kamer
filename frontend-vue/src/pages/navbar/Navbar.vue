@@ -65,15 +65,15 @@ onUnmounted(() => {
         <li class="buttons">
           <Searchbar v-if="searchBarState" id="searchbar" class="searchbar"></Searchbar>
           <template v-if="isForumPage">
-            <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text">Login</p></router-link>
-            <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text">Register</p></router-link>
-            <router-link v-if="Authenticated"><p class="nav-text"> Welcome, {{ userName }}</p></router-link>
-            <router-link v-if="Authenticated"><p @click="handleSignOut" class="nav-text">Sign out</p></router-link>
+            <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text clickable">Login</p></router-link>
+            <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text clickable">Register</p></router-link>
+            <div v-if="Authenticated"><p class="nav-text"> Welcome, {{ userName }}</p></div>
+            <div v-if="Authenticated"><p @click="handleSignOut" class="nav-text clickable">Sign out</p></div>
           </template>
           <template v-else>
-            <router-link to="/uitslagen"><p class="nav-text">Uitslagen</p></router-link>
-            <router-link to="/info"><p class="nav-text">Info</p></router-link>
-            <router-link to="/forum"><p class="nav-text">Forum</p></router-link>
+            <router-link to="/uitslagen"><p class="nav-text clickable">Uitslagen</p></router-link>
+            <router-link to="/info"><p class="nav-text clickable">Info</p></router-link>
+            <router-link to="/forum"><p class="nav-text clickable">Forum</p></router-link>
           </template>
           <svg @click="toggleSearchBar" xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
                viewBox="0 0 512 512">
@@ -133,7 +133,7 @@ onUnmounted(() => {
   font-size: 20px;
 }
 
-.nav-text::after {
+.nav-text.clickable::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -145,7 +145,7 @@ onUnmounted(() => {
   transition: width var(--animation-duration);
 }
 
-.nav-text:hover::after {
+.nav-text.clickable:hover::after {
   width: 100%;
 }
 
@@ -169,6 +169,10 @@ li {
   align-items: center;
   font-size: 1.5rem;
   gap: 20px;
+}
+
+.buttons > div {
+  position: relative;
 }
 
 .magnifying-glass-icon {

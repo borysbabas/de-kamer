@@ -19,12 +19,21 @@ public class ApiConfig implements WebMvcConfigurer {
     @Value("${jwt.duration-of-validity:1200}")
     private int tokenDurationOfValidity;
 
+    @Getter
+    private final static String[] allowedOrigins = {
+            "http://localhost:3000", "http://*.hva.nl", "https://de-kamer.eu"
+    };
+
+    @Getter
+    private final static String productionOrigin = "https://de-kamer.eu";
+
+    @Getter
+    private final static String developmentOrigin = "http://localhost:3000";
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(
-                        "http://localhost:3000", "http://*.hva.nl", "https://de-kamer.eu"
-                ).allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedOrigins(allowedOrigins).allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders(HttpHeaders.AUTHORIZATION,
                         HttpHeaders.CONTENT_TYPE)
                 .exposedHeaders(HttpHeaders.AUTHORIZATION,

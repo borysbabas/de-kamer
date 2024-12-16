@@ -26,11 +26,9 @@ const submitLogin = async () => {
     buttonText.value="Succesfully logged in!"
     buttonColor.value="green"
     window.location.href="/forum"
-  }else{
+  } else {
     buttonText.value="Login failed"
     buttonColor.value="red"
-
-
   }
 
 }
