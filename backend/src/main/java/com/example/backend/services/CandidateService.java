@@ -27,12 +27,7 @@ public class CandidateService {
     }
 
     public Candidate findFirstByShortCode(String shortCode) {
-        Candidate candidate = candidateShortCodeCache.get(shortCode);
-        if (candidate == null) {
-            candidate = candidateRepository.findFirstByShortCode(shortCode);
-            candidateShortCodeCache.put(shortCode, candidate);
-        }
-        return candidate;
+        return candidateShortCodeCache.computeIfAbsent(shortCode, k -> candidateRepository.findFirstByShortCode(shortCode));
     }
 
     public String toShortCode(Candidate candidate) {

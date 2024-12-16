@@ -19,12 +19,7 @@ public class AffiliationService {
     }
 
     public Affiliation findAffiliationByAffiliationId(Long affiliationId) {
-        Affiliation affiliation = affiliationCache.get(affiliationId);
-        if (affiliation == null) {
-            affiliation = affiliationRepository.findAffiliationByAffiliationId(affiliationId);
-            affiliationCache.put(affiliationId, affiliation);
-        }
-        return affiliation;
+        return affiliationCache.computeIfAbsent(affiliationId, k -> affiliationRepository.findAffiliationByAffiliationId(affiliationId));
     }
 
     public void addAffiliation(Affiliation affiliation) {

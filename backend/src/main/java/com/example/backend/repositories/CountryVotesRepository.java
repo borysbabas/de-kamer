@@ -1,6 +1,5 @@
 package com.example.backend.repositories;
 
-import com.example.backend.entities.Affiliation;
 import com.example.backend.entities.Candidate;
 import com.example.backend.entities.CountryVotes;
 import org.springframework.data.jpa.repository.JpaRepository;

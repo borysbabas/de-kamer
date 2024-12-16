@@ -21,7 +21,7 @@ public class MunicipalityService {
     }
 
     public List<Municipality> getAllMunicipalities() {
-        return municipalityRepository.findAllAndSort();
+        return municipalityRepository.findAllByOrderByMunicipalityNameAsc();
     }
 
     public Municipality getMunicipalityByMunicipalityId(long id) {
