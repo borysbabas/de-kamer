@@ -13,9 +13,8 @@ onMounted(() => {
 
 <template>
   <section class="first main">
-    <h1 class="forum-title">Forum</h1>
     <div class="top-posts">
-      <h2 class="top-posts-title">Top Posts</h2>
+      <h1 class="top-posts-title">Top Posts</h1>
       <PostList :posts="posts"/>
     </div>
     <Pagination :currentPage="currentPage" :totalPages="totalPages" :goToPage="goToPage"/>
@@ -35,11 +34,6 @@ onMounted(() => {
   flex-direction: column;
   justify-content: space-between;
   gap: 0;
-}
-
-.forum-title {
-  margin-top: 0;
-  padding-bottom: 20px !important;
 }
 
 .top-posts-title {

@@ -1,7 +1,6 @@
 <template>
   <section class="recent-posts">
     <h1 class="recent-posts-title">Recent posts</h1>
-    <p>The recent posts from our community</p>
     <PostList :posts="posts" />
     <Pagination :go-to-page="goToPage" :total-pages="totalPages" :current-page="currentPage" />
   </section>

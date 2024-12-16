@@ -131,6 +131,7 @@ onUnmounted(() => {
 
 .nav-text {
   font-size: 20px;
+  cursor: pointer;
 }
 
 .nav-text.clickable::after {
