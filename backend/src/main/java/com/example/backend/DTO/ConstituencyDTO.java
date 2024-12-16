@@ -1,15 +1,15 @@
-package com.example.backend.models;
+package com.example.backend.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ConstituencyModel {
+public class ConstituencyDTO {
     private String ConstituencyName;
     private Long ConstituencyId;
 
-    public ConstituencyModel(String ConstituencyName, Long ConstituencyId) {
+    public ConstituencyDTO(String ConstituencyName, Long ConstituencyId) {
         this.ConstituencyName = ConstituencyName;
         this.ConstituencyId = ConstituencyId;
     }
