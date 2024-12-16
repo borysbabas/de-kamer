@@ -4,6 +4,13 @@ import {computed, inject, onMounted, ref} from "vue";
 
 //api
 const api =import.meta.env.VITE_API_URL
+const sessionService: any = inject("sessionService")
+
+
+/**
+ * decode the jwt token for its userId
+ */
+const userID = JSON.parse(atob(sessionService.getTokenFromBrowserStorage().split(".")[1])).jti;
 
 /**
  * private variables
@@ -12,13 +19,22 @@ const fetchedEmail = ref("");
 const fetchedUsername = ref("")
 const fetchedPassword = ref("")
 const fetchedDateOfBirth= ref("")
-const sessionService: any = inject("sessionService")
+const requiredfetchedData = ref("")
 let isPopUpVisible = ref(false)
 const selectedSubject = ref("")
 const changeEmailString = computed(() => {
   return `verander uw ${selectedSubject.value}`
 })
 
+/**
+ *
+ */
+function deleteAccount(){
+ const confirmed = window.confirm("weet je dit zeker? je staat op het punt je account te verwijderen.")
+  if (confirmed){
+    userID
+  }
+}
 /**
  * handles the button click
  * @param selectedSubjectParam defines which part of the account is being changed
@@ -28,25 +44,24 @@ function handleBtnClick(selectedSubjectParam: any) {
   switch (selectedSubjectParam) {
     case "email":
       selectedSubject.value = "email";
+      requiredfetchedData.value=fetchedEmail;
       break;
     case "username":
       selectedSubject.value = "gebruikersnaam";
+      requiredfetchedData.value=fetchedUsername;
       break;
     case "password":
       selectedSubject.value = "wachtwoord";
+      requiredfetchedData.value=fetchedPassword;
       break;
     case "dateOfBirth":
       selectedSubject.value = "geboortedatum";
+      requiredfetchedData.value=fetchedDateOfBirth;
       break;
   }
 
 }
 onMounted(async ()=>{
-  const token = sessionService.getTokenFromBrowserStorage()
-  const payload  = token.split(".")[1]
-  const decodedPayload = atob(payload)
-  const parsedPayload = JSON.parse(decodedPayload)
-  const userID=parsedPayload.jti
   try{
   const response = await fetch(api+`/accountdetails/${userID}`)
     if(response.ok){
@@ -72,7 +87,7 @@ onMounted(async ()=>{
     <div class="popup-wrapper">
       <div class="popup-container">
         <button @click="isPopUpVisible=false" class="close-btn">X</button>
-        <h3 class="popup-p">Huidige {{ selectedSubject }} : mathijs.langhorst@hva.nl </h3>
+        <h3 class="popup-p">Huidige {{ selectedSubject }} : {{requiredfetchedData}} </h3>
         <input class="popup-input" :placeholder="changeEmailString">
         <button>bevestigen</button>
       </div>
@@ -108,7 +123,7 @@ onMounted(async ()=>{
         </div>
         <div class="box">
           <div class="delete-container">
-            <button class="delete-btn">verwijder huidig account</button>
+            <button @click="deleteAccount" class="delete-btn">verwijder huidig account</button>
           </div>
         </div>
       </div>
