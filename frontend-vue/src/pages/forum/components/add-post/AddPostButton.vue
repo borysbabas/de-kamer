@@ -9,7 +9,7 @@ const navigateToAddPost = () => {
 </script>
 
 <template>
-  <button class="add-post-button" @click="navigateToAddPost">Add Post</button>
+  <button class="add-post-button" @click="navigateToAddPost">Nieuwe post</button>
 </template>
 
 <style scoped>

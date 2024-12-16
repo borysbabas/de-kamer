@@ -5,7 +5,7 @@
         <button
             @click="sort"
             class="sortbutton"
-        >Sort items</button>
+        >Sorteer</button>
       </div>
       <div class="chartContainer">
         <div

@@ -17,9 +17,9 @@ defineProps({
 
 <template>
   <div class="pagination">
-    <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Previous</button>
-    <span>Page {{ currentPage }} of {{ totalPages }}</span>
-    <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Next</button>
+    <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Vorige</button>
+    <span>Pagina {{ currentPage }} van {{ totalPages }}</span>
+    <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Volgende</button>
   </div>
 </template>
 

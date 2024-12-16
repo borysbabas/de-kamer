@@ -65,10 +65,10 @@ onUnmounted(() => {
         <li class="buttons">
           <Searchbar v-if="searchBarState" id="searchbar" class="searchbar"></Searchbar>
           <template v-if="isForumPage">
-            <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text clickable">Login</p></router-link>
-            <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text clickable">Register</p></router-link>
-            <div v-if="Authenticated"><p class="nav-text"> Welcome, {{ userName }}</p></div>
-            <div v-if="Authenticated"><p @click="handleSignOut" class="nav-text clickable">Sign out</p></div>
+            <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text clickable">Inloggen</p></router-link>
+            <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text clickable">Registeren</p></router-link>
+            <div v-if="Authenticated"><p class="nav-text"> Welkom, {{ userName }}</p></div>
+            <div v-if="Authenticated"><p @click="handleSignOut" class="nav-text clickable">Uitloggen</p></div>
           </template>
           <template v-else>
             <router-link to="/uitslagen"><p class="nav-text clickable">Uitslagen</p></router-link>

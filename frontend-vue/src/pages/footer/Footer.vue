@@ -5,11 +5,11 @@
 <template>
   <footer>
     <div class="footer-container">
-      <p>© 2024 - All rights reserved</p>
+      <p>© 2024 - Alle rechten voorbehouden</p>
       <p><a class="footer-text">Algemene voorwaarden</a></p>
       <p><a class="footer-text">Privacyverklaring</a></p>
       <p><a class="footer-text">Sitemap</a></p>
-      <p>Made with love by Team 3</p>
+      <p>Gemaakt met liefde door Team 3</p>
     </div>
   </footer>
 </template>

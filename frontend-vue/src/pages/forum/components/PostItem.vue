@@ -38,8 +38,8 @@ const renderedDescription = computed(() => {
     <div class="post-container">
       <div v-html="renderedDescription" class="post-description markdown-content"></div>
       <div class="post-info">
-        <p class="post-user">Posted by: {{ post.userName }}</p>
-        <p class="post-date">{{ post.dateCreated }}</p>
+        <p class="post-user">Gepost door: {{ post.userName }}</p>
+        <p class="post-date">op {{ post.dateCreated }}</p>
       </div>
     </div>
   </li>

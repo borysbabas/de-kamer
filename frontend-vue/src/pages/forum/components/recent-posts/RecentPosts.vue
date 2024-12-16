@@ -1,6 +1,6 @@
 <template>
   <section class="recent-posts">
-    <h1 class="recent-posts-title">Recent posts</h1>
+    <h1 class="recent-posts-title">Recente posts</h1>
     <PostList :posts="posts" />
     <Pagination :go-to-page="goToPage" :total-pages="totalPages" :current-page="currentPage" />
   </section>

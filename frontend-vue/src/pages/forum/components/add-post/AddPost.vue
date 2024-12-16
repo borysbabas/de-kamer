@@ -73,16 +73,16 @@ onMounted(() => {
 
 <template>
   <section class="main">
-    <h1>Add a new post</h1>
+    <h1>Nieuwe post</h1>
     <form @submit.prevent="addPost">
-      <input v-model="postTitle" placeholder="Title" required />
+      <input v-model="postTitle" placeholder="Titel" required />
       <textarea
         v-model="postDescription"
-        placeholder="Description"
+        placeholder="Beschrijving"
         required
       ></textarea>
       <div v-html="renderedDescription" class="markdown-content"></div>
-      <button type="submit">Add Post</button>
+      <button type="submit">Versturen</button>
     </form>
     <MarkdownMenu @updateDescription="updateDescription"></MarkdownMenu>
   </section>
