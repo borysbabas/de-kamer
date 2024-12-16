@@ -7,7 +7,6 @@ const sessionService = inject("sessionService")
 const buttonText=ref("Log in");
 const buttonColor=ref("")
 
-
 const loginCredentials = ref({
   email: "",
   password: "",

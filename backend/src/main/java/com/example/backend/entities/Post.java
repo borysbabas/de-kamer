@@ -18,7 +18,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "post_id")
-    private long postId;
+    private Long postId;
 
     @Column(name = "title")
     private String title;
@@ -31,6 +31,5 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    @JsonBackReference
     private Account id;
 }

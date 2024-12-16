@@ -30,6 +30,10 @@ public class AccountService {
         return accountRepository.findByEmail(email);
     }
 
+    public Account findById(Long id) {
+        return this.accountRepository.findById(id).orElse(null);
+    }
+
     public Account deleteById(Long id) {
         Account account = this.accountRepository.findById(id).orElse(null);
         if( account != null){

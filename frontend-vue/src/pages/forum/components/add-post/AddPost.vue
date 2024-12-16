@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {inject, ref, watch} from "vue";
+import {inject, onMounted, ref, watch} from "vue";
 import { marked } from "marked";
 import hljs from "highlight.js";
 import MarkdownMenu from "@/pages/forum/components/add-post/MarkdownMenu.vue";
@@ -15,7 +15,7 @@ const addPost = async () => {
       title: postTitle.value,
       description: postDescription.value,
     };
-    const response = await fetch("http://localhost:3001/posts", {
+    const response = await fetch(import.meta.env.VITE_API_URL + "/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,6 +28,7 @@ const addPost = async () => {
       postDescription.value = "";
       renderedDescription.value = "";
       alert("Post added successfully!");
+      window.location.href = "/forum";
     } else if (response.status === 403) {
       alert("You need to be logged in");
     } else {
@@ -61,6 +62,13 @@ watch(postDescription, (newDescription) => {
 const updateDescription = (newDescription) => {
   postDescription.value = newDescription;
 };
+onMounted(() => {
+  const token = sessionService.getTokenFromBrowserStorage();
+  if (!token) {
+    alert("You need to be logged in");
+    window.location.href = "/forum/login";
+  }
+});
 </script>
 
 <template>
