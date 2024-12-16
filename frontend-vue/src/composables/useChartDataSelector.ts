@@ -101,7 +101,6 @@ export const fetchChartData = async () => {
                         case 'Kandidaat':
                             data = []
                             await getMunicplaityVotesByCandidate(selectedOption.value[4].selected).then((result) => {
-                                console.log(result , 'result');
                                 data = result;
                             });
                             break;
@@ -116,7 +115,6 @@ export const fetchChartData = async () => {
                             data = [];
                             await getConstituencyByAffilation(selectedOption.value[3].selected).then((result) => {
                                 data = result;
-                                console.log(data, 'data');
                             });
                             break;
                         case 'Kandidaat':
@@ -138,7 +136,6 @@ export const fetchChartData = async () => {
         default:
             // data = [];
     }
-    console.log(data, 'data');
     curretDataSet.value = data;
     await setChartData();
 }
@@ -153,7 +150,6 @@ async function getVotesByAffilation(affilationName: string) {
     return await fetch("http://localhost:3001/chart/votes/" + affilationId)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data, affilationId);
             return data;
         });
 }

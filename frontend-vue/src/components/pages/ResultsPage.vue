@@ -10,9 +10,9 @@
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import Results from "@/components/Results.vue";
-import ApexChartTemplate from "@/components/tools/Apex-Chart-Template.vue";
+import ApexChartTemplate from "@/components/tools/ApexChartTemplate.vue";
 import {onMounted, ref} from "vue";
-import DataSelectorBar from "@/components/tools/Data-Selector-Bar.vue";
+import DataSelectorBar from "@/components/tools/DataSelectorBar.vue";
 
 
 let result = ref<any[]>([])

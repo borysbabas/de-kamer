@@ -10,8 +10,8 @@
 import Navbar from "@/pages/navbar/Navbar.vue";
 import Footer from "@/pages/footer/Footer.vue";
 import Results from "@/pages/results/components/Results.vue";
-import ApexChartTemplate from "@/components/tools/Apex-Chart-Template.vue";
-import DataSelectorBar from "@/components/tools/Data-Selector-Bar.vue";
+import ApexChartTemplate from "@/components/tools/ApexChartTemplate.vue";
+import DataSelectorBar from "@/components/tools/DataSelectorBar.vue";
 </script>
 
 <style scoped>

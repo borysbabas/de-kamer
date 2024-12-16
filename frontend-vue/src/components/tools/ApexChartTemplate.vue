@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import ApexCharts from 'apexcharts'
-import ApexChartInterface from "@/components/tools/chartConfig/Apex-Chart-Interface.vue";
+import ApexChartInterface from "@/components/tools/chartConfig/ApexChartInterface.vue";
 import {chartData, setChartData, sortData} from "@/composables/useChartConfig";
 import {curretDataSet} from "@/composables/useChartDataSelector";
 
@@ -83,7 +83,6 @@ onMounted(() => {
   setChartData();
   extendItemHeight();
   watch(curretDataSet, () => {
-    console.log("Data changed", curretDataSet.value);
     updateChart();
   });
 });
