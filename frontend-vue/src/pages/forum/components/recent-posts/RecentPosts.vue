@@ -42,7 +42,7 @@ async function fetchRecentPosts() {
 
 // Handle frontend functions
 function goToPage (page: number) {
-  if (page <= totalPages.value && page > 1) {
+  if (page <= totalPages.value && page >= 1) {
     currentPage.value = page;
     fetchRecentPosts();
   }
