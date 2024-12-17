@@ -40,7 +40,7 @@ import {options, selectedOption, triggerDropdown} from "@/composables/useDropdow
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: none; /* Prevent the SVG from blocking clicks */
+  pointer-events: none;
 }
 
 .dropdown-select:focus {
