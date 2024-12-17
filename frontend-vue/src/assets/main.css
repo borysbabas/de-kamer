@@ -80,8 +80,8 @@ section {
     padding: 50px var(--page-side-padding);
     position: relative;
     border-bottom: var(--light-primary) 1px solid;
-    /* 150 for top margin, 56px for footer*/
-    min-height: calc(100vh - 150px - 56px);
+    /* 150 for top margin (removed due to navbar being too high), 56px for footer*/
+    min-height: calc(100vh - 56px);
     z-index: 0;
 }
 
