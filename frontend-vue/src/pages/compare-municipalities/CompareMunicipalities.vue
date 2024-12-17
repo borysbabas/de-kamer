@@ -2,6 +2,7 @@
   <div class="municipality-comparison">
     <div class="title">
       <h2>Gemeentes vergelijk-tool</h2>
+      <img src="@/assets/svg/info.svg" alt="info icon, hover to show additional information" title='Zoek en klik twee of meer gemeentes aan die je met elkaar wilt vergelijken. Druk daarna op de "vergelijk" knop om het resultaat te zien.'>
     </div>
     <div class="municipality-selection">
       <municipality-search></municipality-search>
@@ -34,6 +35,7 @@ const cardKey = ref(0);
  */
 function renderMunicipalityCards() {
   cardKey.value++;
+  document.querySelector(".search-result")?.classList.add("hidden");
 }
 
 </script>
@@ -43,12 +45,6 @@ function renderMunicipalityCards() {
     border: 2px solid var(--light-primary);
     border-radius: 4px;
     overflow: hidden;
-  }
-
-  .title {
-    background-color: var(--dark-secondary);
-    padding: 13px 40px;
-    border-bottom: 2px solid var(--light-primary);
   }
 
   .municipality-selection {
@@ -111,5 +107,17 @@ function renderMunicipalityCards() {
 
   button:active {
     transform: scale(0.97);
+  }
+
+  .title {
+    background-color: var(--dark-secondary);
+    padding: 13px 40px;
+    border-bottom: 2px solid var(--light-primary);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .title img {
+    width: 20px;
   }
 </style>

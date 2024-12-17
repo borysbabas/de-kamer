@@ -1,6 +1,6 @@
 <template>
   <div class="search-wrapper" @focusout="focusOutside" tabindex="0" @keyup="enterPressedOnFocus">
-    <div class="searchbar" @focusin="focusIn">
+    <div class="municipality-searchbar" @focusin="focusIn">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" @click="searchbarClick">
         <path fill="#000" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
       </svg>
@@ -82,6 +82,7 @@ function focusOutside(e: FocusEvent) {
 function focusIn(e: FocusEvent) {
   const input = e.target as HTMLInputElement;
   filterInput(input.value);
+  showSearchResults();
 }
 
 /**
@@ -89,6 +90,14 @@ function focusIn(e: FocusEvent) {
  */
 function searchbarClick() {
   document.querySelector("input")?.focus();
+  showSearchResults();
+}
+
+/**
+ * Shows the search results when the user types in the input field
+ */
+function showSearchResults() {
+  document.querySelector(".search-result")?.classList.remove("hidden");
 }
 
 /**
@@ -100,13 +109,14 @@ function enterPressedOnFocus(e: KeyboardEvent) {
     const input = document.querySelector("input") as HTMLInputElement;
     input.focus();
     filterInput(input.value);
+    showSearchResults();
   }
 }
 
 </script>
 
 <style scoped>
-  .searchbar {
+  .municipality-searchbar {
     display: flex;
     gap: 10px;
     background-color: #fff;
@@ -114,12 +124,12 @@ function enterPressedOnFocus(e: KeyboardEvent) {
     border-radius: 8px 8px 0 0;
   }
 
-  .searchbar svg {
+  .municipality-searchbar svg {
     width: 25px;
     cursor: pointer;
   }
 
-  .searchbar input {
+  .municipality-searchbar input {
     border: none;
     outline: none;
     background-color: transparent;
@@ -138,6 +148,10 @@ function enterPressedOnFocus(e: KeyboardEvent) {
     background-color: #fff;
     border-radius: 0 0 8px 8px;
     padding: 10px 0;
+  }
+
+  .search-result.hidden {
+    display: none;
   }
 
   .search-result p {

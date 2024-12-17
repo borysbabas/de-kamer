@@ -20,29 +20,15 @@ onMounted(() => {
 
   <Navbar></Navbar>
   <Hero></Hero>
-  <section class="main">
+  <section>
     <AboutUs></AboutUs>
   </section>
-  <section class="last main">
+  <section>
     <Graph></Graph>
   </section>
   <Footer></Footer>
 </template>
 
 <style scoped>
-.main {
-  min-height: calc(100vh - 150px);
-  object-fit: cover;
-  background-color: var(--dark-primary);
-  color: var(--light-primary);
-  padding: 0 var(--page-padding);
-  position: relative;
-  border-bottom: var(--light-primary) 1px solid;
-  z-index: 0;
-}
 
-.last {
-  padding-bottom: 50px;
-  border-bottom: none;
-}
 </style>

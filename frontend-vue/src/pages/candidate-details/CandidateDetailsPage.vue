@@ -1,13 +1,13 @@
 <template>
   <Navbar></Navbar>
-  <section class="main">
+  <section>
     <div class="container">
       <div class="wrapper">
-        <H1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
-          {{ fetchedData.lastName }}</H1>
-        <H2 v-if="fetchedData.gender !== ``">geslacht: {{ fetchedData.gender }}</H2>
-        <H2>Totaal aantal stemmen op {{ fetchedData.name }}: {{ fetchedData.votes }}</H2>
-        <H2>Partij: {{ fetchedData.affiliationName }}</H2>
+        <h1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
+          {{ fetchedData.lastName }}</h1>
+        <h2 v-if="fetchedData.gender !== ``">geslacht: {{ fetchedData.gender }}</h2>
+        <h2>Totaal aantal stemmen op {{ fetchedData.name }}: {{ fetchedData.votes }}</h2>
+        <h2>Partij: {{ fetchedData.affiliationName }}</h2>
         <div
             id="chart1"
             class="apex-chart"
@@ -31,6 +31,12 @@ import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import ApexCharts from "apexcharts";
 
+const props = defineProps({
+  candidateId: {
+    type: String,
+    required: false
+  }
+});
 
 const route = useRoute();
 const candidateId = ref(null);
@@ -105,7 +111,7 @@ const chartOptions2 = ref({
   series: [
     {
       name: "Data",
-      type: "bar",
+      // type: "bar",
       data: [{x: "test", y: 1}, {x: "test2", y: 2}]
     }
   ],
@@ -178,7 +184,6 @@ async function fetchMunicipalityData() {
         import.meta.env.VITE_API_URL + `/get-municipality-votes-by-candidateId/${candidateId.value}`
     );
     const json = await response.json();
-console.log(json);
    let municipalityData = json.map((item) => {
       return {
         x: item.municipalityName,
@@ -233,19 +238,7 @@ watch(
 
 
 <style scoped>
-.main {
-  object-fit: cover;
-  background-color: var(--dark-primary);
-  color: var(--light-primary);
-  padding: 0 var(--page-padding);
-  position: relative;
-  z-index: 0;
-  min-height: 100vh;
-  overflow: hidden;
-}
-.container {
-  padding-top: 160px;
-}
+
 </style>
 
 // https://apexcharts.com/vue-chart-demos/line-charts/brush-chart/

@@ -28,4 +28,13 @@ public class ConstituencyVotes {
 
     @Column(name = "total_votes")
     private Long totalVotes;
+
+    public ConstituencyVotes() {
+    }
+
+    public ConstituencyVotes(Affiliation affiliation, Constituency constituency, Long totalVotes) {
+        this.affiliation = affiliation;
+        this.constituency = constituency;
+        this.totalVotes = totalVotes;
+    }
 }

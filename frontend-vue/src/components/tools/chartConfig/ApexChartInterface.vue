@@ -2,7 +2,7 @@
   <div class="interface-background">
     <div class="interface-layers">
       <div
-          v-for="(item, key) in chartData[0]?.data"
+          v-for="(item, key) in chartData?.data"
           :key="key"
           class="items"
       > {{ item.x || "Unknown" }}
@@ -43,18 +43,17 @@ function select(index: number, x: string, id: number) {
   flex-direction: column;
   background-color: var(--dark-primary);
   color: var(--light-primary);
-  padding: 20px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding: 20px 30px;
   border-radius: 10px;
   margin-top: 10px;
 }
 .interface-layers {
   background: var(--light-primary);
   padding: 10px;
-  height: 100%;
   width: 100%;
   border-radius: 10px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 .items {
   color: black;

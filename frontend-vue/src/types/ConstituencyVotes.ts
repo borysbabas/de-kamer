@@ -2,7 +2,7 @@ export type ConstituencyVotes = {
     constituencyName: string;
     affiliationName: string;
     candidateName: string;
-    constituencyVotes: number;
+    totalVotes: number;
     constituencyId: number;
     affiliationId: number;
     candidateId: number;

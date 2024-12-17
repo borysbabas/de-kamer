@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.entities.Constituency;
 import com.example.backend.entities.Municipality;
 import com.example.backend.repositories.MunicipalityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,14 @@ public class MunicipalityService {
     }
 
     public List<Municipality> getAllMunicipalities() {
-        return municipalityRepository.findAllAndSort();
+        return municipalityRepository.findAllByOrderByMunicipalityNameAsc();
     }
 
     public Municipality getMunicipalityByMunicipalityId(long id) {
         return this.municipalityRepository.getMunicipalitiesByMunicipalityId(id);
+    }
+
+    public List<Municipality> getMunicipalitiesByConstituency(Constituency constituency) {
+        return this.municipalityRepository.getMunicipalitiesByConstituency(constituency);
     }
 }

@@ -31,19 +31,7 @@ public class AffiliationController {
 
     @GetMapping(path = ApiPaths.AFFILIATION_SERVICE_MEMBER_COUNT)
     public List<MemberCountModel> getAllMemberCount() {
-        List<MemberCountModel> memberCountModels = new ArrayList<>();
-        List<Affiliation> affiliations = affiliationService.getAllAffiliations();
-
-		for (Affiliation affiliation : affiliations) {
-            MemberCountModel memberCountModel = new MemberCountModel();
-			memberCountModel.setAffiliationName(affiliation.getAffiliationName());
-            memberCountModel.setMemberCount(
-                    candidateService.countDistinctCandidatesByAffiliation(affiliation)
-            );
-
-			memberCountModels.add(memberCountModel);
-		}
-        return memberCountModels;
+        return affiliationService.getMemberCount();
     }
     @GetMapping(path = ApiPaths.AFFILIATION_SERVICE_GETBYNAME)
     public AffiliationNameModel getAffiliationByName(@PathVariable String name) {

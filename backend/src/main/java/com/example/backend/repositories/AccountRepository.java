@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 public interface AccountRepository extends JpaRepository<Account,Long> {
-//    @Query("SELECT a FROM Account a WHERE a.email = :email")
     List<Account>findByEmail(String email);
     List<Account> findAccountById(Long id);
     void deleteAccountById(Long id);
