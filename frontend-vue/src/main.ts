@@ -16,7 +16,6 @@ import SitemapPage from "@/pages/sitemap/SitemapPage.vue";
 import AccountDetailsPage from "@/pages/account-details/AccountDetailsPage.vue";
 
 const sessionsService = inject("sessionService")
-//test
 const router: Router = createRouter({
     history: createWebHistory(),
     routes: [
