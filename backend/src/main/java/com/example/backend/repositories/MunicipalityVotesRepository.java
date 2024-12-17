@@ -29,8 +29,8 @@ public interface MunicipalityVotesRepository extends JpaRepository<MunicipalityV
     List<MunicipalityAffiliationVotesModel> getMunicipalityAffiliationVotes(long municipalityId);
 
     Optional<MunicipalityVotes> findTopByMunicipalityMunicipalityIdOrderByTotalVotesDesc(Long municipalityId);
-    List<MunicipalityVotes> findAllByMunicipalityMunicipalityIdOrderByTotalVotesDesc(Long municipalityId);
 
+    List<MunicipalityVotes> findAllByAffiliationAffiliationId(long affiliationId);
 
     @Query("SELECT COUNT(mv) " +
             "FROM MunicipalityVotes mv " +

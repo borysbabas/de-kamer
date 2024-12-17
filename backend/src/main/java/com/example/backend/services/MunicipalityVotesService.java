@@ -4,6 +4,7 @@ import com.example.backend.entities.Municipality;
 import com.example.backend.entities.MunicipalityVotes;
 import com.example.backend.models.MunicipalityAffiliationVotesModel;
 import com.example.backend.models.MunicipalityVoteModel;
+import com.example.backend.models.MunicipalityVotesModel;
 import com.example.backend.repositories.MunicipalityVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,8 @@ public class MunicipalityVotesService {
         return municipalityVotesRepository.findTopByMunicipalityMunicipalityIdOrderByTotalVotesDesc(municipalityId).orElse(null);
     }
     public List<MunicipalityVoteModel>getMunicipalitiesByAffiliationId(Long affiliationId) {
-        return municipalityVotesRepository.findAllByAffiliationAffiliationId(affiliationId);
+        return municipalityVotesRepository.findAllByAffiliationAffiliationId(affiliationId)
+                .stream().map(MunicipalityVoteModel::new).toList();
     }
 
     public int getMunicipalityVotesCountByMunicipality(Municipality municipality) {
