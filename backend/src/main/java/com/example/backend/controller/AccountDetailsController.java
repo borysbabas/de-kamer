@@ -10,10 +10,12 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.SignatureException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -56,6 +58,31 @@ public class AccountDetailsController {
         return false;
 
     }
+    @PutMapping(path= ApiPaths.ACCOUNTDETAILS_SERVICE_UPDATE)
+    public ResponseEntity<?> updateUserDetails(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = true) String authorizationHeader,@PathVariable(value = "id", required = true)Long id, @RequestBody Map<String, String> payload){
+        String field = payload.get("field");
+        String value = payload.get("value");
+        try{
+            String token = authorizationHeader.substring(7);
+            String issuer = this.apiConfig.getIssuer();
+            String passPhrase = this.apiConfig.getPassphrase();
+            JWToken jwt = JWToken.decode(token, issuer, passPhrase);
+            if (Objects.equals(jwt.getAccountId(), id)) {
+                accountService.updateAccount(id,field,value);
+                return ResponseEntity.ok("Account succesfully updated");
+            }
+
+        } catch (ExpiredJwtException e) {
+            System.out.println("Token has expired" + e.getMessage());
+
+        } catch (MalformedJwtException e) {
+            System.out.println("Token is invalid!" + e.getMessage());
+
+        }
+        return ResponseEntity.status(500).body("Interne serverfout");
+
+    }
+
 
 
 }

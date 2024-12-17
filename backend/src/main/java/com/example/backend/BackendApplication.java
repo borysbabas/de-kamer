@@ -29,16 +29,6 @@ public class BackendApplication {
 
     public static void main(String[] args) throws XMLStreamException, FileNotFoundException {
         ApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);
-        String issuer = "private company";
-        String passphrase = "secretPassphrase"; // Dit kan een langere passphrase zijn
-        String role = "user"; // Dit kan 'admin' zijn voor adminrechten
-
-        String callName = "gebruikertest";
-        Long accountId= 1L;
-
-        JWToken token = new JWToken(callName, accountId,role);
-        String jwtToken = token.encode(issuer, passphrase, 3600);
-        System.out.println(jwtToken);
 
         if (!RUN_PARSER) {
             return;

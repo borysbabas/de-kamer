@@ -3,7 +3,7 @@
 import {computed, inject, onMounted, ref} from "vue";
 
 //api
-const api =import.meta.env.VITE_API_URL
+const api = import.meta.env.VITE_API_URL
 const sessionService: any = inject("sessionService")
 
 
@@ -15,16 +15,56 @@ const userID = JSON.parse(atob(sessionService.getTokenFromBrowserStorage().split
 /**
  * private variables
  */
+//fetched data variables
 const fetchedEmail = ref("");
 const fetchedUsername = ref("")
 const fetchedPassword = ref("")
-const fetchedDateOfBirth= ref("")
+const fetchedDateOfBirth = ref("")
+
+const userInputPopUp = ref("");
 const requiredfetchedData = ref("")
+//checks whether popup is enabled
 let isPopUpVisible = ref(false)
 const selectedSubject = ref("")
+const selectedSubjectTranslated = ref("")
 const changeEmailString = computed(() => {
   return `verander uw ${selectedSubject.value}`
 })
+
+async function updateAccountCredentials() {
+  if(selectedSubject.value==="email"){
+    selectedSubjectTranslated.value="email"
+  }
+  if (selectedSubject.value === "gebruikersnaam") {
+    selectedSubjectTranslated.value = "userName"
+  } else if (selectedSubject.value === "geboortedatum") {
+    selectedSubjectTranslated.value = "dateOfBirth"
+  } else if (selectedSubject.value === "wachtwoord") {
+    selectedSubjectTranslated.value = "password"
+  }
+  try {
+    console.log(selectedSubjectTranslated.value)
+    const response = await fetch(api + `/accountdetails/update/${userID}`, {
+          method: "PUT",
+          headers: {"Authorization": "Bearer " + sessionService.getTokenFromBrowserStorage(),
+          "Content-type": "application/json"},
+          body: JSON.stringify({
+            field: selectedSubjectTranslated.value,
+            value: userInputPopUp.value
+          })
+        }
+    )
+    if (response.ok){
+      alert(`${selectedSubject.value} is succesvol bijgewerkt`)
+      window.location.reload()
+    }else{
+      console.error("Fout bij het updaten van gegevens", response.status)
+    }
+  }catch (error){
+    console.error(error)
+  }
+}
+
 
 /**
  * function to delete a user once the prompt is selected.
@@ -32,9 +72,9 @@ const changeEmailString = computed(() => {
  * be prefixed with intended Bearer<space> prefix.
  *
  */
-async function deleteAccount(){
- const confirmed = window.confirm("weet je dit zeker? je staat op het punt je account te verwijderen.")
-  if (confirmed){
+async function deleteAccount() {
+  const confirmed = window.confirm("weet je dit zeker? je staat op het punt je account te verwijderen.")
+  if (confirmed) {
     try {
       const response = await fetch(api + `/accountdetails/delete/user/${userID}`, {
         method: "DELETE",
@@ -49,54 +89,53 @@ async function deleteAccount(){
       } else {
         console.log("error")
       }
-    }catch (e) {
+    } catch (e) {
       console.log("error", e)
 
     }
   }
 }
+
 /**
  * handles the button click
  * @param selectedSubjectParam defines which part of the account is being changed
  */
 function handleBtnClick(selectedSubjectParam: any) {
-  isPopUpVisible.value=true
+  isPopUpVisible.value = true
   switch (selectedSubjectParam) {
     case "email":
       selectedSubject.value = "email";
-      requiredfetchedData.value=fetchedEmail;
+      requiredfetchedData.value = fetchedEmail;
       break;
     case "username":
       selectedSubject.value = "gebruikersnaam";
-      requiredfetchedData.value=fetchedUsername;
+      requiredfetchedData.value = fetchedUsername;
       break;
     case "password":
       selectedSubject.value = "wachtwoord";
-      requiredfetchedData.value=fetchedPassword;
+      requiredfetchedData.value = fetchedPassword;
       break;
     case "dateOfBirth":
       selectedSubject.value = "geboortedatum";
-      requiredfetchedData.value=fetchedDateOfBirth;
+      requiredfetchedData.value = fetchedDateOfBirth;
       break;
   }
 
 }
-onMounted(async ()=>{
-  try{
-  const response = await fetch(api+`/accountdetails/${userID}`)
-    if(response.ok){
+
+onMounted(async () => {
+  try {
+    const response = await fetch(api + `/accountdetails/${userID}`)
+    if (response.ok) {
       const userData = await response.json();
-      fetchedEmail.value=userData.email;
-      fetchedUsername.value=userData.userName;
-      fetchedPassword.value=userData.password;
-      fetchedDateOfBirth.value=userData.dateOfBirth;
-
-
-
+      fetchedEmail.value = userData.email;
+      fetchedUsername.value = userData.userName;
+      fetchedPassword.value = userData.password;
+      fetchedDateOfBirth.value = userData.dateOfBirth;
 
 
     }
-  }catch(error){
+  } catch (error) {
     console.error("Error fetching user details", error)
   }
 })
@@ -107,9 +146,9 @@ onMounted(async ()=>{
     <div class="popup-wrapper">
       <div class="popup-container">
         <button @click="isPopUpVisible=false" class="close-btn">X</button>
-        <h3 class="popup-p">Huidige {{ selectedSubject }} : {{requiredfetchedData}} </h3>
-        <input class="popup-input" :placeholder="changeEmailString">
-        <button>bevestigen</button>
+        <h3 class="popup-p">Huidige {{ selectedSubject }} : {{ requiredfetchedData }} </h3>
+        <input required v-model="userInputPopUp" class="popup-input" :placeholder="changeEmailString">
+        <button @click="updateAccountCredentials">bevestigen</button>
       </div>
     </div>
   </section>
@@ -118,25 +157,25 @@ onMounted(async ()=>{
       <h1>Account details</h1>
       <div class="container">
         <div class="box">
-          email: {{fetchedEmail}}
+          email: {{ fetchedEmail }}
           <div class="box-button">
             <button @click="handleBtnClick('email')">wijzig</button>
           </div>
         </div>
         <div class="box">
-          gebruikersnaam: {{fetchedUsername}}
+          gebruikersnaam: {{ fetchedUsername }}
           <div class="box-button">
             <button @click="handleBtnClick('username')">wijzig</button>
           </div>
         </div>
         <div class="box">
-          wachtwoord: {{fetchedPassword}}
+          wachtwoord: {{ fetchedPassword }}
           <div class="box-button">
             <button @click="handleBtnClick('password')">wijzig</button>
           </div>
         </div>
         <div class="box">
-          geboortedatum: {{fetchedDateOfBirth}}
+          geboortedatum: {{ fetchedDateOfBirth }}
           <div class="box-button">
             <button @click="handleBtnClick('dateOfBirth')">wijzig</button>
           </div>
@@ -156,11 +195,12 @@ onMounted(async ()=>{
 </template>
 
 <style scoped>
-.popup-p{
+.popup-p {
   color: var(--dark-secondary); /* Dark text for the paragraph */
   margin-bottom: 15px;
 }
-.popup-input{
+
+.popup-input {
   width: 80%;
   padding: 10px;
   margin-bottom: 15px;
@@ -169,7 +209,8 @@ onMounted(async ()=>{
   background-color: #fff;
   color: var(--dark-secondary);
 }
-.popup-container{
+
+.popup-container {
   background-color: var(--light-primary); /* Light primary background */
 
   display: flex;
@@ -178,6 +219,7 @@ onMounted(async ()=>{
   align-items: center;
   height: 100%;
 }
+
 .close-btn {
   position: absolute;
   top: 5px;
