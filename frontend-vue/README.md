@@ -5,10 +5,9 @@ representation along with explanations of the folder purpose:
 
 ---
 
-## **Tree Structure**
+## **Tree Structure | Frontend**
 
 ```plaintext
-.
 ├── Dockerfile
 │   * Instructions for building a Docker image.
 ├── README.md
@@ -176,3 +175,128 @@ representation along with explanations of the folder purpose:
 - `App.vue`: Root application component.
 - `main.ts`: Entry point where Vue and plugins are initialized.
 - `shims-vue.d.ts`: TypeScript support for Vue single-file components.
+
+### 3. **Tree structure | Backend**
+
+```plaintext
+├── Dockerfile
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── example
+│   │   │           └── backend
+│   │   │               ├── BackendApplication.java
+│   │   │               ├── DTO
+│   │   │               │   ├── AccountDTO.java
+│   │   │               │   ├── AffiliationDTO.java
+│   │   │               │   └── CandidateDTO.java
+│   │   │               ├── authentication
+│   │   │               │   ├── JWTRequestFilter.java
+│   │   │               │   └── JWToken.java
+│   │   │               ├── config
+│   │   │               │   ├── ApiConfig.java
+│   │   │               │   └── ApiPaths.java
+│   │   │               ├── controller
+│   │   │               │   ├── AffiliationController.java
+│   │   │               │   ├── AuthenticationController.java
+│   │   │               │   ├── CandidateController.java
+│   │   │               │   ├── ConstituencyController.java
+│   │   │               │   ├── DatabaseController.java
+│   │   │               │   ├── MunicipalityController.java
+│   │   │               │   ├── MunicipalityVotesController.java
+│   │   │               │   ├── PostController.java
+│   │   │               │   └── VotesController.java
+│   │   │               ├── entities
+│   │   │               │   ├── Account.java
+│   │   │               │   ├── Affiliation.java
+│   │   │               │   ├── AffiliationVotes.java
+│   │   │               │   ├── Candidate.java
+│   │   │               │   ├── Constituency.java
+│   │   │               │   ├── ConstituencyVotes.java
+│   │   │               │   ├── CountryVotes.java
+│   │   │               │   ├── Municipality.java
+│   │   │               │   ├── MunicipalityVotes.java
+│   │   │               │   ├── PollingStation.java
+│   │   │               │   ├── PollingStationVotes.java
+│   │   │               │   └── Post.java
+│   │   │               ├── models
+│   │   │               │   ├── AffiliationNameModel.java
+│   │   │               │   ├── AffiliationVotesModel.java
+│   │   │               │   ├── CandidateVotesModel.java
+│   │   │               │   ├── ConstituencyModel.java
+│   │   │               │   ├── ConstituencyVotesModel.java
+│   │   │               │   ├── MemberCountModel.java
+│   │   │               │   ├── MunicipalityAffiliationVotesModel.java
+│   │   │               │   ├── MunicipalityIdModel.java
+│   │   │               │   ├── MunicipalityModel.java
+│   │   │               │   ├── MunicipalityVoteModel.java
+│   │   │               │   ├── MunicipalityVotesModel.java
+│   │   │               │   ├── PostModel.java
+│   │   │               │   ├── RegionModel.java
+│   │   │               │   ├── VoteModel.java
+│   │   │               │   └── XmlFileModel.java
+│   │   │               ├── repositories
+│   │   │               │   ├── AccountRepository.java
+│   │   │               │   ├── AffiliationRepository.java
+│   │   │               │   ├── AffiliationVotesRepository.java
+│   │   │               │   ├── CandidateRepository.java
+│   │   │               │   ├── ConstituencyRepository.java
+│   │   │               │   ├── ConstituencyVotesRepository.java
+│   │   │               │   ├── CountryVotesRepository.java
+│   │   │               │   ├── MunicipalityRepository.java
+│   │   │               │   ├── MunicipalityVotesRepository.java
+│   │   │               │   ├── PollingStationRepository.java
+│   │   │               │   ├── PollingStationVotesRepository.java
+│   │   │               │   └── PostRepository.java
+│   │   │               ├── services
+│   │   │               │   ├── AccountService.java
+│   │   │               │   ├── AffiliationService.java
+│   │   │               │   ├── AffiliationVotesService.java
+│   │   │               │   ├── CandidateService.java
+│   │   │               │   ├── ConstituencyService.java
+│   │   │               │   ├── ConstituencyVotesService.java
+│   │   │               │   ├── CountryVotesService.java
+│   │   │               │   ├── MunicipalityService.java
+│   │   │               │   ├── MunicipalityVotesService.java
+│   │   │               │   ├── PollingStationService.java
+│   │   │               │   ├── PollingStationVotesService.java
+│   │   │               │   └── PostService.java
+│   │   │               ├── utils
+│   │   │               │   ├── NotAcceptableException.java
+│   │   │               │   ├── ResourceNotFoundException.java
+│   │   │               │   ├── TwoKeyHashMap.java
+│   │   │               │   └── UnAuthorizedException.java
+│   │   │               └── xmlreader
+│   │   │                   ├── FileDiscovery.java
+│   │   │                   ├── XMLTagNames.java
+│   │   │                   ├── XmlCandidateListReader.java
+│   │   │                   ├── XmlConstituencyVotesReader.java
+│   │   │                   ├── XmlElectionTreeReader.java
+│   │   │                   ├── XmlFileTypeAssertion.java
+│   │   │                   ├── XmlMunicipalityVotesReader.java
+│   │   │                   ├── XmlStreamReaderV1.java
+│   │   │                   └── XmlTotalCountReader.java
+│   │   └── resources
+│   │       ├── application-development.properties
+│   │       ├── application-production.properties
+│   │       └── application.properties
+│   └── test
+│       └── java
+│           └── com
+│               └── example
+│                   └── backend
+│                       └── BackendApplicationTests.java
+└── target
+├── classes
+│   └── (compiled files for `src/main`)
+├── generated-sources
+│   └── annotations
+├── generated-test-sources
+│   └── test-annotations
+└── test-classes
+└── (compiled test files)
+```
