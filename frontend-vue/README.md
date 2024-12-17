@@ -150,7 +150,7 @@ representation along with explanations of the folder purpose:
 
 ---
 
-## **Categorization Explanation**
+## **Frontend structure**
 
 ### 1. **Top-Level Folders:**
 
@@ -300,3 +300,80 @@ representation along with explanations of the folder purpose:
 └── test-classes
 └── (compiled test files)
 ```
+
+## **Backend Structure**
+
+### 1. **Top-Level Folders**
+
+- **`/src/`**: Core source folder containing all backend logic and configurations. Organized as follows:
+- **`/dist/`**: Compiled output files after running the build process.
+- **`/node_modules/`**: External dependencies managed by npm/yarn.
+- **`/config/`**: Global configuration files, environment variables, and constants.
+- **`.env`**: Contains sensitive configuration data (e.g., database URLs, API keys).
+
+---
+
+### 2. **Source (`/src/`)**
+
+#### **Controllers (`/controllers/`)**
+Handles incoming HTTP requests and connects to the relevant services:
+- **`authController.ts`**: Manages user authentication (login, logout, registration).
+- **`userController.ts`**: Handles user CRUD operations.
+- **`projectController.ts`**: Manages project-related endpoints and actions.
+
+#### **Services (`/services/`)**
+Implements business logic and acts as a bridge between controllers and models:
+- **`authService.ts`**: Handles login logic, token generation, and validation.
+- **`userService.ts`**: Implements logic for user management.
+- **`projectService.ts`**: Business logic for handling projects.
+
+#### **Models (`/models/`)**
+Defines database schemas or data structures:
+- **`User.ts`**: Defines the database structure and relationships for users.
+- **`Project.ts`**: Schema for project management.
+
+#### **Routes (`/routes/`)**
+Maps API endpoints to corresponding controllers:
+- **`authRoutes.ts`**: Routes for authentication (e.g., `/login`, `/register`).
+- **`userRoutes.ts`**: Endpoints for user actions (e.g., `/users/:id`).
+- **`projectRoutes.ts`**: Routes for managing project data.
+
+#### **Middleware (`/middleware/`)**
+Reusable functions that execute before controllers:
+- **`authMiddleware.ts`**: Validates JWT tokens for protected routes.
+- **`errorHandler.ts`**: Global error-handling middleware for consistent responses.
+
+#### **Configuration (`/config/`)**
+Stores configuration settings:
+- **`database.ts`**: Sets up the database connection (e.g., using MongoDB, PostgreSQL).
+- **`server.ts`**: General server settings (port, CORS, rate limiting).
+
+#### **Utilities (`/utils/`)**
+Reusable helper functions:
+- **`jwtHelper.ts`**: Functions for signing, verifying, and decoding JWT tokens.
+- **`errorUtils.ts`**: Custom error classes and message formatting.
+
+---
+
+### 3. **Entry Points**
+
+- **`server.ts`**: Initializes the server, connects to the database, and sets up middleware and routes.
+- **`app.ts`**: Main application file where routes, middleware, and services are registered.
+
+---
+
+### 4. **Environment Configuration**
+
+- **`.env`**: Contains environment variables like:
+    - `DB_URI`: Database connection string.
+    - `PORT`: Server port.
+    - `JWT_SECRET`: Secret key for signing JWTs.
+- **`.env.example`**: Template for required environment variables.
+
+---
+
+### 5. **Build and Deployment**
+
+- **`/dist/`**: Compiled output ready for production deployment.
+- **`tsconfig.json`**: TypeScript compiler configuration.
+- **`package.json`**: Project metadata, scripts, and dependencies.
