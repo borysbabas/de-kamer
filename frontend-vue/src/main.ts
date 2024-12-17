@@ -10,6 +10,9 @@ import RegisterPage from "@/pages/register/RegisterPage.vue";
 import CandidateDetailsPage from "@/pages/candidate-details/CandidateDetailsPage.vue";
 import ForumPage from "@/pages/forum/ForumHome.vue";
 import PartyDetailsPage from "@/pages/party-details/PartyDetailsPage.vue";
+import TermsOfServicePage from "@/pages/terms-of-service/TermsOfServicePage.vue";
+import PrivacyPolicyPage from "@/pages/privacy-policy/PrivacyPolicyPage.vue";
+import SitemapPage from "@/pages/sitemap/SitemapPage.vue";
 
 const router: Router = createRouter({
     history: createWebHistory(),
@@ -21,6 +24,9 @@ const router: Router = createRouter({
         {path: "/forum/register", component: RegisterPage, name: "Register"},
         {path: "/candidate/:candidateId", name: "CandidateDetails", component: CandidateDetailsPage, props: true},
         {path: '/party/:partyId', name: 'PartyDetails', component: PartyDetailsPage},
+        {path: "/algemene-voorwaarden", name: "TermsOfService", component: TermsOfServicePage},
+        {path: "/privacyverklaring", name:"PrivacyPolicy", component: PrivacyPolicyPage},
+        {path: "/sitemap", name: "Sitemap", component: SitemapPage},
     ]
 })
 
