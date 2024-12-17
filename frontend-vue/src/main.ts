@@ -13,6 +13,7 @@ import PartyDetailsPage from "@/pages/party-details/PartyDetailsPage.vue";
 import TermsOfServicePage from "@/pages/terms-of-service/TermsOfServicePage.vue";
 import PrivacyPolicyPage from "@/pages/privacy-policy/PrivacyPolicyPage.vue";
 import SitemapPage from "@/pages/sitemap/SitemapPage.vue";
+import AccountDetailsPage from "@/pages/account-details/AccountDetailsPage.vue";
 
 const sessionsService = inject("sessionService")
 const router: Router = createRouter({
