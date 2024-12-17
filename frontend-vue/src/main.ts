@@ -11,12 +11,14 @@ import CandidateDetailsPage from "@/pages/candidate-details/CandidateDetailsPage
 import ForumPage from "@/pages/forum/pages/ForumHome.vue";
 import PartyDetailsPage from "@/pages/party-details/PartyDetailsPage.vue";
 import AddPostPage from "@/pages/forum/pages/AddPostPage.vue";
+import InfoPage from "@/pages/info/InfoPage.vue";
 
 const router: Router = createRouter({
     history: createWebHistory(),
     routes: [
         {path: "/", component: HomePage, name: "Home"},
         {path: "/uitslagen", component: ResultsPage, name: "Results"},
+        {path: "/info", component: InfoPage, name: "Info"},
         {path: "/forum", component: ForumPage, name: "Forum"},
         {path: "/forum/login", component: LoginPage, name: "Login"},
         {path: "/forum/register", component: RegisterPage, name: "Register"},
