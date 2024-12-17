@@ -17,6 +17,7 @@ import AccountDetailsPage from "@/pages/account-details/AccountDetailsPage.vue";
 
 const sessionsService = inject("sessionService")
 const router: Router = createRouter({
+    //test
     history: createWebHistory(),
     routes: [
         {path: "/", component: HomePage, name: "Home"},
