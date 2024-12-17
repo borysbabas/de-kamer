@@ -10,6 +10,13 @@
     --animation-duration: 0.3s;
     --page-side-padding: 128px;
     --page-top-padding: 150px;
+    --code-bg: #2b2b2b;
+    --code-color: #74c785;
+    --pre-bg: #2b2b2b;
+    --blockquote-border: #E74C3C;
+    --blockquote-bg: #1b2731;
+    --table-border: #E74C3C;
+    --table-header-bg: #212D39;
 }
 
 body {
@@ -41,6 +48,11 @@ h2 {
     font-weight: normal;
 }
 
+h3 {
+    font-size: 22px;
+    font-weight: normal;
+}
+
 p {
     font-size: 16px;
     font-weight: normal;
@@ -54,6 +66,16 @@ a {
     text-align: justify;
     font-weight: normal;
     position: relative;
+}
+
+input:not(.searchbar-container input), button, select, textarea {
+    font: var(--font);
+    font-size: 16px;
+    font-weight: normal;
+    padding: 10px;
+    border: 1px solid var(--dark-primary);
+    border-radius: 5px;
+    margin: 10px 0;
 }
 
 strong {
@@ -159,7 +181,7 @@ section.login {
     :root {
         --page-side-padding: 64px;
     }
-    
+
 }
 
 @media only screen and (max-width: 768px) {

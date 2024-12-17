@@ -32,8 +32,8 @@ const changeEmailString = computed(() => {
 })
 
 async function updateAccountCredentials() {
-  if(selectedSubject.value==="email"){
-    selectedSubjectTranslated.value="email"
+  if (selectedSubject.value === "email") {
+    selectedSubjectTranslated.value = "email"
   }
   if (selectedSubject.value === "gebruikersnaam") {
     selectedSubjectTranslated.value = "userName"
@@ -45,21 +45,23 @@ async function updateAccountCredentials() {
   try {
     const response = await fetch(api + `/accountdetails/update/${userID}`, {
           method: "PUT",
-          headers: {"Authorization": "Bearer " + sessionService.getTokenFromBrowserStorage(),
-          "Content-type": "application/json"},
+          headers: {
+            "Authorization": "Bearer " + sessionService.getTokenFromBrowserStorage(),
+            "Content-type": "application/json"
+          },
           body: JSON.stringify({
             field: selectedSubjectTranslated.value,
             value: userInputPopUp.value
           })
         }
     )
-    if (response.ok){
+    if (response.ok) {
       alert(`${selectedSubject.value} is succesvol bijgewerkt`)
       window.location.reload()
-    }else{
+    } else {
       console.error("Fout bij het updaten van gegevens", response.status)
     }
-  }catch (error){
+  } catch (error) {
     console.error(error)
   }
 }
@@ -143,7 +145,8 @@ onMounted(async () => {
     <div class="popup-wrapper">
       <div class="popup-container">
         <button @click="isPopUpVisible=false" class="close-btn">X</button>
-        <h3 class="popup-p">{{ selectedSubject != "wachtwoord" ? "Huidige" : "" }} {{ selectedSubject }} : {{ selectedSubject != "wachtwoord" ? requiredfetchedData : "" }} </h3>
+        <h3 class="popup-p">{{ selectedSubject != "wachtwoord" ? "Huidige" : "" }} {{ selectedSubject }} :
+          {{ selectedSubject != "wachtwoord" ? requiredfetchedData : "" }} </h3>
         <input required v-model="userInputPopUp" class="popup-input" :placeholder="changeEmailString">
         <button @click="updateAccountCredentials">bevestigen</button>
       </div>
