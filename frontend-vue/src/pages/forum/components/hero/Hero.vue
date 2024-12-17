@@ -12,7 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="first main">
+  <section class="top-posts">
     <div class="top-posts">
       <h1 class="top-posts-title">Top Posts</h1>
       <PostList :posts="posts"/>
@@ -22,18 +22,9 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-.main {
-  min-height: calc(100vh - 150px);
-  object-fit: cover;
-  background-color: var(--dark-primary);
-  color: var(--light-primary);
-  padding: 0 var(--page-padding);
-  position: relative;
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 0;
+.top-posts {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .top-posts-title {

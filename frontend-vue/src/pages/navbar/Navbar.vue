@@ -14,10 +14,10 @@ const toggleSearchBar = () => {
 
 //services
 const sessionService = inject("sessionService")
-const userName =ref(sessionService.getUsernameFormBrowserStorage())
-const Authenticated= ref(sessionService.getTokenFromBrowserStorage())
+const userName = ref(sessionService.getUsernameFormBrowserStorage())
+const Authenticated = ref(sessionService.getTokenFromBrowserStorage())
 
-function handleSignOut(){
+function handleSignOut() {
   sessionService.clearToken()
   sessionService.clearUserName()
   window.location.reload()
@@ -60,9 +60,11 @@ onUnmounted(() => {
         <li class="buttons">
           <template v-if="isForumPage">
             <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text clickable">Login</p></router-link>
-            <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text clickable">Register</p></router-link>
-            <router-link to="/forum/account-details" v-if="Authenticated"><p class="nav-text clickable"> Welkom, {{ userName }}</p></router-link>
-            <div v-if="Authenticated"><p @click="handleSignOut" class="nav-text clickable">Sign out</p></div>
+            <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text clickable">Register</p>
+            </router-link>
+            <router-link to="/forum/account-details" v-if="Authenticated"><p class="nav-text clickable"> Welkom,
+              {{ userName }}</p></router-link>
+            <div v-if="Authenticated"><p @click="handleSignOut" class="nav-text clickable">Uitloggen</p></div>
           </template>
           <template v-else>
             <router-link to="/uitslagen"><p class="nav-text clickable">Uitslagen</p></router-link>
@@ -153,7 +155,8 @@ ul {
   font-size: 20px;
   cursor: pointer;
 }
-.clickable{
+
+.clickable {
   cursor: pointer;
 }
 

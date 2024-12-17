@@ -1,8 +1,8 @@
 <template>
   <section class="recent-posts">
     <h1 class="recent-posts-title">Recente posts</h1>
-    <PostList :posts="posts" />
-    <Pagination :go-to-page="goToPage" :total-pages="totalPages" :current-page="currentPage" />
+    <PostList :posts="posts"/>
+    <Pagination :go-to-page="goToPage" :total-pages="totalPages" :current-page="currentPage"/>
   </section>
 </template>
 
@@ -41,12 +41,13 @@ async function fetchRecentPosts() {
 }
 
 // Handle frontend functions
-function goToPage (page: number) {
+function goToPage(page: number) {
   if (page <= totalPages.value && page >= 1) {
     currentPage.value = page;
     fetchRecentPosts();
   }
 }
+
 onMounted(() => {
   fetchPostsCount();
   fetchRecentPosts();
@@ -59,7 +60,7 @@ onMounted(() => {
   object-fit: cover;
   background-color: var(--dark-primary);
   color: var(--light-primary);
-  padding: 0 var(--page-padding);
+  padding: 0 var(--page-side-padding);
   position: relative;
   z-index: 0;
   display: flex;
