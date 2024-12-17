@@ -3,11 +3,11 @@
   <section>
     <div class="container">
       <div class="wrapper">
-        <H1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
-          {{ fetchedData.lastName }}</H1>
-        <H2 v-if="fetchedData.gender !== ``">geslacht: {{ fetchedData.gender }}</H2>
-        <H2>Totaal aantal stemmen op {{ fetchedData.name }}: {{ fetchedData.votes }}</H2>
-        <H2>Partij: {{ fetchedData.affiliationName }}</H2>
+        <h1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
+          {{ fetchedData.lastName }}</h1>
+        <h2 v-if="fetchedData.gender !== ``">geslacht: {{ fetchedData.gender }}</h2>
+        <h2>Totaal aantal stemmen op {{ fetchedData.name }}: {{ fetchedData.votes }}</h2>
+        <h2>Partij: {{ fetchedData.affiliationName }}</h2>
         <div
             id="chart1"
             class="apex-chart"
@@ -31,6 +31,12 @@ import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import ApexCharts from "apexcharts";
 
+const props = defineProps({
+  candidateId: {
+    type: String,
+    required: false
+  }
+});
 
 const route = useRoute();
 const candidateId = ref(null);
@@ -178,7 +184,6 @@ async function fetchMunicipalityData() {
         import.meta.env.VITE_API_URL + `/get-municipality-votes-by-candidateId/${candidateId.value}`
     );
     const json = await response.json();
-console.log(json);
    let municipalityData = json.map((item) => {
       return {
         x: item.municipalityName,

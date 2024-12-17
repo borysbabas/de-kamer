@@ -178,7 +178,10 @@ async function  getMunicipalityList() {
 }
 
 async function getMunicplaityVotesByCandidate(candidateName: string) {
-    const candidateId = candidateList.value.find((item: any) => item.firstName + ' ' + item.lastName === candidateName).candidateId;
+    const candidateId = findCandidateId(candidateName);
+    if (!candidateId) {
+        return [];
+    }
     return await fetch("http://localhost:3001/chart/get-municipality-votes-by-candidateId/" + candidateId)
         .then((response) => response.json())
         .then((data) => {
@@ -205,7 +208,10 @@ async function getConstituencyByAffilation(affilationName: string) {
 }
 
 async function getConstituencyByCandidate(candidateName: string) {
-    const candidateId = candidateList.value.find((item: any) => item.firstName + ' ' + item.lastName === candidateName).candidateId;
+    const candidateId = findCandidateId(candidateName);
+    if (!candidateId) {
+        return [];
+    }
     const affilationId = getAffilationId(selectedOption.value[3].selected);
     return await fetch("http://localhost:3001/chart/votes/constituency/affiliation/"+ affilationId + "/candidate/" + candidateId)
         .then((response) => response.json())
@@ -214,6 +220,11 @@ async function getConstituencyByCandidate(candidateName: string) {
         });
 }
 
+
+function findCandidateId(candidateName: string) {
+const candidate = candidateList.value.find((item: any) => item.firstName + ' ' + item.lastName === candidateName);
+return candidate ? candidate.candidateId : undefined;
+}
 
 // temp posible options
 // members, votes
