@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.SignatureException;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,7 +36,7 @@ public class AccountDetailsController {
     }
 
     @DeleteMapping(path = ApiPaths.ACCOUNTDETAILS_SERVICE_DELETE_USERBYID)
-    public List<Account> deleteAccountById(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = true) String authorizationHeader, @RequestParam(value = "id", required = true) Long id) {
+    public boolean deleteAccountById(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = true) String authorizationHeader, @PathVariable(value = "id", required = true) Long id) {
         try {
             String token = authorizationHeader.substring(7);
             String issuer = this.apiConfig.getIssuer();
@@ -44,6 +45,7 @@ public class AccountDetailsController {
             if (Objects.equals(jwt.getAccountId(), id)) {
                 return accountService.deleteAccountById(id);
             }
+
         } catch (ExpiredJwtException e) {
             System.out.println("Token has expired" + e.getMessage());
 
@@ -51,7 +53,7 @@ public class AccountDetailsController {
             System.out.println("Token is invalid!" + e.getMessage());
 
         }
-        return null;
+        return false;
 
     }
 

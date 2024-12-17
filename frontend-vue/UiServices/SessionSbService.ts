@@ -55,8 +55,8 @@ export default class SessionSbService {
             const username = responseData.userName;
 
             if (token) {
-                const correctedToken = token.slice(6);
-                this.saveTokenIntoBrowserStorage(correctedToken);
+                console.log(token)
+                this.saveTokenIntoBrowserStorage(token);
                 this.saveUserNameIntoBrowserStorage(username);
             }
             return true;

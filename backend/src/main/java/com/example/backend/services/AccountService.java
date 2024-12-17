@@ -2,6 +2,7 @@ package com.example.backend.services;
 
 import com.example.backend.entities.Account;
 import com.example.backend.repositories.AccountRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Transactional
 public class AccountService {
     private final AccountRepository accountRepository;
 
@@ -29,7 +31,6 @@ public class AccountService {
     public List<Account> findByEmail(String email) {
         return accountRepository.findByEmail(email);
     }
-
     public Account deleteById(Long id) {
         Account account = this.accountRepository.findById(id).orElse(null);
         if( account != null){
@@ -37,8 +38,13 @@ public class AccountService {
         }
         return account;
     }
-    public List<Account>deleteAccountById(Long id){
-        return accountRepository.deleteAccountById(id);
+    public boolean deleteAccountById(Long id){
+        Account account = this.accountRepository.findById(id).orElse(null);
+        if (account!=null){
+            this.accountRepository.deleteAccountById(id);
+            return true;
+        }
+        return false;
     }
     public List<Account>findAccountById(Long id){return accountRepository.findAccountById(id);}
 }

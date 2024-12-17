@@ -29,10 +29,25 @@ const changeEmailString = computed(() => {
 /**
  *
  */
-function deleteAccount(){
+async function deleteAccount(){
  const confirmed = window.confirm("weet je dit zeker? je staat op het punt je account te verwijderen.")
   if (confirmed){
-    userID
+    try {
+      const response = await fetch(api + `/accountdetails/delete/user/${userID}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + sessionService.getTokenFromBrowserStorage()
+        }
+      })
+      if (response.ok) {
+        console.log("succesfully deleted user")
+      } else {
+        console.log("error")
+      }
+    }catch (e) {
+      console.log("error", e)
+
+    }
   }
 }
 /**
