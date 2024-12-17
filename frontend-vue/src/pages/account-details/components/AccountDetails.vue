@@ -27,6 +27,9 @@ const changeEmailString = computed(() => {
 })
 
 /**
+ * function to delete a user once the prompt is selected.
+ * note: the fetch is carefully put together altering the fetch contents might result in error.must
+ * be prefixed with intended Bearer<space> prefix.
  *
  */
 async function deleteAccount(){
@@ -40,7 +43,9 @@ async function deleteAccount(){
         }
       })
       if (response.ok) {
-        console.log("succesfully deleted user")
+        sessionService.clearUserName()
+        sessionService.clearToken()
+        window.location.reload()
       } else {
         console.log("error")
       }
