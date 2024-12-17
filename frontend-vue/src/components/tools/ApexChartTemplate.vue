@@ -5,7 +5,8 @@
         <button
             @click="sort"
             class="sortbutton"
-        >Sorteer Grafiek</button>
+        >Sorteer Grafiek
+        </button>
       </div>
       <div class="chartContainer">
         <div
@@ -17,7 +18,7 @@
             v-if="interface"
             @hide-hightlight="hideHightlight"
             @select="select"
-      ></apex-chart-interface>
+        ></apex-chart-interface>
       </div>
 
 
@@ -26,22 +27,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
-import ApexCharts from 'apexcharts'
-import ApexChartInterface from "@/components/tools/chartConfig/ApexChartInterface.vue";
-import {chartData, setChartData, sortData} from "@/composables/useChartConfig";
-import {curretDataSet} from "@/composables/useChartDataSelector";
+import {onMounted, ref, watch} from 'vue';
+import ApexCharts from 'apexcharts';
+import ApexChartInterface from '@/components/tools/chartConfig/ApexChartInterface.vue';
+import {chartData, setChartData, sortData} from '@/composables/useChartConfig';
+import {curretDataSet} from '@/composables/useChartDataSelector';
 
 defineProps<{
   interface: boolean,
-}>()
+}>();
 
 let chart: ApexCharts;
-let sorted = ref(false);
-
+const sorted = ref(false);
 
 // Chart configuration
-let options = {
+const options = {
   series: [
     {
       name: 'Data',
@@ -70,10 +70,9 @@ let options = {
     theme: 'dark',
     x: {
       show: true
-    }
+    },
   },
 };
-
 
 onMounted(() => {
   chart = new ApexCharts(document.querySelector("#chart"), options);
@@ -87,43 +86,39 @@ onMounted(() => {
 
 function updateChart() {
   chart.updateSeries([chartData.value]);
-  sorted = false;
+  sorted.value = false;
   extendItemHeight();
 }
 
 function extendItemHeight() {
-  if (!chartData.value.data) return;
+  if (!chartData.value[0]?.data) return;
   chart.updateOptions({
-  chart: {
-    height: chartData.value.data.length * 20 + 100,
-  }
+    chart: {
+      height: chartData.value[0].data.length * 20 + 100,
+    }
   });
   chart.updateOptions([chartData.value]);
 }
 
 function sort() {
-  if (sorted) {
+  if (sorted.value) {
     chartData.value = sortData('asc');
     chart.updateSeries([chartData.value]);
-    sorted = false;
+    sorted.value = false;
     return;
   }
-  sorted = true;
+  sorted.value = true;
   chartData.value = sortData('desc');
   chart.updateSeries([chartData.value]);
 }
+
 function hideHightlight(id: number) {
-  // chartData = apex.hideHighlight(dataset, id);
-  // chart.updateSeries(dataset);
-  // sorted = !sorted;
-  // sort();
   return;
 }
+
 function select(id: number) {
-  const selectedItem = chartData.value[0].data.find(item => item.id === id);
+  const selectedItem = chartData.value[0].data.find((item: any) => item.id === id);
 }
-
-
 </script>
 
 
@@ -140,7 +135,8 @@ function select(id: number) {
   font-family: inherit;
   margin-right: 10px;
 }
-.selectOptions option  {
+
+.selectOptions option {
   padding: 30px;
   font-size: 20px;
   cursor: pointer;
@@ -151,17 +147,20 @@ function select(id: number) {
   padding: 30px;
 
 }
+
 .border {
   padding: 10px;
   border: 10px solid var(--light-primary);
   border-radius: 10px;
   background: var(--light-primary);
 }
+
 .layer {
   display: flex;
   justify-content: left;
   margin: 10px;
 }
+
 .chartContainer {
   display: flex;
   justify-content: center;
@@ -170,10 +169,12 @@ function select(id: number) {
   min-height: 600px;
   height: 100%;
 }
+
 .apex-interface {
   width: 25%;
   height: 100%;
 }
+
 .apex-chart {
   width: 75%;
   margin-right: 50px;

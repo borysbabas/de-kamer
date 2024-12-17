@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import {inject, onMounted, ref, watch} from "vue";
-import { marked } from "marked";
+import {marked} from "marked";
 import hljs from "highlight.js";
 import MarkdownMenu from "@/pages/forum/components/add-post/MarkdownMenu.vue";
+
 const sessionService: any = inject("sessionService");
 
 const postTitle = ref("");
@@ -44,7 +45,7 @@ watch(postDescription, (newDescription) => {
     renderer: new marked.Renderer(),
     highlight: function (code, lang) {
       if (lang && hljs.getLanguage(lang)) {
-        return hljs.highlight(code, { language: lang }).value;
+        return hljs.highlight(code, {language: lang}).value;
       }
       return hljs.highlightAuto(code).value;
     },
@@ -72,14 +73,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="main">
+  <section>
     <h1>Nieuwe post</h1>
     <form @submit.prevent="addPost">
-      <input v-model="postTitle" placeholder="Titel" required />
+      <input v-model="postTitle" placeholder="Titel" required/>
       <textarea
-        v-model="postDescription"
-        placeholder="Beschrijving"
-        required
+          v-model="postDescription"
+          placeholder="Beschrijving"
+          required
       ></textarea>
       <div v-html="renderedDescription" class="markdown-content"></div>
       <button type="submit">Versturen</button>
@@ -89,18 +90,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.main {
-  min-height: calc(100vh - (128px + 56px));
-  object-fit: cover;
-  background-color: var(--dark-primary);
-  color: var(--light-primary);
-  padding: var(--page-padding);
-  padding-bottom: 0;
-  position: relative;
-  z-index: 0;
-  border-bottom: none !important;
-}
-
 form {
   display: flex;
   flex-direction: column;
