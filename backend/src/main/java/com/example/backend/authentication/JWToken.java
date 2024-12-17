@@ -3,9 +3,13 @@ package com.example.backend.authentication;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.Getter;
 
+import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 public class JWToken {
@@ -13,6 +17,7 @@ public class JWToken {
     private static final String JWT_ROLE_CLAIM="role";
 
     private final String callName;
+    @Getter
     private final Long accountId;
     private final String role;
 
@@ -36,19 +41,29 @@ public class JWToken {
                 .compact();
 
     }
-    private static Key getKey(String passphrase){
-        byte[] hmacKey = passphrase.getBytes(StandardCharsets.UTF_8);
-        return Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private static Key getKey(String passphrase) {
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-512");
+            byte[] hashedKey = digest.digest(passphrase.getBytes(StandardCharsets.UTF_8));
+            return Keys.hmacShaKeyFor(hashedKey);
+
+
+        }catch (NoSuchAlgorithmException e){
+            throw new RuntimeException("error generatingkey",e);
+        }
     }
+
 
     public static JWToken decode(String token, String issuer, String passphrase)throws ExpiredJwtException, MalformedJwtException{
         Key key = getKey(passphrase);
+
         Jws<Claims> jws= Jwts.parser().setSigningKey(key).build().parseClaimsJws(token);
         Claims claims = jws.getBody();
 
         if(!claims.getIssuer().equals(issuer)){
             throw new MalformedJwtException("invalid issuer");
         }
+
         return new JWToken(claims.getSubject(),Long.valueOf(claims.getId()),claims.get(JWT_ROLE_CLAIM).toString());
     }
 

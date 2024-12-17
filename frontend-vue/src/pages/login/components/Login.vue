@@ -14,6 +14,9 @@ const loginCredentials = ref({
 })
 
 const submitLogin = async () => {
+  if(!loginCredentials.value.email || !loginCredentials.value.password){
+    return
+  }
   if (!sessionService){
     console.error("session service error")
     return
@@ -39,8 +42,8 @@ const submitLogin = async () => {
     <form @submit.prevent>
       <div class="wrapper">
         <h2>Enter your credentials</h2>
-        <input v-model="loginCredentials.email" placeholder="E-mail">
-        <input v-model="loginCredentials.password" placeholder="Password" type="password">
+        <input required v-model="loginCredentials.email" placeholder="E-mail">
+        <input required v-model="loginCredentials.password" placeholder="Password" type="password">
         <button id="submit-btn" :style="{backgroundColor: buttonColor}" @click="submitLogin">{{buttonText}}</button>
         <router-link to="/forum/register"><a>Create account</a></router-link>
       </div>

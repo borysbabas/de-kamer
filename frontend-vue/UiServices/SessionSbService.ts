@@ -55,8 +55,8 @@ export default class SessionSbService {
             const username = responseData.userName;
 
             if (token) {
-                const correctedToken = token.slice(6);
-                this.saveTokenIntoBrowserStorage(correctedToken);
+                console.log(token)
+                this.saveTokenIntoBrowserStorage(token);
                 this.saveUserNameIntoBrowserStorage(username);
             }
             return true;
@@ -64,7 +64,6 @@ export default class SessionSbService {
         return false;
     }
 
-    // TODO: Add validation for the register form
     async asyncSignUp(registerForm){
          const body = JSON.stringify(registerForm);
         const response = await fetch(`${this.RESOURCES_URL}/register`,{

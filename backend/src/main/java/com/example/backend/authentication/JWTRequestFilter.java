@@ -19,6 +19,8 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
+
+
         URL origin = new URL(request.getRequestURL().toString());
         String originString = switch (origin.getHost()) {
             case "localhost" -> ApiConfig.getDevelopmentOrigin();
