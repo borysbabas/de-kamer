@@ -34,8 +34,6 @@ import {curretDataSet} from "@/composables/useChartDataSelector";
 
 defineProps<{
   interface: boolean,
-  chartType?: string,
-  chartTypeInfo?: number,
 }>()
 
 let chart: ApexCharts;
@@ -114,13 +112,13 @@ function sort() {
   chartData.value = sortData('desc');
   chart.updateSeries([chartData.value]);
 }
-// Old function I need this code later
-// function hideHightlight(id: number) {
-//   chartData = apex.hideHighlight(dataset, id);
-//   chart.updateSeries(dataset);
-//   sorted = !sorted;
-//   sort();
-// }
+function hideHightlight(id: number) {
+  // chartData = apex.hideHighlight(dataset, id);
+  // chart.updateSeries(dataset);
+  // sorted = !sorted;
+  // sort();
+  return;
+}
 function select(id: number) {
   const selectedItem = chartData.value[0].data.find(item => item.id === id);
   console.log("Selected Item:", selectedItem);

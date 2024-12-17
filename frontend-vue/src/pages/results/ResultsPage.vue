@@ -2,7 +2,7 @@
   <Navbar></Navbar>
   <Results></Results>
   <data-selector-bar></data-selector-bar>
-  <ApexChartTemplate :interface="true" :chart-type="bar"></ApexChartTemplate>
+  <ApexChartTemplate :interface="true"></ApexChartTemplate>
   <Footer></Footer>
 </template>
 
