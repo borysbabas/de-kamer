@@ -9,7 +9,7 @@ export function usePosts() {
 
     async function fetchPosts() {
         try {
-            const response = await fetch('http://localhost:3001/posts');
+            const response = await fetch(import.meta.env.VITE_API_URL + "/posts");
             const data = await response.json();
             data.forEach((post: any) => {
                 post.dateCreated = new Date(post.dateCreated).toLocaleString();

@@ -34,7 +34,6 @@ async function fetchRecentPosts() {
       post.dateCreated = new Date(post.dateCreated).toLocaleString();
     });
     posts.value = data;
-    console.log(posts.value);
   } catch (error) {
     console.log("Error fetching recent posts: " + error)
   }

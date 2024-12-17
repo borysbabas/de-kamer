@@ -8,8 +8,8 @@ import AddPostButton from "@/pages/forum/components/add-post/AddPostButton.vue";
 
 <template>
   <Navbar></Navbar>
-  <ForumHero></ForumHero>
   <RecentPosts></RecentPosts>
+  <ForumHero></ForumHero>
   <AddPostButton></AddPostButton>
   <Footer></Footer>
 </template>
