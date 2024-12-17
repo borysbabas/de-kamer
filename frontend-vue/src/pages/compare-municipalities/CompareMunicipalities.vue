@@ -120,6 +120,5 @@ function renderMunicipalityCards() {
 
   .title img {
     width: 20px;
-    cursor: pointer;
   }
 </style>
