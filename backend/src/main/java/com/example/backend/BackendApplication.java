@@ -1,8 +1,11 @@
 package com.example.backend;
 
+import com.example.backend.authentication.JWToken;
 import com.example.backend.models.XmlFileModel;
 import com.example.backend.xmlreader.FileDiscovery;
 import com.example.backend.xmlreader.XmlStreamReaderV1;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Encoders;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.FileNotFoundException;
+import java.security.Key;
 import java.util.*;
 
 @SpringBootApplication()

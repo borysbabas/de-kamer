@@ -58,7 +58,7 @@ export class FetchInterceptor {
         console.error("API error response: ", response);
 
         if (response.status === 401) {
-            console.log("Unauthorized 401")
+            console.error("Unauthorized 401")
             this.sessionService.clearToken()
             this.sessionService.clearUserName()
             window.location.href("/forum/login")

@@ -25,7 +25,8 @@ function handleSignOut(){
 
 /**
  * Handles the scroll event
- * If the user scrolls down, the navbar will be fixed to the top
+ * If the user scrolls down, the navbar will be fixed to the top.
+ * test
  */
 const handleScroll = () => {
   const navbar = document.getElementById("navbar");
@@ -35,15 +36,6 @@ const handleScroll = () => {
     navbar?.classList.remove("fixed-top");
   }
 };
-
-onMounted(() => {
-  const searchDOM = document.getElementById("searchbar");
-  if (searchDOM) {
-    searchDOM.addEventListener("focusout", () => this.searchBarState.value = false);
-  } else {
-    console.log("error");
-  }
-});
 
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
@@ -62,19 +54,23 @@ onUnmounted(() => {
         <li class="navbar-logo">
           <router-link to="/">DeKamer.</router-link>
         </li>
+        <li v-if="searchBarState" class="searchbar">
+          <Searchbar></Searchbar>
+        </li>
         <li class="buttons">
-          <Searchbar v-if="searchBarState" id="searchbar" class="searchbar"></Searchbar>
           <template v-if="isForumPage">
-            <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text clickable">Inloggen</p></router-link>
-            <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text clickable">Registeren</p></router-link>
-            <div v-if="Authenticated"><p class="nav-text"> Welkom, {{ userName }}</p></div>
-            <div v-if="Authenticated"><p @click="handleSignOut" class="nav-text clickable">Uitloggen</p></div>
+            <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text clickable">Login</p></router-link>
+            <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text clickable">Register</p></router-link>
+            <router-link to="/forum/account-details" v-if="Authenticated"><p class="nav-text clickable"> Welkom, {{ userName }}</p></router-link>
+            <div v-if="Authenticated"><p @click="handleSignOut" class="nav-text clickable">Sign out</p></div>
           </template>
           <template v-else>
             <router-link to="/uitslagen"><p class="nav-text clickable">Uitslagen</p></router-link>
             <router-link to="/info"><p class="nav-text clickable">Info</p></router-link>
             <router-link to="/forum"><p class="nav-text clickable">Forum</p></router-link>
           </template>
+        </li>
+        <li>
           <svg @click="toggleSearchBar" xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
                viewBox="0 0 512 512">
             <path
@@ -90,7 +86,7 @@ onUnmounted(() => {
 .nav {
   position: fixed;
   width: 100%;
-  padding: 0 var(--page-padding);
+  padding: 0 var(--page-side-padding);
   margin: v-bind(navbarMargin) 0;
   box-sizing: border-box;
   font-family: var(--font), sans-serif;
@@ -103,6 +99,7 @@ onUnmounted(() => {
   border-radius: 10px;
 }
 
+/*noinspection CssUnusedSymbol*/
 .fixed-top {
   width: 100%;
   margin: 0;
@@ -110,18 +107,41 @@ onUnmounted(() => {
 }
 
 .fixed-top > div {
-  padding: 8px var(--page-padding);
+  padding: 8px var(--page-side-padding);
   border-radius: 0;
+  min-height: 56px;
+  box-sizing: border-box;
 }
 
-.fixed-top li {
+ul {
+  list-style: none;
+  margin: 0 20px;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.fixed-top ul {
   margin: 0;
   padding: 0;
 }
 
+.navbar-logo {
+  margin-right: auto;
+}
+
 .searchbar {
+  flex-grow: 1;
   display: flex;
-  justify-content: left;
+  justify-content: center;
+  align-items: center;
+  margin: 0 15px;
+}
+
+.searchbar > * {
+  max-width: 400px;
+  width: 100%;
 }
 
 .navbar-logo * {
@@ -131,6 +151,9 @@ onUnmounted(() => {
 
 .nav-text {
   font-size: 20px;
+  cursor: pointer;
+}
+.clickable{
   cursor: pointer;
 }
 
@@ -148,20 +171,6 @@ onUnmounted(() => {
 
 .nav-text.clickable:hover::after {
   width: 100%;
-}
-
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-li {
-  margin: 0 20px;
-  padding: 10px 15px;
 }
 
 .buttons {

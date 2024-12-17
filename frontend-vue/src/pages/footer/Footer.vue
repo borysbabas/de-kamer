@@ -6,9 +6,9 @@
   <footer>
     <div class="footer-container">
       <p>© 2024 - Alle rechten voorbehouden</p>
-      <p><a class="footer-text">Algemene voorwaarden</a></p>
-      <p><a class="footer-text">Privacyverklaring</a></p>
-      <p><a class="footer-text">Sitemap</a></p>
+      <p><router-link class="footer-text" to="/algemene-voorwaarden">Algemene voorwaarden</router-link></p>
+      <p><router-link class="footer-text" to="/privacyverklaring">Privacyverklaring</router-link></p>
+      <p><router-link class="footer-text" to="/sitemap">Sitemap</router-link></p>
       <p>Gemaakt met liefde door Team 3</p>
     </div>
   </footer>

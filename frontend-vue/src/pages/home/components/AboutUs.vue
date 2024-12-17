@@ -5,13 +5,13 @@
 <template>
   <div class="desc">
     <div class="desc-text">
-      <h1 id="desc-title">
+      <h1>
         DeKamer.
       </h1>
       <h2>
         Verkiezingsresultaten en discussie, vernieuwend en betrouwbaar
       </h2>
-      <p id="desc-p">
+      <p>
         Welkom bij <strong>DeKamer</strong>, dé plek waar je <strong>betrouwbare verkiezingsresultaten</strong> vindt,
         direct en
         overzichtelijk
@@ -19,7 +19,7 @@
         het
         eerste gezicht zichtbaar</strong>, zodat je meteen weet waar je aan toe bent.
       </p>
-      <p id="desc-p">
+      <p>
         Pas daarna duiken we de diepte in met uitgebreide data-analyse en discussiemogelijkheden. Met ons
         <strong>forum</strong>
         bieden
@@ -29,7 +29,7 @@
         op de hoogte van
         de belangrijkste resultaten, en kun je de diepte in wanneer <strong>jij</strong> dat wil.
       </p>
-      <p id="desc-p">
+      <p>
         Bij DeKamer draait het niet alleen om cijfers, maar ook om <strong>context</strong> en
         <strong>inzicht</strong>. Verkiezingsresultaten zijn meer
         dan alleen getallen; ze vertegenwoordigen de stem van het volk. Daarom presenteren wij niet alleen de
@@ -58,18 +58,34 @@
   gap: 20px;
 }
 
-#desc-title {
+.desc-text p {
+  line-height: 1.6rem;
+}
+
+.desc-text h1 {
   font-weight: normal;
   padding: 0;
 }
 
-#desc-p {
-  line-height: 1.6rem;
-}
-
 .desc-img {
-  width: 50vw;
   object-fit: cover;
   border-radius: 20px;
+}
+
+@media only screen and (min-width: 1401px) {
+  .desc-img {
+    width: 40vw;
+  }
+}
+
+@media only screen and (max-width: 1400px) {
+  .desc {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .desc-img {
+    width: 100%;
+  }
 }
 </style>

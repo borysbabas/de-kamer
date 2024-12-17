@@ -2,7 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.Constituency;
-import com.example.backend.models.ConstituencyModel;
+import com.example.backend.DTO.ConstituencyDTO;
 import com.example.backend.services.ConstituencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,14 +21,14 @@ public class ConstituencyController {
     }
 
     @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE)
-    public List<ConstituencyModel> getAllConstituencies() {
+    public List<ConstituencyDTO> getAllConstituencies() {
         List<Constituency> constituencies = constituencyService.findAllConstituencies();
-        List<ConstituencyModel> constituencyList = new ArrayList<>();
+        List<ConstituencyDTO> constituencyList = new ArrayList<>();
 
         for (Constituency constituency : constituencies) {
             // Exclude constituencies "alle" and "Bonaire", because they have little to no data elsewhere in the database
             if (!constituency.getConstituencyName().equals("alle") && !constituency.getConstituencyName().equals("Bonaire"))
-                constituencyList.add(new ConstituencyModel(
+                constituencyList.add(new ConstituencyDTO(
                         constituency.getConstituencyName(),
                         constituency.getConstituencyId()
                 ));

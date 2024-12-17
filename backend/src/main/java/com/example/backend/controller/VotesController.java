@@ -52,25 +52,6 @@ public class VotesController {
                 .collect(Collectors.toList());
     }
 
-    // TODO: Replace with constant in ApiPaths
-    @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES_COUNT)
-    public int getConstituencyVotesCountByConstituencyId(@PathVariable("constituencyId") Long constituencyId) {
-        Constituency constituency = constituencyService.findConstituencyById(constituencyId);
-        return constituencyVotesService.getConstituencyVotesCountByConstituency(constituency);
-    }
-
-    // TODO: Replace with constant in ApiPaths
-    @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES)
-    public List<ConstituencyVotesModel> getConstituencyVotesByConstituencyIdByPage(@PathVariable("constituencyId") Long constituencyId, @PathVariable("pagination") Integer pagination, @PathVariable("page") Integer page) {
-        Constituency constituency = constituencyService.findConstituencyById(constituencyId);
-        List<ConstituencyVotes> constituencyVotes = constituencyVotesService.getConstituencyVotesByConstituencyByPage(constituency, pagination, page);
-        List<ConstituencyVotesModel> constituencyVotesList = new ArrayList<>();
-        for (ConstituencyVotes constituencyVote : constituencyVotes) {
-            constituencyVotesList.add(new ConstituencyVotesModel(constituencyVote));
-        }
-        return constituencyVotesList;
-    }
-
     @GetMapping(path = ApiPaths.CANDIDATE_VOTES_BY_AFFILIATION_NAME)
     public List<CandidateVotesModel> getVotesByAffiliationId(@PathVariable String affiliationName) {
         List<Candidate> candidateList = candidateService.getCandidatesByAffiliationName(affiliationName);

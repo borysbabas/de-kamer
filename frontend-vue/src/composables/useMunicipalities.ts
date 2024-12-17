@@ -4,7 +4,6 @@ import type {PopulationDataSet} from "@/types/PopulationDataSet";
 import type {MetaDataCategory, CategoryValue} from "@/types/MetaDataCategory";
 import {MetaDataName} from "@/types/MetaDataCategory";
 import type {Affiliation} from "@/types/Affiliation";
-import * as process from "node:process";
 
 // define constants
 const DATA_SET_ID = "03759ned";
@@ -98,6 +97,13 @@ export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) 
      */
     async function fetchAdditionalInformation(municipality: Municipality) {
         const MUNICIPALITY_ID_LENGTH = 4;
+        const cachedMunicipality: Municipality | null = MunicipalityCache.getMunicipalityFromCache(municipality);
+
+        if (cachedMunicipality) {
+            municipalityList.value.push(cachedMunicipality);
+            return;
+        }
+
         isLoading.value = true;
         municipality.additionalData = {};
 
@@ -110,6 +116,7 @@ export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) 
             response = await fetch(requestUrl, {
                 method: "GET"
             });
+
         } catch (e) {
             error.value = "error fetching";
         }
@@ -165,6 +172,7 @@ export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) 
             error.value = "error fetching affiliations";
         }
 
+        MunicipalityCache.addMunicipalityToCache(municipality);
 
         isLoading.value = false;
 
@@ -315,4 +323,36 @@ export function removeMunicipality(value: Municipality): void {
  */
 export function getSelectedMunicipalities(): ref<Municipality[]> {
     return selectedList;
+}
+
+class MunicipalityCache {
+    private static _instance: MunicipalityCache;
+    private _municipalityCache = ref(new Map<number, Municipality>);
+    private _maxArraySize = 5;
+    private _lastMapKeys = new Array<number>(this._maxArraySize);
+
+    private constructor() {
+    }
+
+    public static get Instance() {
+        return this._instance || (this._instance = new this());
+    }
+
+    public static getMunicipalityFromCache(municipality: Municipality) {
+        return MunicipalityCache.Instance._municipalityCache.value.get(municipality.municipalityId);
+    }
+
+    public static addMunicipalityToCache(municipality: Municipality) {
+        const index = MunicipalityCache.Instance._lastMapKeys.indexOf(municipality.municipalityId);
+        if (index > -1) {
+            MunicipalityCache.Instance._lastMapKeys.splice(index, 1);
+        }
+        MunicipalityCache.Instance._lastMapKeys.unshift(municipality.municipalityId);
+        MunicipalityCache.Instance._municipalityCache.value.set(municipality.municipalityId, municipality);
+
+        if (MunicipalityCache.Instance._lastMapKeys.length > MunicipalityCache.Instance._maxArraySize) {
+            const lastKey = MunicipalityCache.Instance._lastMapKeys.pop();
+            MunicipalityCache.Instance._municipalityCache.value.delete(lastKey);
+        }
+    }
 }

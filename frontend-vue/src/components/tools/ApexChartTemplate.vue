@@ -5,7 +5,7 @@
         <button
             @click="sort"
             class="sortbutton"
-        >Sorteer</button>
+        >Sorteer Grafiek</button>
       </div>
       <div class="chartContainer">
         <div
@@ -28,14 +28,12 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import ApexCharts from 'apexcharts'
-import ApexChartInterface from "@/components/tools/chartConfig/Apex-Chart-Interface.vue";
+import ApexChartInterface from "@/components/tools/chartConfig/ApexChartInterface.vue";
 import {chartData, setChartData, sortData} from "@/composables/useChartConfig";
 import {curretDataSet} from "@/composables/useChartDataSelector";
 
 defineProps<{
   interface: boolean,
-  chartType?: string,
-  chartTypeInfo?: number,
 }>()
 
 let chart: ApexCharts;
@@ -81,37 +79,48 @@ onMounted(() => {
   chart = new ApexCharts(document.querySelector("#chart"), options);
   chart.render();
   setChartData();
+  extendItemHeight();
   watch(curretDataSet, () => {
     updateChart();
   });
 });
 
 function updateChart() {
-  chart.updateSeries(chartData.value);
+  chart.updateSeries([chartData.value]);
   sorted = false;
+  extendItemHeight();
+}
+
+function extendItemHeight() {
+  if (!chartData.value.data) return;
+  chart.updateOptions({
+  chart: {
+    height: chartData.value.data.length * 20 + 100,
+  }
+  });
+  chart.updateOptions([chartData.value]);
 }
 
 function sort() {
   if (sorted) {
     chartData.value = sortData('asc');
-    chart.updateSeries(chartData.value);
+    chart.updateSeries([chartData.value]);
     sorted = false;
     return;
   }
   sorted = true;
   chartData.value = sortData('desc');
-  chart.updateSeries(chartData.value);
+  chart.updateSeries([chartData.value]);
 }
-// Old function I need this code later
-// function hideHightlight(id: number) {
-//   chartData = apex.hideHighlight(dataset, id);
-//   chart.updateSeries(dataset);
-//   sorted = !sorted;
-//   sort();
-// }
+function hideHightlight(id: number) {
+  // chartData = apex.hideHighlight(dataset, id);
+  // chart.updateSeries(dataset);
+  // sorted = !sorted;
+  // sort();
+  return;
+}
 function select(id: number) {
   const selectedItem = chartData.value[0].data.find(item => item.id === id);
-  console.log("Selected Item:", selectedItem);
 }
 
 
@@ -124,7 +133,7 @@ function select(id: number) {
   color: var(--light-primary);
   border: 10px solid var(--button-important);
   padding: 2px;
-  width: 120px;
+  width: auto;
   border-radius: 10px;
   font-size: 20px;
   cursor: pointer;
@@ -158,9 +167,12 @@ function select(id: number) {
   justify-content: center;
   align-content: flex-start;
   margin: 10px;
+  min-height: 600px;
+  height: 100%;
 }
 .apex-interface {
   width: 25%;
+  height: 100%;
 }
 .apex-chart {
   width: 75%;

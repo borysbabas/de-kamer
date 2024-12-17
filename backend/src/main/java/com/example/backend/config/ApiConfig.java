@@ -13,7 +13,7 @@ public class ApiConfig implements WebMvcConfigurer {
     @Value("${jwt.issuer:private company}")
     private String issuer;
 
-    @Value("${jwt.passphrase: This is a very secret information for my private encryption key.}")
+    @Value("${jwt.passphrase:ThisIsASecurePassphraseThatIsAtLeastSixtyFourBytesLongAndEnsuresJWTWorks}")
     private String passphrase;
 
     @Value("${jwt.duration-of-validity:1200}")
@@ -21,7 +21,7 @@ public class ApiConfig implements WebMvcConfigurer {
 
     @Getter
     private final static String[] allowedOrigins = {
-            "http://localhost:3000", "http://*.hva.nl", "https://de-kamer.eu"
+            "http://localhost:3000", "http://*.hva.nl", "https://de-kamer.eu", "https://www.de-kamer.eu"
     };
 
     @Getter
