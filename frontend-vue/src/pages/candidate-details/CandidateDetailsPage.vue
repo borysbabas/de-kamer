@@ -247,5 +247,3 @@ watch(
   padding-top: 160px;
 }
 </style>
-
-// https://apexcharts.com/vue-chart-demos/line-charts/brush-chart/
