@@ -34,6 +34,11 @@ public class ConstituencyService {
     }
 
     public Constituency findConstituencyById(Long constituencyId) {
-        return constituencyCache.computeIfAbsent(constituencyId, k -> constituencyRepository.findById(constituencyId).orElse(null));
+        Constituency constituency = constituencyCache.get(constituencyId);
+        if (constituency == null) {
+            constituency = constituencyRepository.findById(constituencyId).orElse(null);
+            constituencyCache.put(constituencyId, constituency);
+        }
+        return constituency;
     }
 }
