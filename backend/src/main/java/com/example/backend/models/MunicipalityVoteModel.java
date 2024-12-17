@@ -20,4 +20,9 @@ public class MunicipalityVoteModel {
         this.municipalityName = municipality.getMunicipalityName();
         this.totalVotes = totalVotes;
     }
+
+    public MunicipalityVoteModel(MunicipalityVotes municipalityVotes) {
+        this.municipalityName = municipalityVotes.getMunicipality().getMunicipalityName();
+        this.totalVotes = municipalityVotes.getTotalVotes();
+    }
 }

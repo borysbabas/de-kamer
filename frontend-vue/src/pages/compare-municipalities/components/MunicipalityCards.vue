@@ -142,6 +142,9 @@ const municipalityCards = computed(() => {
 </script>
 
 <template>
+  <div v-if="isLoading" class="center">
+    <div class="loader"></div>
+  </div>
   <div class="cards" v-if="municipalityList.length > 0">
     <div class="card" v-for="card in municipalityCards.filter((c) => {
       return c.municipalities[0].value !== undefined;
@@ -195,10 +198,18 @@ const municipalityCards = computed(() => {
     display: flex;
     gap: 40px;
     margin: 13px 20px;
+    overflow: auto hidden;
   }
 
   .value {
     font-weight: 700;
   }
 
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
 </style>
+
