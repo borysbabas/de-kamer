@@ -73,10 +73,6 @@ public class CandidateService {
         return candidate;
     }
 
-    public Long countDistinctCandidatesByAffiliation(Affiliation affiliation) {
-        return candidateRepository.countDistinctCandidatesByAffiliation(affiliation);
-    }
-
     public List<Candidate> getCandidatesByAffiliationName(String affiliationName) {
         return candidateRepository.getCandidatesByAffiliationAffiliationName(affiliationName);
     }

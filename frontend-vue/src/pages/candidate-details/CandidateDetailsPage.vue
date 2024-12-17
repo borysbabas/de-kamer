@@ -105,7 +105,7 @@ const chartOptions2 = ref({
   series: [
     {
       name: "Data",
-      type: "bar",
+      // type: "bar",
       data: [{x: "test", y: 1}, {x: "test2", y: 2}]
     }
   ],

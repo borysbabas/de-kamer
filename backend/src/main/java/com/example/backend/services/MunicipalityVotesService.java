@@ -42,4 +42,15 @@ public class MunicipalityVotesService {
 
         return municipalityVotesRepository.findTopByMunicipalityMunicipalityIdOrderByTotalVotesDesc(municipalityId).orElse(null);
     }
+    public List<MunicipalityVoteModel>getMunicipalitiesByAffiliationId(Long affiliationId) {
+        return municipalityVotesRepository.findAllByAffiliationAffiliationId(affiliationId);
+    }
+
+    public int getMunicipalityVotesCountByMunicipality(Municipality municipality) {
+        return municipalityVotesRepository.countMunicipalityVotesByMunicipality(municipality);
+    }
+
+    public List<MunicipalityVotes> getMunicipalityVotesByMunicipalityByPage(Municipality municipality, int pagination, int page) {
+        return municipalityVotesRepository.findByMunicipalityByPageOrderByTotalVotesDesc(municipality, pagination, (page - 1) * pagination);
+    }
 }

@@ -47,4 +47,7 @@ public class CountryVotesService {
     public CountryVotes findByCandidate(Candidate candidate) {
         return this.countryVotesRepository.findByCandidate(candidate);
     }
+    public List<Candidate> getCandidatesByAffiliationId(Long affiliationId) {
+        return countryVotesRepository.findByAffiliationAffiliationId(affiliationId).stream().map(CountryVotes::getCandidate).toList();
+    }
 }
