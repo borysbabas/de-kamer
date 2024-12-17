@@ -8,49 +8,145 @@ representation along with explanations of the folder purpose:
 ## **Tree Structure**
 
 ```plaintext
-frontend-vue/
-├── .vite/                             # Vite configuration folder (e.g., cache)
-├── dist/                              # Compiled application build files
-├── node_modules/                      # Project dependencies
-├── public/                            # Static files (served directly as-is)
-├── src/                               # Application source code
-│   ├── assets/                        # Static assets like favicon, fonts, or styles
-│   ├── img/                           # All image assets for the application
-│   ├── components/                    # Shared or reusable Vue components
-│   │   ├── pages/                     # Page-specific components
-│   │   ├── tools/                     # General-purpose tools/components
-│   │       ├── CustomTable.vue
-│   │       ├── VotesTable.vue
-│   ├── composables/                   # Vue composable utilities (reusable logic)
-│   ├── pages/                         # Feature-based page components
-│   │   ├── candidate-details/         # Candidate details page
-│   │   │   ├── components/
+.
+├── Dockerfile
+│   * Instructions for building a Docker image.
+├── README.md
+│   * Project documentation.
+├── UiServices
+│   ├── FetchInterceptor.ts
+│   │   * Handles HTTP fetch logic (e.g., headers, error handling).
+│   └── SessionSbService.ts
+│       * Manages session-based functionalities.
+├── env.d.ts
+│   * TypeScript declarations for environment variables.
+├── index.html
+│   * Entry HTML file for the Vue app.
+├── package-lock.json
+│   * Ensures consistent dependency versions.
+├── package.json
+│   * Defines scripts, dependencies, and project metadata.
+├── public
+│   ├── affiliation-logos
+│   │   ├── 50plus.png
+│   │   ├── bbb.png
+│   │   └── ... (other party logos)
+│   │       * Political party logos.
+│   └── favicon.ico
+│       * Browser tab icon.
+├── src
+│   ├── App.vue
+│   │   * Root Vue component.
+│   ├── assets
+│   │   ├── favicon.ico
+│   │   ├── img
+│   │   │   ├── tweede-kamer-720p.jpg
+│   │   │   └── zetelverdeling-tk.png
+│   │   │       * Images for "Tweede Kamer" and seat distribution.
+│   │   ├── main.css
+│   │   │   * Main stylesheet.
+│   │   ├── reset.css
+│   │   │   * CSS reset for browser defaults.
+│   │   └── svg
+│   │       └── red-cross.svg
+│   │           * SVG file for warnings/icons.
+│   ├── components
+│   │   ├── CustomTable.vue
+│   │   ├── Selection-Element.vue
+│   │   ├── VotesTable.vue
+│   │   │   * Reusable table components.
+│   │   ├── pages
 │   │   │   ├── CandidateDetailsPage.vue
-│   │   ├── footer/                    # Footer components
-│   │   ├── forum/                     # Forum page
-│   │   │   ├── components/
-│   │   │   │   ├── ForumHome.vue
-│   │   ├── home/                      # Home page
-│   │   │   ├── components/
-│   │   │   │   ├── HomePage.vue
-│   │   ├── login/                     # Login page
-│   │   │   ├── components/
-│   │   │   │   ├── LoginPage.vue
-│   │   ├── navbar/                    # Navigation bar components
+│   │   │   └── ResultsPage.vue
+│   │   │       * Page components for candidates and results.
+│   │   └── tools
+│   │       ├── Apex-Chart-Template.vue
+│   │       ├── Data-Selector-Bar.vue
+│   │       └── chartConfig
+│   │           └── Apex-Chart-Interface.vue
+│   │               * Tools and interfaces for charts.
+│   ├── composables
+│   │   ├── useChartConfig.ts
+│   │   ├── useFetch.ts
+│   │   ├── useMunicipalities.ts
+│   │   ├── useParties.ts
+│   │   └── usePosts.ts
+│   │       * Vue 3 Composition API for reusable logic.
+│   ├── main.ts
+│   │   * Entry point for the Vue app.
+│   ├── pages
+│   │   ├── candidate-details
+│   │   │   └── CandidateDetailsPage.vue
+│   │   │       * Page for candidate details.
+│   │   ├── compare-municipalities
+│   │   │   ├── CompareMunicipalities.vue
+│   │   │   └── components
+│   │   │       ├── MunicipalityCards.vue
+│   │   │       └── MunicipalitySearch.vue
+│   │   │           * Municipality comparison and search.
+│   │   ├── forum
+│   │   │   ├── ForumHome.vue
+│   │   │   ├── components
+│   │   │   │   ├── PostItem.vue
+│   │   │   │   ├── add-post
+│   │   │   │   │   ├── AddPost.vue
+│   │   │   │   │   ├── AddPostButton.vue
+│   │   │   │   │   └── MarkdownMenu.vue
+│   │   │   │   ├── hero
+│   │   │   │   │   ├── Hero.vue
+│   │   │   │   │   ├── Pagination.vue
+│   │   │   │   │   └── PostList.vue
+│   │   │   │   └── recent-posts
+│   │   │   │       └── RecentPosts.vue
+│   │   │   └── pages
+│   │   │       ├── AddPostPage.vue
+│   │   │       └── ForumHome.vue
+│   │   ├── home
+│   │   │   ├── HomePage.vue
+│   │   │   └── components
+│   │   │       ├── AboutUs.vue
+│   │   │       ├── Graph.vue
+│   │   │       ├── Hero.vue
+│   │   │       ├── LoadMore.vue
+│   │   │       └── Parties.vue
+│   │   │           * Homepage components.
+│   │   ├── login
+│   │   │   ├── LoginPage.vue
+│   │   │   └── components
+│   │   │       └── Login.vue
+│   │   ├── navbar
 │   │   │   ├── Navbar.vue
-│   │   ├── party-details/             # Party details page
-│   │   │   ├── components/
-│   │   │   │   ├── PartyDetailsPage.vue
-│   │   ├── register/                  # Registration page
-│   │   │   ├── components/
-│   │   │   │   ├── RegisterPage.vue
-│   │   ├── results/                   # Results page
-│   │   │   ├── components/
-│   │   │   │   ├── ResultsPage.vue
-│   ├── types/                         # TypeScript type definitions
-│   ├── App.vue                        # Main Vue application file
-│   ├── main.ts                        # Application entry point
-│   ├── shims-vue.d.ts                 # TypeScript shim for Vue files
+│   │   │   └── components
+│   │   │       └── Searchbar.vue
+│   │   │           * Navbar and search components.
+│   │   ├── party-details
+│   │   │   └── PartyDetailsPage.vue
+│   │   └── results
+│   │       ├── ResultsPage.vue
+│   │       └── components
+│   │           ├── Results.vue
+│   │           └── VotesTable.vue
+│   │               * Voting and results components.
+│   ├── shims-vue.d.ts
+│   │   * TypeScript declarations for `.vue` files.
+│   └── types
+│       ├── Account.ts
+│       ├── Candidate.ts
+│       ├── Municipality.ts
+│       └── ... (other type files)
+│           * TypeScript interfaces for structured data.
+├── tsconfig.app.json
+│   * TypeScript config for the app.
+├── tsconfig.json
+│   * Main TypeScript config file.
+├── tsconfig.node.json
+│   * TypeScript config for Node.js.
+├── tsconfig.vitest.json
+│   * TypeScript config for Vitest testing.
+├── vite.config.ts
+│   * Configuration for Vite build tool.
+└── vitest.config.ts
+    * Configuration for Vitest testing framework.
 ```
 
 ---
