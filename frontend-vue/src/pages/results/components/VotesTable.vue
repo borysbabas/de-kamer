@@ -114,6 +114,7 @@ async function fetchConstituencies() {
 
     constituencies.value = await result.json();
   } catch (error) {
+    // TODO: error handling
     console.log(error);
   }
 }

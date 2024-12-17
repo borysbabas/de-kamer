@@ -121,7 +121,6 @@ function hideHightlight(id: number) {
 }
 function select(id: number) {
   const selectedItem = chartData.value[0].data.find(item => item.id === id);
-  console.log("Selected Item:", selectedItem);
 }
 
 

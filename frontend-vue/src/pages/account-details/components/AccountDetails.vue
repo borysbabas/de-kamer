@@ -43,7 +43,6 @@ async function updateAccountCredentials() {
     selectedSubjectTranslated.value = "password"
   }
   try {
-    console.log(selectedSubjectTranslated.value)
     const response = await fetch(api + `/accountdetails/update/${userID}`, {
           method: "PUT",
           headers: {"Authorization": "Bearer " + sessionService.getTokenFromBrowserStorage(),
@@ -86,9 +85,7 @@ async function deleteAccount() {
         sessionService.clearUserName()
         sessionService.clearToken()
         window.location.reload()
-      } else {
-        console.log("error")
-      }
+      } // TODO: add error handling
     } catch (e) {
       console.log("error", e)
 
@@ -146,7 +143,7 @@ onMounted(async () => {
     <div class="popup-wrapper">
       <div class="popup-container">
         <button @click="isPopUpVisible=false" class="close-btn">X</button>
-        <h3 class="popup-p">Huidige {{ selectedSubject }} : {{ requiredfetchedData }} </h3>
+        <h3 class="popup-p">{{ selectedSubject != "wachtwoord" ? "Huidige" : "" }} {{ selectedSubject }} : {{ selectedSubject != "wachtwoord" ? requiredfetchedData : "" }} </h3>
         <input required v-model="userInputPopUp" class="popup-input" :placeholder="changeEmailString">
         <button @click="updateAccountCredentials">bevestigen</button>
       </div>
@@ -169,7 +166,7 @@ onMounted(async () => {
           </div>
         </div>
         <div class="box">
-          wachtwoord: {{ fetchedPassword }}
+          wachtwoord: *********
           <div class="box-button">
             <button @click="handleBtnClick('password')">wijzig</button>
           </div>
@@ -231,6 +228,8 @@ onMounted(async () => {
   justify-content: center;
   align-items: center;
   position: fixed;
+  background-color: transparent;
+  padding: 0;
   top: 0;
   z-index: 1;
   width: 100%;

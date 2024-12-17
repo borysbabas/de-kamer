@@ -172,9 +172,7 @@ async function fetchCandidate() {
         import.meta.env.VITE_API_URL + `/candidates/${candidateId.value}`
     );
     fetchedData.value = await response.json();
-  } else {
-    console.log("error");
-  }
+  } // TODO: error handeling
 }
 
 async function fetchMunicipalityData() {

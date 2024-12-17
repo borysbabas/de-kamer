@@ -24,7 +24,6 @@ export default class SessionSbService {
     }
 
     saveUserNameIntoBrowserStorage(username){
-        console.log("username: ", username);
         localStorage.setItem("username", username);
     }
 
@@ -55,7 +54,6 @@ export default class SessionSbService {
             const username = responseData.userName;
 
             if (token) {
-                console.log(token)
                 this.saveTokenIntoBrowserStorage(token);
                 this.saveUserNameIntoBrowserStorage(username);
             }

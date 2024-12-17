@@ -38,15 +38,6 @@ const handleScroll = () => {
 };
 
 onMounted(() => {
-  const searchDOM = document.getElementById("searchbar");
-  if (searchDOM) {
-    searchDOM.addEventListener("focusout", () => this.searchBarState.value = false);
-  } else {
-    console.log("error");
-  }
-});
-
-onMounted(() => {
   window.addEventListener("scroll", handleScroll);
 });
 
