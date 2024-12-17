@@ -3,6 +3,7 @@ package com.example.backend.authentication;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.Getter;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -13,6 +14,7 @@ public class JWToken {
     private static final String JWT_ROLE_CLAIM="role";
 
     private final String callName;
+    @Getter
     private final Long accountId;
     private final String role;
 

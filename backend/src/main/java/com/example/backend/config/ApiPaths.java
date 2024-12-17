@@ -20,6 +20,7 @@ public class ApiPaths {
 
     public static final String ACCOUNTDETAILS_SERVICE="/accountdetails";
     public static final String ACCOUNTDETAILS_SERVICE_GET_USERBYID=ACCOUNTDETAILS_SERVICE+"/{id}";
+    public static final String ACCOUNTDETAILS_SERVICE_DELETE_USERBYID=ACCOUNTDETAILS_SERVICE+"/delete/user/{id}";
 
 
     public static final String VOTES = "/votes";

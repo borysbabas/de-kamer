@@ -37,5 +37,8 @@ public class AccountService {
         }
         return account;
     }
+    public List<Account>deleteAccountById(Long id){
+        return accountRepository.deleteAccountById(id);
+    }
     public List<Account>findAccountById(Long id){return accountRepository.findAccountById(id);}
 }
