@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {computed, onMounted, onUnmounted, ref} from "vue"
-import {useRoute, useRouter} from "vue-router"
-import {removeMunicipality} from "@/composables/useMunicipalities";
+import {useRouter} from "vue-router"
 
 const router = useRouter()
 const isFixed = ref(false)
