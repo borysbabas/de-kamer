@@ -25,7 +25,8 @@ public class CandidateController {
 
     @GetMapping(path = ApiPaths.CANDIDATES_SERVICE, produces = "application/json")
     public List<CandidateDTO> getAllCandidates() {
-        return candidateService.findAll()
+        List<Candidate> candidates = candidateService.findAll().stream().distinct().toList();
+        return candidates
                 .stream()
                 .map(CandidateDTO::new)
                 .collect(Collectors.toList());

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
-import {useRoute} from 'vue-router';
+import {useRoute, useRouter} from 'vue-router';
 import {fetchPartyDetails} from '@/composables/useFetch';
 import Navbar from "@/pages/navbar/Navbar.vue";
 import Footer from "@/pages/footer/Footer.vue";
 
 const route = useRoute();
+const router = useRouter();
 const partyId = Array.isArray(route.params.partyId) ? route.params.partyId[0] : route.params.partyId;
 
 interface PartyDetails {
@@ -32,6 +33,10 @@ const sortCandidates = () => {
   }
 };
 
+function clickCandidate(candidateId: number) {
+  router.push({name: "CandidateDetails", params: {candidateId}});
+}
+
 onMounted(async () => {
   const details = await fetchPartyDetails(partyId);
   if (details) {
@@ -55,7 +60,7 @@ onMounted(async () => {
         </select>
       </div>
       <div class="candidates">
-        <div v-for="candidate in partyDetails.candidates" :key="candidate.candidateId" class="candidate">
+        <div v-for="candidate in partyDetails.candidates" :key="candidate.candidateId" class="candidate" @click="()=>{clickCandidate(candidate.candidateId)}">
           <div>{{ candidate.firstName }}
             {{ candidate.prefix }} {{ candidate.lastName }}
           </div>
