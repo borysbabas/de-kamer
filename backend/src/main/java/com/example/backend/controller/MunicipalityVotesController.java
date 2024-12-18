@@ -1,7 +1,6 @@
 package com.example.backend.controller;
 
 import com.example.backend.config.ApiPaths;
-import com.example.backend.entities.MunicipalityVotes;
 import com.example.backend.models.MunicipalityVoteModel;
 import com.example.backend.services.MunicipalityVotesService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,4 +22,8 @@ public class MunicipalityVotesController {
         return municipalityVotesService.getTop5MunicipalitiesByCandidateId(candidateId);
     }
 
+    @GetMapping(path= ApiPaths.MUNICIPALITY_SERVICE_GET_MUNICIPALITYVOTES_BY_AFFILIATIONID)
+    public List<MunicipalityVoteModel> getMunicipalitiesByAffiliationId(@PathVariable("affiliationId") Long affiliationId) {
+        return municipalityVotesService.getMunicipalitiesByAffiliationId(affiliationId);
+    }
 }

@@ -13,7 +13,7 @@ export const mediaData = ref<any[]>([]);
  */
 export async function fetchParties() {
     try {
-        const response = await fetch("http://localhost:3001/votes/affiliations");
+        const response = await fetch(import.meta.env.VITE_API_URL + "/votes/affiliations");
         if (!response.ok) {
             console.error('Network response was not ok');
         }
@@ -36,7 +36,7 @@ export async function fetchParties() {
     * @throws {Error} - If the fetch operation fails
  */
 export async function fetchPartyDetails(partyId: string) {
-    const response = await fetch(`http://localhost:3001/votes/affiliations/${partyId}`);
+    const response = await fetch(import.meta.env.VITE_API_URL + `/votes/affiliations/${partyId}`);
     return await response.json();
 }
 
@@ -48,7 +48,7 @@ export async function fetchPartyDetails(partyId: string) {
  */
 export async function fetchCandidateVotes() {
     try {
-        const response = await fetch("http://localhost:3001/votes/candidates");
+        const response = await fetch(import.meta.env.VITE_API_URL + "/votes/candidates");
         if (!response.ok) {
             console.error('Network response was not ok');
         }
@@ -60,60 +60,3 @@ export async function fetchCandidateVotes() {
 }
 
 export const allCandidates = ref<any[]>([]);
-export const API_KEY = import.meta.env.VITE_API_KEY;
-export const APP_NAME = import.meta.env.VITE_APP_NAME;
-
-/*
-    * Fetches the party images from the WikiMedia API
-    * @returns {Promise<any[]>} - The party images
-    *
-    * Further information can be found in the WikiMedia API documentation:
-    * https://api.wikimedia.org/wiki/Learn
-    *
-    * @throws {Error} - If the fetch operation fails
- */
-export async function fetchPartyImages() {
-    const url = 'https://api.wikimedia.org/core/v1/wikipedia/nl/page/Lijst_van_politieke_partijen_in_Nederland/links/media?origin=*';
-    try {
-        const response = await fetch(url, {
-            headers: {
-                'Authorization': `Bearer ${API_KEY}`,
-                'Api-User-Agent': APP_NAME,
-            },
-        });
-        if (!response.ok) {
-            console.error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        const excludedTitles = ["1rightarrow blue.svg", "Commons-logo.svg", "Evolution of Dutch political parties since 1888.svg", "Flag of the Netherlands.svg", "Leden2018-1.png", "Ledental politieke partijen.png", "OOjs UI icon article-ltr.svg", "OOjs UI icon edit-ltr.svg", "Flag of the Netherlands.svg"];
-
-        const partyNames = allParties.value.map(party => ({
-            prefix: party.affiliationName.slice(0, 3).toLowerCase()
-        }));
-        const mediaFiles = data.files
-            .filter((file: any) => !excludedTitles.includes(file.title))
-            .filter((file: any) => partyNames.some(name =>
-                file.title.toLowerCase().includes(name.prefix)
-            ))
-            .map((file: PartyImages) => ({
-                title: file.title,
-                url: file.preferred.url,
-                descriptionUrl: file.file_description_url
-            }));
-
-        mediaData.value = allParties.value.map(party => {
-            const partyName = party.affiliationName.toLowerCase();
-            const images = mediaFiles.filter((file: PartyImages) =>
-                file.title.toLowerCase().includes(partyName.slice(0, 3)) ||
-                file.title.toLowerCase().includes(partyName)
-            );
-            return {
-                ...party,
-                images: images
-            };
-        });
-    } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
-    }
-    return mediaData.value;
-}

@@ -1,21 +1,32 @@
 <script setup lang="ts">
-import {onMounted, onUnmounted, provide, ref} from "vue";
+import {inject, onMounted, onUnmounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import Searchbar from "@/pages/navbar/components/Searchbar.vue";
 
-const userEmail = ref("");
-provide("updateEmail", (email: string) => {
-  userEmail.value = email;
-});
+//navbar status
+const navbarMargin = ref("50px");
+const route = useRoute();
+const isForumPage = ref(route.path.startsWith("/forum"));
 const searchBarState = ref(false);
-
 const toggleSearchBar = () => {
   searchBarState.value = !searchBarState.value;
 };
 
+//services
+const sessionService = inject("sessionService")
+const userName = ref(sessionService.getUsernameFormBrowserStorage())
+const Authenticated = ref(sessionService.getTokenFromBrowserStorage())
+
+function handleSignOut() {
+  sessionService.clearToken()
+  sessionService.clearUserName()
+  window.location.reload()
+}
+
 /**
  * Handles the scroll event
- * If the user scrolls down, the navbar will be fixed to the top
+ * If the user scrolls down, the navbar will be fixed to the top.
+ * test
  */
 const handleScroll = () => {
   const navbar = document.getElementById("navbar");
@@ -27,26 +38,12 @@ const handleScroll = () => {
 };
 
 onMounted(() => {
-  const searchDOM = document.getElementById("searchbar");
-  if (searchDOM) {
-    searchDOM.addEventListener("focusout", () => this.searchBarState.value = false);
-  } else {
-    console.log("error");
-  }
-});
-
-onMounted(() => {
   window.addEventListener("scroll", handleScroll);
 });
 
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
-
-const navbarMargin = ref("50px");
-
-const route = useRoute();
-const isForumPage = ref(route.path.startsWith("/forum"));
 
 </script>
 
@@ -57,17 +54,25 @@ const isForumPage = ref(route.path.startsWith("/forum"));
         <li class="navbar-logo">
           <router-link to="/">DeKamer.</router-link>
         </li>
+        <li v-if="searchBarState" class="searchbar">
+          <Searchbar></Searchbar>
+        </li>
         <li class="buttons">
-          <Searchbar v-if="searchBarState" id="searchbar" class="searchbar"></Searchbar>
           <template v-if="isForumPage">
-            <router-link to="/forum/login"><p class="nav-text">Login</p></router-link>
-            <router-link to="/forum/register"><p class="nav-text">Register</p></router-link>
+            <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text clickable">Login</p></router-link>
+            <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text clickable">Register</p>
+            </router-link>
+            <router-link to="/forum/account-details" v-if="Authenticated"><p class="nav-text clickable"> Welkom,
+              {{ userName }}</p></router-link>
+            <div v-if="Authenticated"><p @click="handleSignOut" class="nav-text clickable">Uitloggen</p></div>
           </template>
           <template v-else>
-            <router-link to="/uitslagen"><p class="nav-text">Uitslagen</p></router-link>
-            <router-link to="/info"><p class="nav-text">Info</p></router-link>
-            <router-link to="/forum"><p class="nav-text">Forum</p></router-link>
+            <router-link to="/uitslagen"><p class="nav-text clickable">Uitslagen</p></router-link>
+            <router-link to="/info"><p class="nav-text clickable">Info</p></router-link>
+            <router-link to="/forum"><p class="nav-text clickable">Forum</p></router-link>
           </template>
+        </li>
+        <li>
           <svg @click="toggleSearchBar" xmlns="http://www.w3.org/2000/svg" class="magnifying-glass-icon"
                viewBox="0 0 512 512">
             <path
@@ -83,7 +88,7 @@ const isForumPage = ref(route.path.startsWith("/forum"));
 .nav {
   position: fixed;
   width: 100%;
-  padding: 0 var(--page-padding);
+  padding: 0 var(--page-side-padding);
   margin: v-bind(navbarMargin) 0;
   box-sizing: border-box;
   font-family: var(--font), sans-serif;
@@ -96,6 +101,7 @@ const isForumPage = ref(route.path.startsWith("/forum"));
   border-radius: 10px;
 }
 
+/*noinspection CssUnusedSymbol*/
 .fixed-top {
   width: 100%;
   margin: 0;
@@ -103,18 +109,41 @@ const isForumPage = ref(route.path.startsWith("/forum"));
 }
 
 .fixed-top > div {
-  padding: 8px var(--page-padding);
+  padding: 8px var(--page-side-padding);
   border-radius: 0;
+  min-height: 56px;
+  box-sizing: border-box;
 }
 
-.fixed-top li {
+ul {
+  list-style: none;
+  margin: 0 20px;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.fixed-top ul {
   margin: 0;
   padding: 0;
 }
 
+.navbar-logo {
+  margin-right: auto;
+}
+
 .searchbar {
+  flex-grow: 1;
   display: flex;
-  justify-content: left;
+  justify-content: center;
+  align-items: center;
+  margin: 0 15px;
+}
+
+.searchbar > * {
+  max-width: 400px;
+  width: 100%;
 }
 
 .navbar-logo * {
@@ -124,9 +153,14 @@ const isForumPage = ref(route.path.startsWith("/forum"));
 
 .nav-text {
   font-size: 20px;
+  cursor: pointer;
 }
 
-.nav-text::after {
+.clickable {
+  cursor: pointer;
+}
+
+.nav-text.clickable::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -138,22 +172,8 @@ const isForumPage = ref(route.path.startsWith("/forum"));
   transition: width var(--animation-duration);
 }
 
-.nav-text:hover::after {
+.nav-text.clickable:hover::after {
   width: 100%;
-}
-
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-li {
-  margin: 0 20px;
-  padding: 10px 15px;
 }
 
 .buttons {
@@ -162,6 +182,10 @@ li {
   align-items: center;
   font-size: 1.5rem;
   gap: 20px;
+}
+
+.buttons > div {
+  position: relative;
 }
 
 .magnifying-glass-icon {

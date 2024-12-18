@@ -7,7 +7,6 @@ import com.example.backend.utils.TwoKeyHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,12 +27,7 @@ public class CandidateService {
     }
 
     public Candidate findFirstByShortCode(String shortCode) {
-        Candidate candidate = candidateShortCodeCache.get(shortCode);
-        if (candidate == null) {
-            candidate = candidateRepository.findFirstByShortCode(shortCode);
-            candidateShortCodeCache.put(shortCode, candidate);
-        }
-        return candidate;
+        return candidateShortCodeCache.computeIfAbsent(shortCode, k -> candidateRepository.findFirstByShortCode(shortCode));
     }
 
     public String toShortCode(Candidate candidate) {
@@ -77,13 +71,6 @@ public class CandidateService {
             candidateTwoKeyCache.put(id, affiliation.getAffiliationId(), candidate);
         }
         return candidate;
-    }
-
-    public Long countDistinctCandidatesByAffiliation(Affiliation affiliation) {
-        return candidateRepository.countDistinctCandidatesByAffiliation(affiliation);
-    }
-    public List<Candidate> getCandidatesByAffiliationId(Long affiliationId) {
-        return candidateRepository.getCandidatesByAffiliationAffiliationId(affiliationId);
     }
 
     public List<Candidate> getCandidatesByAffiliationName(String affiliationName) {

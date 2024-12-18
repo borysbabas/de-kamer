@@ -24,7 +24,7 @@ import {options, selectedOption, triggerDropdown} from "@/composables/useDropdow
 }
 
 .dropdown-select {
-  padding: 0;
+  padding-right: 40px;
   font-size: 38px;
   appearance: none;
   background-color: var(--dark-primary);
@@ -33,6 +33,14 @@ import {options, selectedOption, triggerDropdown} from "@/composables/useDropdow
   border-radius: 5px;
   cursor: pointer;
   font-family: inherit;
+}
+
+.angle-down-icon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .dropdown-select:focus {

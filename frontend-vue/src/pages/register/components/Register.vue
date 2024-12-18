@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import {ref} from "vue"
+import {inject, ref} from "vue"
 
-const postMethod = async () => {
-  try {
-    const response = await fetch("http://localhost:3001/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData.value)
-    });
-    if (response.ok) {
-      const result = await response.json();
-      console.log("data succesvol verstuurd", result)
+const sessionService = inject("sessionService")
 
-    } else {
-      console.error("data niet succesvol verstuurd.", response.statusText)
-    }
-  } catch (error) {
-    console.log(error)
+async function submitRegisterForm() {
+  if (!formData.value.email || !formData.value.username || !formData.value.dateOfBirth || !formData.value.password) {
+    return
   }
+
+  const response = await sessionService.asyncSignUp(formData.value)
+  if (response) {
+    let btn = document.getElementById("submit-btn")
+    btn.style.backgroundColor = "green"
+    btn.innerHTML = "succesfully registered!"
+
+  } else {
+    let btn = document.getElementById("submit-btn")
+    btn.style.backgroundColor = "red"
+    btn.innerHTML = "Something went wrong..."
+  }
+
 }
 
 const formData = ref({
@@ -27,80 +27,26 @@ const formData = ref({
   username: "",
   dateOfBirth: "",
   password: "",
-
 })
+
 </script>
 
 <template>
-  <section class="register">
+  <section class="login">
     <form @submit.prevent>
       <div class="wrapper">
         <h2>Enter your information</h2>
-        <input v-model="formData.email" placeholder="E-mail">
-        <input v-model="formData.username" placeholder="Username">
-        <input v-model="formData.dateOfBirth" type="date" placeholder="date of birth.">
-        <input v-model="formData.password" type="password" placeholder="Password">
-        <button type="submit" @click="postMethod">Submit</button>
-        <router-link to="/login"><a>Login</a></router-link>
+        <input required v-model="formData.email" type="email" placeholder="E-mail">
+        <input required v-model="formData.username" placeholder="Username">
+        <input required v-model="formData.dateOfBirth" type="date" placeholder="date of birth.">
+        <input required v-model="formData.password" type="password" placeholder="Password">
+        <button id="submit-btn" type="submit" @click="submitRegisterForm">Submit</button>
+        <router-link to="/forum/login"><a>Login</a></router-link>
       </div>
     </form>
   </section>
 </template>
 
 <style scoped>
-.register {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 56px);
-  background-color: var(--dark-primary);
-}
 
-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-}
-
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 32px 32px;
-  background-color: var(--button);
-  border-radius: 10px;
-  width: 30%;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-bottom: 20px;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: var(--button-important);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button:hover {
-  background-color: var(--button-important-hover);
-}
-
-
-a {
-  margin-top: 8px;
-  color: var(--light-primary);
-  text-decoration: underline;
-}
 </style>

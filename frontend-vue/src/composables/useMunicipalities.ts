@@ -3,22 +3,33 @@ import {onMounted, ref} from "vue";
 import type {PopulationDataSet} from "@/types/PopulationDataSet";
 import type {MetaDataCategory, CategoryValue} from "@/types/MetaDataCategory";
 import {MetaDataName} from "@/types/MetaDataCategory";
+import type {Affiliation} from "@/types/Affiliation";
 
-const BACKEND = "http://localhost:3001";
+// define constants
 const DATA_SET_ID = "03759ned";
+const LEGAL_VOTE_AGE = 18;
+
 const metaDataCategories = ref<MetaDataCategory[]>([]);
 const fetchedCategories = ref<string[]>([]);
 const selectedList = ref<Municipality[]>([]);
-const ageKeyToValue = ref(new Map<string, {}>());
+const ageKeyToValue = ref(new Map<string, string>());
 
+/**
+ * Composable function to manage municipalities data.
+ * @returns {Object} - An object containing municipalityList, isLoading, and error.
+ */
 export function useMunicipalities() {
     const municipalityList = ref<Municipality[]>([]);
     const isLoading = ref(false)
     const error = ref(null)
 
+    /**
+     * Fetches the list of municipalities from the backend.
+     */
     async function fetchMunicipalities() {
         isLoading.value = true
-        fetch(BACKEND + "/municipalities")
+
+        fetch(import.meta.env.VITE_API_URL + "/municipalities")
             .then(response => {
                 if (!response.ok) {
                     error.value = "error ..."
@@ -30,12 +41,12 @@ export function useMunicipalities() {
                 isLoading.value = false
             })
             .catch(err => {
+                console.error(err.message);
                 isLoading.value = false
                 error.value = err.message
             })
 
     }
-
 
     onMounted(() => {
         void fetchMunicipalities()
@@ -48,15 +59,31 @@ export function useMunicipalities() {
     }
 }
 
+/**
+ * Composable function to fetch additional data for municipalities. (currently only population data)
+ * @param {Municipality[]} municipalities - The list of municipalities to fetch additional data for.
+ * @returns {Object} - An object containing municipalityList, isLoading, and error.
+ */
 export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) {
     const municipalityList = ref<Municipality[]>([]);
     const isLoading = ref(false);
     const error = ref(null);
 
+    /**
+     * Pads a number with leading zeros.
+     * @param {number} num - The number to pad.
+     * @param {number} size - The desired length of the output string.
+     * @returns {string} - The padded number as a string.
+     */
     const pad = (num: number, size: number) => {
         return "0".repeat(size - num.toString().length) + num;
     }
 
+    /**
+     * Builds a filter string for the municipality ID.
+     * @param {string} municipalityId - The ID of the municipality.
+     * @returns {string} - The filter string.
+     */
     const buildFilter = (municipalityId: string) => {
         // (RegioS eq 'xxxx')
         return `(RegioS%20eq%20%27GM${municipalityId}%27)`;
@@ -64,40 +91,92 @@ export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) 
 
     const {ageKeyToValue} = useReadableCategories();
 
-
+    /**
+     * Fetches additional information for a given municipality.
+     * @param {Municipality} municipality - The municipality to fetch additional information for.
+     */
     async function fetchAdditionalInformation(municipality: Municipality) {
         const MUNICIPALITY_ID_LENGTH = 4;
+        const cachedMunicipality: Municipality | null = MunicipalityCache.getMunicipalityFromCache(municipality);
+
+        if (cachedMunicipality) {
+            municipalityList.value.push(cachedMunicipality);
+            return;
+        }
+
         isLoading.value = true;
+        municipality.additionalData = {};
 
         const requestUrl = `https://opendata.cbs.nl/ODataFeed/odata/${DATA_SET_ID}/UntypedDataSet?%24filter=((Geslacht%20eq%20%27T001038%27))%20and%20((BurgerlijkeStaat%20eq%20%27T001019%27))%20and%20(${
             buildFilter(pad(municipality.municipalityId, MUNICIPALITY_ID_LENGTH))
         })%20and%20((Perioden%20eq%20%272021JJ00%27))&%24format=json`;
 
-        const response = await fetch(requestUrl, {
-            method: "GET"
-        });
+        let response;
+        try {
+            response = await fetch(requestUrl, {
+                method: "GET"
+            });
 
-        isLoading.value = false;
-        if (response.status !== 200) {
-            error.value = "error handling";
-            return;
+        } catch (e) {
+            error.value = "error fetching";
         }
 
-        const populationDataSet: PopulationDataSet = await response.json();
+        let eligibleVoters: number;
 
-        municipality.affiliations = await getAffiliationVotesForMunicipality(municipality);
-        municipality.topCandidate = await getTopCandidatesForMunicipality(municipality);
+        if (response && response.status === 200) {
+            error.value = null;
+            const populationDataSet: PopulationDataSet = await response.json();
 
-        municipalityList.value.push({
-            ...municipality,
-            additionalData: populationDataSet.value.map(populationData => {
-                return {
-                    ID: populationData.ID,
-                    Leeftijd: ageKeyToValue.value.get(populationData.Leeftijd),
-                    BevolkingOp1Januari_1: populationData.BevolkingOp1Januari_1?.trim(),
+            let totalPopulation = 0;
+            let totalAge = 0;
+            let underage = 0;
+
+            for (const populationData of populationDataSet.value) {
+                const age = ageKeyToValue.value.get(populationData.Leeftijd);
+                const amount = parseInt(populationData.BevolkingOp1Januari_1.trim());
+                if (totalPopulation === 0) {
+                    if (age === "Totaal") {
+                        totalPopulation = amount;
+                        continue;
+                    }
                 }
-            })
-        });
+                const ageNumber = parseInt(age.replace(/ .*/gm, "").trim());
+                if (ageNumber < LEGAL_VOTE_AGE) {
+                    underage += amount;
+                }
+                totalAge += (amount * ageNumber);
+            }
+
+            eligibleVoters = totalPopulation - underage;
+
+            municipality.additionalData = {
+                averageAge: totalAge / totalPopulation,
+                population: totalPopulation,
+                eligibleVoters: eligibleVoters,
+                turnoutPercentage: undefined,
+            };
+
+        }
+
+        try {
+            const affiliations: Affiliation[] = await getAffiliationVotesForMunicipality(municipality);
+            municipality.affiliations = affiliations;
+            municipality.topCandidate = await getTopCandidatesForMunicipality(municipality);
+
+            if (eligibleVoters) {
+                // Sum up the total votes for the municipality
+                const totalVotes = affiliations.reduce((acc, affiliation) => acc + affiliation.totalVotes, 0);
+                municipality.additionalData.turnoutPercentage = totalVotes / eligibleVoters * 100;
+            }
+        } catch (e) {
+            error.value = "error fetching affiliations";
+        }
+
+        MunicipalityCache.addMunicipalityToCache(municipality);
+
+        isLoading.value = false;
+
+        municipalityList.value.push(municipality);
     }
 
     onMounted(() => {
@@ -113,11 +192,20 @@ export function useAdditionalMunicipalitiesData(municipalities: Municipality[]) 
     }
 }
 
+/**
+ * Composable function to create a variable that makes the results of an external API (opendata.cbs.nl) more readable.
+ * @returns {Object} - An object containing metaDataCategories, ageKeyToValue, and isLoading.
+ */
 export function useReadableCategories() {
     const isLoading = ref(false);
 
     getCategory(MetaDataName.Leeftijd);
 
+    /**
+     * Fetches a category from the category list.
+     * @param {MetaDataName} category - The category to fetch.
+     * @returns {Object} - An object containing metaDataCategories, ageKeyToValue, and isLoading.
+     */
     function getCategory(category: MetaDataName) {
         const requestUrl = `https://opendata.cbs.nl/ODataApi/odata/${DATA_SET_ID}/${category}`;
         if (!(category in MetaDataName)) {
@@ -128,6 +216,9 @@ export function useReadableCategories() {
             return {metaDataCategories, ageKeyToValue, isLoading};
         }
 
+        /**
+         * Fetches the category data from an external API.
+         */
         async function fetchCategory() {
             isLoading.value = true;
             const response = await fetch(requestUrl, {
@@ -142,7 +233,7 @@ export function useReadableCategories() {
 
 
             metadata.value.forEach(value => {
-                ageKeyToValue.value.set(value.Key, value);
+                ageKeyToValue.value.set(value.Key, value.Title);
             })
 
             metaDataCategories.value.push({category: category, value: metadata.value});
@@ -157,21 +248,19 @@ export function useReadableCategories() {
     return {metaDataCategories, ageKeyToValue, isLoading};
 }
 
-export async function getMunicipalityById(id: number) {
-    const result = await fetch(BACKEND + `/municipality/id/${id}`, {
-        method: "GET"
-    });
-    if (result.status !== 200) {
-        return;
-    }
-
-    return await result.json();
-}
-
+/**
+ * Fetches the affiliation votes for a given municipality.
+ * @param {Municipality} municipality - The municipality to fetch affiliation votes for.
+ * @returns {Promise<Affiliation[]>} - A promise that resolves to the list of affiliations.
+ */
 export async function getAffiliationVotesForMunicipality(municipality: Municipality) {
-
+    /**
+     * Fetches the affiliations from the backend.
+     * @param {number} municipalityId - The ID of the municipality.
+     * @returns {Promise<Affiliation[]>} - A promise that resolves to the list of affiliations.
+     */
     async function fetchAffiliations(municipalityId: number) {
-        const result = await fetch(BACKEND + `/votes/municipality/${municipalityId}/affiliations`, {
+        const result = await fetch(import.meta.env.VITE_API_URL + `/votes/municipality/${municipalityId}/affiliations`, {
             method: "GET"
         });
         if (result.status !== 200) {
@@ -184,9 +273,19 @@ export async function getAffiliationVotesForMunicipality(municipality: Municipal
     return await fetchAffiliations(municipality.municipalityId)
 }
 
+/**
+ * Fetches the top candidates for a given municipality.
+ * @param {Municipality} municipality - The municipality to fetch top candidates for.
+ * @returns {Promise<any>} - A promise that resolves to the list of top candidates.
+ */
 export async function getTopCandidatesForMunicipality(municipality: Municipality) {
+    /**
+     * Fetches the top candidates from the backend.
+     * @param {number} municipalityId - The ID of the municipality.
+     * @returns {Promise<any>} - A promise that resolves to the list of top candidates.
+     */
     async function fetchTopCandidates(municipalityId: number) {
-        const result = await fetch(BACKEND + `/votes/municipality/${municipalityId}/top`, {
+        const result = await fetch(import.meta.env.VITE_API_URL + `/votes/municipality/${municipalityId}/top`, {
             method: "GET"
         });
         if (result.status !== 200) {
@@ -199,10 +298,18 @@ export async function getTopCandidatesForMunicipality(municipality: Municipality
     return await fetchTopCandidates(municipality.municipalityId)
 }
 
+/**
+ * Adds a municipality to the selected list.
+ * @param {Municipality} value - The municipality to add.
+ */
 export function addMunicipality(value: Municipality): void {
     selectedList.value.push(value);
 }
 
+/**
+ * Removes a municipality from the selected list.
+ * @param {Municipality} value - The municipality to remove.
+ */
 export function removeMunicipality(value: Municipality): void {
     const index: number = selectedList.value.indexOf(value);
     if (index > -1) {
@@ -210,6 +317,42 @@ export function removeMunicipality(value: Municipality): void {
     }
 }
 
-export function getSelectedMunicipalities() {
+/**
+ * Gets the list of selected municipalities.
+ * @returns {ref<Municipality[]>} - The list of selected municipalities.
+ */
+export function getSelectedMunicipalities(): ref<Municipality[]> {
     return selectedList;
+}
+
+class MunicipalityCache {
+    private static _instance: MunicipalityCache;
+    private _municipalityCache = ref(new Map<number, Municipality>);
+    private _maxArraySize = 5;
+    private _lastMapKeys = new Array<number>(this._maxArraySize);
+
+    private constructor() {
+    }
+
+    public static get Instance() {
+        return this._instance || (this._instance = new this());
+    }
+
+    public static getMunicipalityFromCache(municipality: Municipality) {
+        return MunicipalityCache.Instance._municipalityCache.value.get(municipality.municipalityId);
+    }
+
+    public static addMunicipalityToCache(municipality: Municipality) {
+        const index = MunicipalityCache.Instance._lastMapKeys.indexOf(municipality.municipalityId);
+        if (index > -1) {
+            MunicipalityCache.Instance._lastMapKeys.splice(index, 1);
+        }
+        MunicipalityCache.Instance._lastMapKeys.unshift(municipality.municipalityId);
+        MunicipalityCache.Instance._municipalityCache.value.set(municipality.municipalityId, municipality);
+
+        if (MunicipalityCache.Instance._lastMapKeys.length > MunicipalityCache.Instance._maxArraySize) {
+            const lastKey = MunicipalityCache.Instance._lastMapKeys.pop();
+            MunicipalityCache.Instance._municipalityCache.value.delete(lastKey);
+        }
+    }
 }
