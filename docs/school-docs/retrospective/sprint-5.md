@@ -29,9 +29,17 @@ pie
     "Tom" : 10
     "Sjoerd" : 12
     "Senna" : 8
-    "Mathijs" : 7
+    "Mathijs" : 8
     "Borys" : 7
 ```
+
+De story points zijn redelijk goed verdeeld. Borys heeft iets minder story points, maar dit
+is mede dankzij zijn verhuizing en de tijd die hij daaraan heeft besteed. 
+
+PS De story points zijn niet helemaal correct, twee user stories met beide weight 1
+kunnen verschillende moeilijkheidsgraden hebben. Hierdoor zit er wat verschil in de 
+story points per teamlid. Wij zijn zelf van mening dat ieder teamlid ongeveer
+evenveel werk heeft verricht.
 
 ## Feedback voor teamleden
 
@@ -39,11 +47,14 @@ pie
 
 #### Tips
 
-- Komt af en toe wat bot over
+- Komt af en toe wat bot over ivm team communicatie. 
+- Blijf positief en constructief.
+- Voor volgende sprint wat meer story points pakken.
 
 #### Tops
 
-- Veel werk verricht ondanks verhuizing
+- Veel werk verricht ondanks verhuizing.
+- Als teamlid ben je erg betrokken.
 
 ### Senna
 
@@ -55,17 +66,19 @@ pie
 #### Tops
 
 - Goede motivatie voor het onderhouden en maken van de chart met apex charts.
-- Als je iets niet begrijpt ga je door tot dat je het wel begrijpt.
+- Als je iets niet begrijpt, ga je door tot dat je het wel begrijpt.
 
 ### Sjoerd
 
 #### Tips
 
 - Komt af en toe wat bot over
+- Probeer de feedback uit vorige feedback momenten wat gedetailleerder op te volgen
 
 #### Tops
 
 - Altijd op tijd aanwezig
+- Lekker radicaal met het verwijderen van onnodige code
 
 ### Mathijs
 
@@ -77,13 +90,16 @@ pie
 #### Tops
 
 - Goed dat je jwt werkend hebt gekregen
+- Veel functionaliteit geleverd
 
 ### Tom
 
 #### Tips
 
-- n.v.t.
+- Probeer wat meer te communiceren over wat je aan het doen bent
+- Bij wat ingewikkeldere code, betrek de rest van het team erbij
 
 #### Tops
 
 - Lekker bezig met deployen
+- Altijd erg behulpzaam
