@@ -139,6 +139,7 @@ public class ChartController {
 
     @GetMapping(path= ApiPaths.MUNICIPALITY_SERVICE_GET_MUNICIPALITYVOTES_BY_AFFILIATIONID)
     public Map<String, Object> getMunicipalitiesByAffiliationId(@PathVariable("affiliationId") Long affiliationId) {
+
         List<MunicipalityVoteModel> municipalityVotes = municipalityVotesService.getMunicipalitiesByAffiliationId(affiliationId);
         List<Map<String, Object>> data = new ArrayList<>();
         int idCounter = 1;

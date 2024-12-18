@@ -15,6 +15,7 @@
         ></div>
         <apex-chart-interface
             class="apex-interface"
+            height="100%"
             v-if="interface"
             @hide-hightlight="hideHightlight"
             @select="select"
@@ -85,19 +86,24 @@ onMounted(() => {
 });
 
 function updateChart() {
-  chart.updateSeries([chartData.value]);
-  sorted.value = false;
-  extendItemHeight();
+    chart.updateSeries([chartData.value]);
+    // TODO: find out whats wrong
+    // chart.updateOptions({
+    //     chart: {
+    //         height: 800,
+    //     }
+    // });
+    sorted.value = false;
+    // extendItemHeight();
 }
 
 function extendItemHeight() {
-  if (!chartData.value[0]?.data) return;
+  if (!chartData.value || !chartData.value.data) return
   chart.updateOptions({
     chart: {
-      height: chartData.value[0].data.length * 20 + 100,
+      height: chartData.value.data.length * 20 + 100,
     }
-  });
-  chart.updateOptions([chartData.value]);
+  }).catch((e) => console.error(e));
 }
 
 function sort() {
