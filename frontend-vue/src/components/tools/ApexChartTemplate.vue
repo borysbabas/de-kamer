@@ -88,17 +88,16 @@ onMounted(() => {
 function updateChart() {
   chart.updateSeries([chartData.value]);
   sorted = false;
-  extendItemHeight();
+  // extendItemHeight();
 }
 
 function extendItemHeight() {
-  if (!chartData.value.data) return;
+  if (!chartData.value || !chartData.value.data) return;
   chart.updateOptions({
-  chart: {
-    height: chartData.value.data.length * 20 + 100,
-  }
+    chart: {
+      height: chartData.value.data.length * 20 + 100,
+    }
   });
-  chart.updateOptions([chartData.value]);
 }
 
 function sort() {
