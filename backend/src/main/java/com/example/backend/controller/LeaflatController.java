@@ -52,7 +52,6 @@ public class LeaflatController {
             municipalityIds.add(municipalityVotes.getId());
         }
         Map<String, Map<String, Object>> cords = fetchCords();
-        System.out.println(cords + " cords");
 
 
         for (MunicipalityVoteModel municipalityVotes : municipalityVotesList) {
@@ -102,7 +101,6 @@ public class LeaflatController {
                 }
             }
         }
-        System.out.println(cords);
         return cords;
     }
 }
