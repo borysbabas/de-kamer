@@ -10,6 +10,7 @@ import lombok.Setter;
 public class MunicipalityVoteModel {
     private String municipalityName;
     private Long totalVotes;
+    private Long id;
 
     public MunicipalityVoteModel(String municipalityName, Long totalVotes){
         this.municipalityName=municipalityName;
@@ -21,8 +22,19 @@ public class MunicipalityVoteModel {
         this.totalVotes = totalVotes;
     }
 
+    public MunicipalityVoteModel(String municipalityName, Long totalVotes, Long id) {
+        this.municipalityName = municipalityName;
+        this.totalVotes = totalVotes;
+        this.id = id;
+    }
+
     public MunicipalityVoteModel(MunicipalityVotes municipalityVotes) {
         this.municipalityName = municipalityVotes.getMunicipality().getMunicipalityName();
         this.totalVotes = municipalityVotes.getTotalVotes();
+        this.id = municipalityVotes.getId();
+    }
+    public MunicipalityVoteModel(Long affiliationId, Long totalVotes) {
+        this.municipalityName = String.valueOf(affiliationId);
+        this.totalVotes = totalVotes;
     }
 }

@@ -48,6 +48,10 @@ public class MunicipalityVotesService {
                 .stream().map(MunicipalityVoteModel::new).toList();
     }
 
+    public List<MunicipalityVoteModel> findTotalVotesByAffiliationId(long affiliationId) {
+        return municipalityVotesRepository.findTotalVotesByAffiliationId(affiliationId);
+    }
+
     public int getMunicipalityVotesCountByMunicipality(Municipality municipality) {
         return municipalityVotesRepository.countMunicipalityVotesByMunicipality(municipality);
     }
