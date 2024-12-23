@@ -21,9 +21,4 @@ public class MunicipalityVotesController {
     public List<MunicipalityVoteModel> getMunicipalitiesByCandidateId(@PathVariable("candidateId")Long candidateId){
         return municipalityVotesService.getTop5MunicipalitiesByCandidateId(candidateId);
     }
-
-    @GetMapping(path= ApiPaths.MUNICIPALITY_SERVICE_GET_MUNICIPALITYVOTES_BY_AFFILIATIONID)
-    public List<MunicipalityVoteModel> getMunicipalitiesByAffiliationId(@PathVariable("affiliationId") Long affiliationId) {
-        return municipalityVotesService.getMunicipalitiesByAffiliationId(affiliationId);
-    }
 }

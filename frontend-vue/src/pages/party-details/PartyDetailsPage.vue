@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
-import {useRoute} from 'vue-router';
+import {useRoute, useRouter} from 'vue-router';
 import {fetchPartyDetails} from '@/composables/useFetch';
 import Navbar from "@/pages/navbar/Navbar.vue";
 import Footer from "@/pages/footer/Footer.vue";
 
 const route = useRoute();
+const router = useRouter();
 const partyId = Array.isArray(route.params.partyId) ? route.params.partyId[0] : route.params.partyId;
 
 interface PartyDetails {
@@ -32,6 +33,10 @@ const sortCandidates = () => {
   }
 };
 
+function clickCandidate(candidateId: number) {
+  router.push({name: "CandidateDetails", params: {candidateId}});
+}
+
 onMounted(async () => {
   const details = await fetchPartyDetails(partyId);
   if (details) {
@@ -46,33 +51,39 @@ onMounted(async () => {
   <section>
     <div v-if="partyDetails">
       <h1>{{ partyDetails.affiliationName }}</h1>
-      <p>Votes: {{ partyDetails.affiliationVotes }}</p>
+      <p>Stemmen: {{ partyDetails.affiliationVotes }}</p>
       <div class="dropdown">
-        <h2>Candidates</h2>
+        <h2>Kandidaten</h2>
         <select v-model="sortOrder" @change="sortCandidates" class="dropdown-select">
-          <option value="desc">Highest to Lowest</option>
-          <option value="asc">Lowest to Highest</option>
+          <option value="desc">Hoogste naar laagste</option>
+          <option value="asc">Laagste naar hoogste</option>
         </select>
       </div>
       <div class="candidates">
-        <div v-for="candidate in partyDetails.candidates" :key="candidate.candidateId" class="candidate">
+        <div v-for="candidate in partyDetails.candidates" :key="candidate.candidateId" class="candidate" @click="()=>{clickCandidate(candidate.candidateId)}">
           <div>{{ candidate.firstName }}
             {{ candidate.prefix }} {{ candidate.lastName }}
           </div>
-          Votes: {{ candidate.votes }}
+          Stemmen: {{ candidate.votes }}
         </div>
       </div>
     </div>
-    <div v-else>
-      <p>Loading...</p>
+    <div v-else class="center">
+      <div class="loader"></div>
     </div>
   </section>
   <Footer></Footer>
 </template>
 
 <style scoped>
-.main {
-  border: none;
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
 }
 
 h1 {

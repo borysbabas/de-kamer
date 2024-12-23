@@ -85,28 +85,21 @@ public class VotesController {
 
     @GetMapping(path = ApiPaths.AFFILIATION_SERVICE_GETBYID)
     public AffiliationVotesModel getAffiliationVotesById(@PathVariable("id") long id) {
-        AffiliationVotes affiliationVotes = affiliationVotesService.findByAffiliationId(id);
-        if (affiliationVotes == null) {
+        List<CandidateDTO> countryVotes = countryVotesService.getCandidateVotesByAffiliationId(id);
+        AffiliationVotes affiliation = affiliationVotesService.findByAffiliationId(id);
+
+        if (affiliation == null || countryVotes == null) {
             return null;
         }
+
         AffiliationVotesModel affiliationVotesModel = new AffiliationVotesModel(
-                affiliationVotes.getAffiliation().getAffiliationName(),
-                affiliationVotes.getAffiliationVotes(),
-                affiliationVotes.getAffiliation().getAffiliationId());
+                affiliation.getAffiliation().getAffiliationName(),
+                affiliation.getAffiliationVotes(),
+                affiliation.getAffiliation().getAffiliationId()
+        );
 
-        List<Candidate> candidates = candidateService.findCandidatesByAffiliation(affiliationVotes.getAffiliation());
+        affiliationVotesModel.setCandidates(countryVotes);
 
-        affiliationVotesModel.setCandidates(candidates.stream()
-                .map(candidate -> {
-                    CountryVotes countryVotes = this.countryVotesService.findByCandidate(candidate);
-                    if (countryVotes != null) {
-                        return new CandidateDTO(countryVotes);
-                    } else {
-                        return null;
-                    }
-                })
-                .filter(Objects::nonNull)
-                .toList());
         return affiliationVotesModel;
     }
 

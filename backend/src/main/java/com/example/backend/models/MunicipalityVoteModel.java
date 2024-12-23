@@ -17,6 +17,11 @@ public class MunicipalityVoteModel {
         this.totalVotes=totalVotes;
     }
 
+    public MunicipalityVoteModel(MunicipalityAffiliationVotesModel mvModel) {
+        this.municipalityName = mvModel.getMunicipalityName();
+        this.totalVotes = mvModel.getTotalVotes();
+    }
+
     public MunicipalityVoteModel(Municipality municipality, Long totalVotes) {
         this.municipalityName = municipality.getMunicipalityName();
         this.totalVotes = totalVotes;

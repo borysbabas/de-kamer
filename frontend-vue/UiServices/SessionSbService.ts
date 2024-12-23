@@ -1,6 +1,8 @@
-import type {Account} from "@/types/Account";
-
 export default class SessionSbService {
+    private readonly RESOURCES_URL: string;
+    private readonly BROWSER_STORAGE_ITEM_NAME: string;
+    private _currentToken: string | null;
+
     constructor(resourcesURL, browserStorageItemName) {
         this.RESOURCES_URL = resourcesURL;
         this.BROWSER_STORAGE_ITEM_NAME = browserStorageItemName;

@@ -5,7 +5,7 @@
       <div class="wrapper">
         <h1>{{ fetchedData.firstName }} <span v-if="fetchedData.prefix"> {{ fetchedData.prefix }}</span>
           {{ fetchedData.lastName }}</h1>
-        <h2 v-if="fetchedData.gender !== ``">geslacht: {{ fetchedData.gender }}</h2>
+        <h2 v-if="fetchedData.gender !== ``">Geslacht: {{ genderToDutch(fetchedData.gender) }}</h2>
         <h2>Totaal aantal stemmen op {{ fetchedData.name }}: {{ fetchedData.votes }}</h2>
         <h2>Partij: {{ fetchedData.affiliationName }}</h2>
         <div
@@ -13,10 +13,10 @@
             class="apex-chart"
         >
         </div>
-          <div
-              id="chart2"
-              class="apex-chart"
-          >
+        <div
+            id="chart2"
+            class="apex-chart"
+        >
         </div>
       </div>
     </div>
@@ -30,6 +30,17 @@ import Footer from "@/pages/footer/Footer.vue"
 import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import ApexCharts from "apexcharts";
+
+function genderToDutch(gender: string) {
+  switch (gender) {
+    case "male":
+      return "Man";
+    case "female":
+      return "Vrouw";
+    default:
+      return "n.v.t.";
+  }
+}
 
 const props = defineProps({
   candidateId: {
@@ -102,7 +113,7 @@ const chartOptions1 = ref({
     y: {
       formatter: function (val) {
         return val;
-        }
+      }
     },
   }
 });
@@ -165,6 +176,7 @@ const chartOptions2 = ref({
     }
   }
 });
+
 async function fetchCandidate() {
   candidateId.value = route.params.candidateId;
   if (candidateId.value) {
@@ -182,7 +194,7 @@ async function fetchMunicipalityData() {
         import.meta.env.VITE_API_URL + `/get-municipality-votes-by-candidateId/${candidateId.value}`
     );
     const json = await response.json();
-   let municipalityData = json.map((item) => {
+    let municipalityData = json.map((item) => {
       return {
         x: item.municipalityName,
         y: item.totalVotes
@@ -191,6 +203,7 @@ async function fetchMunicipalityData() {
     chartData.value = [{name: "Stemmen", data: municipalityData}];
   }
 }
+
 const updateChartData = () => {
   chart1.updateSeries(chartData.value);
   chart2.updateSeries(chartData.value);
@@ -209,7 +222,7 @@ const initChart = () => {
     chart2.render();
 
     chart2.addEventListener('brushScrolled', (event) => {
-      const { xaxis } = event.detail
+      const {xaxis} = event.detail
       chartSelection(xaxis);
     })
   } else {

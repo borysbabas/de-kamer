@@ -1,92 +1,379 @@
-# Elections
+# **Project Structure Documentation**
 
-Welcome to your Elections project. You and your teammates will need to create the project structure from the ground up. The second presentation contains a widely used and proven structure. Besides the information within the [studiemanual](https://dlo.mijnhva.nl/d2l/le/lessons/609780/topics/2234932) you can also find more information on the [DLO](https://dlo.mijnhva.nl/d2l/le/lessons/609780/units/2204825).
+This structure represents a Vue.js frontend application categorized by features and components. Below is a tree-style
+representation along with explanations of the folder purpose:
 
-**Please note that you are not allowed to add the XML-files containing the information about the elections to your git-repo. Per election the size of the dataset is about 2GB!**
+---
 
-## Getting started
+## **Tree Structure | Frontend**
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
+```plaintext
+├── Dockerfile
+│   * Instructions for building a Docker image.
+├── README.md
+│   * Project documentation.
+├── UiServices
+│   ├── FetchInterceptor.ts
+│   │   * Handles HTTP fetch logic (e.g., headers, error handling).
+│   └── SessionSbService.ts
+│       * Manages session-based functionalities.
+├── env.d.ts
+│   * TypeScript declarations for environment variables.
+├── index.html
+│   * Entry HTML file for the Vue app.
+├── package-lock.json
+│   * Ensures consistent dependency versions.
+├── package.json
+│   * Defines scripts, dependencies, and project metadata.
+├── public
+│   ├── affiliation-logos
+│   │   ├── 50plus.png
+│   │   ├── bbb.png
+│   │   └── ... (other party logos)
+│   │       * Political party logos.
+│   └── favicon.ico
+│       * Browser tab icon.
+├── src
+│   ├── App.vue
+│   │   * Root Vue component.
+│   ├── assets
+│   │   ├── favicon.ico
+│   │   ├── img
+│   │   │   ├── tweede-kamer-720p.jpg
+│   │   │   └── zetelverdeling-tk.png
+│   │   │       * Images for "Tweede Kamer" and seat distribution.
+│   │   ├── main.css
+│   │   │   * Main stylesheet.
+│   │   ├── reset.css
+│   │   │   * CSS reset for browser defaults.
+│   │   └── svg
+│   │       └── red-cross.svg
+│   │           * SVG file for warnings/icons.
+│   ├── components
+│   │   ├── CustomTable.vue
+│   │   ├── Selection-Element.vue
+│   │   ├── VotesTable.vue
+│   │   │   * Reusable table components.
+│   │   ├── pages
+│   │   │   ├── CandidateDetailsPage.vue
+│   │   │   └── ResultsPage.vue
+│   │   │       * Page components for candidates and results.
+│   │   └── tools
+│   │       ├── Apex-Chart-Template.vue
+│   │       ├── Data-Selector-Bar.vue
+│   │       └── chartConfig
+│   │           └── Apex-Chart-Interface.vue
+│   │               * Tools and interfaces for charts.
+│   ├── composables
+│   │   ├── useChartConfig.ts
+│   │   ├── useFetch.ts
+│   │   ├── useMunicipalities.ts
+│   │   ├── useParties.ts
+│   │   └── usePosts.ts
+│   │       * Vue 3 Composition API for reusable logic.
+│   ├── main.ts
+│   │   * Entry point for the Vue app.
+│   ├── pages
+│   │   ├── candidate-details
+│   │   │   └── CandidateDetailsPage.vue
+│   │   │       * Page for candidate details.
+│   │   ├── compare-municipalities
+│   │   │   ├── CompareMunicipalities.vue
+│   │   │   └── components
+│   │   │       ├── MunicipalityCards.vue
+│   │   │       └── MunicipalitySearch.vue
+│   │   │           * Municipality comparison and search.
+│   │   ├── forum
+│   │   │   ├── ForumHome.vue
+│   │   │   ├── components
+│   │   │   │   ├── PostItem.vue
+│   │   │   │   ├── add-post
+│   │   │   │   │   ├── AddPost.vue
+│   │   │   │   │   ├── AddPostButton.vue
+│   │   │   │   │   └── MarkdownMenu.vue
+│   │   │   │   ├── hero
+│   │   │   │   │   ├── Hero.vue
+│   │   │   │   │   ├── Pagination.vue
+│   │   │   │   │   └── PostList.vue
+│   │   │   │   └── recent-posts
+│   │   │   │       └── RecentPosts.vue
+│   │   │   └── pages
+│   │   │       ├── AddPostPage.vue
+│   │   │       └── ForumHome.vue
+│   │   ├── home
+│   │   │   ├── HomePage.vue
+│   │   │   └── components
+│   │   │       ├── AboutUs.vue
+│   │   │       ├── Graph.vue
+│   │   │       ├── Hero.vue
+│   │   │       ├── LoadMore.vue
+│   │   │       └── Parties.vue
+│   │   │           * Homepage components.
+│   │   ├── login
+│   │   │   ├── LoginPage.vue
+│   │   │   └── components
+│   │   │       └── Login.vue
+│   │   ├── navbar
+│   │   │   ├── Navbar.vue
+│   │   │   └── components
+│   │   │       └── Searchbar.vue
+│   │   │           * Navbar and search components.
+│   │   ├── party-details
+│   │   │   └── PartyDetailsPage.vue
+│   │   └── results
+│   │       ├── ResultsPage.vue
+│   │       └── components
+│   │           ├── Results.vue
+│   │           └── VotesTable.vue
+│   │               * Voting and results components.
+│   ├── shims-vue.d.ts
+│   │   * TypeScript declarations for `.vue` files.
+│   └── types
+│       ├── Account.ts
+│       ├── Candidate.ts
+│       ├── Municipality.ts
+│       └── ... (other type files)
+│           * TypeScript interfaces for structured data.
+├── tsconfig.app.json
+│   * TypeScript config for the app.
+├── tsconfig.json
+│   * Main TypeScript config file.
+├── tsconfig.node.json
+│   * TypeScript config for Node.js.
+├── tsconfig.vitest.json
+│   * TypeScript config for Vitest testing.
+├── vite.config.ts
+│   * Configuration for Vite build tool.
+└── vitest.config.ts
+    * Configuration for Vitest testing framework.
 ```
-cd existing_repo
-git remote add origin https://gitlab.fdmci.hva.nl/semester-3-hbo-ict/onderwijs/start-projecten/2024-2025/software-engineering/elections.git
-git branch -M main
-git push -uf origin main
+
+---
+
+## **Frontend structure**
+
+### 1. **Top-Level Folders:**
+
+- `.vite/`: Used internally by Vite for caching and performance optimization.
+- `dist/`: Contains build files after running `npm run build`.
+- `node_modules/`: External dependencies managed by npm/yarn.
+- `public/`: Static files such as logos or manifest files that don't need processing.
+
+### 2. **Source (`src/`):**
+
+- `assets/`: Stores project-specific assets (images, styles).
+- `components/`: General and reusable Vue components, categorized further into:
+    - `pages/`: Components specific to a page feature.
+    - `tools/`: Utility components shared across multiple pages.
+- `composables/`: Logic and utilities written as Vue 3 composition functions.
+- `pages/`: Organized into feature-based folders:
+    - **candidate-details**, **forum**, **home**, etc.: Each folder corresponds to a major feature or route in the app
+      and contains:
+        - `components/`: Subcomponents for the page.
+        - Main `.vue` file implementing the page's functionality.
+- `types/`: Contains `.ts` files for shared TypeScript definitions.
+- `App.vue`: Root application component.
+- `main.ts`: Entry point where Vue and plugins are initialized.
+- `shims-vue.d.ts`: TypeScript support for Vue single-file components.
+
+### 3. **Tree structure | Backend**
+
+```plaintext
+├── Dockerfile
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── example
+│   │   │           └── backend
+│   │   │               ├── BackendApplication.java
+│   │   │               ├── DTO
+│   │   │               │   ├── AccountDTO.java
+│   │   │               │   ├── AffiliationDTO.java
+│   │   │               │   └── CandidateDTO.java
+│   │   │               ├── authentication
+│   │   │               │   ├── JWTRequestFilter.java
+│   │   │               │   └── JWToken.java
+│   │   │               ├── config
+│   │   │               │   ├── ApiConfig.java
+│   │   │               │   └── ApiPaths.java
+│   │   │               ├── controller
+│   │   │               │   ├── AffiliationController.java
+│   │   │               │   ├── AuthenticationController.java
+│   │   │               │   ├── CandidateController.java
+│   │   │               │   ├── ConstituencyController.java
+│   │   │               │   ├── DatabaseController.java
+│   │   │               │   ├── MunicipalityController.java
+│   │   │               │   ├── MunicipalityVotesController.java
+│   │   │               │   ├── PostController.java
+│   │   │               │   └── VotesController.java
+│   │   │               ├── entities
+│   │   │               │   ├── Account.java
+│   │   │               │   ├── Affiliation.java
+│   │   │               │   ├── AffiliationVotes.java
+│   │   │               │   ├── Candidate.java
+│   │   │               │   ├── Constituency.java
+│   │   │               │   ├── ConstituencyVotes.java
+│   │   │               │   ├── CountryVotes.java
+│   │   │               │   ├── Municipality.java
+│   │   │               │   ├── MunicipalityVotes.java
+│   │   │               │   ├── PollingStation.java
+│   │   │               │   ├── PollingStationVotes.java
+│   │   │               │   └── Post.java
+│   │   │               ├── models
+│   │   │               │   ├── AffiliationNameModel.java
+│   │   │               │   ├── AffiliationVotesModel.java
+│   │   │               │   ├── CandidateVotesModel.java
+│   │   │               │   ├── ConstituencyModel.java
+│   │   │               │   ├── ConstituencyVotesModel.java
+│   │   │               │   ├── MemberCountModel.java
+│   │   │               │   ├── MunicipalityAffiliationVotesModel.java
+│   │   │               │   ├── MunicipalityIdModel.java
+│   │   │               │   ├── MunicipalityModel.java
+│   │   │               │   ├── MunicipalityVoteModel.java
+│   │   │               │   ├── MunicipalityVotesModel.java
+│   │   │               │   ├── PostModel.java
+│   │   │               │   ├── RegionModel.java
+│   │   │               │   ├── VoteModel.java
+│   │   │               │   └── XmlFileModel.java
+│   │   │               ├── repositories
+│   │   │               │   ├── AccountRepository.java
+│   │   │               │   ├── AffiliationRepository.java
+│   │   │               │   ├── AffiliationVotesRepository.java
+│   │   │               │   ├── CandidateRepository.java
+│   │   │               │   ├── ConstituencyRepository.java
+│   │   │               │   ├── ConstituencyVotesRepository.java
+│   │   │               │   ├── CountryVotesRepository.java
+│   │   │               │   ├── MunicipalityRepository.java
+│   │   │               │   ├── MunicipalityVotesRepository.java
+│   │   │               │   ├── PollingStationRepository.java
+│   │   │               │   ├── PollingStationVotesRepository.java
+│   │   │               │   └── PostRepository.java
+│   │   │               ├── services
+│   │   │               │   ├── AccountService.java
+│   │   │               │   ├── AffiliationService.java
+│   │   │               │   ├── AffiliationVotesService.java
+│   │   │               │   ├── CandidateService.java
+│   │   │               │   ├── ConstituencyService.java
+│   │   │               │   ├── ConstituencyVotesService.java
+│   │   │               │   ├── CountryVotesService.java
+│   │   │               │   ├── MunicipalityService.java
+│   │   │               │   ├── MunicipalityVotesService.java
+│   │   │               │   ├── PollingStationService.java
+│   │   │               │   ├── PollingStationVotesService.java
+│   │   │               │   └── PostService.java
+│   │   │               ├── utils
+│   │   │               │   ├── NotAcceptableException.java
+│   │   │               │   ├── ResourceNotFoundException.java
+│   │   │               │   ├── TwoKeyHashMap.java
+│   │   │               │   └── UnAuthorizedException.java
+│   │   │               └── xmlreader
+│   │   │                   ├── FileDiscovery.java
+│   │   │                   ├── XMLTagNames.java
+│   │   │                   ├── XmlCandidateListReader.java
+│   │   │                   ├── XmlConstituencyVotesReader.java
+│   │   │                   ├── XmlElectionTreeReader.java
+│   │   │                   ├── XmlFileTypeAssertion.java
+│   │   │                   ├── XmlMunicipalityVotesReader.java
+│   │   │                   ├── XmlStreamReaderV1.java
+│   │   │                   └── XmlTotalCountReader.java
+│   │   └── resources
+│   │       ├── application-development.properties
+│   │       ├── application-production.properties
+│   │       └── application.properties
+│   └── test
+│       └── java
+│           └── com
+│               └── example
+│                   └── backend
+│                       └── BackendApplicationTests.java
+└── target
+├── classes
+│   └── (compiled files for `src/main`)
+├── generated-sources
+│   └── annotations
+├── generated-test-sources
+│   └── test-annotations
+└── test-classes
+└── (compiled test files)
 ```
 
-## Integrate with your tools
+## **Backend Structure**
 
-- [ ] [Set up project integrations](https://gitlab.fdmci.hva.nl/semester-3-hbo-ict/onderwijs/start-projecten/2024-2025/software-engineering/elections/-/settings/integrations)
+### 1. **Top-Level Folders**
 
-## Collaborate with your team
+- **`/src/`**: Core source folder containing all backend logic and configurations. Organized as follows:
+- **`/dist/`**: Compiled output files after running the build process.
+- **`/node_modules/`**: External dependencies managed by npm/yarn.
+- **`/config/`**: Global configuration files, environment variables, and constants.
+- **`.env`**: Contains sensitive configuration data (e.g., database URLs, API keys).
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+---
 
-## Test and Deploy
+### 2. **Source (`/src/`)**
 
-Use the built-in continuous integration in GitLab.
+#### **Controllers (`/controllers/`)**
+Handles incoming HTTP requests and connects to the relevant services:
+- **`authController.ts`**: Manages user authentication (login, logout, registration).
+- **`userController.ts`**: Handles user CRUD operations.
+- **`projectController.ts`**: Manages project-related endpoints and actions.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+#### **Services (`/services/`)**
+Implements business logic and acts as a bridge between controllers and models:
+- **`authService.ts`**: Handles login logic, token generation, and validation.
+- **`userService.ts`**: Implements logic for user management.
+- **`projectService.ts`**: Business logic for handling projects.
 
-***
+#### **Models (`/models/`)**
+Defines database schemas or data structures:
+- **`User.ts`**: Defines the database structure and relationships for users.
+- **`Project.ts`**: Schema for project management.
 
-# Editing this README
+#### **Routes (`/routes/`)**
+Maps API endpoints to corresponding controllers:
+- **`authRoutes.ts`**: Routes for authentication (e.g., `/login`, `/register`).
+- **`userRoutes.ts`**: Endpoints for user actions (e.g., `/users/:id`).
+- **`projectRoutes.ts`**: Routes for managing project data.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+#### **Middleware (`/middleware/`)**
+Reusable functions that execute before controllers:
+- **`authMiddleware.ts`**: Validates JWT tokens for protected routes.
+- **`errorHandler.ts`**: Global error-handling middleware for consistent responses.
 
-## Suggestions for a good README
+#### **Configuration (`/config/`)**
+Stores configuration settings:
+- **`database.ts`**: Sets up the database connection (e.g., using MongoDB, PostgreSQL).
+- **`server.ts`**: General server settings (port, CORS, rate limiting).
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+#### **Utilities (`/utils/`)**
+Reusable helper functions:
+- **`jwtHelper.ts`**: Functions for signing, verifying, and decoding JWT tokens.
+- **`errorUtils.ts`**: Custom error classes and message formatting.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+---
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### 3. **Entry Points**
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+- **`server.ts`**: Initializes the server, connects to the database, and sets up middleware and routes.
+- **`app.ts`**: Main application file where routes, middleware, and services are registered.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+---
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+### 4. **Environment Configuration**
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+- **`.env`**: Contains environment variables like:
+    - `DB_URI`: Database connection string.
+    - `PORT`: Server port.
+    - `JWT_SECRET`: Secret key for signing JWTs.
+- **`.env.example`**: Template for required environment variables.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+---
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+### 5. **Build and Deployment**
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+- **`/dist/`**: Compiled output ready for production deployment.
+- **`tsconfig.json`**: TypeScript compiler configuration.
+- **`package.json`**: Project metadata, scripts, and dependencies.

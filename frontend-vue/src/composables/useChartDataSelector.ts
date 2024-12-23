@@ -45,7 +45,7 @@ export const setSelectOption = async (index: number, selectedValue: string) => {
     await fetchChartData();
 }
 export const getPartyCandidateList = async (affilationName: String) => {
-    const data =  await fetch("http://localhost:3001/candidates/affiliation/" + affilationName)
+    const data =  await fetch(import.meta.env.VITE_API_URL + "/candidates/affiliation/" + affilationName)
         .then((response) => response.json())
         .then((data) => {
             return data;
@@ -56,7 +56,7 @@ export const getPartyCandidateList = async (affilationName: String) => {
 
 
 const getPartyList = async () => {
-    const data =  await fetch("http://localhost:3001/affiliation/all")
+    const data =  await fetch(import.meta.env.VITE_API_URL + "/affiliation/all")
         .then((response) => response.json())
         .then((data) => {
             return data;
@@ -147,7 +147,7 @@ function getAffilationId(affilationName: string) {
 
 async function getVotesByAffilation(affilationName: string) {
     const affilationId = getAffilationId(affilationName);
-    return await fetch("http://localhost:3001/chart/votes/" + affilationId)
+    return await fetch(import.meta.env.VITE_API_URL + "/chart/votes/" + affilationId)
         .then((response) => response.json())
         .then((data) => {
             return data;
@@ -155,7 +155,7 @@ async function getVotesByAffilation(affilationName: string) {
 }
 
 async function getMembers() {
-    return await fetch("http://localhost:3001/chart/members/count")
+    return await fetch(import.meta.env.VITE_API_URL + "/chart/members/count")
         .then((response) => response.json())
         .then((data) => {
             return data;
@@ -163,14 +163,14 @@ async function getMembers() {
 }
 
 async function getVotes() {
-    return await fetch("http://localhost:3001/chart/votes/affiliations")
+    return await fetch(import.meta.env.VITE_API_URL + "/chart/votes/affiliations")
         .then((response) => response.json())
         .then((data) => {
             return data;
         });
 }
 async function  getMunicipalityList() {
-    return await fetch("http://localhost:3001/municipality/all")
+    return await fetch(import.meta.env.VITE_API_URL + "/municipality/all")
         .then((response) => response.json())
         .then((data) => {
             return data;
@@ -182,7 +182,7 @@ async function getMunicplaityVotesByCandidate(candidateName: string) {
     if (!candidateId) {
         return [];
     }
-    return await fetch("http://localhost:3001/chart/get-municipality-votes-by-candidateId/" + candidateId)
+    return await fetch(import.meta.env.VITE_API_URL + "/chart/get-municipality-votes-by-candidateId/" + candidateId)
         .then((response) => response.json())
         .then((data) => {
             return data;
@@ -191,7 +191,7 @@ async function getMunicplaityVotesByCandidate(candidateName: string) {
 
 async function getMunicipalityVotesByAffilation(affilationName: string) {
     const affilationId = getAffilationId(affilationName);
-    return await fetch("http://localhost:3001/chart/get-municipality-votes-by-affiliationId/" + affilationId)
+    return await fetch(import.meta.env.VITE_API_URL + "/chart/get-municipality-votes-by-affiliationId/" + affilationId)
         .then((response) => response.json())
         .then((data) => {
             return data;
@@ -200,7 +200,7 @@ async function getMunicipalityVotesByAffilation(affilationName: string) {
 
 async function getConstituencyByAffilation(affilationName: string) {
     const affilationId = getAffilationId(affilationName);
-    return await fetch("http://localhost:3001/chart/votes/constituency/affiliation/" + affilationId)
+    return await fetch(import.meta.env.VITE_API_URL + "/chart/votes/constituency/affiliation/" + affilationId)
         .then((response) => response.json())
         .then((data) => {
             return data;
@@ -213,7 +213,7 @@ async function getConstituencyByCandidate(candidateName: string) {
         return [];
     }
     const affilationId = getAffilationId(selectedOption.value[3].selected);
-    return await fetch("http://localhost:3001/chart/votes/constituency/affiliation/"+ affilationId + "/candidate/" + candidateId)
+    return await fetch(import.meta.env.VITE_API_URL + "/chart/votes/constituency/affiliation/"+ affilationId + "/candidate/" + candidateId)
         .then((response) => response.json())
         .then((data) => {
             return data;

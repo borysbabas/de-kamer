@@ -30,7 +30,13 @@ public interface MunicipalityVotesRepository extends JpaRepository<MunicipalityV
 
     Optional<MunicipalityVotes> findTopByMunicipalityMunicipalityIdOrderByTotalVotesDesc(Long municipalityId);
 
-    List<MunicipalityVotes> findAllByAffiliationAffiliationId(long affiliationId);
+    // GROUP BY cannot be used in the JPA query, so we need to use native query
+    @Query("SELECT new com.example.backend.models.MunicipalityAffiliationVotesModel(" +
+            "mv.municipality, mv.affiliation, SUM(mv.totalVotes), mv.municipality.municipalityId)" +
+            "FROM MunicipalityVotes mv " +
+            "WHERE mv.affiliation.affiliationId = :affiliationId " +
+            "GROUP BY mv.municipality.municipalityId")
+    List<MunicipalityAffiliationVotesModel> findAllByAffiliationAffiliationId(long affiliationId);
 
     @Query("SELECT new com.example.backend.models.MunicipalityVoteModel(mv.municipality.municipalityName, SUM(mv.totalVotes), mv.municipality.municipalityId) " +
             "FROM MunicipalityVotes mv WHERE mv.affiliation.affiliationId = :affiliationId GROUP BY mv.municipality.municipalityName")

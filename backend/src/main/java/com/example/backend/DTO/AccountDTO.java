@@ -21,7 +21,7 @@ public class AccountDTO {
         this.role = account.getRole();
         this.userName = account.getUserName();
         this.password = account.getPassword();
-        this.dateOfBirth = account.getDateOfBirth().toString();
+//        this.dateOfBirth = account.getDateOfBirth().toString();
     }
 
     public boolean verifyPassword(String rawPassword){

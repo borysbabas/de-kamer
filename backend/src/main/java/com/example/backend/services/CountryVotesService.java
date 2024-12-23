@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.DTO.CandidateDTO;
 import com.example.backend.entities.Candidate;
 import com.example.backend.entities.CountryVotes;
 import com.example.backend.models.CandidateVotesModel;
@@ -24,8 +25,6 @@ public class CountryVotesService {
         this.countryVotesRepository.save(countryVotes);
     }
 
-
-
     public CountryVotes findCountryVoteByShortCode(String shortCode) {
         Candidate candidate = candidateService.findFirstByShortCode(shortCode);
         if (candidate == null) {
@@ -49,5 +48,9 @@ public class CountryVotesService {
     }
     public List<Candidate> getCandidatesByAffiliationId(Long affiliationId) {
         return countryVotesRepository.findByAffiliationAffiliationId(affiliationId).stream().map(CountryVotes::getCandidate).toList();
+    }
+
+    public List<CandidateDTO> getCandidateVotesByAffiliationId(Long affiliationId) {
+        return countryVotesRepository.findByAffiliationAffiliationId(affiliationId).stream().map(CandidateDTO::new).toList();
     }
 }

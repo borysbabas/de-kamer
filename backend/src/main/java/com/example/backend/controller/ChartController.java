@@ -139,14 +139,15 @@ public class ChartController {
 
     @GetMapping(path= ApiPaths.MUNICIPALITY_SERVICE_GET_MUNICIPALITYVOTES_BY_AFFILIATIONID)
     public Map<String, Object> getMunicipalitiesByAffiliationId(@PathVariable("affiliationId") Long affiliationId) {
-        List<MunicipalityVoteModel> municipalityVotesList = municipalityVotesService.findTotalVotesByAffiliationId(affiliationId);
+
+        List<MunicipalityVoteModel> municipalityVotes = municipalityVotesService.getMunicipalitiesByAffiliationId(affiliationId);
         List<Map<String, Object>> data = new ArrayList<>();
         int idCounter = 1;
 
-        for (MunicipalityVoteModel municipalityVotes : municipalityVotesList) {
+        for (MunicipalityVoteModel vote : municipalityVotes) {
             Map<String, Object> dataPoint = new HashMap<>();
-            dataPoint.put("x", municipalityVotes.getMunicipalityName());
-            dataPoint.put("y", municipalityVotes.getTotalVotes());
+            dataPoint.put("x", vote.getMunicipalityName());
+            dataPoint.put("y", vote.getTotalVotes());
             dataPoint.put("id", idCounter++);
             data.add(dataPoint);
         }

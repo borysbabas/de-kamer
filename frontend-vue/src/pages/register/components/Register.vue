@@ -1,23 +1,22 @@
 <script setup lang="ts">
-import {ref} from "vue"
-import {inject} from "vue";
+import {inject, ref} from "vue"
 
 const sessionService = inject("sessionService")
 
-async function submitRegisterForm(){
-  if(!formData.value.email || !formData.value.username || !formData.value.dateOfBirth|| !formData.value.password){
+async function submitRegisterForm() {
+  if (!formData.value.email || !formData.value.username || !formData.value.dateOfBirth || !formData.value.password) {
     return
   }
 
   const response = await sessionService.asyncSignUp(formData.value)
-  if(response){
+  if (response) {
     let btn = document.getElementById("submit-btn")
-    btn.style.backgroundColor="green"
+    btn.style.backgroundColor = "green"
     btn.innerHTML = "succesfully registered!"
 
-  }else{
+  } else {
     let btn = document.getElementById("submit-btn")
-    btn.style.backgroundColor="red"
+    btn.style.backgroundColor = "red"
     btn.innerHTML = "Something went wrong..."
   }
 
@@ -37,7 +36,7 @@ const formData = ref({
     <form @submit.prevent>
       <div class="wrapper">
         <h2>Enter your information</h2>
-        <input required v-model="formData.email" placeholder="E-mail">
+        <input required v-model="formData.email" type="email" placeholder="E-mail">
         <input required v-model="formData.username" placeholder="Username">
         <input required v-model="formData.dateOfBirth" type="date" placeholder="date of birth.">
         <input required v-model="formData.password" type="password" placeholder="Password">
