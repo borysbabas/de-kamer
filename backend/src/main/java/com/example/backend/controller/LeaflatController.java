@@ -77,6 +77,25 @@ public class LeaflatController {
         return response;
     }
 
+    @GetMapping(path = ApiPaths.GET_POLYGONS)
+    public Map<String, Object> getPolygons() {
+        Map<String, Map<String, Object>> polygons = FetchPolygons();
+        List<Map<String, Object>> data = new ArrayList<>();
+        for (Map.Entry<String, Map<String, Object>> entry : polygons.entrySet()) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", entry.getValue().get("name"));
+            map.put("id", entry.getValue().get("id"));
+            map.put("type", entry.getValue().get("type"));
+            map.put("coordinates", entry.getValue().get("coordinates"));
+            data.add(map);
+        }
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", data);
+        return response;
+    }
+
+
+    // External Api calls
     private Map<String, Map<String, Object>> fetchCords() {
         Map<String, Map<String, Object>> cords = new HashMap<>();
         RestTemplate restTemplate = new RestTemplate();
@@ -102,5 +121,38 @@ public class LeaflatController {
             }
         }
         return cords;
+    }
+
+    private Map<String, Map<String, Object>> FetchPolygons() {
+        Map<String, Map<String, Object>> polygons = new HashMap<>();
+        RestTemplate restTemplate = new RestTemplate();
+        int totalItems = 1;
+        int limit = 1;
+
+        for (int offset = 0; offset < totalItems; offset += limit) {
+            String url = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/georef-netherlands-gemeente/records?select=geo_shape,geo_point_2d,gem_code,gem_name&limit=" + limit + "&offset=" + offset;
+            Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+            if (response != null) {
+                List<Map<String, Object>> data = (List<Map<String, Object>>) response.get("results");
+                if (data != null) {
+                    data.forEach((item) -> {
+                        Map<String, Object> polygon = new HashMap<>();
+                        Map<String, Object> geoShape = (Map<String, Object>) item.get("geo_shape");
+                        if (geoShape != null) {
+                            Map<String, Object> geometry = (Map<String, Object>) geoShape.get("geometry");
+                            if (geometry != null) {
+                                List<List<List<Double>>> coordinates = (List<List<List<Double>>>) geometry.get("coordinates");
+                                polygon.put("coordinates", coordinates);
+                                polygon.put("type", geometry.get("type"));
+                            }
+                        }
+                        polygon.put("name", ((List<String>) item.get("gem_name")).get(0));
+                        polygon.put("id", ((List<String>) item.get("gem_code")).get(0));
+                        polygons.put(((List<String>) item.get("gem_code")).get(0), polygon);
+                    });
+                }
+            }
+        }
+        return polygons;
     }
 }

@@ -12,6 +12,8 @@ public class ApiPaths {
 
     public static final String CANDIDATE_SERVICE_GET_AFFILIATION_VOTES = "/votes/{affiliationId}";
 
+    public static final String GET_POLYGONS = "/get-polygons";
+
     public static final String CONSTITUENCY_SERVICE = "/constituencies";
 
     public static final String AUTHENTICATION_SERVICE="/authentication";

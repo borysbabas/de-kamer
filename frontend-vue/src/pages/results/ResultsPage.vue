@@ -1,7 +1,7 @@
 <template>
   <Navbar></Navbar>
   <Results></Results>
-  <leaflet-template></leaflet-template>
+  <leaflet-template-polygons></leaflet-template-polygons>
   <data-selector-bar></data-selector-bar>
   <ApexChartTemplate :interface="true"></ApexChartTemplate>
   <Footer></Footer>
@@ -13,7 +13,7 @@ import Footer from "@/pages/footer/Footer.vue";
 import Results from "@/pages/results/components/Results.vue";
 import ApexChartTemplate from "@/components/tools/ApexChartTemplate.vue";
 import DataSelectorBar from "@/components/tools/DataSelectorBar.vue";
-import LeafletTemplate from "@/components/tools/LeafletTemplate.vue";
+import LeafletTemplatePolygons from "@/components/tools/LeafletTemplatePolygons.vue";
 </script>
 
 <style scoped>
