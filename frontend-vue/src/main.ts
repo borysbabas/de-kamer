@@ -16,6 +16,7 @@ import SitemapPage from "@/pages/sitemap/SitemapPage.vue";
 import AccountDetailsPage from "@/pages/account-details/AccountDetailsPage.vue";
 import AddPostPage from "@/pages/forum/pages/AddPostPage.vue";
 import InfoPage from "@/pages/info/InfoPage.vue";
+import PostDetailsPage from "@/pages/forum/pages/PostDetailsPage.vue";
 
 const sessionsService = inject("sessionService")
 const router: Router = createRouter({
@@ -29,7 +30,8 @@ const router: Router = createRouter({
         {path: "/forum/login", component: LoginPage, name: "Login"},
         {path: "/forum/register", component: RegisterPage, name: "Register"},
         {path:"/forum/account-details", component:AccountDetailsPage, name:"AccountDetails", meta:{requiresAuth:true}},
-        {path: "/forum/add-post", component: AddPostPage, name: "AddPost"},
+        {path: "/forum/add-post", component: AddPostPage, name: "AddPost", meta: {requiresAuth: true}},
+        {path: "/forum/post/:postId", name: "PostDetails", component: PostDetailsPage},
         {path: "/candidate/:candidateId", name: "CandidateDetails", component: CandidateDetailsPage, props: true},
         {path: '/party/:partyId', name: 'PartyDetails', component: PartyDetailsPage},
         {path: "/algemene-voorwaarden", name: "TermsOfService", component: TermsOfServicePage},
