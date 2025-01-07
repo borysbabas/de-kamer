@@ -41,10 +41,8 @@ public class AccountDetailsController {
     public boolean deleteAccountById(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = true) String authorizationHeader, @PathVariable(value = "id", required = true) Long id) {
         try {
             String token = authorizationHeader.substring(7);
-            String issuer = this.apiConfig.getIssuer();
-            String passPhrase = this.apiConfig.getPassphrase();
-            JWToken jwt = JWToken.decode(token, issuer, passPhrase);
-            if (Objects.equals(jwt.getAccountId(), id)) {
+
+            if (JWToken.verifyToken(token, id)) {
                 return accountService.deleteAccountById(id);
             }
 
