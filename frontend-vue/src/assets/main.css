@@ -123,6 +123,19 @@ section.login {
     background-color: var(--dark-primary);
 }
 
+button {
+    background-color: var(--button-important);
+    color: var(--light-primary);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: var(--button-important-hover);
+}
+
 .login {
     .wrapper {
         display: flex;
