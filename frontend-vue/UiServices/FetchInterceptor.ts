@@ -1,5 +1,10 @@
 import fetchIntercept from "fetch-intercept";
-import {options} from "@/composables/useDropdown";
+
+type FetchOptions = {
+    method?: string;
+    headers?: {};
+    Authorization?: string;
+}
 
 export class FetchInterceptor {
     sessionService;
@@ -15,7 +20,7 @@ export class FetchInterceptor {
         this.unregister = fetchIntercept.register(this);
     }
 
-    request(url, options = {}) {
+    request(url, options: FetchOptions = {}) {
         const token = this.sessionService?.getTokenFromBrowserStorage();
         if(url.includes("api.wikimedia.org")|| url.includes("https://opendata.cbs.nl")){
             return [url,options]
@@ -23,7 +28,7 @@ export class FetchInterceptor {
         if (!token) {
             return [url, options];
         }
-        const newOptions = { ...options };
+        const newOptions: FetchOptions = { ...options };
         newOptions.headers = {
             ...(options.headers || {}),
             Authorization: `Bearer ${token}`,
@@ -61,7 +66,7 @@ export class FetchInterceptor {
             console.error("Unauthorized 401")
             this.sessionService.clearToken()
             this.sessionService.clearUserName()
-            window.location.href("/forum/login")
+            window.location.href = "/forum/login";
         }
     }
 }
