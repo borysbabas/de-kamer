@@ -1,7 +1,7 @@
 import {onMounted, ref} from "vue";
 import type {Post} from "@/types/Post";
 
-export function usePostDetails(postId: number) {
+export function usePostDetails(postId: unknown) {
     const isLoading = ref(false);
     const loadedPost = ref<Post>();
 
@@ -13,7 +13,6 @@ export function usePostDetails(postId: number) {
 
         if (!response.ok) {
             isLoading.value = false;
-            loadedPost.value = undefined;
             return {isLoading, loadedPost}
         }
 

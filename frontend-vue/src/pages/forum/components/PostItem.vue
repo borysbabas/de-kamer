@@ -2,6 +2,7 @@
 import {computed, defineProps, onMounted} from "vue";
 import {useRouter} from 'vue-router';
 import {marked} from "marked";
+import hljs from "highlight.js";
 
 const router = useRouter();
 
@@ -32,17 +33,13 @@ const renderedDescription = computed(() => {
   });
 });
 
-onMounted(()=>{
-  const post = document.querySelector("li.post");
-
-  post.addEventListener("click", () => {
-    router.push("/forum/post/" + props.post.id);
-  });
-})
+function goToPost() {
+  router.push({name: 'PostDetails', params: {postId: props.post.id}});
+}
 </script>
 
 <template>
-  <li class="post">
+  <li class="post" @click="goToPost">
     <div class="post-title-container">
       <h3 class="post-title">{{ post.title }}</h3>
     </div>
