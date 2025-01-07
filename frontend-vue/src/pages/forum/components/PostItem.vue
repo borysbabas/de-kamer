@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import {computed, defineProps} from "vue";
+import {computed, defineProps, onMounted} from "vue";
+import {useRouter} from 'vue-router';
 import {marked} from "marked";
+
+const router = useRouter();
 
 const props = defineProps({
   post: {
@@ -28,6 +31,14 @@ const renderedDescription = computed(() => {
     xhtml: false,
   });
 });
+
+onMounted(()=>{
+  const post = document.querySelector("li.post");
+
+  post.addEventListener("click", () => {
+    router.push("/forum/post/" + props.post.id);
+  });
+})
 </script>
 
 <template>

@@ -49,7 +49,7 @@ public class PostController {
         return new ResponseEntity<>("Post added successfully", HttpStatus.OK);
     }
 
-    @DeleteMapping(path = ApiPaths.FIND_POST_BY_ID)
+    @DeleteMapping(path = ApiPaths.DELETE_POST_BY_ID)
     public void deletePost(@PathVariable("postId") Long postId) {
         postService.deletePost(postId);
     }
@@ -62,5 +62,10 @@ public class PostController {
     @GetMapping(path = ApiPaths.POST_SERVICE_RECENT + "/{postsPerPage}/{currentPage}")
     public List<PostModel> getRecentPosts(@PathVariable("postsPerPage") Integer postsPerPage, @PathVariable("currentPage") Integer currentPage) {
         return postService.getRecentPosts(postsPerPage, currentPage);
+    }
+
+    @GetMapping(path = ApiPaths.GET_POST_BY_ID)
+    public PostModel getPostById(@PathVariable("postId") Long postId) {
+        return postService.getPostById(postId);
     }
 }

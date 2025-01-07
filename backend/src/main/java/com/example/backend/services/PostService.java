@@ -37,4 +37,9 @@ public class PostService {
     public List<PostModel> getRecentPosts(int postsPerPage, int currentPage) {
         return postRepository.findAllByPageOrderByDateCreatedDesc(postsPerPage, (currentPage - 1) * postsPerPage).stream().map(PostModel::new).toList();
     }
+
+    public PostModel getPostById(long postId) {
+        System.out.println(postRepository.getPostByPostId(postId));
+        return new PostModel(postRepository.getPostByPostId(postId));
+    }
 }
