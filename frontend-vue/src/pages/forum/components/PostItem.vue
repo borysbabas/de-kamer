@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, defineProps, onMounted} from "vue";
+import {computed, defineProps} from "vue";
 import {useRouter} from 'vue-router';
 import {marked} from "marked";
 import hljs from "highlight.js";
@@ -64,10 +64,11 @@ function goToPost() {
   height: fit-content;
   transition: transform 0.2s, box-shadow 0.2s;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .post:hover {
-  transform: translateY(-5px);
+  transform: scale(1.015);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
@@ -116,56 +117,56 @@ function goToPost() {
 
 /* Styles for markdown content */
 
-::v-deep .markdown-content h1 {
+:deep(.markdown-content h1) {
   font-size: 2em;
   margin: 1rem 0;
   padding: 0;
 }
 
-::v-deep .markdown-content h2 {
+:deep(.markdown-content h2) {
   font-size: 1.5em;
   margin: 0.75em 0;
 }
 
-::v-deep .markdown-content h3 {
+:deep(.markdown-content h3) {
   font-size: 1.17em;
   margin: 0.83em 0;
 }
 
-::v-deep .markdown-content h4 {
+:deep(.markdown-content h4) {
   font-size: 1em;
   margin: 1.12em 0;
 }
 
-::v-deep .markdown-content h5 {
+:deep(.markdown-content h5) {
   font-size: 0.83em;
   margin: 1.5em 0;
 }
 
-::v-deep .markdown-content h6 {
+:deep(.markdown-content h6) {
   font-size: 0.75em;
   margin: 1.67em 0;
 }
 
-::v-deep .markdown-content em {
+:deep(.markdown-content em) {
   margin: 1em 0;
   font-style: italic;
 }
 
-::v-deep .markdown-content p {
+:deep(.markdown-content p) {
   margin: 1em 0;
 }
 
-::v-deep .markdown-content a {
+:deep(.markdown-content a) {
   color: var(--link-color);
   text-decoration: none;
 }
 
-::v-deep .markdown-content a:hover {
+:deep(.markdown-content a:hover) {
   text-decoration: underline;
 }
 
-::v-deep .markdown-content blockquote {
+:deep(.markdown-content blockquote) {
   margin: 1em 0;
   padding: 0.5em 10px;
   border-left: 5px solid var(--blockquote-border);
@@ -173,7 +174,7 @@ function goToPost() {
   color: var(--light-primary);
 }
 
-::v-deep .markdown-content ul {
+:deep(.markdown-content ul) {
   list-style-type: disc;
   padding-left: 40px;
   display: flex;
@@ -182,56 +183,56 @@ function goToPost() {
   align-items: flex-start;
 }
 
-::v-deep .markdown-content ul li {
+:deep(.markdown-content ul li) {
   margin: 0;
   padding: 0;
 }
 
-::v-deep .markdown-content ol {
+:deep(.markdown-content ol) {
   list-style-type: decimal;
   margin: 1em 0;
   padding-left: 40px;
 }
 
-::v-deep .markdown-content blockquote {
+:deep(.markdown-content blockquote) {
   margin: 1em 0;
   padding: 0.5em 10px;
   border-left: 5px solid var(--blockquote-border);
   background-color: var(--blockquote-bg);
 }
 
-::v-deep .markdown-content code {
+:deep(.markdown-content code) {
   background-color: var(--code-bg);
   color: var(--code-color);
   padding: 2px 4px;
   border-radius: 4px;
 }
 
-::v-deep .markdown-content pre {
+:deep(.markdown-content pre) {
   background-color: var(--pre-bg);
   padding: 10px;
   border-radius: 4px;
   overflow-x: auto;
 }
 
-::v-deep .markdown-content table {
+:deep(.markdown-content table) {
   width: 100%;
   border-collapse: collapse;
   margin: 1em 0;
 }
 
-::v-deep .markdown-content th,
-::v-deep .markdown-content td {
+:deep(.markdown-content th),
+:deep(.markdown-content td) {
   border: 1px solid var(--table-border);
   padding: 8px;
   text-align: left;
 }
 
-::v-deep .markdown-content th {
+:deep(.markdown-content th) {
   background-color: var(--table-header-bg);
 }
 
-::v-deep .markdown-content img {
+:deep(.markdown-content img) {
   max-width: 100%;
   height: auto;
 }
