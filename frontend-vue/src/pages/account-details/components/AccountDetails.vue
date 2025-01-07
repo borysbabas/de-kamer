@@ -46,7 +46,6 @@ async function updateAccountCredentials() {
     const response = await fetch(api + `/accountdetails/update/${userID}`, {
           method: "PUT",
           headers: {
-            "Authorization": "Bearer " + sessionService.getTokenFromBrowserStorage(),
             "Content-type": "application/json"
           },
           body: JSON.stringify({
@@ -74,14 +73,11 @@ async function updateAccountCredentials() {
  *
  */
 async function deleteAccount() {
-  const confirmed = window.confirm("weet je dit zeker? je staat op het punt je account te verwijderen.")
+  const confirmed = window.confirm("Weet je dit zeker? je staat op het punt je account te verwijderen.")
   if (confirmed) {
     try {
       const response = await fetch(api + `/accountdetails/delete/user/${userID}`, {
         method: "DELETE",
-        headers: {
-          "Authorization": "Bearer " + sessionService.getTokenFromBrowserStorage()
-        }
       })
       if (response.ok) {
         sessionService.clearUserName()

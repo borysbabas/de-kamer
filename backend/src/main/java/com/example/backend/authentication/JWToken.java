@@ -1,5 +1,6 @@
 package com.example.backend.authentication;
 
+import com.example.backend.config.ApiConfig;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -11,6 +12,7 @@ import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.Objects;
 
 public class JWToken {
     public static final String JWT_ATTRIBUTE_NAME ="jwtAttribute" ;
