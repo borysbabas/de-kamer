@@ -13,8 +13,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping
@@ -75,5 +77,13 @@ public class PostController {
     @GetMapping(path = ApiPaths.GET_POST_BY_ID)
     public PostModel getPostById(@PathVariable("postId") Long postId) {
         return postService.getPostById(postId);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<String> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+        if ((Objects.requireNonNull(e.getParameter().getMethod())).getName().equals("getPostById")) {
+            return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>("Invalid input", HttpStatus.BAD_REQUEST);
     }
 }
