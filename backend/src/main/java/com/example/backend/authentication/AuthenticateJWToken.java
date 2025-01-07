@@ -17,22 +17,16 @@ public class AuthenticateJWToken {
         this.apiConfig = apiConfig;
     }
 
-    public boolean verifyToken(String token, Long id) throws JwtException {
+    public boolean verifyToken(String token) throws JwtException {
         String issuer = this.apiConfig.getIssuer();
         String passPhrase = this.apiConfig.getPassphrase();
         JWToken jwt = JWToken.decode(token.replace("Bearer ", ""), issuer, passPhrase);
         Long accountId = jwt.getAccountId();
 
-        System.out.println(this.apiConfig.getPassphrase());
-
         if (accountId == null) {
             throw new JwtException("invalid jwt token");
         }
 
-        if (Objects.equals(accountId, id)) {
-            return true;
-        }
-
-        throw new MalformedJwtException("token has been malformed");
+        return true;
     }
 }

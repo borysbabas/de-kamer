@@ -20,7 +20,6 @@ const addPost = async () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionService.getTokenFromBrowserStorage()}`,
       },
       body: JSON.stringify(postData),
     });

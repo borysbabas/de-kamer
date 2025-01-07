@@ -34,7 +34,7 @@ public class AccountDetailsController {
     @GetMapping(path = ApiPaths.ACCOUNTDETAILS_SERVICE_GET_USERBYID)
     public Account getAccountById(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorizationHeader, @PathVariable Long id) {
         try {
-            if (authenticateJWToken.verifyToken(authorizationHeader, id)) {
+            if (authenticateJWToken.verifyToken(authorizationHeader)) {
                 return accountService.findAccountById(id)
                         .stream()
                         .findFirst()
@@ -49,7 +49,7 @@ public class AccountDetailsController {
     @DeleteMapping(path = ApiPaths.ACCOUNTDETAILS_SERVICE_DELETE_USERBYID)
     public boolean deleteAccountById(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorizationHeader, @PathVariable(value = "id", required = true) Long id) {
         try {
-            if (authenticateJWToken.verifyToken(authorizationHeader, id)) {
+            if (authenticateJWToken.verifyToken(authorizationHeader)) {
                 return accountService.deleteAccountById(id);
             }
 
@@ -64,7 +64,7 @@ public class AccountDetailsController {
         String field = payload.get("field");
         String value = payload.get("value");
         try {
-            if (authenticateJWToken.verifyToken(authorizationHeader, id)) {
+            if (authenticateJWToken.verifyToken(authorizationHeader)) {
                 accountService.updateAccount(id, field, value);
                 return ResponseEntity.ok("Account successfully updated");
             }

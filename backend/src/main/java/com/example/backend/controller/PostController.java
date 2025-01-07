@@ -1,10 +1,12 @@
 package com.example.backend.controller;
 
+import com.example.backend.authentication.AuthenticateJWToken;
 import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.Post;
 import com.example.backend.models.PostModel;
 import com.example.backend.services.AccountService;
 import com.example.backend.services.PostService;
+import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,11 +22,13 @@ public class PostController {
 
     private final PostService postService;
     private final AccountService accountService;
+    private final AuthenticateJWToken authenticateJWToken;
 
     @Autowired
-    public PostController(PostService postService, AccountService accountService) {
+    public PostController(PostService postService, AccountService accountService, AuthenticateJWToken authenticateJWToken) {
         this.postService = postService;
         this.accountService = accountService;
+        this.authenticateJWToken = authenticateJWToken;
     }
 
     @GetMapping(path = ApiPaths.POST_SERVICE)
@@ -34,6 +38,12 @@ public class PostController {
 
     @PostMapping(path = ApiPaths.POST_SERVICE)
     public ResponseEntity<String> addPost(@RequestBody Post post, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+//        try {
+//            if (authenticateJWToken.verifyToken(token))
+//        } catch (JwtException e) {
+//            System.out.println("Token is invalid!\n" + e.getMessage());
+//        }
+
         Base64.Decoder decoder = Base64.getUrlDecoder();
 
         String[] tokenParts = token.split("\\.");

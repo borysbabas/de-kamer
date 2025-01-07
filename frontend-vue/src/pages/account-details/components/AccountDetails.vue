@@ -46,7 +46,6 @@ async function updateAccountCredentials() {
     const response = await fetch(api + `/accountdetails/update/${userID}`, {
           method: "PUT",
           headers: {
-            "Authorization": "Bearer " + sessionService.getTokenFromBrowserStorage(),
             "Content-type": "application/json"
           },
           body: JSON.stringify({
@@ -79,9 +78,6 @@ async function deleteAccount() {
     try {
       const response = await fetch(api + `/accountdetails/delete/user/${userID}`, {
         method: "DELETE",
-        headers: {
-          "Authorization": "Bearer " + sessionService.getTokenFromBrowserStorage()
-        }
       })
       if (response.ok) {
         sessionService.clearUserName()
@@ -124,12 +120,7 @@ function handleBtnClick(selectedSubjectParam: any) {
 
 onMounted(async () => {
   try {
-    const response = await fetch(api + `/accountdetails/${userID}`, {
-      method: "GET",
-      headers: {
-        "Authorization": "Bearer " + sessionService.getTokenFromBrowserStorage()
-      }
-    })
+    const response = await fetch(api + `/accountdetails/${userID}`)
     if (response.ok) {
       const userData = await response.json();
       fetchedEmail.value = userData.email;
