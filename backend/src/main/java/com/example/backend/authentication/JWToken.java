@@ -17,7 +17,6 @@ import java.util.Objects;
 public class JWToken {
     public static final String JWT_ATTRIBUTE_NAME ="jwtAttribute" ;
     private static final String JWT_ROLE_CLAIM="role";
-    private static final ApiConfig apiConfig = new ApiConfig();
 
     private final String callName;
     @Getter
@@ -73,13 +72,5 @@ public class JWToken {
     public boolean isAdmin() {
         return role != null && role.contains("admin");
 
-    }
-
-    public static boolean verifyToken(String token, Long id) {
-        String issuer = apiConfig.getIssuer();
-        String passPhrase = apiConfig.getPassphrase();
-        JWToken jwt = JWToken.decode(token, issuer, passPhrase);
-
-        return Objects.equals(jwt.getAccountId(), id);
     }
 }
