@@ -39,7 +39,6 @@ public class PostService {
     }
 
     public PostModel getPostById(long postId) {
-        System.out.println(postRepository.getPostByPostId(postId));
         return new PostModel(postRepository.getPostByPostId(postId));
     }
 }

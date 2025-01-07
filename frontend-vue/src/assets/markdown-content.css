@@ -1,0 +1,121 @@
+/* Styles for markdown content */
+
+:deep(.markdown-content h1) {
+    font-size: 2em;
+    margin: 1rem 0;
+    padding: 0;
+}
+
+:deep(.markdown-content h2) {
+    font-size: 1.5em;
+    margin: 0.75em 0;
+}
+
+:deep(.markdown-content h3) {
+    font-size: 1.17em;
+    margin: 0.83em 0;
+}
+
+:deep(.markdown-content h4) {
+    font-size: 1em;
+    margin: 1.12em 0;
+}
+
+:deep(.markdown-content h5) {
+    font-size: 0.83em;
+    margin: 1.5em 0;
+}
+
+:deep(.markdown-content h6) {
+    font-size: 0.75em;
+    margin: 1.67em 0;
+}
+
+:deep(.markdown-content em) {
+    margin: 1em 0;
+    font-style: italic;
+}
+
+:deep(.markdown-content p) {
+    margin: 1em 0;
+}
+
+:deep(.markdown-content a) {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+:deep(.markdown-content a:hover) {
+    text-decoration: underline;
+}
+
+:deep(.markdown-content blockquote) {
+    margin: 1em 0;
+    padding: 0.5em 10px;
+    border-left: 5px solid var(--blockquote-border);
+    background-color: var(--blockquote-bg);
+    color: var(--light-primary);
+}
+
+:deep(.markdown-content ul) {
+    list-style-type: disc;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+:deep(.markdown-content ul li) {
+    margin: 0;
+    padding: 0;
+}
+
+:deep(.markdown-content ol) {
+    list-style-type: decimal;
+    margin: 1em 0;
+    padding-left: 40px;
+}
+
+:deep(.markdown-content blockquote) {
+    margin: 1em 0;
+    padding: 0.5em 10px;
+    border-left: 5px solid var(--blockquote-border);
+    background-color: var(--blockquote-bg);
+}
+
+:deep(.markdown-content code) {
+    background-color: var(--code-bg);
+    color: var(--code-color);
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+:deep(.markdown-content pre) {
+    background-color: var(--pre-bg);
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+:deep(.markdown-content table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+
+:deep(.markdown-content th),
+:deep(.markdown-content td) {
+    border: 1px solid var(--table-border);
+    padding: 8px;
+    text-align: left;
+}
+
+:deep(.markdown-content th) {
+    background-color: var(--table-header-bg);
+}
+
+:deep(.markdown-content img) {
+    max-width: 100%;
+    height: auto;
+}

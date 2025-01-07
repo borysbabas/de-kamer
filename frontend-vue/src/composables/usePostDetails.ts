@@ -19,8 +19,6 @@ export function usePostDetails(postId: unknown) {
         const post: Post = await response.json();
 
         isLoading.value = false;
-
-        console.log(post);
         loadedPost.value = post;
 
         return {isLoading, loadedPost}
