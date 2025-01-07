@@ -16,11 +16,10 @@ const addPost = async () => {
       title: postTitle.value,
       description: postDescription.value,
     };
-    const response = await fetch(import.meta.env.VITE_API_URL + "/posts", {
+    const response = await fetch(import.meta.env.VITE_API_URL + "/posts/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionService.getTokenFromBrowserStorage()}`,
       },
       body: JSON.stringify(postData),
     });
