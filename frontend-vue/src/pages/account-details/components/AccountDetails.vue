@@ -74,7 +74,7 @@ async function updateAccountCredentials() {
  *
  */
 async function deleteAccount() {
-  const confirmed = window.confirm("weet je dit zeker? je staat op het punt je account te verwijderen.")
+  const confirmed = window.confirm("Weet je dit zeker? je staat op het punt je account te verwijderen.")
   if (confirmed) {
     try {
       const response = await fetch(api + `/accountdetails/delete/user/${userID}`, {
@@ -124,7 +124,12 @@ function handleBtnClick(selectedSubjectParam: any) {
 
 onMounted(async () => {
   try {
-    const response = await fetch(api + `/accountdetails/${userID}`)
+    const response = await fetch(api + `/accountdetails/${userID}`, {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + sessionService.getTokenFromBrowserStorage()
+      }
+    })
     if (response.ok) {
       const userData = await response.json();
       fetchedEmail.value = userData.email;

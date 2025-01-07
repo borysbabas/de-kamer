@@ -20,7 +20,7 @@ public class AuthenticateJWToken {
     public boolean verifyToken(String token, Long id) throws JwtException {
         String issuer = this.apiConfig.getIssuer();
         String passPhrase = this.apiConfig.getPassphrase();
-        JWToken jwt = JWToken.decode(token, issuer, passPhrase);
+        JWToken jwt = JWToken.decode(token.replace("Bearer ", ""), issuer, passPhrase);
         Long accountId = jwt.getAccountId();
 
         System.out.println(this.apiConfig.getPassphrase());

@@ -32,45 +32,45 @@ public class AccountDetailsController {
     }
 
     @GetMapping(path = ApiPaths.ACCOUNTDETAILS_SERVICE_GET_USERBYID)
-    public Account getAccountById(@PathVariable Long id) {
-        return accountService.findAccountById(id)
-                .stream()
-                .findFirst()
-                .orElse(null);
+    public Account getAccountById(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorizationHeader, @PathVariable Long id) {
+        try {
+            if (authenticateJWToken.verifyToken(authorizationHeader, id)) {
+                return accountService.findAccountById(id)
+                        .stream()
+                        .findFirst()
+                        .orElse(null);
+            }
+        } catch (JwtException e) {
+            System.out.println("Token is invalid!\n" + e.getMessage());
+        }
+        return null;
     }
 
     @DeleteMapping(path = ApiPaths.ACCOUNTDETAILS_SERVICE_DELETE_USERBYID)
-    public boolean deleteAccountById(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = true) String authorizationHeader, @PathVariable(value = "id", required = true) Long id) {
+    public boolean deleteAccountById(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorizationHeader, @PathVariable(value = "id", required = true) Long id) {
         try {
-            String token = authorizationHeader.substring(7);
-
-            if (authenticateJWToken.verifyToken(token, id)) {
+            if (authenticateJWToken.verifyToken(authorizationHeader, id)) {
                 return accountService.deleteAccountById(id);
             }
 
-        } catch (ExpiredJwtException e) {
-            System.out.println("Token has expired" + e.getMessage());
-
-        } catch (SignatureException e) {
-            System.out.println("Token is invalid!" + e.getMessage());
+        } catch (JwtException e) {
+            System.out.println("Token is invalid!\n" + e.getMessage());
         }
         return false;
 
     }
     @PutMapping(path= ApiPaths.ACCOUNTDETAILS_SERVICE_UPDATE)
-    public ResponseEntity<?> updateUserDetails(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = true) String authorizationHeader,@PathVariable(value = "id", required = true)Long id, @RequestBody Map<String, String> payload){
+    public ResponseEntity<?> updateUserDetails(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorizationHeader,@PathVariable(value = "id", required = true)Long id, @RequestBody Map<String, String> payload){
         String field = payload.get("field");
         String value = payload.get("value");
         try {
-            String token = authorizationHeader.substring(7);
-
-            if (authenticateJWToken.verifyToken(token, id)) {
+            if (authenticateJWToken.verifyToken(authorizationHeader, id)) {
                 accountService.updateAccount(id, field, value);
                 return ResponseEntity.ok("Account successfully updated");
             }
 
-        } catch (SignatureException e) {
-            System.out.println("Token is invalid!" + e.getMessage());
+        } catch (JwtException e) {
+            System.out.println("Token is invalid!\n" + e.getMessage());
         }
 
         return ResponseEntity.status(500).body("Interne serverfout");
