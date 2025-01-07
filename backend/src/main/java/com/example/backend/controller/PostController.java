@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.authentication.AuthenticateJWToken;
+import com.example.backend.authentication.JWToken;
 import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.Post;
 import com.example.backend.models.PostModel;
@@ -13,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -36,21 +36,19 @@ public class PostController {
         return postService.findAllPosts();
     }
 
-    @PostMapping(path = ApiPaths.POST_SERVICE)
+    @PostMapping(path = ApiPaths.ADD_POST)
     public ResponseEntity<String> addPost(@RequestBody Post post, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-//        try {
-//            if (authenticateJWToken.verifyToken(token))
-//        } catch (JwtException e) {
-//            System.out.println("Token is invalid!\n" + e.getMessage());
-//        }
+        try {
+            if (!authenticateJWToken.verifyToken(token)) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        } catch (JwtException e) {
+            System.out.println("Token is invalid!\n" + e.getMessage());
+        }
 
-        Base64.Decoder decoder = Base64.getUrlDecoder();
+        JWToken jwt = authenticateJWToken.getJWToken(token);
 
-        String[] tokenParts = token.split("\\.");
-        String payload = new String(decoder.decode(tokenParts[1]));
-        long userId = Long.parseLong(payload.split(",")[1].split(":")[1].replace("\"", ""));
-
-        post.setId(accountService.findById(userId));
+        post.setId(accountService.findById(jwt.getAccountId()));
         if (post.getId() == null) {
             return new ResponseEntity<>("User ID not found", HttpStatus.FORBIDDEN);
         }

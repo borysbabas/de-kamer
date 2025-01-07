@@ -18,9 +18,7 @@ public class AuthenticateJWToken {
     }
 
     public boolean verifyToken(String token) throws JwtException {
-        String issuer = this.apiConfig.getIssuer();
-        String passPhrase = this.apiConfig.getPassphrase();
-        JWToken jwt = JWToken.decode(token.replace("Bearer ", ""), issuer, passPhrase);
+        JWToken jwt = getJWToken(token);
         Long accountId = jwt.getAccountId();
 
         if (accountId == null) {
@@ -28,5 +26,11 @@ public class AuthenticateJWToken {
         }
 
         return true;
+    }
+
+    public JWToken getJWToken(String token) {
+        String issuer = this.apiConfig.getIssuer();
+        String passPhrase = this.apiConfig.getPassphrase();
+        return JWToken.decode(token.replace("Bearer ", ""), issuer, passPhrase);
     }
 }
