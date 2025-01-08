@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.DTO.AccountDTO;
 import com.example.backend.authentication.AuthenticateJWToken;
 import com.example.backend.authentication.JWToken;
 import com.example.backend.config.ApiConfig;
@@ -32,13 +33,13 @@ public class AccountDetailsController {
     }
 
     @GetMapping(path = ApiPaths.ACCOUNTDETAILS_SERVICE_GET_USERBYID)
-    public Account getAccountById(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorizationHeader, @PathVariable Long id) {
+    public AccountDTO getAccountById(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorizationHeader, @PathVariable Long id) {
         try {
             if (authenticateJWToken.verifyToken(authorizationHeader)) {
-                return accountService.findAccountById(id)
+                return new AccountDTO(Objects.requireNonNull(accountService.findAccountById(id)
                         .stream()
                         .findFirst()
-                        .orElse(null);
+                        .orElse(null)));
             }
         } catch (JwtException e) {
             System.out.println("Token is invalid!\n" + e.getMessage());
