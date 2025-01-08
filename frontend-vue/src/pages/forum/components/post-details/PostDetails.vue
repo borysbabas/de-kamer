@@ -3,7 +3,6 @@ import {useRoute} from "vue-router";
 import {usePostDetails} from "@/composables/usePostDetails";
 import {computed} from "vue";
 import {marked} from "marked";
-import hljs from "highlight.js";
 
 const route = useRoute();
 
@@ -20,6 +19,8 @@ const renderedDescription = computed(() => {
     breaks: true,
   });
 });
+
+console.log(loadedPost);
 
 </script>
 

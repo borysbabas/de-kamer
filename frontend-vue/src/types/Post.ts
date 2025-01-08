@@ -3,5 +3,11 @@ export type Post = {
     title: string;
     description: string;
     dateCreated: Date;
-    accountId: number;
+    account: {
+        dateOfBirth: Date;
+        email: string;
+        id: number;
+        role: string;
+        userName: string;
+    };
 }

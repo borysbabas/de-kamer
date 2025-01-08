@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import {computed, defineProps} from "vue";
+import {computed, defineProps, type PropType} from "vue";
 import {useRouter} from 'vue-router';
 import {marked} from "marked";
 import hljs from "highlight.js";
+import type {Post} from "@/types/Post";
 
 const router = useRouter();
-
 const props = defineProps({
   post: {
-    type: Object,
+    type: Object as PropType<Post>,
     required: true
   }
 });
@@ -46,7 +46,7 @@ function goToPost() {
     <div class="post-container">
       <div v-html="renderedDescription" class="post-description markdown-content"></div>
       <div class="post-info">
-        <p class="post-user">Gepost door: {{ post.userName }}</p>
+        <p class="post-user">Gepost door: {{ post.account.userName }}</p>
         <p class="post-date">op {{ post.dateCreated }}</p>
       </div>
     </div>
