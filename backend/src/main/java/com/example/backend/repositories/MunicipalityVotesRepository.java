@@ -39,7 +39,7 @@ public interface MunicipalityVotesRepository extends JpaRepository<MunicipalityV
     List<MunicipalityAffiliationVotesModel> findAllByAffiliationAffiliationId(long affiliationId);
 
     @Query("SELECT new com.example.backend.models.MunicipalityVoteModel(mv.municipality.municipalityName, SUM(mv.totalVotes), mv.municipality.municipalityId) " +
-            "FROM MunicipalityVotes mv WHERE mv.affiliation.affiliationId = :affiliationId GROUP BY mv.municipality.municipalityName")
+            "FROM MunicipalityVotes mv WHERE mv.affiliation.affiliationId = :affiliationId GROUP BY mv.municipality.municipalityName, mv.municipality.municipalityId")
     List<MunicipalityVoteModel> findTotalVotesByAffiliationId(@Param("affiliationId") long affiliationId);
 
     @Query("SELECT COUNT(mv) " +
