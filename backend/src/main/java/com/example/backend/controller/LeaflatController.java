@@ -10,39 +10,49 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
-// Controller for made for leaflet data (autofix dataformat)
-//*
-// Dataformat:
-// {
-//     "data": [
-//         {
-//             name: "location name"
-//             lat: "latitude",
-//             lon: "longitude"
-//             value: "value"
-//             id: "id"
-//         },
-
-
+/**
+ * Controller for handling leaflet data (autofix data format).
+ * Data format:
+ * {
+ *     "data": [
+ *         {
+ *             name: "location name",
+ *             lat: "latitude",
+ *             lon: "longitude",
+ *             value: "value",
+ *             id: "id"
+ *         }
+ *     ]
+ * }
+ */
 @RestController
 @RequestMapping(path = ApiPaths.LEAFLET_SERVICE)
 public class LeaflatController {
 
-
     private final MunicipalityService municipalityService;
     private final MunicipalityVotesService municipalityVotesService;
 
+    /**
+     * Constructor for LeaflatController.
+     *
+     * @param municipalityService Service for municipality-related operations.
+     * @param municipalityVotesService Service for municipality votes-related operations.
+     */
     @Autowired
     public LeaflatController(
             MunicipalityService municipalityService,
             MunicipalityVotesService municipalityVotesService
-
     ) {
         this.municipalityService = municipalityService;
         this.municipalityVotesService = municipalityVotesService;
     }
 
-
+    /**
+     * Get votes by municipality.
+     *
+     * @param affiliationId ID of the affiliation.
+     * @return A map containing the data of votes by municipality.
+     */
     @GetMapping(path = ApiPaths.MUNICIPALITY_SERVICE_GET_MUNICIPALITYVOTES_BY_AFFILIATIONID)
     public Map<String, Object> getVotesByMunicipality(@PathVariable Long affiliationId) {
         List<MunicipalityVoteModel> municipalityVotesList = municipalityVotesService.findTotalVotesByAffiliationId(affiliationId);
@@ -52,7 +62,6 @@ public class LeaflatController {
             municipalityIds.add(municipalityVotes.getId());
         }
         Map<String, Map<String, Object>> cords = fetchCords();
-
 
         for (MunicipalityVoteModel municipalityVotes : municipalityVotesList) {
             Map<String, Object> map = new HashMap<>();
@@ -77,6 +86,11 @@ public class LeaflatController {
         return response;
     }
 
+    /**
+     * Fetch coordinates for municipalities.
+     *
+     * @return A map containing the coordinates of municipalities.
+     */
     private Map<String, Map<String, Object>> fetchCords() {
         Map<String, Map<String, Object>> cords = new HashMap<>();
         RestTemplate restTemplate = new RestTemplate();
