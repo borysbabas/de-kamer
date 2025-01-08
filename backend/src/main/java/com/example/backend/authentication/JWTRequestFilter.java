@@ -20,6 +20,8 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         URL origin = new URL(request.getRequestURL().toString());
+        String requestOrigin = request.getHeader("Origin");
+        System.out.println(requestOrigin);
 
         System.out.println(origin.getHost());
 
