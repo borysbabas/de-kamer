@@ -1,12 +1,10 @@
 package com.example.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
-
 @Setter
 @Getter
 @Entity
@@ -31,5 +29,5 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private Account id;
+    private Account account;
 }

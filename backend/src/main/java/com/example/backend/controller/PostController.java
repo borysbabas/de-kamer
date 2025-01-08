@@ -50,8 +50,8 @@ public class PostController {
 
         JWToken jwt = authenticateJWToken.getJWToken(token);
 
-        post.setId(accountService.findById(jwt.getAccountId()));
-        if (post.getId() == null) {
+        post.setAccount(accountService.findById(jwt.getAccountId()));
+        if (post.getAccount() == null) {
             return new ResponseEntity<>("User ID not found", HttpStatus.FORBIDDEN);
         }
 

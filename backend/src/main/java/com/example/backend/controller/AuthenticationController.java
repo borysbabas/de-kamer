@@ -46,7 +46,7 @@ public class AuthenticationController {
                 ? accounts.get(0)
                 : new Account());
 
-        if (account.getId() == null || !account.verifyPassword(password)) {
+        if (account.getId() == null || !org.springframework.security.crypto.bcrypt.BCrypt.checkpw(password, accounts.get(0).getPassword())) {
             throw new NotAcceptableException("cannot authenticate account with email:"+ email);
         }
         JWToken jwToken = new JWToken(account.getUserName(), account.getId(), account.getRole());

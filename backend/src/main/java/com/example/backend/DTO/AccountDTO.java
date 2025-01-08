@@ -12,7 +12,6 @@ public class AccountDTO {
     private String role;
     private String userName;
     private String dateOfBirth;
-    private String password;
     private String jwtToken;
 
     public AccountDTO(Account account) {
@@ -20,10 +19,6 @@ public class AccountDTO {
         this.email = account.getEmail();
         this.role = account.getRole();
         this.userName = account.getUserName();
-        this.password = account.getPassword();
 //        this.dateOfBirth = account.getDateOfBirth().toString();
     }
-
-    public boolean verifyPassword(String rawPassword){
-        return org.springframework.security.crypto.bcrypt.BCrypt.checkpw(rawPassword, this.password);}
 }
