@@ -28,9 +28,20 @@ console.log(loadedPost);
   <div v-if="isLoading" class="center">
     <div class="loader"></div>
   </div>
-  <div v-else-if="loadedPost">
-    <h1>{{loadedPost.title}}</h1>
-    <div v-html="renderedDescription" class="post-description markdown-content"></div>
+  <div v-else-if="loadedPost" class="postItem">
+    <div class="postHeader">
+      <h1 id="postTitle">{{ loadedPost.title }}</h1>
+      <hr>
+      <div class="postStats">
+        <span>Posted on: {{new Date(loadedPost.dateCreated).toLocaleString()}}</span>
+        <span>Asked By: {{ loadedPost.account.userName }}</span>
+      </div>
+    </div>
+    <div class="postContent">
+      <div class="postBody">
+        <div v-html="renderedDescription" class="post-description markdown-content"></div>
+      </div>
+    </div>
   </div>
   <div v-else>
     <h1>Post kon niet worden gevonden</h1>
@@ -40,4 +51,31 @@ console.log(loadedPost);
 
 <style scoped>
 @import "@/assets/markdown-content.css";
+
+h1 {
+  padding: 0;
+}
+
+.postHeader {
+  margin-bottom: 32px;
+}
+
+
+.postStats {
+  display: flex;
+  gap: 30px;
+}
+
+.postContent {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  border: 1px solid var(--light-primary);
+}
+
+.postBody {
+  margin-bottom: 20px;
+}
+
+
 </style>
