@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Entity
 public class Post {
 
-    protected Post() {
+    public Post() {
     }
 
     @Id

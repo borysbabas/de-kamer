@@ -40,15 +40,17 @@ public class PostController {
 
     @PostMapping(path = ApiPaths.ADD_POST)
     public ResponseEntity<String> addPost(@RequestBody Post post, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        JWToken jwt;
+
         try {
             if (!authenticateJWToken.verifyToken(token)) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
+            jwt = authenticateJWToken.getJWToken(token);
         } catch (JwtException e) {
             System.out.println("Token is invalid!\n" + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
-        JWToken jwt = authenticateJWToken.getJWToken(token);
 
         post.setAccount(accountService.findById(jwt.getAccountId()));
         if (post.getAccount() == null) {

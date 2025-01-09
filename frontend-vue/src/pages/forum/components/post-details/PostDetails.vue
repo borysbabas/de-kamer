@@ -20,8 +20,6 @@ const renderedDescription = computed(() => {
   });
 });
 
-console.log(loadedPost);
-
 </script>
 
 <template>
