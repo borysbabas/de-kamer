@@ -3,8 +3,11 @@ package com.example.backend;
 import com.example.backend.controller.PostController;
 import com.example.backend.entities.Account;
 import com.example.backend.entities.Post;
+import com.example.backend.services.AccountService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Date;
 
@@ -57,8 +61,11 @@ public class PostTest {
 
     @Nested
     class UserAccountTests {
-        @BeforeAll
-        public static void init() {
+
+        private String token;
+
+        @BeforeEach
+        public void init() throws Exception {
             Account mockAccount = new Account();
             mockAccount.setId(1L);
             mockAccount.setUserName("testUser");
@@ -67,7 +74,19 @@ public class PostTest {
             mockAccount.setRole("user");
             mockAccount.setDateOfBirth(new Date("01/01/2000"));
 
+            mockMvc.perform(post("/authentication/register")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(mockAccount)))
+                    .andExpect(status().isCreated());
 
+            ResultActions result = mockMvc.perform(post("/authentication/login")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(mockAccount)))
+                    .andExpect(status().isAccepted());
+
+            token = result.andReturn().getResponse().getHeader(HttpHeaders.AUTHORIZATION);
+
+            assertThat(token).isNotNull();
         }
 
         @Test
@@ -79,10 +98,10 @@ public class PostTest {
             mockPost.setAccount(null);
 
             mockMvc.perform(post("/posts/add")
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer validToken")
+                    .header(HttpHeaders.AUTHORIZATION, token)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(mockPost)))
-                    .andExpect(status().isForbidden());
+                    .andExpect(status().isOk());
 
         }
     }

@@ -56,7 +56,7 @@ public class AuthenticationController {
         );
 
         foundAccount.setJwtToken(tokenString);
-        return ResponseEntity.accepted().header(HttpHeaders.AUTHORIZATION, "Bearer" + tokenString).body(foundAccount);
+        return ResponseEntity.accepted().header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenString).body(foundAccount);
     }
 
     @PostMapping(path=ApiPaths.AUTHENTICATION_SERVICE_REGISTER)
