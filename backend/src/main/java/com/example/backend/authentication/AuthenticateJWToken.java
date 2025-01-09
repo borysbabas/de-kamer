@@ -28,7 +28,7 @@ public class AuthenticateJWToken {
         return true;
     }
 
-    public JWToken getJWToken(String token) {
+    public JWToken getJWToken(String token) throws JwtException {
         String issuer = this.apiConfig.getIssuer();
         String passPhrase = this.apiConfig.getPassphrase();
         return JWToken.decode(token.replace("Bearer ", ""), issuer, passPhrase);
