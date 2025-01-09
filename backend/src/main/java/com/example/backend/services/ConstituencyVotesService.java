@@ -27,6 +27,7 @@ public class ConstituencyVotesService {
     }
 
     public List<ConstituencyVotes> getConstituencyVotesByConstituencyByPage(Constituency constituency, int pagination, int page) {
+        // Page number gets transformed to proper offset by subtracting 1 of the page number and multiplying by the number of rows on a page
         return constituencyVotesRepository.findByConstituencyByPageOrderByTotalVotesDesc(constituency, pagination, (page - 1) * pagination);
     }
     public List<ConstituencyVotesModel> getConstituencyVotesByAffiliationId(Long affiliationId) {
