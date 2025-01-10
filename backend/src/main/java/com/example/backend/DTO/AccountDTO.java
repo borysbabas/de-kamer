@@ -19,6 +19,10 @@ public class AccountDTO {
         this.email = account.getEmail();
         this.role = account.getRole();
         this.userName = account.getUserName();
-        this.dateOfBirth = account.getDateOfBirth().toString();
+        try {
+            this.dateOfBirth = account.getDateOfBirth().toString();
+        } catch (NullPointerException e) {
+            this.dateOfBirth = null;
+        }
     }
 }

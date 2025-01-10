@@ -101,7 +101,7 @@ function handleBtnClick(selectedSubjectParam: any) {
       selectedSubject.value = "email";
       requiredfetchedData.value = fetchedEmail;
       break;
-    case "username":
+    case "userName":
       selectedSubject.value = "gebruikersnaam";
       requiredfetchedData.value = fetchedUsername;
       break;

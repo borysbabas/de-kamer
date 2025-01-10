@@ -64,8 +64,8 @@ public class AuthenticationController {
         String email = account.getEmail();
         String userName = account.getUserName();
         String password = account.getPassword();
-        Date dateOfBirth = account.getDateOfBirth();
-        if(email==null || userName == null || password == null || dateOfBirth == null){
+
+        if(email==null || userName == null || password == null){
             throw new NotAcceptableException("missing required fields");
         }
 
