@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
@@ -87,5 +88,10 @@ public class PostController {
             return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>("Invalid input", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<String> handleMissingRequestHeaderException(MissingRequestHeaderException e) {
+        return new ResponseEntity<>("Missing request header", HttpStatus.FORBIDDEN);
     }
 }

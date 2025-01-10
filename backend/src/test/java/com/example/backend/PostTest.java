@@ -4,6 +4,7 @@ import com.example.backend.controller.PostController;
 import com.example.backend.entities.Account;
 import com.example.backend.entities.Post;
 import com.example.backend.services.AccountService;
+import com.example.backend.services.PostService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,6 +23,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,30 +35,94 @@ public class PostTest {
     private PostController postController;
 
     @Autowired
+    private PostService postService;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Test
-    public void contextLoads() {
-        assertThat(postController).isNotNull();
+    private final int TEST_POST_AMOUNT = 10;
+    private final Account mockAccount = new Account();
+
+    public PostTest() {
+        mockAccount.setId(1L);
+        mockAccount.setUserName("testUser");
+        mockAccount.setEmail("username");
+        mockAccount.setPassword("password");
+        mockAccount.setRole("user");
     }
 
     @Test
-    public void addingPostWithInvalidToken() throws Exception {
-        Post mockPost = new Post();
-        mockPost.setPostId(1L);
-        mockPost.setTitle("Test Post");
-        mockPost.setDescription("This is a test post");
-        mockPost.setAccount(null);
+    public void contextLoads() {
+        assertThat(postController).isNotNull();
+        assertThat(postService).isNotNull();
+    }
 
-        mockMvc.perform(post("/posts/add")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer invalidToken")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(mockPost)))
-                .andExpect(status().isForbidden());
+    @Nested
+    class GeneralPostTests {
+        @BeforeEach()
+        public void init() {
+            for (int i = 1; i < TEST_POST_AMOUNT + 1; i++) {
+                Post mockPost = new Post();
+                mockPost.setPostId((long) i);
+                mockPost.setTitle("Test Post " + i);
+                mockPost.setDescription("This is a test post");
+                mockPost.setAccount(mockAccount);
 
+                postService.addPost(mockPost);
+            }
+        }
+
+        @Test
+        public void addingPostWithInvalidToken() throws Exception {
+            Post mockPost = new Post();
+            mockPost.setPostId(1L);
+            mockPost.setTitle("Test Post");
+            mockPost.setDescription("This is a test post");
+            mockPost.setAccount(null);
+
+            mockMvc.perform(post("/posts/add")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer invalidToken")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(mockPost)))
+                    .andExpect(status().isForbidden());
+        }
+
+        @Test
+        public void addingPostWithNoToken() throws Exception {
+            Post mockPost = new Post();
+            mockPost.setPostId(1L);
+            mockPost.setTitle("Test Post");
+            mockPost.setDescription("This is a test post");
+            mockPost.setAccount(null);
+
+            mockMvc.perform(post("/posts/add")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(mockPost)))
+                    .andExpect(status().isForbidden());
+        }
+
+        @Test
+        public void checkPostCount() throws Exception {
+            mockMvc.perform(get("/posts/count"))
+                    .andExpect(status().isOk())
+                    .andExpect(result -> {
+                        String content = result.getResponse().getContentAsString();
+                        assertThat(Long.parseLong(content)).isEqualTo(TEST_POST_AMOUNT);
+                    });
+        }
+
+        @Test
+        public void getPostById() throws Exception {
+            mockMvc.perform(get("/posts/1"))
+                    .andExpect(status().isOk())
+                    .andExpect(result -> {
+                        String content = result.getResponse().getContentAsString();
+                        assertThat(content).contains("Test Post 1");
+                    });
+        }
     }
 
     @Nested
@@ -95,7 +161,7 @@ public class PostTest {
             mockPost.setPostId(1L);
             mockPost.setTitle("Test Post");
             mockPost.setDescription("This is a test post");
-            mockPost.setAccount(null);
+            mockPost.setAccount(mockAccount);
 
             mockMvc.perform(post("/posts/add")
                     .header(HttpHeaders.AUTHORIZATION, token)
