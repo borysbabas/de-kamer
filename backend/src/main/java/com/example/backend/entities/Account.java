@@ -22,4 +22,16 @@ public class Account {
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Amsterdam")
     private Date dateOfBirth;
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                ", userName='" + userName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                '}';
+    }
 }
