@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * java class that is used as a data transfer object to ensure only necessary data is being transferred.
+ * java class that is used as a singleton data transfer object to ensure only necessary data is being transferred.
  */
 
 @Getter
