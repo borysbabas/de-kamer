@@ -4,9 +4,15 @@ import com.example.backend.entities.Account;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * java class that is used as a data transfer object to ensure only necessary data is being transferred.
+ */
+
 @Getter
 @Setter
+
 public class AccountDTO {
+    //private fields to store the singleton values of the requested account.
     private Long id;
     private String email;
     private String role;
@@ -23,7 +29,7 @@ public class AccountDTO {
         this.password = account.getPassword();
 //        this.dateOfBirth = account.getDateOfBirth().toString();
     }
-
+//helper  method to verify if password i corresponding to the account.
     public boolean verifyPassword(String rawPassword){
         return org.springframework.security.crypto.bcrypt.BCrypt.checkpw(rawPassword, this.password);}
 }
