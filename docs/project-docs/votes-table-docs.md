@@ -66,14 +66,6 @@ Whenever a municipality or polling station is selected, another endpoint is call
 these endpoints are structurally the same as the endpoint above, with constituency being replaced with municipality 
 or polling station.
 ```
-/**
- * Endpoint to send limited list of constituency votes of given constituency and page to frontend
- *
- * @param constituencyId Path variable, id of constituency to get the votes of
- * @param pagination Path variable, number of rows to get from database
- * @param page Path variable, selected table page of source element
- * @return List of limited number of constituency votes from given position in the database
- */
 @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES)
 public List<ConstituencyVotesDTO> getConstituencyVotesByConstituencyIdByPage(@PathVariable("constituencyId") Long constituencyId, @PathVariable("pagination") Integer pagination, @PathVariable("page") Integer page) {
     Constituency constituency = constituencyService.findConstituencyById(constituencyId);
