@@ -16,6 +16,7 @@ public interface CountryVotesRepository extends JpaRepository<CountryVotes, Long
     CountryVotes findByCandidate(Candidate candidate);
     CountryVotes getByCandidateCandidateId(long candidateId);
 
+    // Custom Query because Group by is not supported by JPA
     @Query("SELECT new com.example.backend.models.MemberCountModel(cv.affiliation, count(cv.candidate))" +
             " FROM CountryVotes cv" +
             " GROUP BY cv.affiliation.affiliationId")

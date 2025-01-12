@@ -20,7 +20,6 @@ const userID = JSON.parse(atob(sessionService.getTokenFromBrowserStorage().split
 //variables from the API call
 const fetchedEmail = ref("");
 const fetchedUsername = ref("")
-const fetchedPassword = ref("")
 const fetchedDateOfBirth = ref("")
 // userInputPopUp checks whether to show to variable or not
 const userInputPopUp = ref("");
@@ -108,13 +107,12 @@ function handleBtnClick(selectedSubjectParam: any) {
       selectedSubject.value = "email";
       requiredfetchedData.value = fetchedEmail;
       break;
-    case "username":
+    case "userName":
       selectedSubject.value = "gebruikersnaam";
       requiredfetchedData.value = fetchedUsername;
       break;
     case "password":
       selectedSubject.value = "wachtwoord";
-      requiredfetchedData.value = fetchedPassword;
       break;
     case "dateOfBirth":
       selectedSubject.value = "geboortedatum";
@@ -134,7 +132,6 @@ onMounted(async () => {
       const userData = await response.json();
       fetchedEmail.value = userData.email;
       fetchedUsername.value = userData.userName;
-      fetchedPassword.value = userData.password;
       fetchedDateOfBirth.value = userData.dateOfBirth;
 
 

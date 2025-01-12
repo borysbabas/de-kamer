@@ -12,9 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping
@@ -38,18 +41,20 @@ public class PostController {
 
     @PostMapping(path = ApiPaths.ADD_POST)
     public ResponseEntity<String> addPost(@RequestBody Post post, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        JWToken jwt;
+
         try {
             if (!authenticateJWToken.verifyToken(token)) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
+            jwt = authenticateJWToken.getJWToken(token);
         } catch (JwtException e) {
             System.out.println("Token is invalid!\n" + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        JWToken jwt = authenticateJWToken.getJWToken(token);
-
-        post.setId(accountService.findById(jwt.getAccountId()));
-        if (post.getId() == null) {
+        post.setAccount(accountService.findById(jwt.getAccountId()));
+        if (post.getAccount() == null) {
             return new ResponseEntity<>("User ID not found", HttpStatus.FORBIDDEN);
         }
 
@@ -57,7 +62,7 @@ public class PostController {
         return new ResponseEntity<>("Post added successfully", HttpStatus.OK);
     }
 
-    @DeleteMapping(path = ApiPaths.FIND_POST_BY_ID)
+    @DeleteMapping(path = ApiPaths.DELETE_POST_BY_ID)
     public void deletePost(@PathVariable("postId") Long postId) {
         postService.deletePost(postId);
     }
@@ -70,5 +75,23 @@ public class PostController {
     @GetMapping(path = ApiPaths.POST_SERVICE_RECENT + "/{postsPerPage}/{currentPage}")
     public List<PostModel> getRecentPosts(@PathVariable("postsPerPage") Integer postsPerPage, @PathVariable("currentPage") Integer currentPage) {
         return postService.getRecentPosts(postsPerPage, currentPage);
+    }
+
+    @GetMapping(path = ApiPaths.GET_POST_BY_ID)
+    public PostModel getPostById(@PathVariable("postId") Long postId) {
+        return postService.getPostById(postId);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<String> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+        if ((Objects.requireNonNull(e.getParameter().getMethod())).getName().equals("getPostById")) {
+            return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>("Invalid input", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<String> handleMissingRequestHeaderException(MissingRequestHeaderException e) {
+        return new ResponseEntity<>("Missing request header", HttpStatus.FORBIDDEN);
     }
 }

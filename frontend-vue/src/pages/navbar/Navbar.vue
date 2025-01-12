@@ -58,6 +58,8 @@ onUnmounted(() => {
           <Searchbar></Searchbar>
         </li>
         <li class="buttons">
+
+          <router-link to="/forum"><p class="nav-text clickable">Forum</p></router-link>
           <template v-if="isForumPage">
             <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text clickable">Login</p></router-link>
             <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text clickable">Register</p>
@@ -69,7 +71,6 @@ onUnmounted(() => {
           <template v-else>
             <router-link to="/uitslagen"><p class="nav-text clickable">Uitslagen</p></router-link>
             <router-link to="/info"><p class="nav-text clickable">Info</p></router-link>
-            <router-link to="/forum"><p class="nav-text clickable">Forum</p></router-link>
           </template>
         </li>
         <li>
