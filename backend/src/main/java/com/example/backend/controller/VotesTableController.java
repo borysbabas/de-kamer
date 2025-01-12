@@ -29,12 +29,26 @@ public class VotesTableController {
         this.pollingStationService = pollingStationService;
     }
 
+    /**
+     * Endpoint to send integer containing number of candidates with at least 1 vote in given constituency to frontend
+     *
+     * @param constituencyId Path variable, id of constituency to get number of candidates with votes of
+     * @return Number of candidates with at least 1 vote in the given constituency
+     */
     @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES_COUNT)
     public int getConstituencyVotesCountByConstituencyId(@PathVariable("constituencyId") Long constituencyId) {
         Constituency constituency = constituencyService.findConstituencyById(constituencyId);
         return votesTableService.getConstituencyVotesCountByConstituency(constituency);
     }
 
+    /**
+     * Endpoint to send limited list of constituency votes of given constituency and page to frontend
+     *
+     * @param constituencyId Path variable, id of constituency to get the votes of
+     * @param pagination Path variable, number of rows to get from database
+     * @param page Path variable, selected table page of source element
+     * @return List of limited number of constituency votes from given position in the database
+     */
     @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES)
     public List<ConstituencyVotesDTO> getConstituencyVotesByConstituencyIdByPage(@PathVariable("constituencyId") Long constituencyId, @PathVariable("pagination") Integer pagination, @PathVariable("page") Integer page) {
         Constituency constituency = constituencyService.findConstituencyById(constituencyId);
@@ -46,12 +60,26 @@ public class VotesTableController {
         return constituencyVotesList;
     }
 
+    /**
+     * Endpoint to send integer containing number of candidates with at least 1 vote in given municipality to frontend
+     *
+     * @param municipalityId Path variable, id of municipality to get number of candidates with votes of
+     * @return Number of candidates with at least 1 vote in the given municipality
+     */
     @GetMapping(path = ApiPaths.MUNICIPALITY_SERVICE_VOTES_COUNT)
     public int getMunicipalityVotesCountByMunicipalityId(@PathVariable("municipalityId") Long municipalityId) {
         Municipality municipality = municipalityService.getMunicipalityByMunicipalityId(municipalityId);
         return votesTableService.getMunicipalityVotesCountByMunicipality(municipality);
     }
 
+    /**
+     * Endpoint to send limited list of municipality votes of given municipality and page to frontend
+     *
+     * @param municipalityId Path variable, id of municipality to get the votes of
+     * @param pagination Path variable, number of rows to get from database
+     * @param page Path variable, selected table page of source element
+     * @return List of limited number of municipality votes from given position in the database
+     */
     @GetMapping(path = ApiPaths.MUNICIPALITY_SERVICE_VOTES_BY_MUNICIPALITY)
     public List<MunicipalityVotesDTO> getMunicipalityVotesByConstituencyIdByPage(@PathVariable("municipalityId") Long municipalityId, @PathVariable("pagination") Integer pagination, @PathVariable("page") Integer page) {
         Municipality municipality = municipalityService.getMunicipalityByMunicipalityId(municipalityId);
@@ -63,12 +91,26 @@ public class VotesTableController {
         return municipalityVotesList;
     }
 
+    /**
+     * Endpoint to send integer containing number of candidates with at least 1 vote in given polling station to frontend
+     *
+     * @param pollingStationId Path variable, id of polling station to get number of candidates with votes of
+     * @return Number of candidates with at least 1 vote in the given polling station
+     */
     @GetMapping(path = ApiPaths.POLLING_STATION_SERVICE_VOTES_COUNT)
     public int getPollingStationVotesCountByPollingStationId(@PathVariable("pollingStationId") Long pollingStationId) {
         PollingStation pollingStation = pollingStationService.getPollingStationById(pollingStationId);
         return votesTableService.getPollingStationVotesCountByPollingStation(pollingStation);
     }
 
+    /**
+     * Endpoint to send limited list of polling station votes of given polling station and page to frontend
+     *
+     * @param pollingStationId Path variable, id of polling station to get the votes of
+     * @param pagination Path variable, number of rows to get from database
+     * @param page Path variable, selected table page of source element
+     * @return List of limited number of polling station votes from given position in the database
+     */
     @GetMapping(path = ApiPaths.POLLING_STATION_SERVICE_VOTES)
     public List<PollingStationVotesDTO> getPollingStationVotesByPollingStationIdByPage(@PathVariable("pollingStationId") Long pollingStationId, @PathVariable("pagination") Integer pagination, @PathVariable("page") Integer page) {
         PollingStation pollingStation = pollingStationService.getPollingStationById(pollingStationId);

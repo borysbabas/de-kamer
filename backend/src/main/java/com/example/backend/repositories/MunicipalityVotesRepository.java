@@ -44,6 +44,13 @@ public interface MunicipalityVotesRepository extends JpaRepository<MunicipalityV
             "FROM MunicipalityVotes mv WHERE mv.affiliation.affiliationId = :affiliationId GROUP BY mv.municipality.municipalityName, mv.municipality.municipalityId")
     List<MunicipalityVoteModel> findTotalVotesByAffiliationId(@Param("affiliationId") long affiliationId);
 
+    /**
+     * Custom query method to retrieve the number of candidates with at least 1 vote in a given municipality.
+     * Contains subquery to not take duplicate candidates in the database into account
+     *
+     * @param municipality The municipality you want to get the number of candidates of
+     * @return number of candidates with at least 1 vote in the given municipality
+     */
     @Query("SELECT COUNT(mv) " +
             "FROM MunicipalityVotes mv " +
             "WHERE mv.municipality = :municipality " +
@@ -51,6 +58,15 @@ public interface MunicipalityVotesRepository extends JpaRepository<MunicipalityV
     )
     int countMunicipalityVotesByMunicipality(@Param("municipality") Municipality municipality);
 
+    /**
+     * Custom query method to get a limited number of municipality votes from the database because the required clauses LIMIT and OFFSET are not supported by JPA.
+     * Contains a subquery to prevent duplicate candidates in the database being retrieved
+     *
+     * @param municipality The municipality you want to get the votes data of
+     * @param pagination The amount of rows of votes data you want to get from the database
+     * @param offset The row in the database table from which you want to start getting the data from, best used like "(page - 1) * pagination"
+     * @return List of limited number of unique municipality votes from anywhere in the database table
+     */
     @Query("SELECT mv " +
             "FROM MunicipalityVotes mv " +
             "WHERE mv.municipality = :municipality " +
@@ -58,5 +74,5 @@ public interface MunicipalityVotesRepository extends JpaRepository<MunicipalityV
             "ORDER BY mv.totalVotes DESC " +
             "LIMIT :pagination " +
             "OFFSET :offset")
-    List<MunicipalityVotes> findByMunicipalityByPageOrderByTotalVotesDesc(@Param("municipality") Municipality municipality, @Param("pagination") int pagination, @Param("offset") int page);
+    List<MunicipalityVotes> findByMunicipalityByPageOrderByTotalVotesDesc(@Param("municipality") Municipality municipality, @Param("pagination") int pagination, @Param("offset") int offset);
 }
