@@ -22,13 +22,4 @@ public class PollingStationVotesService {
     public void addPollingStationVotes(PollingStationVotes pollingStationVotes) {
         votesRepository.save(pollingStationVotes);
     }
-
-    public int getPollingStationVotesCountByPollingStation(PollingStation pollingStation) {
-        return pollingStationVotesRepository.countByPollingStation(pollingStation);
-    }
-
-    public List<PollingStationVotes> getPollingStationVotesByPollingStationByPage(PollingStation pollingStation, int pagination, int page) {
-        // Page number gets transformed to proper offset by subtracting 1 of the page number and multiplying by the number of rows on a page
-        return pollingStationVotesRepository.findByPollingStationByPageOrderByTotalVotesDesc(pollingStation, pagination, (page -1) * pagination);
-    }
 }

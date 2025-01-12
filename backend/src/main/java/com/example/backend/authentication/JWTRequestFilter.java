@@ -19,14 +19,15 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-
-
         URL origin = new URL(request.getRequestURL().toString());
+
+        System.out.println(origin.getHost());
+
         String originString = switch (origin.getHost()) {
             case "localhost" -> ApiConfig.getDevelopmentOrigin();
-            case "de-kamer.eu", "backend-f15s.onrender.com" -> ApiConfig.getProductionOrigin();
-            default ->
+            case "127.0.0.1" ->
                     origin.getProtocol() + "://" + origin.getHost() + (origin.getPort() > -1 ? ":" + origin.getPort() : "");
+            default -> ApiConfig.getProductionOrigin();
         };
 
         boolean allowedOrigin = Arrays.asList(ApiConfig.getAllowedOrigins()).contains(originString);

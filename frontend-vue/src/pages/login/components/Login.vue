@@ -41,8 +41,8 @@ const submitLogin = async () => {
     <form @submit.prevent>
       <div class="wrapper">
         <h2>Enter your credentials</h2>
-        <input required v-model="loginCredentials.email" placeholder="E-mail">
-        <input required v-model="loginCredentials.password" placeholder="Password" type="password">
+        <input required v-model="loginCredentials.email" placeholder="E-mail" type="email" autocomplete="email">
+        <input required v-model="loginCredentials.password" placeholder="Password" type="password" autocomplete="current-password">
         <button id="submit-btn" :style="{backgroundColor: buttonColor}" @click="submitLogin">{{buttonText}}</button>
         <router-link to="/forum/register"><a>Create account</a></router-link>
       </div>

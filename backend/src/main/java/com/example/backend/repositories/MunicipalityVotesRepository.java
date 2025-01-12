@@ -38,8 +38,10 @@ public interface MunicipalityVotesRepository extends JpaRepository<MunicipalityV
             "GROUP BY mv.municipality.municipalityId")
     List<MunicipalityAffiliationVotesModel> findAllByAffiliationAffiliationId(long affiliationId);
 
+
+    // Custom Query beacuse of the GROUP BY name and id (JPA doesnt let me do this)
     @Query("SELECT new com.example.backend.models.MunicipalityVoteModel(mv.municipality.municipalityName, SUM(mv.totalVotes), mv.municipality.municipalityId) " +
-            "FROM MunicipalityVotes mv WHERE mv.affiliation.affiliationId = :affiliationId GROUP BY mv.municipality.municipalityName")
+            "FROM MunicipalityVotes mv WHERE mv.affiliation.affiliationId = :affiliationId GROUP BY mv.municipality.municipalityName, mv.municipality.municipalityId")
     List<MunicipalityVoteModel> findTotalVotesByAffiliationId(@Param("affiliationId") long affiliationId);
 
     /**

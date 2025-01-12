@@ -51,13 +51,4 @@ public class MunicipalityVotesService {
     public List<MunicipalityVoteModel> findTotalVotesByAffiliationId(long affiliationId) {
         return municipalityVotesRepository.findTotalVotesByAffiliationId(affiliationId);
     }
-
-    public int getMunicipalityVotesCountByMunicipality(Municipality municipality) {
-        return municipalityVotesRepository.countMunicipalityVotesByMunicipality(municipality);
-    }
-
-    public List<MunicipalityVotes> getMunicipalityVotesByMunicipalityByPage(Municipality municipality, int pagination, int page) {
-        // Page number gets transformed to proper offset by subtracting 1 of the page number and multiplying by the number of rows on a page
-        return municipalityVotesRepository.findByMunicipalityByPageOrderByTotalVotesDesc(municipality, pagination, (page - 1) * pagination);
-    }
 }

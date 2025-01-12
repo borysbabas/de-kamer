@@ -65,12 +65,12 @@ export default class SessionSbService {
     }
 
     async asyncSignUp(registerForm){
-         const body = JSON.stringify(registerForm);
+        const body = JSON.stringify(registerForm);
         const response = await fetch(`${this.RESOURCES_URL}/register`,{
             method:"POST",
             headers:{"Content-type": "application/json"},
             body:body,
         });
-        return true;
+        return response.ok;
     }
 }

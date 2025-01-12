@@ -46,12 +46,15 @@ public interface ConstituencyVotesRepository extends JpaRepository<ConstituencyV
             @Param("offset") int offset
     );
 
+
+    // Custom Query because Group By is not supported by JPA
     @Query("SELECT new com.example.backend.models.ConstituencyVotesModel(cv.constituency.constituencyName, SUM(cv.totalVotes)) " +
             "FROM ConstituencyVotes cv " +
             "WHERE cv.affiliation.affiliationId = :affiliationId " +
             "GROUP BY cv.constituency.constituencyName")
     List<ConstituencyVotesModel> findTotalVotesByAffiliationGroupedByConstituency(@Param("affiliationId") Long affiliationId);
 
+    // Custom Query because Group By is not supported by JPA
     @Query("SELECT new com.example.backend.models.ConstituencyVotesModel(cv.constituency.constituencyName, SUM(cv.totalVotes)) " +
             "FROM ConstituencyVotes cv " +
             "WHERE cv.affiliation.affiliationId = :affiliationId " +
