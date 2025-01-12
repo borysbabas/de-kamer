@@ -3,7 +3,7 @@ export default class SessionSbService {
     private readonly BROWSER_STORAGE_ITEM_NAME: string;
     private _currentToken: string | null;
 
-    constructor(resourcesURL, browserStorageItemName) {
+    constructor(resourcesURL: string, browserStorageItemName: string) {
         this.RESOURCES_URL = resourcesURL;
         this.BROWSER_STORAGE_ITEM_NAME = browserStorageItemName;
         this._currentToken = null;
@@ -16,7 +16,7 @@ export default class SessionSbService {
         return token;
     }
 
-    saveTokenIntoBrowserStorage(token) {
+    saveTokenIntoBrowserStorage(token: string) {
         if (token === null) {
             localStorage.removeItem(this.BROWSER_STORAGE_ITEM_NAME);
         } else {
@@ -25,7 +25,7 @@ export default class SessionSbService {
         this._currentToken = token;
     }
 
-    saveUserNameIntoBrowserStorage(username){
+    saveUserNameIntoBrowserStorage(username: string){
         localStorage.setItem("username", username);
     }
 
@@ -41,7 +41,7 @@ export default class SessionSbService {
         localStorage.removeItem("username");
     }
 
-    async asyncSignIn(email, password) {
+    async asyncSignIn(email: string, password: string) {
         const body = JSON.stringify({ email, password });
         const response = await fetch(`${this.RESOURCES_URL}/login`, {
             method: "POST",
@@ -51,7 +51,7 @@ export default class SessionSbService {
         });
 
         if (response.ok) {
-            const responseData: Account = await response.json();
+            const responseData: any = await response.json();
             const token = responseData.jwtToken;
             const username = responseData.userName;
 
@@ -59,12 +59,13 @@ export default class SessionSbService {
                 this.saveTokenIntoBrowserStorage(token);
                 this.saveUserNameIntoBrowserStorage(username);
             }
+            location.href="/forum";
             return true;
         }
         return false;
     }
 
-    async asyncSignUp(registerForm){
+    async asyncSignUp(registerForm: any){
         const body = JSON.stringify(registerForm);
         const response = await fetch(`${this.RESOURCES_URL}/register`,{
             method:"POST",

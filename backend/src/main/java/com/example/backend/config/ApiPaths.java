@@ -14,20 +14,18 @@ public class ApiPaths {
 
     public static final String CONSTITUENCY_SERVICE = "/constituencies";
 
-    public static final String AUTHENTICATION_SERVICE="/authentication";
+    public static final String AUTHENTICATION_SERVICE = "/authentication";
 
-    public static final String CANDIDATES_SERVICE="/candidates";
+    public static final String CANDIDATES_SERVICE = "/candidates";
 
-    public static final String AUTHENTICATION_SERVICE_LOGIN= AUTHENTICATION_SERVICE + "/login";
+    public static final String AUTHENTICATION_SERVICE_LOGIN = AUTHENTICATION_SERVICE + "/login";
     public static final String AUTHENTICATION_SERVICE_REGISTER = AUTHENTICATION_SERVICE + "/register";
     public static final String AUTHENTICATION_SERVICE_DELETE = AUTHENTICATION_SERVICE + "/{id}";
 
-    public static final String ACCOUNTDETAILS_SERVICE="/accountdetails";
-    public static final String ACCOUNTDETAILS_SERVICE_GET_USERBYID=ACCOUNTDETAILS_SERVICE+"/{id}";
-    public static final String ACCOUNTDETAILS_SERVICE_DELETE_USERBYID=ACCOUNTDETAILS_SERVICE+"/delete/user/{id}";
-    public static final String ACCOUNTDETAILS_SERVICE_UPDATE= ACCOUNTDETAILS_SERVICE+"/update/{id}";
-
-
+    public static final String ACCOUNT_SERVICE = "/account";
+    public static final String ACCOUNT_DETAILS = ACCOUNT_SERVICE + "/{id}";
+    public static final String DELETE_ACCOUNT = ACCOUNT_SERVICE + "/delete";
+    public static final String ACCOUNTDETAILS_SERVICE_UPDATE = ACCOUNT_SERVICE + "/update/{id}";
 
     public static final String VOTES = "/votes";
     public static final String AFFILIATION_SERVICE_VOTES = VOTES + "/affiliations";

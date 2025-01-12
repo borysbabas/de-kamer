@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {inject, ref} from "vue"
+import {inject, ref} from "vue";
 
-const sessionService = inject("sessionService")
+const sessionService: any = inject("sessionService");
 
 async function submitRegisterForm() {
   if (!formData.value.email || !formData.value.userName || !formData.value.password) {
@@ -13,6 +13,7 @@ async function submitRegisterForm() {
   if (response) {
     btn.style.backgroundColor = "green";
     btn.innerHTML = "succesfully registered!";
+    void sessionService.asyncSignIn(formData.value.email, formData.value.password)
   } else {
     btn.style.backgroundColor = "red";
     btn.innerHTML = "Something went wrong...";

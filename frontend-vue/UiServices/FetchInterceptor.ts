@@ -28,6 +28,7 @@ export class FetchInterceptor {
         if (!token) {
             return [url, options];
         }
+
         const newOptions: FetchOptions = { ...options };
         newOptions.headers = {
             ...(options.headers || {}),

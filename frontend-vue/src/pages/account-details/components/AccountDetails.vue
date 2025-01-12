@@ -21,7 +21,7 @@ const fetchedUsername = ref("")
 const fetchedDateOfBirth = ref("")
 
 const userInputPopUp = ref("");
-const requiredfetchedData = ref("")
+const requiredfetchedData = ref<string>("")
 //checks whether popup is enabled
 let isPopUpVisible = ref(false)
 const selectedSubject = ref("")
@@ -42,7 +42,7 @@ async function updateAccountCredentials() {
     selectedSubjectTranslated.value = "password"
   }
   try {
-    const response = await fetch(api + `/accountdetails/update/${userID}`, {
+    const response = await fetch(api + `/account/update/${userID}`, {
           method: "PUT",
           headers: {
             "Content-type": "application/json"
@@ -75,7 +75,7 @@ async function deleteAccount() {
   const confirmed = window.confirm("Weet je dit zeker? je staat op het punt je account te verwijderen.")
   if (confirmed) {
     try {
-      const response = await fetch(api + `/accountdetails/delete/user/${userID}`, {
+      const response = await fetch(api + `/account/delete`, {
         method: "DELETE",
       })
       if (response.ok) {
@@ -99,18 +99,18 @@ function handleBtnClick(selectedSubjectParam: any) {
   switch (selectedSubjectParam) {
     case "email":
       selectedSubject.value = "email";
-      requiredfetchedData.value = fetchedEmail;
+      requiredfetchedData.value = fetchedEmail.value;
       break;
     case "userName":
       selectedSubject.value = "gebruikersnaam";
-      requiredfetchedData.value = fetchedUsername;
+      requiredfetchedData.value = fetchedUsername.value;
       break;
     case "password":
       selectedSubject.value = "wachtwoord";
       break;
     case "dateOfBirth":
       selectedSubject.value = "geboortedatum";
-      requiredfetchedData.value = fetchedDateOfBirth;
+      requiredfetchedData.value = fetchedDateOfBirth.value;
       break;
   }
 
@@ -118,14 +118,12 @@ function handleBtnClick(selectedSubjectParam: any) {
 
 onMounted(async () => {
   try {
-    const response = await fetch(api + `/accountdetails/${userID}`)
+    const response = await fetch(api + `/account/${userID}`)
     if (response.ok) {
       const userData = await response.json();
       fetchedEmail.value = userData.email;
       fetchedUsername.value = userData.userName;
       fetchedDateOfBirth.value = userData.dateOfBirth;
-
-
     }
   } catch (error) {
     console.error("Error fetching user details", error)
@@ -158,7 +156,7 @@ onMounted(async () => {
         <div class="box">
           gebruikersnaam: {{ fetchedUsername }}
           <div class="box-button">
-            <button @click="handleBtnClick('username')">wijzig</button>
+            <button @click="handleBtnClick('userName')">wijzig</button>
           </div>
         </div>
         <div class="box">
@@ -179,8 +177,6 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-
-
     </div>
   </section>
 
