@@ -16,33 +16,29 @@ import java.util.List;
 
 @RestController
 public class VotesTableController {
+    private final VotesTableService votesTableService;
     private final ConstituencyService constituencyService;
-    private final ConstituencyVotesService constituencyVotesService;
     private final MunicipalityService municipalityService;
-    private final MunicipalityVotesService municipalityVotesService;
     private final PollingStationService pollingStationService;
-    private final PollingStationVotesService pollingStationVotesService;
 
     @Autowired
-    public VotesTableController(ConstituencyService constituencyService, ConstituencyVotesService constituencyVotesService, MunicipalityService municipalityService, MunicipalityVotesService municipalityVotesService, PollingStationService pollingStationService, PollingStationVotesService pollingStationVotesService) {
+    public VotesTableController(VotesTableService votesTableService, ConstituencyService constituencyService, MunicipalityService municipalityService, PollingStationService pollingStationService) {
+        this.votesTableService = votesTableService;
         this.constituencyService = constituencyService;
-        this.constituencyVotesService = constituencyVotesService;
         this.municipalityService = municipalityService;
-        this.municipalityVotesService = municipalityVotesService;
         this.pollingStationService = pollingStationService;
-        this.pollingStationVotesService = pollingStationVotesService;
     }
 
     @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES_COUNT)
     public int getConstituencyVotesCountByConstituencyId(@PathVariable("constituencyId") Long constituencyId) {
         Constituency constituency = constituencyService.findConstituencyById(constituencyId);
-        return constituencyVotesService.getConstituencyVotesCountByConstituency(constituency);
+        return votesTableService.getConstituencyVotesCountByConstituency(constituency);
     }
 
     @GetMapping(path = ApiPaths.CONSTITUENCY_SERVICE_VOTES)
     public List<ConstituencyVotesDTO> getConstituencyVotesByConstituencyIdByPage(@PathVariable("constituencyId") Long constituencyId, @PathVariable("pagination") Integer pagination, @PathVariable("page") Integer page) {
         Constituency constituency = constituencyService.findConstituencyById(constituencyId);
-        List<ConstituencyVotes> constituencyVotes = constituencyVotesService.getConstituencyVotesByConstituencyByPage(constituency, pagination, page);
+        List<ConstituencyVotes> constituencyVotes = votesTableService.getConstituencyVotesByConstituencyByPage(constituency, pagination, page);
         List<ConstituencyVotesDTO> constituencyVotesList = new ArrayList<>();
         for (ConstituencyVotes constituencyVote : constituencyVotes) {
             constituencyVotesList.add(new ConstituencyVotesDTO(constituencyVote));
@@ -53,13 +49,13 @@ public class VotesTableController {
     @GetMapping(path = ApiPaths.MUNICIPALITY_SERVICE_VOTES_COUNT)
     public int getMunicipalityVotesCountByMunicipalityId(@PathVariable("municipalityId") Long municipalityId) {
         Municipality municipality = municipalityService.getMunicipalityByMunicipalityId(municipalityId);
-        return municipalityVotesService.getMunicipalityVotesCountByMunicipality(municipality);
+        return votesTableService.getMunicipalityVotesCountByMunicipality(municipality);
     }
 
     @GetMapping(path = ApiPaths.MUNICIPALITY_SERVICE_VOTES_BY_MUNICIPALITY)
     public List<MunicipalityVotesDTO> getMunicipalityVotesByConstituencyIdByPage(@PathVariable("municipalityId") Long municipalityId, @PathVariable("pagination") Integer pagination, @PathVariable("page") Integer page) {
         Municipality municipality = municipalityService.getMunicipalityByMunicipalityId(municipalityId);
-        List<MunicipalityVotes> municipalityVotes = municipalityVotesService.getMunicipalityVotesByMunicipalityByPage(municipality, pagination, page);
+        List<MunicipalityVotes> municipalityVotes = votesTableService.getMunicipalityVotesByMunicipalityByPage(municipality, pagination, page);
         List<MunicipalityVotesDTO> municipalityVotesList = new ArrayList<>();
         for (MunicipalityVotes municipalityVote : municipalityVotes) {
             municipalityVotesList.add(new MunicipalityVotesDTO(municipalityVote));
@@ -70,14 +66,14 @@ public class VotesTableController {
     @GetMapping(path = ApiPaths.POLLING_STATION_SERVICE_VOTES_COUNT)
     public int getPollingStationVotesCountByPollingStationId(@PathVariable("pollingStationId") Long pollingStationId) {
         PollingStation pollingStation = pollingStationService.getPollingStationById(pollingStationId);
-        return pollingStationVotesService.getPollingStationVotesCountByPollingStation(pollingStation);
+        return votesTableService.getPollingStationVotesCountByPollingStation(pollingStation);
     }
 
     @GetMapping(path = ApiPaths.POLLING_STATION_SERVICE_VOTES)
     public List<PollingStationVotesDTO> getPollingStationVotesByPollingStationIdByPage(@PathVariable("pollingStationId") Long pollingStationId, @PathVariable("pagination") Integer pagination, @PathVariable("page") Integer page) {
         PollingStation pollingStation = pollingStationService.getPollingStationById(pollingStationId);
         List<PollingStationVotesDTO> pollingStationVotesList = new ArrayList<>();
-        List<PollingStationVotes> pollingStationVotes = pollingStationVotesService.getPollingStationVotesByPollingStationByPage(pollingStation, pagination, page);
+        List<PollingStationVotes> pollingStationVotes = votesTableService.getPollingStationVotesByPollingStationByPage(pollingStation, pagination, page);
         for (PollingStationVotes pollingStationVote : pollingStationVotes) {
             pollingStationVotesList.add(new PollingStationVotesDTO(pollingStationVote));
         }
