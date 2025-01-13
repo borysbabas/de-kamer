@@ -19,8 +19,10 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
     private final AuthenticateJWToken authenticateJWToken;
     private final AccountService accountService;
-    private final String[] privateApiPaths = {
+    private final String[] userApiPaths = {
             "/account",
+    };
+    private final String[] adminApiPaths = {
             "/admin",
     };
     private final String[] preflightHeaders = {
@@ -39,10 +41,10 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
         String requestURI = request.getRequestURI();
 
-        if (Arrays.stream(privateApiPaths).anyMatch(requestURI::startsWith)) {
-            verifyUserAccess(request, response);
+        if (Arrays.stream(userApiPaths).anyMatch(requestURI::startsWith)) {
+            verifyAccountAccess(request, response);
         }
-        if (requestURI.startsWith("/admin")) {
+        if (Arrays.stream(adminApiPaths).anyMatch(requestURI::startsWith)) {
             verifyAdminAccess(request, response);
         }
 
@@ -54,7 +56,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
      * @param request the request to check
      * @param response the response to send
      */
-    private void verifyUserAccess(HttpServletRequest request, HttpServletResponse response) {
+    private void verifyAccountAccess(HttpServletRequest request, HttpServletResponse response) {
         String jwt = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         // If no JWT is provided, it might be a preflight request
@@ -90,7 +92,16 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
     }
 
+    /**
+     * Verify if the account has admin access to the requested resource
+     *
+     * @param request the request to check
+     * @param response the response to send
+     */
     private void verifyAdminAccess(HttpServletRequest request, HttpServletResponse response) {
+        // An admin should have access to a valid account
+        verifyAccountAccess(request, response);
+
         Account account = (Account) request.getAttribute(ApiConfig.ACCOUNT_HEADER);
 
         if (account == null) {
