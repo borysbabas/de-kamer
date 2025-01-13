@@ -26,28 +26,31 @@ import java.util.List;
 @Configuration
 @RestController
 public class AuthenticationController {
+
     private final ApiConfig apiConfig;
     private final AccountService accountService;
 
     @Autowired
     public AuthenticationController(AccountService accountService, ApiConfig apiConfig) {
         this.apiConfig = apiConfig;
-        this.accountService=accountService;
+        this.accountService = accountService;
     }
 
-    @PostMapping(path=ApiPaths.AUTHENTICATION_SERVICE_LOGIN)
+    @PostMapping(path = ApiPaths.AUTHENTICATION_SERVICE_LOGIN)
     public ResponseEntity<AccountDTO> authenticateAccount(@RequestBody Account account) {
         String email = account.getEmail();
-
         List<Account> accounts = accountService.findByEmail(email);
 
         AccountDTO foundAccount = new AccountDTO(accounts.size() == 1
                 ? accounts.get(0)
                 : new Account());
 
+        // Password comparison using BCrypt
         if (foundAccount.getId() == null || !org.springframework.security.crypto.bcrypt.BCrypt.checkpw(account.getPassword(), accounts.get(0).getPassword())) {
-            throw new NotAcceptableException("cannot authenticate account with email:"+ email);
+            throw new NotAcceptableException("Cannot authenticate account with email: " + email);
         }
+
+        // Create a new JWT token
         JWToken jwToken = new JWToken(foundAccount.getUserName(), foundAccount.getId(), foundAccount.getRole());
         String tokenString = jwToken.encode(
                 this.apiConfig.getIssuer(),
@@ -59,20 +62,22 @@ public class AuthenticationController {
         return ResponseEntity.accepted().header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenString).body(foundAccount);
     }
 
-    @PostMapping(path=ApiPaths.AUTHENTICATION_SERVICE_REGISTER)
+    @PostMapping(path = ApiPaths.AUTHENTICATION_SERVICE_REGISTER)
     public ResponseEntity<Account> saveAccount(@RequestBody Account account) {
         String email = account.getEmail();
         String userName = account.getUserName();
         String password = account.getPassword();
 
-        if(email==null || userName == null || password == null){
-            throw new NotAcceptableException("missing required fields");
+        if (email == null || userName == null || password == null) {
+            throw new NotAcceptableException("Missing required fields");
         }
 
+        // Check if email is already taken
         if (!accountService.findByEmail(email).isEmpty()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
 
+        // Create the account entity
         account.setRole("user");
         account.setPassword(accountService.hashPassword(password));
 
@@ -80,16 +85,16 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
     }
 
-    @DeleteMapping(path= ApiPaths.AUTHENTICATION_SERVICE_DELETE)
-    public Account deleteOneAccount(@PathVariable() long id, @RequestAttribute(name = JWToken.JWT_ATTRIBUTE_NAME) JWToken jwtInfo) {
-        if(jwtInfo == null ||!jwtInfo.isAdmin()) {
+    @DeleteMapping(path = ApiPaths.AUTHENTICATION_SERVICE_DELETE)
+    public ResponseEntity<Account> deleteOneAccount(@PathVariable long id, @RequestAttribute(name = JWToken.JWT_ATTRIBUTE_NAME) JWToken jwtInfo) {
+        if (jwtInfo == null || !jwtInfo.isAdmin()) {
             throw new UnAuthorizedException("Admin role is required to remove an account");
         }
 
-        Account account= this.accountService.deleteById(id);
-        if(account==null){
-            throw new ResourceNotFoundException("Cannot delete an account with id");
+        Account account = accountService.deleteById(id);
+        if (account == null) {
+            throw new ResourceNotFoundException("Cannot delete an account with id: " + id);
         }
-        return account;
+        return ResponseEntity.status(HttpStatus.OK).body(account);
     }
 }

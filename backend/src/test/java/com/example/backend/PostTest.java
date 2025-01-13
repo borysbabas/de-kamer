@@ -123,6 +123,17 @@ public class PostTest {
                         assertThat(content).contains("Test Post 1");
                     });
         }
+
+        @Test
+        public void getRecentPosts() throws Exception {
+            mockMvc.perform(get("/posts/recent/8/1"))
+                    .andExpect(status().isOk())
+                    .andExpect(result -> {
+                        String content = result.getResponse().getContentAsString();
+                        assertThat(content).contains("\"Test Post 10\"");
+                        assertThat(content).doesNotContain("\"Test Post 1\"");
+                    });
+        }
     }
 
     @Nested

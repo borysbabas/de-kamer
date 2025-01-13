@@ -14,6 +14,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * A general filter that can be used to authenticate every HTTP request.
+ */
 @Component
 public class JWTRequestFilter extends OncePerRequestFilter {
 

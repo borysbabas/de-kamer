@@ -1,6 +1,6 @@
 # How to deploy
 
-This guide will go through the s teps to deploy the application. 
+This guide will go through the steps to deploy the application. 
 
 ## Infrastructure
 
