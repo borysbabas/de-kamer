@@ -49,8 +49,7 @@ public class AccountDetailsController {
 
     /**
      * Method to delete a single account by the corresponding id
-     * @param authorizationHeader the header that contains the jwt
-     * @param id the provided id of the account that needs to be deleted.
+     * @param account the header that contains the information about the user
      * @return a boolean value. if the deletion is successful it returns true, false if not.
      */
     @DeleteMapping(path = ApiPaths.DELETE_ACCOUNT)
