@@ -104,9 +104,9 @@ public class VotesTableTest {
                     .andExpect(status().isOk())
                     .andExpect(result -> {
                        String content = result.getResponse().getContentAsString();
-                        System.out.println(content);
                        assertThat(content).contains(POLLING_STATION_IN_RESULT);
                     });
+
         }
 
         @Test
@@ -170,5 +170,3 @@ public class VotesTableTest {
         }
     }
 }
-
-// 5870
