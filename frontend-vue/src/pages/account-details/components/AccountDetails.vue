@@ -127,7 +127,7 @@ function handleBtnClick(selectedSubjectParam: any) {
  */
 onMounted(async () => {
   try {
-    const response = await fetch(api + `/account/${userID}`)
+    const response = await fetch(api + `/account/details`)
     if (response.ok) {
       const userData = await response.json();
       fetchedEmail.value = userData.email;

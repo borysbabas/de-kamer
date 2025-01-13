@@ -35,16 +35,12 @@ public class AccountDetailsController {
 
     /**
      * Retrieves a single account by its ID.
-     * @param id id of the account to retrieve.
-     * @return the account if found and authorized , or null.
+     * @return the account if found and authorized, or null.
      * catches a jwtException when an error is encountered in the jwt.
      */
     @GetMapping(path = ApiPaths.ACCOUNT_DETAILS)
-    public AccountDTO getAccountById(@PathVariable Long id) {
-        return new AccountDTO(Objects.requireNonNull(accountService.findAccountById(id)
-                .stream()
-                .findFirst()
-                .orElse(null)));
+    public AccountDTO getAccountById(@RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account) {
+        return new AccountDTO(account);
     }
 
     /**

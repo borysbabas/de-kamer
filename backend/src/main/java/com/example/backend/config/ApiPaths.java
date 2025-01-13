@@ -25,10 +25,18 @@ public class ApiPaths {
     public static final String AUTHENTICATION_SERVICE_REGISTER = AUTHENTICATION_SERVICE + "/register";
     public static final String AUTHENTICATION_SERVICE_DELETE = AUTHENTICATION_SERVICE + "/{id}";
 
+    // Account service (protected on user role)
     public static final String ACCOUNT_SERVICE = "/account";
-    public static final String ACCOUNT_DETAILS = ACCOUNT_SERVICE + "/{id}";
+    public static final String ACCOUNT_DETAILS = ACCOUNT_SERVICE + "/details";
     public static final String DELETE_ACCOUNT = ACCOUNT_SERVICE + "/delete";
     public static final String ACCOUNTDETAILS_SERVICE_UPDATE = ACCOUNT_SERVICE + "/update/{id}";
+
+    public static final String POST_SERVICE = "/posts";
+    public static final String GET_POST_BY_ID = POST_SERVICE + "/{postId}";
+    public static final String DELETE_POST_BY_ID = ACCOUNT_SERVICE + POST_SERVICE + "/delete/{postId}";
+    public static final String ADD_POST = ACCOUNT_SERVICE + POST_SERVICE + "/add";
+    public static final String POST_SERVICE_COUNT = POST_SERVICE + "/count";
+    public static final String POST_SERVICE_RECENT = POST_SERVICE + "/recent";
 
     public static final String VOTES = "/votes";
     public static final String AFFILIATION_SERVICE_VOTES = VOTES + "/affiliations";
@@ -59,11 +67,4 @@ public class ApiPaths {
 
     public static final String POLLING_STATION_SERVICE = "/polling-station";
     public static final String POLLING_STATION_BY_MUNICIPALITY = POLLING_STATION_SERVICE + "/municipality/{municipalityId}";
-
-    public static final String POST_SERVICE = "/posts";
-    public static final String GET_POST_BY_ID = POST_SERVICE + "/{postId}";
-    public static final String DELETE_POST_BY_ID = POST_SERVICE + "/delete/{postId}";
-    public static final String ADD_POST = POST_SERVICE + "/add";
-    public static final String POST_SERVICE_COUNT = POST_SERVICE + "/count";
-    public static final String POST_SERVICE_RECENT = POST_SERVICE + "/recent";
 }

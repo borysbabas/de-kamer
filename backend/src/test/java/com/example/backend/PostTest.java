@@ -83,7 +83,7 @@ public class PostTest {
             mockPost.setDescription("This is a test post");
             mockPost.setAccount(null);
 
-            mockMvc.perform(post("/posts/add")
+            mockMvc.perform(post("/account/posts/add")
                             .header(HttpHeaders.AUTHORIZATION, "Bearer invalidToken")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(mockPost)))
@@ -98,7 +98,7 @@ public class PostTest {
             mockPost.setDescription("This is a test post");
             mockPost.setAccount(null);
 
-            mockMvc.perform(post("/posts/add")
+            mockMvc.perform(post("/account/posts/add")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(mockPost)))
                     .andExpect(status().isForbidden());
@@ -174,7 +174,7 @@ public class PostTest {
             mockPost.setDescription("This is a test post");
             mockPost.setAccount(mockAccount);
 
-            mockMvc.perform(post("/posts/add")
+            mockMvc.perform(post("/account/posts/add")
                     .header(HttpHeaders.AUTHORIZATION, token)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(mockPost)))

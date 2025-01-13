@@ -2,7 +2,9 @@ package com.example.backend.controller;
 
 import com.example.backend.authentication.AuthenticateJWToken;
 import com.example.backend.authentication.JWToken;
+import com.example.backend.config.ApiConfig;
 import com.example.backend.config.ApiPaths;
+import com.example.backend.entities.Account;
 import com.example.backend.entities.Post;
 import com.example.backend.models.PostModel;
 import com.example.backend.services.AccountService;
@@ -40,20 +42,9 @@ public class PostController {
     }
 
     @PostMapping(path = ApiPaths.ADD_POST)
-    public ResponseEntity<String> addPost(@RequestBody Post post, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        JWToken jwt;
+    public ResponseEntity<String> addPost(@RequestBody Post post, @RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account) {
 
-        try {
-            if (!authenticateJWToken.verifyToken(token)) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-            jwt = authenticateJWToken.getJWToken(token);
-        } catch (JwtException e) {
-            System.out.println("Token is invalid!\n" + e.getMessage());
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
-        post.setAccount(accountService.findById(jwt.getAccountId()));
+        post.setAccount(account);
         if (post.getAccount() == null) {
             return new ResponseEntity<>("User ID not found", HttpStatus.FORBIDDEN);
         }
