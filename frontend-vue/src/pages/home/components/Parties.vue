@@ -2,6 +2,7 @@
 import {selectedOption} from "@/composables/useDropdown";
 import {getShortenedName, sortedItems, visibleBlocks} from "@/composables/useParties";
 import {useRouter} from 'vue-router';
+import {formatNubmer} from "../../../composables/formatNumber";
 
 const router = useRouter();
 
@@ -16,6 +17,7 @@ function findLogoPath(affiliationName: string) {
     return `/affiliation-logos/lijst30.png`;
   }
 }
+
 </script>
 
 <template>
@@ -29,11 +31,11 @@ function findLogoPath(affiliationName: string) {
       </div>
       <div>
         <p class="party-votes" v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
-          {{ party.affiliationVotes }} stemmen
+          {{ formatNubmer(party.affiliationVotes) }} stemmen
         </p>
         <p class="party-votes"
            v-else-if="selectedOption === 'most_candidates' || selectedOption === 'least_candidates'">
-          {{ party.votes }} stemmen
+          {{ formatNubmer(party.votes) }} stemmen
         </p>
         <p class="party-name" v-if="selectedOption === 'most_parties' || selectedOption === 'least_parties'">
           {{ getShortenedName(party.affiliationName) }}

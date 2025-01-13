@@ -46,7 +46,6 @@ export class FetchInterceptor {
             return [url, options];
         }
         //add the Bearer token to the request.
-        const newOptions = { ...options };
         const newOptions: FetchOptions = { ...options };
         newOptions.headers = {
             ...(options.headers || {}),
