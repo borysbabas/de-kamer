@@ -1,6 +1,5 @@
 package com.example.backend;
 
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,11 +9,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("production")
-public class leafletTest {
+public class LeafletTest {
 
     private final String CONSTITUENCY_NAME_IN_RESULT = "Amstelveen";
     private final double LON = 4.85149300219;
