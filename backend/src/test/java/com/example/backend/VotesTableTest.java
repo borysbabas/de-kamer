@@ -106,7 +106,6 @@ public class VotesTableTest {
                        String content = result.getResponse().getContentAsString();
                        assertThat(content).contains(POLLING_STATION_IN_RESULT);
                     });
-
         }
 
         @Test
