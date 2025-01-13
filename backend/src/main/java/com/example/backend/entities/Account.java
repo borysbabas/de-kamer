@@ -48,8 +48,4 @@ public class Account {
                 ", dateOfBirth=" + dateOfBirth +
                 '}';
     }
-
-    public String getDateOfBirthString() {
-        return this.getDateOfBirthString();
-    }
 }

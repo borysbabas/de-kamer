@@ -67,20 +67,9 @@ public class AuthenticationController {
         String email = account.getEmail();
         String userName = account.getUserName();
         String password = account.getPassword();
-        String dateOfBirthString = account.getDateOfBirthString(); // Assuming you are getting this as a string
 
-        if (email == null || userName == null || password == null || dateOfBirthString == null) {
+        if (email == null || userName == null || password == null) {
             throw new NotAcceptableException("Missing required fields");
-        }
-
-        Date dateOfBirth;
-        // Try to parse dateOfBirth string into date object
-        try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            dateOfBirth = simpleDateFormat.parse(dateOfBirthString);
-        } catch (Exception exception) {
-            log.error("Error parsing date of birth: ", exception);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
         // Check if email is already taken
@@ -89,7 +78,6 @@ public class AuthenticationController {
         }
 
         // Create the account entity
-        account.setDateOfBirth(dateOfBirth);
         account.setRole("user");
         account.setPassword(accountService.hashPassword(password));
 
