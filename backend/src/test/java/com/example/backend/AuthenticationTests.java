@@ -9,9 +9,7 @@ import com.example.backend.services.AccountService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,7 +25,9 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -63,6 +63,14 @@ public class AuthenticationTests {
     @Autowired
     private AuthenticationController authenticationController;
 
+    public AuthenticationTests() {
+        testAccount.setId(id);
+        testAccount.setEmail(email);
+        testAccount.setPassword(password);
+        testAccount.setRole(role);
+        testAccount.setUserName(userName);
+    }
+
     @Test
     public void  contextLoad(){
         assertThat(authenticationController).isNotNull();
@@ -74,24 +82,26 @@ public class AuthenticationTests {
 
 
     @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     public class UserAccountTests {
         private String token;
 
-        @BeforeEach
-        public void init() throws Exception {
-            Account mockAccount = new Account();
-            mockAccount.setId(1L);
-            mockAccount.setUserName(userName);
-            mockAccount.setEmail(email);
-            mockAccount.setPassword(password);
-            mockAccount.setRole(role);
-
-            System.out.println(mockAccount);
-
+        @BeforeAll
+        public void setup() throws Exception {
             mockMvc.perform(post("/authentication/register")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(mockAccount)))
+                            .content(objectMapper.writeValueAsString(testAccount)))
                     .andExpect(status().isCreated());
+        }
+
+        @BeforeEach
+        public void init() throws Exception {
+            ResultActions result = mockMvc.perform(post("/authentication/login")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(testAccount)))
+                    .andExpect(status().isAccepted());
+
+            token = result.andReturn().getResponse().getHeader(HttpHeaders.AUTHORIZATION);
         }
 
         @Test
@@ -107,8 +117,15 @@ public class AuthenticationTests {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(mockAccount)))
                     .andExpect(status().isAccepted());
-
-            token = result.andReturn().getResponse().getHeader(HttpHeaders.AUTHORIZATION);
+        }
+        @Test
+        void updateAccountTest() throws Exception {
+            Map testMap = new HashMap();
+            testMap.put("field", "userName");
+            testMap.put("value", "newUserName");
+            mockMvc.perform(put("/accountdetails/update/"+id).contentType(MediaType.APPLICATION_JSON)
+                            .header(HttpHeaders.AUTHORIZATION, token)
+                    .content(objectMapper.writeValueAsString(testMap))).andExpect(status().isOk());
         }
     }
 
@@ -127,14 +144,8 @@ public class AuthenticationTests {
         accountService.deleteById(id);
     }
     @Test
-    void updateAccountTest() throws Exception {
-        String field = "email";
-        String value = "johnsnow@hotmail.com";
-        accountService.updateAccount(id, field, value);
-    }
-    @Test
     public void deleteAccountById() {
-        accountService.findAccountById(id);
+        accountService.deleteAccountById(id);
     }
 
     @Test
