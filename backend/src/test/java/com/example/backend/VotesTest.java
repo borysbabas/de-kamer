@@ -32,9 +32,9 @@ public class VotesTest {
     private MockMvc mockMvc;
 
     private final String AFFILIATION_IN_RESULT = "VVD";
-    private final Number AFFILIATION_VOTES_AMOUNT = 1;
+    private final Number AFFILIATION_VOTES_AMOUNT = 2279130;
     private final String CANDIDATE_IN_RESULT = "M. Rutte";
-    private final Number CANDIDATE_VOTES_AMOUNT = 1;
+    private final Number CANDIDATE_VOTES_AMOUNT = 1977651;
 
     @Test
     public void contextLoads() {
