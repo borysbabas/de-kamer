@@ -4,7 +4,6 @@ import com.example.backend.entities.Municipality;
 import com.example.backend.entities.MunicipalityVotes;
 import com.example.backend.models.MunicipalityAffiliationVotesModel;
 import com.example.backend.models.MunicipalityVoteModel;
-import com.example.backend.models.MunicipalityVotesModel;
 import com.example.backend.repositories.MunicipalityVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

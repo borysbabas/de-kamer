@@ -1,15 +1,12 @@
 package com.example.backend.controller;
 
-import com.example.backend.authentication.AuthenticateJWToken;
-import com.example.backend.authentication.JWToken;
+import com.example.backend.config.ApiConfig;
 import com.example.backend.config.ApiPaths;
+import com.example.backend.entities.Account;
 import com.example.backend.entities.Post;
 import com.example.backend.models.PostModel;
-import com.example.backend.services.AccountService;
 import com.example.backend.services.PostService;
-import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingRequestHeaderException;
@@ -24,14 +21,10 @@ import java.util.Objects;
 public class PostController {
 
     private final PostService postService;
-    private final AccountService accountService;
-    private final AuthenticateJWToken authenticateJWToken;
 
     @Autowired
-    public PostController(PostService postService, AccountService accountService, AuthenticateJWToken authenticateJWToken) {
+    public PostController(PostService postService) {
         this.postService = postService;
-        this.accountService = accountService;
-        this.authenticateJWToken = authenticateJWToken;
     }
 
     @GetMapping(path = ApiPaths.POST_SERVICE)
@@ -40,20 +33,9 @@ public class PostController {
     }
 
     @PostMapping(path = ApiPaths.ADD_POST)
-    public ResponseEntity<String> addPost(@RequestBody Post post, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        JWToken jwt;
+    public ResponseEntity<String> addPost(@RequestBody Post post, @RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account) {
 
-        try {
-            if (!authenticateJWToken.verifyToken(token)) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-            jwt = authenticateJWToken.getJWToken(token);
-        } catch (JwtException e) {
-            System.out.println("Token is invalid!\n" + e.getMessage());
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
-        post.setAccount(accountService.findById(jwt.getAccountId()));
+        post.setAccount(account);
         if (post.getAccount() == null) {
             return new ResponseEntity<>("User ID not found", HttpStatus.FORBIDDEN);
         }

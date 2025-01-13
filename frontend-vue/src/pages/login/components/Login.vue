@@ -3,7 +3,7 @@ import { ref} from "vue"
 import{inject} from "vue";
 
 
-const sessionService = inject("sessionService")
+const sessionService: any = inject("sessionService")
 const buttonText=ref("Log in");
 const buttonColor=ref("")
 
@@ -27,7 +27,6 @@ const submitLogin = async () => {
   if (succes){
     buttonText.value="Succesfully logged in!"
     buttonColor.value="green"
-    window.location.href="/forum"
   } else {
     buttonText.value="Login failed"
     buttonColor.value="red"
