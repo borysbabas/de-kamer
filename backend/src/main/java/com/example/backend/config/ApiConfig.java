@@ -9,6 +9,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Getter
 @Configuration
+/**
+ * class that holds the configuration of the rest api.
+ * holds important values for the jwt tokens and handles cors.
+ */
 public class ApiConfig implements WebMvcConfigurer {
     @Value("${jwt.issuer:private company}")
     private String issuer;
@@ -21,7 +25,8 @@ public class ApiConfig implements WebMvcConfigurer {
 
     @Getter
     private final static String[] allowedOrigins = {
-            "http://localhost:3000", "http://*.hva.nl", "https://de-kamer.eu", "https://www.de-kamer.eu"
+
+            "http://127.0.0.1:3000","http://localhost:3000", "http://*.hva.nl", "https://de-kamer.eu", "https://www.de-kamer.eu"
     };
 
     @Getter

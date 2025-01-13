@@ -2,7 +2,9 @@
 
 import {computed, inject, onMounted, ref} from "vue";
 
-//api
+/**
+ * api is a constant that is dynamic with the deployment
+ */
 const api = import.meta.env.VITE_API_URL
 const sessionService: any = inject("sessionService")
 
@@ -15,11 +17,11 @@ const userID = JSON.parse(atob(sessionService.getTokenFromBrowserStorage().split
 /**
  * private variables
  */
-//fetched data variables
+//variables from the API call
 const fetchedEmail = ref("");
 const fetchedUsername = ref("")
 const fetchedDateOfBirth = ref("")
-
+// userInputPopUp checks whether to show to variable or not
 const userInputPopUp = ref("");
 const requiredfetchedData = ref("")
 //checks whether popup is enabled
@@ -30,6 +32,10 @@ const changeEmailString = computed(() => {
   return `verander uw ${selectedSubject.value}`
 })
 
+/**
+ * Handles all logic related to updating the required account details.
+ * Checks the required value,sends an HTTP request and checks if it was successful or not.
+ */
 async function updateAccountCredentials() {
   if (selectedSubject.value === "email") {
     selectedSubjectTranslated.value = "email"
@@ -82,7 +88,7 @@ async function deleteAccount() {
         sessionService.clearUserName()
         sessionService.clearToken()
         window.location.reload()
-      } // TODO: add error handling
+      }
     } catch (e) {
       console.log("error", e)
 
@@ -116,6 +122,9 @@ function handleBtnClick(selectedSubjectParam: any) {
 
 }
 
+/**
+ * When loading the page shows the required credentials for the specific user by its unique identifier.
+ */
 onMounted(async () => {
   try {
     const response = await fetch(api + `/accountdetails/${userID}`)
@@ -189,7 +198,7 @@ onMounted(async () => {
 
 <style scoped>
 .popup-p {
-  color: var(--dark-secondary); /* Dark text for the paragraph */
+  color: var(--dark-secondary);
   margin-bottom: 15px;
 }
 
@@ -204,7 +213,7 @@ onMounted(async () => {
 }
 
 .popup-container {
-  background-color: var(--light-primary); /* Light primary background */
+  background-color: var(--light-primary);
 
   display: flex;
   flex-direction: column;
