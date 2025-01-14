@@ -44,6 +44,12 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
         String requestURI = request.getRequestURI();
 
+        if (isPreflightRequest(request)) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            chain.doFilter(request, response);
+            return;
+        }
+
         if (Arrays.stream(userApiPaths).anyMatch(requestURI::startsWith)) {
             verifyAccountAccess(request, response);
         }
@@ -64,10 +70,6 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
         // If no JWT is provided, it might be a preflight request
         if (jwt == null) {
-            if (isPreflightRequest(request)) {
-                response.setStatus(HttpServletResponse.SC_OK);
-                return;
-            }
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
@@ -127,6 +129,9 @@ public class JWTRequestFilter extends OncePerRequestFilter {
      * @return true if the request is a preflight request, false otherwise
      */
     private boolean isPreflightRequest(HttpServletRequest request) {
+        if (request.getHeader(HttpHeaders.AUTHORIZATION) != null) {
+            return false;
+        }
         if (!request.getMethod().equalsIgnoreCase("OPTIONS")) {
             return false;
         }
