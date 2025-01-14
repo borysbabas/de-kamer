@@ -1,5 +1,5 @@
 <template>
-  <div class="municipality-comparison">
+  <div class="municipality-comparison" id="comptool">
     <div class="title">
       <h2>Gemeentes vergelijk-tool</h2>
       <img src="@/assets/svg/info.svg" alt="info icon, hover to show additional information" title='Zoek en klik twee of meer gemeentes aan die je met elkaar wilt vergelijken. Druk daarna op de "vergelijk" knop om het resultaat te zien.'>

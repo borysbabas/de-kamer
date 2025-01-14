@@ -1,3 +1,13 @@
+<script setup lang="ts">
+
+import { useRouter } from "vue-router";
+const router = useRouter();
+const goToListingTool = () => {
+  router.push({ path: '/uitslagen', hash: '#listingTool' });
+};
+
+</script>
+
 <template>
 <div class="intro-item-container">
     <h1>Intro Voorkeursstemmen tabel </h1>
@@ -5,6 +15,7 @@
     <img class="intro-img" alt="desc" src="../../../assets/img/intro/listingtool.PNG">
   </div>
   <p>In deze tabel kan je de voorkeursstemmen van alle kandidaten zien. Eerst kies je een kieskring, daarna kan je nog dieper gaan door een gemeente te kiezen en tot slot nog een stembureau. Met de knoppen onder de tabel kan je door de pagina's kijken en met het veld met een getal boven de tabel kan je bepalen hoeveel rijen je per pagina wilt zien, met een limiet van 5 en 50.</p>
+  <button @click="goToListingTool">Naar Voorkeursstemmen tabel</button>
 </div>
 </template>
 

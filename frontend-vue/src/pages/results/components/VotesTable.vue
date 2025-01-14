@@ -1,5 +1,5 @@
 <template>
-  <div class="table-container">
+  <div class="table-container" id="listingTool">
     <h2>
       Voorkeursstemmen tabel
     </h2>

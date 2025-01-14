@@ -37,7 +37,16 @@ const router: Router = createRouter({
         {path: "/algemene-voorwaarden", name: "TermsOfService", component: TermsOfServicePage},
         {path: "/privacyverklaring", name:"PrivacyPolicy", component: PrivacyPolicyPage},
         {path: "/sitemap", name: "Sitemap", component: SitemapPage},
-    ]
+    ],
+    scrollBehavior(to, from, savedPosition) {
+        if (to.hash) {
+            return {
+                el: to.hash,
+                behavior: 'smooth'
+            };
+        }
+        return {top: 0};
+    }
 })
 router.beforeEach((to,from,next)=>{
     if(to.matched.some(record=>record.meta.requiresAuth)){

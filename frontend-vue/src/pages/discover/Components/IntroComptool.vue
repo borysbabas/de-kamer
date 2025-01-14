@@ -1,5 +1,11 @@
 <script setup lang="ts">
 
+import { useRouter } from "vue-router";
+const router = useRouter();
+const goToCompTool = () => {
+  router.push({ path: '/uitslagen', hash: '#comptool' });
+};
+
 </script>
 
 <template>
@@ -11,6 +17,7 @@
       <img class="intro-img" alt="desc" src="../../../assets/img/intro/comptool.PNG">
     </div>
     <p class="intro-text">"Je kunt deze tool gebruiken om twee of meerdere gemeentes met elkaar te vergelijken. Type de naam van de gewenste gemeentes in en klik op de juiste optie uit de lijst. Wanneer je alle gewenste gemeentes in de horizontale lijst eronder hebt staan kunt je op vergelijk klikken."</p>
+    <button @click="goToCompTool">Naar Gemeentes vergelijk-tool</button>
 </div>
 </template>
 
