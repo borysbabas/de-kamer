@@ -3,12 +3,15 @@ import {inject, onMounted, ref, watch} from "vue";
 import {marked} from "marked";
 import hljs from "highlight.js";
 import MarkdownMenu from "@/pages/forum/components/add-post/MarkdownMenu.vue";
+import {useRouter} from "vue-router";
 
 const sessionService: any = inject("sessionService");
 
 const postTitle = ref("");
 const postDescription = ref("");
 const renderedDescription = ref("");
+
+const router = useRouter();
 
 const addPost = async () => {
   try {
@@ -28,7 +31,7 @@ const addPost = async () => {
       postDescription.value = "";
       renderedDescription.value = "";
       alert("Post added successfully!");
-      window.location.href = "/forum";
+      router.push("/forum");
     } else if (response.status === 403) {
       alert("You need to be logged in");
     } else {
@@ -66,7 +69,7 @@ onMounted(() => {
   const token = sessionService.getTokenFromBrowserStorage();
   if (!token) {
     alert("You need to be logged in");
-    window.location.href = "/forum/log-in";
+    router.push("/forum/log-in");
   }
 });
 </script>
