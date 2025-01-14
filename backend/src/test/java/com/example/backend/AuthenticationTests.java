@@ -110,10 +110,10 @@ public class AuthenticationTests {
         }
         @Test
         void updateAccountTest() throws Exception {
-            Map testMap = new HashMap();
+            Map<String, String> testMap = new HashMap<>();
             testMap.put("field", "userName");
             testMap.put("value", "newUserName");
-            mockMvc.perform(put("/accountdetails/update/"+id).contentType(MediaType.APPLICATION_JSON)
+            mockMvc.perform(put("/account/update/"+id).contentType(MediaType.APPLICATION_JSON)
                             .header(HttpHeaders.AUTHORIZATION, token)
                     .content(objectMapper.writeValueAsString(testMap))).andExpect(status().isOk());
         }
