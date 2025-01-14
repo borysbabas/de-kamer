@@ -33,7 +33,7 @@ function banAccountHandler(account: AdminViewAccount) {
         <div>{{ account.role }}</div>
         <div>{{ account.banned ? "Geblokkeerd" : "Actief" }}</div>
         <div class="manage-buttons">
-          <button @click="banAccountHandler(account)">
+          <button @click="banAccountHandler(account)" :class="{banned: account.banned}">
             {{ account.banned ? "Deblokkeren" : "Blokkeren" }}
           </button>
 <!--          <button>-->
@@ -72,6 +72,14 @@ function banAccountHandler(account: AdminViewAccount) {
 .manage-buttons button {
   margin: 0;
   width: 100%;
+}
+
+.manage-buttons button.banned {
+  background-color: var(--button);
+}
+
+.manage-buttons button.banned:hover {
+  background-color: var(--button-hover);
 }
 
 
