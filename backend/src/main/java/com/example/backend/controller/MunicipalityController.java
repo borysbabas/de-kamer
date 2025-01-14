@@ -35,7 +35,11 @@ public class MunicipalityController {
 
     @GetMapping(path = ApiPaths.MUNICIPALITY_ID)
     public MunicipalityModel getMunicipalityById(@PathVariable long id) {
-        return new MunicipalityModel(this.municipalityService.getMunicipalityByMunicipalityId(id));
+        Municipality municipality = this.municipalityService.getMunicipalityByMunicipalityId(id);
+        if (municipality == null) {
+            return null;
+        }
+        return new MunicipalityModel(municipality);
     }
 
     @GetMapping(path = ApiPaths.MUNICIPALITY_SERVICE_BY_CONSTITUENCY)

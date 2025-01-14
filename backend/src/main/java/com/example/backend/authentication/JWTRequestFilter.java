@@ -28,6 +28,10 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     private final String[] adminApiPaths = {
             "/admin",
     };
+    private final String[] bannedApiPaths = {
+            "/admin",
+            "/account/posts/add",
+    };
     private final String[] preflightHeaders = {
             HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD,
             HttpHeaders.ORIGIN,
@@ -44,11 +48,21 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
         String requestURI = request.getRequestURI();
 
+        if (isPreflightRequest(request)) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            chain.doFilter(request, response);
+            return;
+        }
+
         if (Arrays.stream(userApiPaths).anyMatch(requestURI::startsWith)) {
-            verifyAccountAccess(request, response);
+            if (!verifyAccountAccess(request, response)) {
+                return;
+            }
         }
         if (Arrays.stream(adminApiPaths).anyMatch(requestURI::startsWith)) {
-            verifyAdminAccess(request, response);
+            if (!verifyAdminAccess(request, response)) {
+                return;
+            }
         }
 
         chain.doFilter(request, response);
@@ -59,17 +73,12 @@ public class JWTRequestFilter extends OncePerRequestFilter {
      * @param request the request to check
      * @param response the response to send
      */
-    private void verifyAccountAccess(HttpServletRequest request, HttpServletResponse response) {
+    private boolean verifyAccountAccess(HttpServletRequest request, HttpServletResponse response) {
         String jwt = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        // If no JWT is provided, it might be a preflight request
         if (jwt == null) {
-            if (isPreflightRequest(request)) {
-                response.setStatus(HttpServletResponse.SC_OK);
-                return;
-            }
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
+            return false;
         }
 
         try {
@@ -77,22 +86,27 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
             if (jwtToken == null) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return;
+                return false;
             }
 
             Account account = accountService.findById(jwtToken.getAccountId());
 
             if (account == null) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return;
+                return false;
+            }
+
+            if (account.isBanned() && Arrays.stream(bannedApiPaths).anyMatch(request.getRequestURI()::startsWith)) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return false;
             }
 
             request.setAttribute(ApiConfig.ACCOUNT_HEADER, account);
-            response.setStatus(HttpServletResponse.SC_OK);
+            return true;
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return false;
         }
-
     }
 
     /**
@@ -101,23 +115,19 @@ public class JWTRequestFilter extends OncePerRequestFilter {
      * @param request the request to check
      * @param response the response to send
      */
-    private void verifyAdminAccess(HttpServletRequest request, HttpServletResponse response) {
-        // An admin should have access to a valid account
-        verifyAccountAccess(request, response);
+    private boolean verifyAdminAccess(HttpServletRequest request, HttpServletResponse response) {
+        if (!verifyAccountAccess(request, response)) {
+            return false;
+        }
 
         Account account = (Account) request.getAttribute(ApiConfig.ACCOUNT_HEADER);
 
-        if (account == null) {
+        if (account == null || !account.getRole().equals("admin")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
+            return false;
         }
 
-        if (account.getRole().equals("admin")) {
-            request.setAttribute(ApiConfig.ACCOUNT_HEADER, account);
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
-
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        return true;
     }
 
     /**
@@ -127,6 +137,9 @@ public class JWTRequestFilter extends OncePerRequestFilter {
      * @return true if the request is a preflight request, false otherwise
      */
     private boolean isPreflightRequest(HttpServletRequest request) {
+        if (request.getHeader(HttpHeaders.AUTHORIZATION) != null) {
+            return false;
+        }
         if (!request.getMethod().equalsIgnoreCase("OPTIONS")) {
             return false;
         }

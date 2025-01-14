@@ -1,5 +1,5 @@
 import type {TokenPayload} from "@/types/TokenPayload";
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 
 export function useJWToken() {
     const payload = ref<TokenPayload>();
@@ -18,12 +18,10 @@ export function useJWToken() {
         return parsedPayload;
     }
 
-    onMounted(() => {
-        const token = localStorage.getItem("JWT_STORAGE_ITEM");
-        if (token) {
-            getPayloadFromToken(token);
-        }
-    });
+    const token = localStorage.getItem("JWT_STORAGE_ITEM");
+    if (token) {
+        getPayloadFromToken(token);
+    }
 
     return payload;
 }

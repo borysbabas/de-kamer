@@ -122,4 +122,19 @@ public class AccountService {
         return false;
     }
     public List<Account>findAccountById(Long id){return accountRepository.findAccountById(id);}
+
+    /**
+     * Get all accounts (only use in admin routes)
+     * @return a list of registered accounts
+     */
+    public List<Account> getAllAccounts() {
+        return accountRepository.findAll();
+    }
+
+    /**
+     * Get account from id
+     */
+    public Account getAccountById(Long id) {
+        return accountRepository.findById(id).orElse(null);
+    }
 }

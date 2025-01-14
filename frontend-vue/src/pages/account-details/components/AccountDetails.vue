@@ -147,7 +147,10 @@ onMounted(async () => {
         <button @click="isPopUpVisible=false" class="close-btn">X</button>
         <h3 class="popup-p">{{ selectedSubject != "wachtwoord" ? "Huidige" : "" }} {{ selectedSubject }} :
           {{ selectedSubject != "wachtwoord" ? requiredfetchedData : "" }} </h3>
-        <input required v-model="userInputPopUp" class="popup-input" :placeholder="changeEmailString">
+        <input required v-model="userInputPopUp" class="popup-input" :type="selectedSubject == 'wachtwoord'
+        ? 'password'
+        : 'text'
+        " :placeholder="changeEmailString">
         <button @click="updateAccountCredentials">bevestigen</button>
       </div>
     </div>
