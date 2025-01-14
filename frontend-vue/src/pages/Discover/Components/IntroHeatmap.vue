@@ -18,12 +18,11 @@
 .intro-img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Ensures the image covers the entire box while maintaining aspect ratio */
+  object-fit: contain;
   border-radius: 10px;
-  border: 2px solid var(--dark-secondary);
   opacity: 0.7;
-}
-.intro-text {
-  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  cursor: not-allowed;
 }
 </style>

@@ -25,13 +25,14 @@ import IntroListing from "@/pages/Discover/Components/IntroListing.vue";
 .intro-item-container {
   padding: 10px;
   margin: 20px;
-  width: 70vh;
+  max-width: 45%;
+  box-sizing: border-box;
   height: auto;
   justify-content: center;
   align-items: center;
-  background: var(--dark-primary);
   border : 3px solid var(--dark-secondary);
   border-radius: 10px;
+  flex-grow: 1;
 }
 
 </style>

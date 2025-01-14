@@ -24,7 +24,7 @@ const router: Router = createRouter({
     routes: [
         {path: "/", component: HomePage, name: "Home"},
         {path: "/uitslagen", component: ResultsPage, name: "Results"},
-        {path: "/ontdekken", component: Discover, name: "ontdekken"},
+        {path: "/ontdekken", component: Discover, name: "Ontdekken"},
         {path: "/info", component: InfoPage, name: "Info"},
         {path: "/forum", component: ForumPage, name: "Forum"},
         {path: "/forum/login", component: LoginPage, name: "Login"},
