@@ -301,7 +301,12 @@ function handlePaginationChange() {
     pagination.value = 5;
   }
   currentPage.value = 1;
-  if (selectedConstituency.value) {
+
+  if (selectedPollingStation.value > 0) {
+    fetchPollingStationVotes(selectedPollingStation.value, pagination.value, currentPage.value)
+  } else if (selectedMunicipality.value > 0) {
+    fetchMunicipalityVotes(selectedMunicipality.value, pagination.value, currentPage.value)
+  } else {
     fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value)
   }
 }
