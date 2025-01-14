@@ -1,22 +1,18 @@
 <template>
-  <div class="heatmap">
-    <div>
+  <div class="heatmap" id="heatmap">
       <div class="tootbar">
-        <div>
           <label for="affiliation">Partij:</label>
           <select v-model="selectedAffiliation" @change="select" id="affiliation">
             <option v-for="affiliation in affiliations" :key="affiliation.value" :value="affiliation.value">
               {{ affiliation.label }}
             </option>
           </select>
-        </div>
         <p style="margin-left: 10px">Totale Stemmen: {{ totalVotes }}</p>
         <img src="@/assets/svg/info.svg" alt="info icon, hover to show additional information" title="Hitte is gebaseerd op totaal aantal stemmen per partij" style="width: 16px; height: 16px; margin-left: 20px" />
+        <button class="reset-button" @click="recenter">Centreer</button>
+        <img src="@/assets/svg/info.svg" alt="info icon, hover to show additional information" title="Centreer kaart naar midden van Nederland" style="width: 16px; height: 16px; margin-left: 20px" />
       </div>
-      <div id="map-container">
         <div id="map"></div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -65,6 +61,14 @@ async function getHeatData(affiliationId: number) {
   })
 }
 
+
+/**
+ * Resets the map to the initial view.
+ */
+function recenter() {
+  map.value.setView([52.26047341610318, 5.769528241140654], 6)
+}
+
 /**
  * Loads the heat data onto the map.
  * @param {Array} heatData - The heat data to be loaded onto the map.
@@ -73,7 +77,7 @@ async function loadHeatData(heatData: any) {
   map.value.removeLayer(heatLayer.value);
   heatLayer.value = L.heatLayer(heatData, { radius: 40 }).addTo(map.value);
   //Timers are a way to make sure the map updates after the data gets loaded from backend
-  //The user wont be able to feel any delay
+  //The user won't be able to feel any delay
   setTimeout(() => {
     map.value.setView([map.value.getCenter().lat, map.value.getCenter().lng + 0.0001]);
   }, 300)
@@ -89,7 +93,7 @@ async function loadHeatData(heatData: any) {
 onMounted(() => {
   getAllAffiliations()
 
-  map.value = L.map('map', { minZoom: 7 }).setView([51.89548721167905, 5.380389376357199], 7)
+  map.value = L.map('map', { minZoom: 7 }).setView([52.26047341610318, 5.769528241140654], 8)
   // Mount the map
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -136,10 +140,9 @@ select:focus {
 .tootbar {
   display: flex;
   background: var(--dark-secondary);
-  padding: 10px;
   align-items: baseline;
   justify-content: left;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 /* Styles for the heatmap container */
@@ -151,19 +154,16 @@ select:focus {
   justify-content: center;
   border: 10px solid var(--dark-secondary);
   border-radius: 5px;
-  width: 80vh;
+  width: 100%;
   height: 100%;
 }
 
-/* Styles for the map container */
-#map-container {
-  width: 80vh;
-  height: 500px;
+.reset-button {
+  margin-left: 80px;
 }
-
 /* Styles for the map */
 #map {
   width: 100%;
-  height: 100%;
+  height: 80vh;
 }
 </style>

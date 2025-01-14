@@ -28,6 +28,7 @@ public class Account {
     private String password;
     private String role;
     private String userName;
+    @Column(nullable = false)
     private boolean banned = false;
     /**
      * The date of birth of the account , stored as a @temporal temporaltype.DATE
