@@ -1,7 +1,5 @@
 package com.example.backend.models;
 
-import com.example.backend.DTO.AccountDTO;
-import com.example.backend.entities.Account;
 import com.example.backend.entities.Post;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +10,7 @@ public class PostModel {
     private Long id;
     private String title;
     private String description;
-    private AccountDTO account;
+    private String userName;
     private String dateCreated;
 
     public PostModel(Post post) {
@@ -20,10 +18,10 @@ public class PostModel {
         this.title = post.getTitle();
         this.description = post.getDescription();
         this.dateCreated = post.getDateCreated().toString();
-        if (post.getAccount() != null) {
-            this.account = new AccountDTO(post.getAccount());
+        if (post.getId() != null) {
+            this.userName = post.getId().getUserName();
         } else {
-            this.account = null;
+            this.userName = null;
         }
     }
 }

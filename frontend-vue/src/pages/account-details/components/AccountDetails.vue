@@ -2,9 +2,7 @@
 
 import {computed, inject, onMounted, ref} from "vue";
 
-/**
- * api is a constant that is dynamic with the deployment
- */
+//api
 const api = import.meta.env.VITE_API_URL
 const sessionService: any = inject("sessionService")
 
@@ -17,13 +15,14 @@ const userID = JSON.parse(atob(sessionService.getTokenFromBrowserStorage().split
 /**
  * private variables
  */
-//variables from the API call
+//fetched data variables
 const fetchedEmail = ref("");
 const fetchedUsername = ref("")
+const fetchedPassword = ref("")
 const fetchedDateOfBirth = ref("")
-// userInputPopUp checks whether to show to variable or not
+
 const userInputPopUp = ref("");
-const requiredfetchedData = ref<string>("")
+const requiredfetchedData = ref("")
 //checks whether popup is enabled
 let isPopUpVisible = ref(false)
 const selectedSubject = ref("")
@@ -32,10 +31,6 @@ const changeEmailString = computed(() => {
   return `verander uw ${selectedSubject.value}`
 })
 
-/**
- * Handles all logic related to updating the required account details.
- * Checks the required value,sends an HTTP request and checks if it was successful or not.
- */
 async function updateAccountCredentials() {
   if (selectedSubject.value === "email") {
     selectedSubjectTranslated.value = "email"
@@ -48,9 +43,10 @@ async function updateAccountCredentials() {
     selectedSubjectTranslated.value = "password"
   }
   try {
-    const response = await fetch(api + `/account/update/${userID}`, {
+    const response = await fetch(api + `/accountdetails/update/${userID}`, {
           method: "PUT",
           headers: {
+            "Authorization": "Bearer " + sessionService.getTokenFromBrowserStorage(),
             "Content-type": "application/json"
           },
           body: JSON.stringify({
@@ -78,17 +74,20 @@ async function updateAccountCredentials() {
  *
  */
 async function deleteAccount() {
-  const confirmed = window.confirm("Weet je dit zeker? je staat op het punt je account te verwijderen.")
+  const confirmed = window.confirm("weet je dit zeker? je staat op het punt je account te verwijderen.")
   if (confirmed) {
     try {
-      const response = await fetch(api + `/account/delete`, {
+      const response = await fetch(api + `/accountdetails/delete/user/${userID}`, {
         method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + sessionService.getTokenFromBrowserStorage()
+        }
       })
       if (response.ok) {
         sessionService.clearUserName()
         sessionService.clearToken()
         window.location.reload()
-      }
+      } // TODO: add error handling
     } catch (e) {
       console.log("error", e)
 
@@ -105,34 +104,35 @@ function handleBtnClick(selectedSubjectParam: any) {
   switch (selectedSubjectParam) {
     case "email":
       selectedSubject.value = "email";
-      requiredfetchedData.value = fetchedEmail.value;
+      requiredfetchedData.value = fetchedEmail;
       break;
-    case "userName":
+    case "username":
       selectedSubject.value = "gebruikersnaam";
-      requiredfetchedData.value = fetchedUsername.value;
+      requiredfetchedData.value = fetchedUsername;
       break;
     case "password":
       selectedSubject.value = "wachtwoord";
+      requiredfetchedData.value = fetchedPassword;
       break;
     case "dateOfBirth":
       selectedSubject.value = "geboortedatum";
-      requiredfetchedData.value = fetchedDateOfBirth.value;
+      requiredfetchedData.value = fetchedDateOfBirth;
       break;
   }
 
 }
 
-/**
- * When loading the page shows the required credentials for the specific user by its unique identifier.
- */
 onMounted(async () => {
   try {
-    const response = await fetch(api + `/account/details`)
+    const response = await fetch(api + `/accountdetails/${userID}`)
     if (response.ok) {
       const userData = await response.json();
       fetchedEmail.value = userData.email;
       fetchedUsername.value = userData.userName;
+      fetchedPassword.value = userData.password;
       fetchedDateOfBirth.value = userData.dateOfBirth;
+
+
     }
   } catch (error) {
     console.error("Error fetching user details", error)
@@ -165,7 +165,7 @@ onMounted(async () => {
         <div class="box">
           gebruikersnaam: {{ fetchedUsername }}
           <div class="box-button">
-            <button @click="handleBtnClick('userName')">wijzig</button>
+            <button @click="handleBtnClick('username')">wijzig</button>
           </div>
         </div>
         <div class="box">
@@ -186,6 +186,8 @@ onMounted(async () => {
           </div>
         </div>
       </div>
+
+
     </div>
   </section>
 
@@ -194,7 +196,7 @@ onMounted(async () => {
 
 <style scoped>
 .popup-p {
-  color: var(--dark-secondary);
+  color: var(--dark-secondary); /* Dark text for the paragraph */
   margin-bottom: 15px;
 }
 
@@ -209,7 +211,7 @@ onMounted(async () => {
 }
 
 .popup-container {
-  background-color: var(--light-primary);
+  background-color: var(--light-primary); /* Light primary background */
 
   display: flex;
   flex-direction: column;

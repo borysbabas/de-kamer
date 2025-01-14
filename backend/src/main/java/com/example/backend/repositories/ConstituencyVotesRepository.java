@@ -10,13 +10,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ConstituencyVotesRepository extends JpaRepository<ConstituencyVotes, Long> {
-    /**
-     * Custom query method to retrieve the number of candidates with at least 1 vote in a given constituency.
-     * Contains a subquery to prevent duplicate candidates in the database being taken in account
-     *
-     * @param constituency The constituency you want to get the number of candidates of
-     * @return number of candidates with at least 1 vote in the given constituency
-     */
     @Query("SELECT COUNT(cv) " +
             "FROM ConstituencyVotes cv " +
             "WHERE cv.constituency = :constituency " +
@@ -25,8 +18,7 @@ public interface ConstituencyVotesRepository extends JpaRepository<ConstituencyV
     int countByConstituency(@Param("constituency") Constituency constituency);
 
     /**
-     * Custom query method to get a limited number of constituency votes from the database because the required clauses LIMIT and OFFSET are not supported by JPA.
-     * Contains a subquery to prevent duplicate candidates in the database being retrieved
+     * Custom query method to get a limited number of constituency votes from the database because the required clauses LIMIT and OFFSET are not supported by JPA
      *
      * @param constituency The constituency you want to get the votes data of
      * @param pagination The amount of rows of votes data you want to get from the database
@@ -46,15 +38,12 @@ public interface ConstituencyVotesRepository extends JpaRepository<ConstituencyV
             @Param("offset") int offset
     );
 
-
-    // Custom Query because Group By is not supported by JPA
     @Query("SELECT new com.example.backend.models.ConstituencyVotesModel(cv.constituency.constituencyName, SUM(cv.totalVotes)) " +
             "FROM ConstituencyVotes cv " +
             "WHERE cv.affiliation.affiliationId = :affiliationId " +
             "GROUP BY cv.constituency.constituencyName")
     List<ConstituencyVotesModel> findTotalVotesByAffiliationGroupedByConstituency(@Param("affiliationId") Long affiliationId);
 
-    // Custom Query because Group By is not supported by JPA
     @Query("SELECT new com.example.backend.models.ConstituencyVotesModel(cv.constituency.constituencyName, SUM(cv.totalVotes)) " +
             "FROM ConstituencyVotes cv " +
             "WHERE cv.affiliation.affiliationId = :affiliationId " +

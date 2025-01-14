@@ -72,7 +72,7 @@ input:not(.searchbar-container input), button, select, textarea {
     font: var(--font);
     font-size: 16px;
     font-weight: normal;
-    padding: 2px;
+    padding: 10px;
     border: 1px solid var(--dark-primary);
     border-radius: 5px;
     margin: 10px 0;
@@ -108,7 +108,7 @@ section {
 }
 
 section:first-of-type {
-    padding-top: 150px !important;
+    padding-top: 150px;
 }
 
 section:last-of-type {
@@ -121,20 +121,6 @@ section.login {
     align-items: center;
     height: calc(100vh - 56px);
     background-color: var(--dark-primary);
-}
-
-button {
-    background-color: var(--button-important);
-    color: var(--light-primary);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-    padding: 10px 32px;
-}
-
-button:hover {
-    background-color: var(--button-important-hover);
 }
 
 .login {
@@ -161,7 +147,7 @@ button:hover {
 
     input {
         width: 100%;
-        padding: 10px !important;
+        padding: 10px;
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;

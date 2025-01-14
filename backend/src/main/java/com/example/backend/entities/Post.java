@@ -1,16 +1,18 @@
 package com.example.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+
 @Setter
 @Getter
 @Entity
 public class Post {
 
-    public Post() {
+    protected Post() {
     }
 
     @Id
@@ -21,8 +23,7 @@ public class Post {
     @Column(name = "title")
     private String title;
 
-    @Lob
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = "description")
     private String description;
 
     @Column(name = "date_created", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -30,5 +31,5 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private Account account;
+    private Account id;
 }

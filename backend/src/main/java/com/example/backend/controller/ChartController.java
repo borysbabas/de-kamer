@@ -1,5 +1,21 @@
 package com.example.backend.controller;
 
+// Controller for made for chart data (autofix dataformat)
+//*
+// Dataformat:
+// {
+//     "data": [
+//         {
+//             name: "Data-Set-Name"
+//             data: [
+//                  {
+//                     x: "Name-value",
+//                     y: int-value
+//                  },
+//                 ],
+//         },
+//*
+
 import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.*;
 import com.example.backend.models.*;
@@ -8,29 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
-
-/**
- * REST controller for handling chart data related requests.
- */
-
-/**
- * Controller for chart data (autofix data format)
- *
- * Data format:
- * {
- *     "data": [
- *         {
- *             "name": "Data-Set-Name",
- *             "data": [
- *                 {
- *                     "x": "Name-value",
- *                     "y": int-value
- *                 }
- *             ]
- *         }
- *     ]
- * }
- */
 
 @RestController
 @RequestMapping(path = ApiPaths.CHART_SERVICE)
@@ -42,16 +35,6 @@ public class ChartController {
     private final MunicipalityVotesService municipalityVotesService;
     private final ConstituencyVotesService constituencyVotesService;
 
-    /**
-     * Constructor for ChartController.
-     *
-     * @param candidateService Service for candidate-related operations.
-     * @param countryVotesService Service for country votes-related operations.
-     * @param affiliationService Service for affiliation-related operations.
-     * @param affiliationVotesService Service for affiliation votes-related operations.
-     * @param municipalityVotesService Service for municipality votes-related operations.
-     * @param constituencyVotesService Service for constituency votes-related operations.
-     */
     @Autowired
     public ChartController(
             CandidateService candidateService,
@@ -69,12 +52,7 @@ public class ChartController {
         this.constituencyVotesService = constituencyVotesService;
     }
 
-    /**
-     * Get votes by affiliation ID.
-     *
-     * @param affiliationId ID of the affiliation.
-     * @return A map containing the name and data of votes by affiliation.
-     */
+
     @GetMapping(path = ApiPaths.CANDIDATE_SERVICE_GET_AFFILIATION_VOTES)
     public Map<String, Object> getVotesByAffiliationId(@PathVariable Long affiliationId) {
         List<Candidate> candidateList = countryVotesService.getCandidatesByAffiliationId(affiliationId);
@@ -98,11 +76,6 @@ public class ChartController {
         return response;
     }
 
-    /**
-     * Get all member counts.
-     *
-     * @return A map containing the name and data of all member counts.
-     */
     @GetMapping(path = ApiPaths.AFFILIATION_SERVICE_MEMBER_COUNT)
     public Map<String, Object> getAllMemberCount() {
         List<Map<String, Object>> data = new ArrayList<>();
@@ -123,11 +96,6 @@ public class ChartController {
         return response;
     }
 
-    /**
-     * Get total affiliation votes.
-     *
-     * @return A map containing the name and data of total affiliation votes.
-     */
     @GetMapping(path = ApiPaths.AFFILIATION_SERVICE_VOTES)
     public Map<String, Object> getTotalAffiliationVotes() {
         List<Map<String, Object>> data = new ArrayList<>();
@@ -148,12 +116,6 @@ public class ChartController {
         return response;
     }
 
-    /**
-     * Get municipalities by candidate ID.
-     *
-     * @param candidateId ID of the candidate.
-     * @return A map containing the name and data of municipalities by candidate ID.
-     */
     @GetMapping(path = ApiPaths.MUNICIPALITY_SERVIVE_GETMUNICIPALITYVOTESBYCANDIDATEID)
     public Map<String, Object> getMunicipalitiesByCandidateId(@PathVariable("candidateId") Long candidateId) {
         List<MunicipalityVoteModel> municipalityVotes = municipalityVotesService.getTop5MunicipalitiesByCandidateId(candidateId);
@@ -175,14 +137,9 @@ public class ChartController {
         return response;
     }
 
-    /**
-     * Get municipalities by affiliation ID.
-     *
-     * @param affiliationId ID of the affiliation.
-     * @return A map containing the name and data of municipalities by affiliation ID.
-     */
     @GetMapping(path= ApiPaths.MUNICIPALITY_SERVICE_GET_MUNICIPALITYVOTES_BY_AFFILIATIONID)
     public Map<String, Object> getMunicipalitiesByAffiliationId(@PathVariable("affiliationId") Long affiliationId) {
+
         List<MunicipalityVoteModel> municipalityVotes = municipalityVotesService.getMunicipalitiesByAffiliationId(affiliationId);
         List<Map<String, Object>> data = new ArrayList<>();
         int idCounter = 1;
@@ -202,12 +159,6 @@ public class ChartController {
         return response;
     }
 
-    /**
-     * Get constituency votes by affiliation ID.
-     *
-     * @param affiliationId ID of the affiliation.
-     * @return A map containing the name and data of constituency votes by affiliation ID.
-     */
     @GetMapping(path = ApiPaths.CONSTITUENCY_VOTES_BY_AFFILIATION)
     public Map<String, Object> getConstituencyVotesByAffiliationId(@PathVariable("affiliationId") Long affiliationId) {
         List<ConstituencyVotesModel> constituencyVotes = constituencyVotesService.getConstituencyVotesByAffiliationId(affiliationId);
@@ -228,14 +179,6 @@ public class ChartController {
 
         return response;
     }
-
-    /**
-     * Get constituency votes by affiliation ID and candidate ID.
-     *
-     * @param affiliationId ID of the affiliation.
-     * @param candidateId ID of the candidate.
-     * @return A map containing the name and data of constituency votes by affiliation ID and candidate ID.
-     */
     @GetMapping(path = ApiPaths.CONSTITUENCY_VOTES_BY_CANDIDATE)
     public Map<String, Object> getConstituencyVotesByAffiliationIdAndCandidateId(@PathVariable("affiliationId") Long affiliationId, @PathVariable("candidateId") Long candidateId) {
         List<ConstituencyVotesModel> constituencyVotes = constituencyVotesService.getConstituencyVotesByAffiliationIdAndCandidateId(affiliationId, candidateId);

@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 @RestController
 public class VotesController {
     private final AffiliationVotesService affiliationVotesService;
+    private final ConstituencyService constituencyService;
+    private final ConstituencyVotesService constituencyVotesService;
     private final CountryVotesService countryVotesService;
     private final MunicipalityVotesService municipalityVotesService;
     private final MunicipalityService municipalityService;
@@ -24,10 +26,14 @@ public class VotesController {
             AffiliationVotesService affiliationVotesService,
             CountryVotesService countryVotesService,
             CandidateService candidateService,
+            ConstituencyService constituencyService,
+            ConstituencyVotesService constituencyVotesService,
             MunicipalityVotesService municipalityVotesService,
             MunicipalityService municipalityService
     ) {
         this.affiliationVotesService = affiliationVotesService;
+        this.constituencyService = constituencyService;
+        this.constituencyVotesService = constituencyVotesService;
         this.countryVotesService = countryVotesService;
         this.candidateService = candidateService;
         this.municipalityVotesService = municipalityVotesService;

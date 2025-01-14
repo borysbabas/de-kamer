@@ -1,29 +1,30 @@
 <script setup lang="ts">
-import {inject, ref} from "vue";
+import {inject, ref} from "vue"
 
-const sessionService: any = inject("sessionService");
+const sessionService = inject("sessionService")
 
 async function submitRegisterForm() {
-  if (!formData.value.email || !formData.value.userName || !formData.value.password) {
+  if (!formData.value.email || !formData.value.username || !formData.value.dateOfBirth || !formData.value.password) {
     return
   }
 
   const response = await sessionService.asyncSignUp(formData.value)
-  let btn = document.getElementById("submit-btn") as HTMLButtonElement;
   if (response) {
-    btn.style.backgroundColor = "green";
-    btn.innerHTML = "succesfully registered!";
-    void sessionService.asyncSignIn(formData.value.email, formData.value.password)
+    let btn = document.getElementById("submit-btn")
+    btn.style.backgroundColor = "green"
+    btn.innerHTML = "succesfully registered!"
+
   } else {
-    btn.style.backgroundColor = "red";
-    btn.innerHTML = "Something went wrong...";
+    let btn = document.getElementById("submit-btn")
+    btn.style.backgroundColor = "red"
+    btn.innerHTML = "Something went wrong..."
   }
 
 }
 
 const formData = ref({
   email: "",
-  userName: "",
+  username: "",
   dateOfBirth: "",
   password: "",
 })
@@ -36,8 +37,8 @@ const formData = ref({
       <div class="wrapper">
         <h2>Enter your information</h2>
         <input required v-model="formData.email" type="email" placeholder="E-mail">
-        <input required v-model="formData.userName" placeholder="Username">
-        <input v-model="formData.dateOfBirth" type="date" placeholder="date of birth.">
+        <input required v-model="formData.username" placeholder="Username">
+        <input required v-model="formData.dateOfBirth" type="date" placeholder="date of birth.">
         <input required v-model="formData.password" type="password" placeholder="Password">
         <button id="submit-btn" type="submit" @click="submitRegisterForm">Submit</button>
         <router-link to="/forum/login"><a>Login</a></router-link>
