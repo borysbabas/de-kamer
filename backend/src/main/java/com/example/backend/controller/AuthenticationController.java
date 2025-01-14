@@ -28,12 +28,22 @@ public class AuthenticationController {
     private final ApiConfig apiConfig;
     private final AccountService accountService;
 
+    /**
+     * Constructor that initializes the AuthenticationController Object
+     * @param accountService the service that handles business logic for the account repository
+     * @param apiConfig the configuration file that holds the endpoints as final strings
+     */
     @Autowired
     public AuthenticationController(AccountService accountService, ApiConfig apiConfig) {
         this.apiConfig = apiConfig;
         this.accountService = accountService;
     }
 
+    /**
+     * Method that is called when a user signs into the application
+     * @param account hold the values needed for the login to be successful.
+     * @return ResponseEntity accepted when credentials match.
+     */
     @PostMapping(path = ApiPaths.AUTHENTICATION_SERVICE_LOGIN)
     public ResponseEntity<AccountDTO> authenticateAccount(@RequestBody Account account) {
         String email = account.getEmail();
@@ -60,6 +70,11 @@ public class AuthenticationController {
         return ResponseEntity.accepted().header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenString).body(foundAccount);
     }
 
+    /**
+     * Method that handles the registration process of the client
+     * @param account the Account object that holds te values needed to save the account.
+     * @return ResponseEntity conflict if the email has already been taken and created of credentials are valid.
+     */
     @PostMapping(path = ApiPaths.AUTHENTICATION_SERVICE_REGISTER)
     public ResponseEntity<Account> saveAccount(@RequestBody Account account) {
         String email = account.getEmail();
@@ -83,6 +98,13 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
     }
 
+    /**
+     * Helper method that handles logic related to deleting a singular account from the database.
+     * @param id the Unique identifier that tells us which account to perform this method on
+     * @param jwtInfo the Token that holds checks the user's authorization level.
+     * @return Custom ResourceNotFoundException when an account can't be deleted, otherwise returns an ResponseEntity object OK too inform the client of the succes of the method.
+     *
+     */
     @DeleteMapping(path = ApiPaths.AUTHENTICATION_SERVICE_DELETE)
     public ResponseEntity<Account> deleteOneAccount(@PathVariable long id, @RequestAttribute(name = JWToken.JWT_ATTRIBUTE_NAME) JWToken jwtInfo) {
         if (jwtInfo == null || !jwtInfo.isAdmin()) {
