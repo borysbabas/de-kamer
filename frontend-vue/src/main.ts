@@ -17,7 +17,7 @@ import AccountDetailsPage from "@/pages/account-details/AccountDetailsPage.vue";
 import AddPostPage from "@/pages/forum/pages/AddPostPage.vue";
 import InfoPage from "@/pages/info/InfoPage.vue";
 import PostDetailsPage from "@/pages/forum/pages/PostDetailsPage.vue";
-import AdminPage from "@/pages/admin/AdminPage.vue";
+import AdminPage from "@/pages/admin/ForumAdminPage.vue";
 import {useJWToken} from "@/composables/useJWToken";
 
 const router: Router = createRouter({
@@ -31,7 +31,7 @@ const router: Router = createRouter({
         {path: "/forum/register", component: RegisterPage, name: "Register"},
         {path:"/forum/account-details", component:AccountDetailsPage, name:"AccountDetails", meta:{requiresAuth:true}},
         {path: "/forum/add-post", component: AddPostPage, name: "AddPost", meta: {requiresAuth: true}},
-        {path: "/admin", component: AdminPage, name: "AdminPage", meta: {requiresAdmin: true}},
+        {path: "/forum/admin", component: AdminPage, name: "AdminPage", meta: {requiresAdmin: true}},
         {path: "/forum/post/:postId", name: "PostDetails", component: PostDetailsPage},
         {path: "/candidate/:candidateId", name: "CandidateDetails", component: CandidateDetailsPage, props: true},
         {path: '/party/:partyId', name: 'PartyDetails', component: PartyDetailsPage},
@@ -49,7 +49,6 @@ router.beforeEach((to,from,next)=>{
         }
     }if(to.matched.some(record=>record.meta.requiresAdmin)){
         const payload = useJWToken();
-        console.log(payload)
 
         if (payload && payload.value && payload.value.role == "admin") {
             return next();

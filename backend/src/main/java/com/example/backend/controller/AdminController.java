@@ -39,7 +39,7 @@ public class AdminController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(ApiPaths.ACCOUNT)
+    @GetMapping(ApiPaths.ACCOUNTS)
     public ResponseEntity<?> getAllAccounts(@RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account) {
         if (!Objects.equals(account.getRole(), "admin")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
