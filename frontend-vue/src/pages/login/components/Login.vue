@@ -43,7 +43,7 @@ const submitLogin = async () => {
         <input required v-model="loginCredentials.email" placeholder="E-mail" type="email" autocomplete="email">
         <input required v-model="loginCredentials.password" placeholder="Password" type="password" autocomplete="current-password">
         <button id="submit-btn" :style="{backgroundColor: buttonColor}" @click="submitLogin">{{buttonText}}</button>
-        <router-link to="/forum/register"><a>Create account</a></router-link>
+        <router-link to="/forum/registreer"><a>Create account</a></router-link>
       </div>
     </form>
   </section>
