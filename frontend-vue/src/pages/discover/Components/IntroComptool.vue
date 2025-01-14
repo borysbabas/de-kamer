@@ -25,4 +25,5 @@
   margin-bottom: 10px;
   cursor: not-allowed;
 }
+
 </style>

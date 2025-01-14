@@ -1,24 +1,24 @@
 <template>
   <div class="intro-item-container">
     <h1>Intro Grafiek</h1>
-    <a class="intro-text">Met de Grafiek tool kan je makelijk verschilende waardes te vergelijken.</a>
+    <p class="intro-text">Met de Grafiek tool kan je makelijk verschilende waardes te vergelijken.</p>
     <div>
       <img class="intro-img" alt="desc" src="../../../assets/img/intro/selector.PNG">
     </div>
-    <a class="intro-text">
+    <p class="intro-text">
       Met de bovenstaande interface kunt u aangeven wat er in de grafiek wordt weergegeven.
       Naarmate u opties selecteert,
       worden er meer keuzemogelijkheden beschikbaar.
-    </a>
+    </p>
     <div>
       <img class="intro-img" alt="desc" src="../../../assets/img/intro/chart.PNG">
     </div>
-    <a class="intro-text">
+    <p class="intro-text">
       Nadat u de gewenste gegevens hebt geselecteerd, wordt de grafiek automatisch bijgewerkt.
       Wanneer u met de muis over een waarde beweegt, verschijnt de exacte waarde.
       Wilt u de grafiek downloaden of exporteren? Klik dan rechtsboven in de grafiek.
       Exporteren is mogelijk in de formaten SVG, PNG en CSV.
-    </a>
+    </p>
   </div>
 </template>
 

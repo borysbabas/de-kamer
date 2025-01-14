@@ -5,12 +5,12 @@
 <template>
 <div class="intro-item-container">
     <h1>Intro Heatmap</h1>
-    <a class="intro-text">Een snelle overzichtelijke manier om stemmen te bekijken</a>
+    <p class="intro-text">Een snelle overzichtelijke manier om stemmen te bekijken</p>
     <div>
       <img class="intro-img" alt="desc" src="../../../assets/img/intro/heatmap.PNG">
     </div>
-  <a class="intro-text">Met deze heatmap kun je snel en gemakkelijk zien waar een partij veel stemmen heeft gekregen. Gebruik de selector linksboven om een partij te kiezen.
-    De heatmap biedt ook de mogelijkheid om in en uit te zoomen. Ben je Nederland kwijtgeraakt? Klik op "Reset" en de kaart zal zichzelf weer centreren.</a>
+  <p class="intro-text">Met deze heatmap kun je snel en gemakkelijk zien waar een partij veel stemmen heeft gekregen. Gebruik de selector linksboven om een partij te kiezen.
+    De heatmap biedt ook de mogelijkheid om in en uit te zoomen. Ben je Nederland kwijtgeraakt? Klik op "Reset" en de kaart zal zichzelf weer centreren.</p>
 </div>
 </template>
 
