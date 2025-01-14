@@ -25,17 +25,19 @@ discover where the problem lies.
 Once started in your new IntelliJ idea environment don't forget to assign your correct JDK.
 You can find this setting by first clicking the navbar top right, then you navigate and click on Project structure... and finally
 assign your downloaded SDK under Project setting --> project --> SDK.
-#### Fixing 401 unauthorized error
 
+#### Fixing 401 unauthorized error
 You will  get this error most likely when interacting with the frontend application while performing actions that require a JWT token.
 To fix this error simply navigate to the /backend/src/java/com.example.backend/authentication folder, here you will find any code related
 that might throw this error as an exception.
 Furthermore we make use of a filter to monitor any request made for secured endpoints you can partially disable this by just altering the 
 code to proceed with the request and not act upon it. Also make sure the token is included in the `Authorization` header as `Bearer <token>`.
 but this is done automatically within the Fetchinterceptor.ts.
+
 #### issues with CORS.
 Since we were assigned to develop a backend usning springboot, during production it is possible to encounter an cors error. However this is easily manageable by defining a global CORS configuration
 You can find the file that manages the cors by navigating to <code> /backend/src/java/com.example.backend/config/ApiConfig</code>. 
+
 #### Useful tools
 - Log Analysis: ELK Stack (Elasticsearch, Logstash, Kibana), Splunk : monitor and analyze application logs for issues and performance bottlenecks.
 - API Testing: Postman, curl, Insomnia : used for testing REST API endpoints. Test requests with different HTTP methods (GET, POST, PUT) and check responses.
