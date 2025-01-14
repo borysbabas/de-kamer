@@ -3,11 +3,13 @@ import Dropdown from "@/pages/home/components/Dropdown.vue";
 import Parties from "@/pages/home/components/Parties.vue";
 import LoadMore from "@/pages/home/components/LoadMore.vue";
 import LoadLess from "@/pages/home/components/LoadLess.vue";
+import WelcomeBar from "@/pages/home/components/WelcomeBar.vue";
 
 </script>
 
 <template>
   <section>
+    <WelcomeBar></WelcomeBar>
     <Dropdown></Dropdown>
     <Parties></Parties>
     <LoadMore></LoadMore>

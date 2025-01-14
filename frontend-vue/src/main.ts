@@ -17,12 +17,14 @@ import AccountDetailsPage from "@/pages/account-details/AccountDetailsPage.vue";
 import AddPostPage from "@/pages/forum/pages/AddPostPage.vue";
 import InfoPage from "@/pages/info/InfoPage.vue";
 import PostDetailsPage from "@/pages/forum/pages/PostDetailsPage.vue";
+import Discover from "@/pages/Discover/Discover.vue";
 
 const router: Router = createRouter({
     history: createWebHistory(),
     routes: [
         {path: "/", component: HomePage, name: "Home"},
         {path: "/uitslagen", component: ResultsPage, name: "Results"},
+        {path: "/ontdekken", component: Discover, name: "ontdekken"},
         {path: "/info", component: InfoPage, name: "Info"},
         {path: "/forum", component: ForumPage, name: "Forum"},
         {path: "/forum/login", component: LoginPage, name: "Login"},
