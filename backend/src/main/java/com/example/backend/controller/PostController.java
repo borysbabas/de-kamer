@@ -45,8 +45,16 @@ public class PostController {
     }
 
     @DeleteMapping(path = ApiPaths.DELETE_POST_BY_ID)
-    public void deletePost(@PathVariable("postId") Long postId) {
+    public ResponseEntity<String> deletePost(@PathVariable("postId") Long postId, @RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account) {
+        PostModel post = postService.getPostById(postId);
+        if (post == null) {
+            return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
+        }
+        if (!Objects.equals(account.getId(), post.getAccount().getId())) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.FORBIDDEN);
+        }
         postService.deletePost(postId);
+        return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);
     }
 
     @GetMapping(path = ApiPaths.POST_SERVICE_COUNT)
