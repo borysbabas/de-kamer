@@ -9,8 +9,8 @@
           </select>
         <p style="margin-left: 10px">Totale Stemmen: {{ totalVotes }}</p>
         <img src="@/assets/svg/info.svg" alt="info icon, hover to show additional information" title="Hitte is gebaseerd op totaal aantal stemmen per partij" style="width: 16px; height: 16px; margin-left: 20px" />
-        <button class="reset-button" @click="recenter">Reset</button>
-        <img src="@/assets/svg/info.svg" alt="info icon, hover to show additional information" title="Reset map naar midden van de kaart" style="width: 16px; height: 16px; margin-left: 20px" />
+        <button class="reset-button" @click="recenter">Centreer</button>
+        <img src="@/assets/svg/info.svg" alt="info icon, hover to show additional information" title="Centreer kaart naar midden van Nederland" style="width: 16px; height: 16px; margin-left: 20px" />
       </div>
         <div id="map"></div>
   </div>
@@ -77,7 +77,7 @@ async function loadHeatData(heatData: any) {
   map.value.removeLayer(heatLayer.value);
   heatLayer.value = L.heatLayer(heatData, { radius: 40 }).addTo(map.value);
   //Timers are a way to make sure the map updates after the data gets loaded from backend
-  //The user wont be able to feel any delay
+  //The user won't be able to feel any delay
   setTimeout(() => {
     map.value.setView([map.value.getCenter().lat, map.value.getCenter().lng + 0.0001]);
   }, 300)
