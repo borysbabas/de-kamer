@@ -3,6 +3,7 @@ package com.example.backend.services;
 import com.example.backend.entities.Post;
 import com.example.backend.models.PostModel;
 import com.example.backend.repositories.PostRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +37,14 @@ public class PostService {
 
     public List<PostModel> getRecentPosts(int postsPerPage, int currentPage) {
         return postRepository.findAllByPageOrderByDateCreatedDesc(postsPerPage, (currentPage - 1) * postsPerPage).stream().map(PostModel::new).toList();
+    }
+
+    public PostModel getPostById(long postId) {
+        return new PostModel(postRepository.getPostByPostId(postId));
+    }
+
+    @Transactional
+    public void deletePostsByAccountId(long accountId) {
+        postRepository.deletePostsByAccountId(accountId);
     }
 }

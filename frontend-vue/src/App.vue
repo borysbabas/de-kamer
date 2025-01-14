@@ -12,15 +12,9 @@ export default {
     const sessionService = shallowReactive(
         new SessionSbService(api+"/authentication", "JWT_STORAGE_ITEM")
     );
-    let fetchInterceptor = new FetchInterceptor(sessionService)
+    new FetchInterceptor(sessionService)
     return{
       sessionService
-    }
-  },
-  beforeUnmount() {
-    if(this.fetchInterceptor){
-      this.fetchInterceptor.unregister();
-
     }
   }
 };

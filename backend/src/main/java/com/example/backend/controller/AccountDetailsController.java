@@ -1,88 +1,76 @@
 package com.example.backend.controller;
 
-import com.example.backend.authentication.JWToken;
+import com.example.backend.DTO.AccountDTO;
 import com.example.backend.config.ApiConfig;
 import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.Account;
 import com.example.backend.services.AccountService;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.MalformedJwtException;
+import com.example.backend.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.SignatureException;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+/**
+ * RestController that handles endpoints related to the account details page.
+ * Provides functionality for retrieving, updating and deleting accounts.
+ */
 @RestController
 public class AccountDetailsController {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     private final AccountService accountService;
-    private final ApiConfig apiConfig;
+    private final PostService postService;
 
+    /**
+     * Constructor that initializes the controller object.
+     * @param accountService service for handling accounts.
+     */
     @Autowired
-    public AccountDetailsController(AccountService accountService, ApiConfig apiConfig) {
+    public AccountDetailsController(AccountService accountService, PostService postService) {
         this.accountService = accountService;
-        this.apiConfig = apiConfig;
+        this.postService = postService;
     }
 
-    @GetMapping(path = ApiPaths.ACCOUNTDETAILS_SERVICE_GET_USERBYID)
-    public Account getAccountById(@PathVariable Long id) {
-        return accountService.findAccountById(id)
-                .stream()
-                .findFirst()
-                .orElse(null);
+    /**
+     * Retrieves a single account by its ID.
+     * @return the account if found and authorized, or null.
+     * catches a jwtException when an error is encountered in the jwt.
+     */
+    @GetMapping(path = ApiPaths.ACCOUNT_DETAILS)
+    public AccountDTO getAccountById(@RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account) {
+        return new AccountDTO(account);
     }
 
-    @DeleteMapping(path = ApiPaths.ACCOUNTDETAILS_SERVICE_DELETE_USERBYID)
-    public boolean deleteAccountById(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = true) String authorizationHeader, @PathVariable(value = "id", required = true) Long id) {
-        try {
-            String token = authorizationHeader.substring(7);
-            String issuer = this.apiConfig.getIssuer();
-            String passPhrase = this.apiConfig.getPassphrase();
-            JWToken jwt = JWToken.decode(token, issuer, passPhrase);
-            if (Objects.equals(jwt.getAccountId(), id)) {
-                return accountService.deleteAccountById(id);
-            }
-
-        } catch (ExpiredJwtException e) {
-            System.out.println("Token has expired" + e.getMessage());
-
-        } catch (MalformedJwtException e) {
-            System.out.println("Token is invalid!" + e.getMessage());
-
-        }
-        return false;
-
+    /**
+     * Method to delete a single account by the corresponding id
+     * @param account the header that contains the information about the user
+     * @return a boolean value. if the deletion is successful it returns true, false if not.
+     */
+    @DeleteMapping(path = ApiPaths.DELETE_ACCOUNT)
+    public boolean deleteAccount(@RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account) {
+        postService.deletePostsByAccountId(account.getId());
+        return accountService.deleteAccountById(account.getId());
     }
+
+    /**
+     * Method to update values of  certain account.
+     * @param authorizationHeader Authorization header containing the jwt.
+     * @param id the id of the account to act on.
+     * @param payload Map containing the field to update and its new value .
+     *                Example: {"field": "email", "value": "newEmailExample@gmail.com"}
+     * @return A ResponseEntity indicating the status of the method's execution.
+     */
     @PutMapping(path= ApiPaths.ACCOUNTDETAILS_SERVICE_UPDATE)
-    public ResponseEntity<?> updateUserDetails(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = true) String authorizationHeader,@PathVariable(value = "id", required = true)Long id, @RequestBody Map<String, String> payload){
+    public ResponseEntity<?> updateUserDetails(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorizationHeader,@PathVariable(value = "id", required = true)Long id, @RequestBody Map<String, String> payload){
         String field = payload.get("field");
         String value = payload.get("value");
-        try{
-            String token = authorizationHeader.substring(7);
-            String issuer = this.apiConfig.getIssuer();
-            String passPhrase = this.apiConfig.getPassphrase();
-            JWToken jwt = JWToken.decode(token, issuer, passPhrase);
-            if (Objects.equals(jwt.getAccountId(), id)) {
-                accountService.updateAccount(id,field,value);
-                return ResponseEntity.ok("Account succesfully updated");
-            }
-
-        } catch (ExpiredJwtException e) {
-            System.out.println("Token has expired" + e.getMessage());
-
-        } catch (MalformedJwtException e) {
-            System.out.println("Token is invalid!" + e.getMessage());
-
-        }
-        return ResponseEntity.status(500).body("Interne serverfout");
-
+        LOGGER.info(payload);
+        accountService.updateAccount(id, field, value);
+        return ResponseEntity.ok().build();
     }
-
-
-
 }
