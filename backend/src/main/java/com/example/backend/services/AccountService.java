@@ -130,4 +130,11 @@ public class AccountService {
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
     }
+
+    /**
+     * Get account from id
+     */
+    public Account getAccountById(Long id) {
+        return accountRepository.findById(id).orElse(null);
+    }
 }

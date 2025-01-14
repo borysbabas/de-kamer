@@ -13,6 +13,7 @@ public class ApiPaths {
     public static final String ADMIN_SERVICE = "/admin";
     public static final String ROUTES = ADMIN_SERVICE + "/routes";
     public static final String ACCOUNTS = ADMIN_SERVICE + "/accounts";
+    public static final String BAN_ACCOUNT = ADMIN_SERVICE + "/account/ban/{id}";
 
     public static final String CANDIDATE_SERVICE_GET_AFFILIATION_VOTES = "/votes/{affiliationId}";
 

@@ -7,3 +7,12 @@ export type Account = {
     role: string;
     dateOfBirth?: string;
 }
+
+export type AdminViewAccount = {
+    id: number;
+    email?: string;
+    userName: string;
+    role: string;
+    dateOfBirth?: string;
+    banned: boolean;
+}

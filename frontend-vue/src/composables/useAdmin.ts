@@ -1,8 +1,8 @@
-import type {Account} from "@/types/Account";
+import type {AdminViewAccount} from "@/types/Account";
 import {ref} from "vue";
 
 export function getAllAccounts() {
-    const accounts = ref<Account[]>();
+    const accounts = ref<AdminViewAccount[]>();
     const isLoading = ref(false);
 
     async function getAccounts() {

@@ -28,6 +28,7 @@ public class Account {
     private String password;
     private String role;
     private String userName;
+    private boolean banned = false;
     /**
      * The date of birth of the account , stored as a @temporal temporaltype.DATE
      * json representation of this field is formatted as "yyyy-mm-dd"
@@ -46,6 +47,7 @@ public class Account {
                 ", role='" + role + '\'' +
                 ", userName='" + userName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
+                ", banned=" + banned +
                 '}';
     }
 }

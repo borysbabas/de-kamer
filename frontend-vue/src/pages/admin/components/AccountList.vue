@@ -14,6 +14,7 @@ const {accounts} = getAllAccounts();
         <th>Gebruikersnaam</th>
         <th>E-mail</th>
         <th>Account type</th>
+        <th>Status</th>
         <th>Beheren</th>
       </tr>
       </thead>
@@ -23,9 +24,13 @@ const {accounts} = getAllAccounts();
         <td>{{ account.userName }}</td>
         <td>{{ account.email }}</td>
         <td>{{ account.role }}</td>
+        <td>{{ account.banned
+            ? "Verbannen"
+            : "Actief" }}
+        </td>
         <td class="manage-buttons">
           <button>Verbannen</button>
-          <button>Verwijderen</button>
+<!--          <button>Verwijderen</button>-->
         </td>
       </tr>
       </tbody>
@@ -65,5 +70,9 @@ th {
 
 .manage-buttons button {
   margin: 0;
+}
+
+table {
+  margin-top: 20px;
 }
 </style>
