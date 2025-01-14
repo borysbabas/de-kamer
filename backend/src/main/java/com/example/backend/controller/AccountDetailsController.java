@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * RestController that handles endpoints related to the account details page.
@@ -19,6 +21,8 @@ import java.util.Map;
  */
 @RestController
 public class AccountDetailsController {
+    private final Logger LOGGER = LogManager.getLogger();
+
     private final AccountService accountService;
     private final PostService postService;
 
@@ -65,7 +69,7 @@ public class AccountDetailsController {
     public ResponseEntity<?> updateUserDetails(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorizationHeader,@PathVariable(value = "id", required = true)Long id, @RequestBody Map<String, String> payload){
         String field = payload.get("field");
         String value = payload.get("value");
-        System.out.println(payload);
+        LOGGER.info(payload);
         accountService.updateAccount(id, field, value);
         return ResponseEntity.ok().build();
     }
