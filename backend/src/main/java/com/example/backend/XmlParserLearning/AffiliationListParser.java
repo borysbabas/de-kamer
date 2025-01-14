@@ -11,8 +11,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AffiliationListParser {
 
@@ -27,6 +29,7 @@ public class AffiliationListParser {
         factory.setNamespaceAware(false);
         DocumentBuilder builder = factory.newDocumentBuilder();
         List<File> fileList = listFilesFolder(new File(path));
+        int totalValidVotes = 0;
         for (File file : fileList){
 
             Document document= builder.parse(file);
@@ -43,7 +46,9 @@ public class AffiliationListParser {
                         if (validVotes.getNodeType() == Node.ELEMENT_NODE){
                             Element detailElement = (Element) validVotes;
                             if ("ValidVotes".equals(detailElement.getTagName()))
-                             System.out.println("Valid Votes: "+ detailElement.getTextContent());
+                                totalValidVotes+=Integer.parseInt(detailElement.getTextContent().trim());
+                            formatNumber(totalValidVotes);
+
                         }
                     }
 
@@ -51,6 +56,13 @@ public class AffiliationListParser {
                 }
             }
         }
+        System.out.println("Total valid votes: "+totalValidVotes);
+
+    }
+    private String formatNumber(Integer validVotes){
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.GERMANY);
+
+        return numberFormat.format(validVotes);
 
     }
     private List<File> listFilesFolder(final File folder){
