@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.DTO.AccountDTO;
 import com.example.backend.config.ApiConfig;
 import com.example.backend.config.ApiPaths;
 import com.example.backend.entities.Account;
@@ -43,6 +44,6 @@ public class AdminController {
         if (!Objects.equals(account.getRole(), "admin")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(accountService.getAllAccounts(), HttpStatus.OK);
+        return new ResponseEntity<>(accountService.getAllAccounts().stream().map(AccountDTO::new), HttpStatus.OK);
     }
 }
