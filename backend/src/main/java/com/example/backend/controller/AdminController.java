@@ -7,6 +7,7 @@ import com.example.backend.entities.Account;
 import com.example.backend.services.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -45,6 +46,9 @@ public class AdminController {
 
     @PutMapping(ApiPaths.BAN_ACCOUNT)
     public ResponseEntity<?> banAccount(@RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account, @PathVariable Long id) {
+        if (!Objects.equals(account.getRole(), "admin")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         Account accountToBan = accountService.getAccountById(id);
         if (accountToBan == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -56,6 +60,9 @@ public class AdminController {
 
     @PutMapping(ApiPaths.UNBAN_ACCOUNT)
     public ResponseEntity<?> unbanAccount(@RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account, @PathVariable Long id) {
+        if (!Objects.equals(account.getRole(), "admin")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         Account accountToUnban = accountService.getAccountById(id);
         if (accountToUnban == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -63,5 +70,10 @@ public class AdminController {
         accountToUnban.setBanned(false);
         accountService.saveAccount(accountToUnban);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<?> handleMissingRequestHeaderException(MissingRequestHeaderException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 }
