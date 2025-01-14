@@ -1,442 +1,439 @@
 # Data Processing Documentation
 
-## Gegevensverzameling
+## Data Collection
 
-### Overzicht
-De gegevensverzameling op onze website is beperkt tot het strikt noodzakelijke om de functionaliteit van het forum en gerelateerde functies te ondersteunen. Er wordt bewust geen aanvullende informatie verzameld of verwerkt.
+### Overview
+The data collection on our website is limited to what is strictly necessary to support the functionality of the forum and related features. No additional information is collected or processed intentionally.
 
-### Verzamelde gegevens
-Bij het gebruik van het forum verzamelen wij de volgende gegevens:
-- **E-mailadres**: Nodig voor het aanmaken van accounts en communicatie met gebruikers.
-- **Gebruikersnaam**: Gebruikt als unieke identificatie voor het forum.
-- **Posts**: Content die gebruikers op het forum plaatsen.
-- **Geboortedatum**: Verzameld tijdens registratie.
-- **Wachtwoord (gehasht)**: Gebruikt voor authenticatie. Het wachtwoord wordt veilig opgeslagen in een gehashte vorm en is niet leesbaar voor ons.
+### Collected Data
+When using the forum, we collect the following data:
+- **Email Address**: Required for account creation and communication with users.
+- **Username**: Used as a unique identifier for the forum.
+- **Posts**: Content posted by users on the forum.
+- **Date of Birth**: Collected during registration.
+- **Password (hashed)**: Used for authentication. The password is securely stored in a hashed form and is not readable to us.
 
-### Methode van gegevensverzameling
-- **Registratie**: Tijdens het registreren van een account worden de benodigde gegevens (e-mailadres, gebruikersnaam, geboortedatum en wachtwoord) verzameld.
-- **Plaatsen van posts**: Posts worden opgeslagen op het moment dat een gebruiker deze publiceert.
+### Data Collection Method
+- **Registration**: During account registration, the necessary data (email address, username, date of birth, and password) is collected.
+- **Posting Content**: Posts are saved when a user publishes them.
 
-Er wordt verder geen aanvullende gegevensverzameling uitgevoerd, zoals het loggen van zoekopdrachten of andere gebruikersinteracties.
+No additional data collection is performed, such as logging search queries or other user interactions.
 
-### Tools en technologieën
-Er worden geen externe tools of technologieën gebruikt voor gegevensverzameling. Alle gegevens worden lokaal beheerd.
+### Tools and Technologies
+No external tools or technologies are used for data collection. All data is managed locally.
 
-### Timing van gegevensverzameling
-- **Tijdens registratie**: Gegevens worden opgeslagen wanneer een gebruiker succesvol een account aanmaakt.
-- **Bij het plaatsen van posts**: Posts worden opgeslagen wanneer deze door de gebruiker worden verzonden.
+### Timing of Data Collection
+- **During Registration**: Data is stored when a user successfully creates an account.
+- **When Posting Content**: Posts are stored when they are submitted by the user.
 
-### Informeren van gebruikers
-Gebruikers worden indirect geïnformeerd over de gegevensverzameling door meldingen zoals:
-- Succesvolle accountaanmaak.  
-  Gebruikers hebben de mogelijkheid om eigen posts te verwijderen, waardoor gegevens permanent uit ons systeem kunnen worden verwijderd.
+### Informing Users
+Users are indirectly informed about data collection through notifications such as:
+- Successful account creation.
+  Users have the ability to delete their own posts, allowing data to be permanently removed from our system.
 
-### Opslaglocatie
-Alle verzamelde gegevens worden opgeslagen in een SQL-database. Er worden geen gegevens lokaal op gebruikersapparaten of in externe systemen opgeslagen.
+### Storage Location
+All collected data is stored in an SQL database. No data is stored locally on user devices or in external systems.
 
 ----------------------------------------------------------------------------------------------------------------------------
 
-## Gegevensopslag
+## Data Storage
 
-### Overzicht
-Onze gegevens worden opgeslagen in een externe database-oplossing en zijn beveiligd met passende maatregelen om zowel privacy als beveiliging te waarborgen. Hieronder volgen de details van de opslag en het toegangsbeheer.
+### Overview
+Our data is stored in an external database solution and is protected with appropriate measures to ensure both privacy and security. Below are the details regarding storage and access management.
 
-### Opslaglocaties
+### Storage Locations
 - **Database**:  
-  Alle gegevens worden opgeslagen in een externe **Aiven-database**.  
-  De database bevat:
-    - Gebruikersgegevens (e-mailadres, gebruikersnaam, geboortedatum, gehashte wachtwoorden)
-    - Forumdata (posts)
+  All data is stored in an external **Aiven database**.  
+  The database contains:
+    - User data (email address, username, date of birth, hashed passwords)
+    - Forum data (posts)
 
-### Beveiligingsmaatregelen
-1. **Toegangsbeheer**:
-    - Alleen beheerders hebben toegang tot de database via speciale **administratoraccounts**.
-    - Toegang tot beheerdersaccounts wordt strikt gecontroleerd en beperkt.
-    - Gebruikers kunnen via de website hun eigen gegevens beheren (bijvoorbeeld posts verwijderen).
+### Security Measures
+1. **Access Control**:
+    - Only administrators have access to the database via special **administrator accounts**.
+    - Access to administrator accounts is strictly monitored and limited.
+    - Users can manage their own data via the website (e.g., delete posts).
 
-2. **Versleuteling**:
-    - **Wachtwoorden** worden gehashed met **bcrypt** om de beveiliging van gebruikersaccounts te garanderen.
-    - **JWT (JSON Web Tokens)** wordt gebruikt voor authenticatie van acties die gebruikers uitvoeren, zoals het beheren van accounts of posts.
+2. **Encryption**:
+    - **Passwords** are hashed using **bcrypt** to ensure the security of user accounts.
+    - **JWT (JSON Web Tokens)** is used for authenticating actions performed by users, such as managing accounts or posts.
 
-3. **Gegevensoverdracht**:
-    - Gegevens worden via beveiligde verbindingen (HTTPS) overgedragen tussen de website en de database.
+3. **Data Transmission**:
+    - Data is transmitted over secure connections (HTTPS) between the website and the database.
 
-### Back-ups en gegevensintegriteit
-- Er worden geen back-ups van de database gemaakt omdat het een projectomgeving betreft (schoolwebsite).
+### Back-ups and Data Integrity
+- No backups of the database are made because this is a project environment (school website).
 
-### Toegangsrechten
+### Access Rights
 - **Admins**:  
-  Alleen administrators hebben directe toegang tot de database en kunnen deze beheren.
-- **Gebruikers**:  
-  Gebruikers kunnen via de website hun eigen posts en accounts beheren en indien gewenst verwijderen.
+  Only administrators have direct access to the database and can manage it.
+- **Users**:  
+  Users can manage their own posts and accounts via the website and delete them if desired.
 
 ### Logging
-Er worden momenteel geen logbestanden opgeslagen.
+        No log files are currently stored.
+----------------------------------------------------------------------------------------------------------------------------
+
+## Data Processing
+
+### Overview
+The data processing on our website is simple and focused on supporting the basic functionality of the website. No complex processing steps are performed, and the user has control over their own data.
+
+### Processing Steps
+1. **Validation**:
+    - During account creation, the following checks are made:
+        - Whether the provided **username** and **email address** are already in use.
+        - Whether all required fields are correctly and completely filled in.
+    - In case of an error, the user receives a general error message (“Something went wrong”).
+
+2. **Storage**:
+    - Once validation is successful, the data is directly sent to the backend, where it is processed and stored in the database.
+    - No further transformation is performed.
+
+3. **User Management**:
+    - Users have full control over their data, such as changing their password or username.
+
+### Analysis and Cleanup
+- **Analysis**: No analysis is performed on the data.
+- **Cleanup**: No automated cleanup processes are in place. However, users have the ability to edit or delete their own data, such as posts or accounts.
+
+### Automation
+- There are no automated processes for data processing or reporting.
 
 ----------------------------------------------------------------------------------------------------------------------------
 
-## Gegevensverwerking
 
-### Overzicht
-De gegevensverwerking op onze website is eenvoudig en gericht op het ondersteunen van de basisfunctionaliteit van de website. Er worden geen complexe verwerkingsstappen uitgevoerd, en de gebruiker heeft controle over hun eigen gegevens.
+## Data Transfer
 
-### Verwerkingsstappen
-1. **Validatie**:
-    - Tijdens het aanmaken van een account wordt gecontroleerd of:
-        - De opgegeven **gebruikersnaam** en **e-mailadres** al in gebruik zijn.
-        - Alle vereiste velden correct en volledig zijn ingevuld.
-    - Bij een fout ontvangt de gebruiker een algemene foutmelding (“Er is iets fout gegaan”).
+### Overview
+Data is transferred between the frontend (the website) and the backend using various HTTP methods. The data transfer is secure and utilizes modern authentication and authorization methods to ensure the privacy and security of users.
 
-2. **Opslag**:
-    - Zodra de validatie succesvol is, worden de gegevens rechtstreeks doorgestuurd naar de backend, waar ze worden verwerkt en opgeslagen in de database.
-    - Er wordt geen verdere transformatie uitgevoerd.
+### Methods of Data Transfer
+- **HTTP Methods**:
+    - **POST**: Used to create new posts.
+    - **GET**: Used to retrieve data, such as fetching public information and using tools like heatmaps and charts.
+    - **DELETE**: Used to delete posts.
+    - **Fetch API**: Used to provide dynamic data from the backend to the frontend, such as retrieving user or post information.
 
-3. **Gebruikersbeheer**:
-    - Gebruikers hebben zelf controle over hun gegevens, zoals het wijzigen van hun wachtwoord of gebruikersnaam.
+- **External APIs**:
+    - For the **heatmap**, an external API from CBS is called to retrieve coordinates of municipalities in the Netherlands for visualization. This is done via a GET request.
 
-### Analyse en opschoning
-- **Analyse**: Er wordt geen analyse uitgevoerd op de gegevens.
-- **Opschoning**: Er worden geen geautomatiseerde opschoningsprocessen uitgevoerd. Gebruikers hebben echter de mogelijkheid om hun eigen gegevens te bewerken of verwijderen, zoals posts of accounts.
-
-### Automatisering
-- Er zijn geen geautomatiseerde processen voor gegevensverwerking of rapportages.
-
-----------------------------------------------------------------------------------------------------------------------------
-
-
-## Gegevensoverdracht
-
-### Overzicht
-Gegevens worden tussen de frontend (de website) en de backend overgedragen via verschillende HTTP-methoden. De overdracht van gegevens is beveiligd en maakt gebruik van moderne authenticatie- en autorisatiemethoden om de privacy en veiligheid van gebruikers te waarborgen.
-
-### Methodes van Gegevensoverdracht
-- **HTTP-methoden**:
-    - **POST**: Gebruikt om nieuwe posts te maken.
-    - **GET**: Gebruikt voor het ophalen van data, zoals het ophalen van openbare gegevens en het gebruiken van tools zoals heatmaps en grafieken.
-    - **DELETE**: Gebruikt voor het verwijderen van posts.
-    - **Fetch API**: Voor het verstrekken van dynamische gegevens vanuit de backend naar de frontend, zoals het ophalen van gebruikers- of postinformatie.
-
-- **Externe API’s**:
-    - Voor de **heatmap** wordt een externe API van het CBS aangeroepen om coördinaten van gemeentes in Nederland op te halen voor visualisatie. Dit gebeurt via een GET-request.
-
-### Beveiliging van Gegevensoverdracht
+### Security of Data Transfer
 - **HTTPS**:  
-  De communicatie tussen de website (frontend) en de backend gebeurt altijd via **HTTPS**, wat zorgt voor een versleutelde verbinding en de beveiliging van gegevens tijdens de overdracht.
+  Communication between the website (frontend) and the backend always occurs via **HTTPS**, ensuring an encrypted connection and securing data during transfer.
 
 - **JWT**:
-    - Gebruikersauthenticatie wordt afgedwongen met behulp van **JWT (JSON Web Tokens)**. Het JWT-token wordt versleuteld in de frontend opgeslagen en wordt bij elk verzoek naar de backend meegestuurd voor validatie.
-    - Het JWT-token wordt bij elk verzoek gecontroleerd door de backend om de geldigheid van de gebruiker te bevestigen.
-    - Wachtwoorden worden **nooit** overgedragen tijdens de gegevensoverdracht. Alleen openbare gebruikersinformatie zoals **e-mail**, **gebruikersnaam**, en **leeftijd** zijn beschikbaar nadat de gebruiker succesvol is ingelogd.
+    - User authentication is enforced using **JWT (JSON Web Tokens)**. The JWT token is securely stored in the frontend and is sent with every request to the backend for validation.
+    - The JWT token is checked by the backend with each request to verify the user's validity.
+    - Passwords are **never** transmitted during data transfer. Only public user information, such as **email**, **username**, and **age**, is available after successful login.
 
-### Gegevens die worden Overgedragen
-- **Postdata**:  
-  De inhoud van de berichten (inclusief titel en tekst) wordt verzonden naar de backend bij het maken of verwijderen van posts.
+### Data Transferred
+- **Post Data**:  
+  The content of posts (including title and text) is sent to the backend when creating or deleting posts.
 
-- **Gebruikersdata**:  
-  Alleen openbare gegevens van de gebruiker (zoals e-mail, gebruikersnaam en leeftijd) worden overgedragen. Gevoelige gegevens, zoals het wachtwoord, worden nooit overgedragen.
+- **User Data**:  
+  Only public user data (such as email, username, and age) is transferred. Sensitive data, like the password, is never transmitted.
 
-- **Toolsdata**:  
-  Er worden **GET**-verzoeken gestuurd naar de backend voor het ophalen van openbare gegevens voor tools zoals de heatmap en grafieken.
+- **Tools Data**:  
+  **GET** requests are sent to the backend to fetch public data for tools like the heatmap and charts.
 
-### Authenticatie en Autorisatie
-- **JWT-tokenvalidatie**:  
-  De backend controleert elk verzoek met een JWT-token om te bevestigen dat de gebruiker is geauthenticeerd en gemachtigd om de gevraagde actie uit te voeren.
+### Authentication and Authorization
+- **JWT Token Validation**:  
+  The backend checks each request with a JWT token to confirm that the user is authenticated and authorized to perform the requested action.
 
 - **Fetch Interceptor**:  
-  De frontend bevat een **fetch interceptor** die controleert of de gebruiker een geldig account heeft en of de gebruiker gemachtigd is om de gevraagde actie uit te voeren. Als de gebruiker niet geautoriseerd is, wordt de actie geblokkeerd.
+  The frontend contains a **fetch interceptor** that checks whether the user has a valid account and is authorized to perform the requested action. If the user is not authorized, the action is blocked.
 
-### Foutafhandeling
-- **Foutmeldingen**:  
-  Bij fouten, zoals het proberen toegang te krijgen tot niet-bestaande pagina's, wordt een **404-error** weergegeven. Gebruikers krijgen een popupmelding en worden automatisch doorgestuurd naar een geldige pagina.
+### Error Handling
+- **Error Messages**:  
+  In case of errors, such as attempting to access non-existent pages, a **404 error** is displayed. Users will receive a popup notification and be automatically redirected to a valid page.
 
-### Beperkingen
-- **Geen bestandsoverdracht**:  
-  Er zijn geen mogelijkheden om bestanden naar de database te uploaden. Alleen tekstgebaseerde berichten kunnen worden verzonden en opgeslagen, samen met een titel.
+### Limitations
+- **No File Uploads**:  
+  There is no functionality to upload files to the database. Only text-based posts, including a title, can be submitted and stored.
 
 ----------------------------------------------------------------------------------------------------------------------------
 
 
-## Gegevensgebruik
+## Data Usage
 
-### Overzicht
-De gegevens die worden verzameld op onze website worden alleen gebruikt voor de basisfunctionaliteit en zijn niet bedoeld voor geavanceerde toepassingen zoals personalisatie, statistische analyse, machine learning of marketing.
+### Overview
+The data collected on our website is used solely for basic functionality and is not intended for advanced applications such as personalization, statistical analysis, machine learning, or marketing.
 
-### Toepassingen
-1. **Personalisatie**:  
-   De verzamelde gegevens worden **niet** gebruikt voor personalisatie van de gebruikerservaring. Er worden geen inhoudsaanpassingen of gerichte aanbevelingen gedaan op basis van de gegevens van de gebruiker.
+### Applications
+1. **Personalization**:  
+   The collected data is **not** used for personalizing the user experience. No content adjustments or targeted recommendations are made based on the user's data.
 
-2. **Statistische analyse**:  
-   Er wordt **geen** statistische analyse uitgevoerd op de verzamelde gegevens. Er worden geen gegevens verzameld of geanalyseerd om statistieken over gebruikersgedrag of postfrequentie te berekenen.
+2. **Statistical Analysis**:  
+   **No** statistical analysis is performed on the collected data. No data is collected or analyzed to generate statistics on user behavior or post frequency.
 
 3. **Machine Learning**:  
-   Er wordt geen gebruik gemaakt van machine learning voor de verwerking van gebruikersgegevens of voor het doen van voorspellingen of aanbevelingen.
+   Machine learning is **not** used for processing user data or making predictions or recommendations.
 
 4. **Marketing**:  
-   De verzamelde gegevens worden **niet** gebruikt voor marketingdoeleinden, zoals gerichte advertenties of e-mailcampagnes.
+   The collected data is **not** used for marketing purposes, such as targeted advertisements or email campaigns.
 
-### Gebruikerscontrole
-- Omdat de verzamelde gegevens uitsluitend voor basisfunctionaliteit worden gebruikt, is er geen behoefte aan specifieke gebruikersinstellingen of voorkeuren met betrekking tot het gebruik van hun gegevens voor personalisatie of marketing.
+### User Control
+- Since the collected data is used solely for basic functionality, there is no need for specific user settings or preferences regarding the use of their data for personalization or marketing.
 
-### Gegevensdeling met Derden
-- Er worden **geen** gegevens gedeeld met derden voor gebruik. Alle verzamelde gegevens blijven binnen het systeem van de website en worden niet doorgestuurd naar externe partijen voor andere doeleinden.
-
-----------------------------------------------------------------------------------------------------------------------------
-
-## Beveiliging en privacy
-
-### Beveiligingsmaatregelen
-1. **Encryptie**:
-    - **Wachtwoorden** worden gehasht met **bcrypt** voordat ze in de database worden opgeslagen. Dit betekent dat zelfs de beheerders geen toegang hebben tot de wachtwoorden van gebruikers.
-
-2. **Beveiliging van hosting**:
-    - De **frontend** wordt gehost bij **Strato**, de **backend** bij **Render**, en de **database** bij **Aiven**. Elk van deze externe partijen heeft hun eigen beveiligingsmaatregelen, maar deze zijn buiten onze controle. Aangezien dit een schoolproject betreft, is er geen aanvullende verantwoordelijkheid voor ons om deze beveiliging te beheren.
-
-3. **Beveiligingsmaatregelen van derden**:
-    - Er is geen verdere beveiliging van persoonsgegevens door onszelf, aangezien de externe partijen waarschijnlijk hun eigen beveiligingsmaatregelen hebben geïmplementeerd. We vertrouwen op hun infrastructuur en beveiliging.
-
-### Gebruikersrechten
-1. **Toegang tot gegevens**:
-    - Gebruikers kunnen hun eigen gegevens inzien via de **detailpagina** van hun account. Ze kunnen hun **e-mail**, **gebruikersnaam** en **leeftijd** bekijken.
-
-2. **Recht op verwijdering**:
-    - Gebruikers hebben het recht om hun gegevens volledig te **verwijderen**. Dit kan eenvoudig worden gedaan via de website, waarbij gebruikers hun eigen posts en accounts kunnen verwijderen.
-    - Wij als beheerders kunnen handmatig gegevens verwijderen, maar gebruikers hebben de volledige controle om hun eigen gegevens te verwijderen.
-
-3. **Geen controle over gegevens**:
-    - Omdat gebruikers zelf in staat zijn om hun gegevens te verwijderen, hebben wij geen controle over hun gegevens na verwijdering. Zodra ze hun gegevens verwijderen, worden ze uit het systeem verwijderd.
-
-### Datalekken en incidenten
-- Er zijn momenteel **geen procedures** voor datalekken of beveiligingsincidenten, aangezien dit een schoolproject is en zulke maatregelen niet verwacht werden. Er is geen beleid voor het melden van datalekken aan gebruikers.
-
-### Compliance met AVG/GDPR
-- Aangezien dit een schoolproject is, wordt er **geen expliciete toestemming** gevraagd voor het verzamelen van gegevens, en er wordt geen verdere naleving van de AVG/GDPR verwacht of uitgevoerd. De gegevens worden uitsluitend verzameld voor de werking van de website en worden niet voor andere doeleinden gebruikt.
+### Data Sharing with Third Parties
+- **No** data is shared with third parties for use. All collected data remains within the website's system and is not sent to external parties for other purposes.
 
 ----------------------------------------------------------------------------------------------------------------------------
 
-## Gegevensverwijdering
+## Security and Privacy
 
-### Methoden van Gegevensverwijdering
-1. **Verwijdering van gegevens**:
-    - Wanneer een gebruiker zijn/haar **account** verwijdert, worden **alle posts** van die gebruiker eveneens verwijderd, samen met het account zelf. Na deze actie worden er geen gegevens meer van de gebruiker bewaard, en er worden geen logbestanden of andere gegevens geretourneerd of bewaard. De verwijdering is volledig.
-    - Gebruikers kunnen ook **individuele posts** verwijderen, wat betekent dat zij controle hebben over hun eigen bijdragen aan de website. De verwijdering van een post is definitief en kan niet worden hersteld.
+### Security Measures
+1. **Encryption**:
+    - **Passwords** are hashed with **bcrypt** before being stored in the database. This means that even administrators do not have access to users' passwords.
 
-2. **Anonimisering**:
-    - Er is momenteel geen gebruik van **anonimisering** van gegevens. De gegevens worden in hun geheel verwijderd wanneer een gebruiker zijn/haar account of post verwijdert.
+2. **Hosting Security**:
+    - The **frontend** is hosted with **Strato**, the **backend** with **Render**, and the **database** with **Aiven**. Each of these external parties has their own security measures, but these are beyond our control. Since this is a school project, we do not bear additional responsibility for managing this security.
 
-### Tijdschema voor Gegevensverwijdering
-1. **Verwijdering bij account- of postverwijdering**:
-    - Gegevens worden **direct verwijderd** zodra een gebruiker zijn/haar account of post verwijdert. Na de bevestiging door de gebruiker is de verwijdering permanent en kan deze niet worden teruggedraaid.
+3. **Third-Party Security Measures**:
+    - No further security of personal data is implemented by us, as the external parties likely have their own security measures in place. We rely on their infrastructure and security.
 
-2. **Bewaartermijnen**:
-    - Er is geen **bewaartermijn** voor gegevens. Alle gegevens worden onmiddellijk verwijderd zodra de gebruiker besluit deze te verwijderen. Er worden geen gegevens bewaard na verwijdering van het account of de posts.
+### User Rights
+1. **Access to Data**:
+    - Users can view their own data via the **detail page** of their account. They can view their **email**, **username**, and **age**.
 
-### Verwijdering en Verificatie
-1. **Verificatie van verwijdering**:
-    - Na het verwijderen van gegevens wordt de actie gecontroleerd door middel van een **JWT-tokenvalidatie** in de backend. Als het token geldig is, wordt de actie goedgekeurd en kan de gebruiker de gegevens verwijderen.
-    - Na een succesvolle verwijdering wordt de gebruiker doorverwezen naar de **homepagina** van de website.
+2. **Right to Deletion**:
+    - Users have the right to **delete** their data entirely. This can be easily done via the website, where users can delete their own posts and accounts.
+    - As administrators, we can manually delete data, but users have full control over deleting their own data.
 
-### Backups en Onvolledige Verwijdering
+3. **No Control Over Data**:
+    - Since users can delete their own data, we have no control over their data after deletion. Once they delete their data, it is permanently removed from the system.
+
+### Data Breaches and Incidents
+- There are currently **no procedures** for data breaches or security incidents, as this is a school project and such measures were not expected. There is no policy for notifying users about data breaches.
+
+### Compliance with GDPR
+- Since this is a school project, **explicit consent** is not sought for data collection, and no further compliance with GDPR is expected or implemented. The data is collected solely for the operation of the website and is not used for other purposes.
+----------------------------------------------------------------------------------------------------------------------------
+
+## Data Deletion
+
+### Methods of Data Deletion
+1. **Data Deletion**:
+    - When a user deletes their **account**, **all posts** by that user are also deleted, along with the account itself. After this action, no data from the user is retained, and no log files or other data are returned or kept. The deletion is permanent.
+    - Users can also delete **individual posts**, meaning they have control over their own contributions to the website. Deleting a post is final and cannot be undone.
+
+2. **Anonymization**:
+    - There is currently no use of **anonymization** for data. The data is entirely deleted when a user deletes their account or post.
+
+### Data Deletion Schedule
+1. **Deletion upon Account or Post Deletion**:
+    - Data is **immediately deleted** once a user deletes their account or post. After confirmation from the user, the deletion is permanent and cannot be reversed.
+
+2. **Retention Periods**:
+    - There is no **retention period** for data. All data is immediately deleted once the user decides to delete it. No data is retained after the deletion of the account or posts.
+
+### Deletion and Verification
+1. **Deletion Verification**:
+    - After data is deleted, the action is verified through **JWT token validation** in the backend. If the token is valid, the action is approved, and the user can delete the data.
+    - After successful deletion, the user is redirected to the **homepage** of the website.
+
+### Backups and Incomplete Deletion
 1. **Backups**:
-    - Er wordt geen gegevens bewaard in backups na de verwijdering. Alle gegevens kunnen volledig worden verwijderd, en er zijn geen **residuen** van verwijderde gegevens in het systeem, behalve openbare gegevens die worden gebruikt voor tools zoals de heatmap (deze gegevens worden **permanent bewaard** en zijn **niet gepland om verwijderd te worden**).
+    - No data is retained in backups after deletion. All data can be fully deleted, and there are no **residues** of deleted data in the system, except for public data used for tools like the heatmap (this data is **permanently stored** and **not planned to be deleted**).
 
-2. **Gegevens die niet verwijderd kunnen worden**:
-    - Er worden geen gegevens bewaard of geretourneerd nadat een account of post is verwijderd, met uitzondering van de openbare gegevens die door de websitetools worden gebruikt (zoals voor de heatmap).
+2. **Data That Cannot Be Deleted**:
+    - No data is retained or returned after an account or post is deleted, except for the public data used by the website tools (such as for the heatmap).
 
-### Juridische of Administratieve Redenen voor Bewaring
-- Er zijn **geen** juridische verplichtingen die vereisen dat gegevens langer worden bewaard dan strikt noodzakelijk. Gegevens worden alleen verzameld voor de werking van de website en worden volledig verwijderd wanneer de gebruiker dat wenst.
-
+### Legal or Administrative Reasons for Retention
+- There are **no** legal obligations requiring data to be retained longer than strictly necessary. Data is only collected for the operation of the website and is fully deleted when the user requests it.
 ----------------------------------------------------------------------------------------------------------------------------
 
-## Procesbeschrijving
+## Process Description
 
-### 1. Verzameling van Gegevens
-- **Bij accountregistratie** vult de gebruiker de volgende gegevens in:
+### 1. Data Collection
+- **During account registration**, the user provides the following information:
     - **Username**
     - **Email**
-    - **Wachtwoord** (dit wordt **gehasht** met bcrypt in de backend en verlaat nooit de backend, zodat het niet toegankelijk is)
-    - **Geboortedatum**
-- **Bij het plaatsen van een post** vult de gebruiker een **titel** en een **body** in. Deze gegevens worden gekoppeld aan de gebruiker en in de database opgeslagen. De post wordt daarnaast gemarkeerd met de **tijd van plaatsing** en de **username** van de gebruiker die de post heeft gemaakt.
-- **Opmerking**: Er worden geen andere gegevens van gebruikers verzameld, aangezien er geen andere gegevens worden gevraagd.
+    - **Password** (this is **hashed** with bcrypt in the backend and never leaves the backend, ensuring it is not accessible)
+    - **Date of Birth**
+- **When posting a post**, the user provides a **title** and a **body**. This data is associated with the user and stored in the database. The post is also marked with the **time of posting** and the **username** of the user who created the post.
+- **Note**: No other user data is collected, as no other information is requested.
 
-### 2. Opslag van Gegevens
-- De verzamelde gegevens worden naar de **backend** gestuurd voor verwerking en worden vervolgens opgeslagen in een **Aiven-database**.
-    - Het **wachtwoord** wordt geëncrypteerd (met bcrypt) en wordt veilig opgeslagen, zonder dat het de backend ooit verlaat.
-    - De **gebruikersnaam**, **email**, **geboortedatum** en **posts** worden open opgeslagen in de database, maar de database is alleen toegankelijk voor **geautoriseerde beheerders** met een account bij Aiven.
-    - Er worden geen andere gegevens opgeslagen.
+### 2. Data Storage
+- The collected data is sent to the **backend** for processing and then stored in an **Aiven database**.
+    - The **password** is encrypted (with bcrypt) and stored securely without ever leaving the backend.
+    - The **username**, **email**, **date of birth**, and **posts** are stored openly in the database, but the database is only accessible to **authorized administrators** with an account on Aiven.
+    - No other data is stored.
 
-### 3. Verwerking van Gegevens
-- **Registratie**:
-    - Bij het registreren van een gebruiker wordt gecontroleerd of de **gebruikersnaam** of **email** al in gebruik is. Als dit het geval is, ontvangt de gebruiker een foutmelding.
-- **Postplaatsing**:
-    - Bij het plaatsen van een post wordt gecontroleerd of de post niet leeg is. Dit wordt gecontroleerd door de **frontend**.
-    - **Id-based** opslag wordt gebruikt voor posts, wat betekent dat duplicaten in principe geen probleem vormen.
-    - Er wordt verder geen verwerking van de gegevens uitgevoerd. De gegevens worden enkel opgeslagen en weergegeven in de gebruikersinterface.
+### 3. Data Processing
+- **Registration**:
+    - During user registration, it is checked whether the **username** or **email** is already in use. If so, the user receives an error message.
+- **Post Submission**:
+    - When a post is submitted, it is checked to ensure the post is not empty. This check is done by the **frontend**.
+    - **Id-based** storage is used for posts, meaning duplicates are generally not an issue.
+    - No further processing of the data is done. The data is simply stored and displayed in the user interface.
 
-### 4. Gebruik van Gegevens
-- **Gebruikersnaam** wordt gebruikt om de naam van de gebruiker weer te geven bij een post die hij of zij heeft gemaakt.
-- De **titel** en **body** van de post worden openbaar weergegeven op de website.
-- **Email** en **geboortedatum** zijn alleen zichtbaar op de **accountdetailpagina**, maar alleen voor de ingelogde gebruiker zelf (wanneer deze zijn/haar eigen account bekijkt).
-- Er worden geen andere **statistieken** of **analyse** van de gegevens uitgevoerd. Alle gegevens die niet zichtbaar zijn op de accountdetailpagina blijven **verborgen**.
+### 4. Data Use
+- **Username** is used to display the name of the user on a post they have made.
+- The **title** and **body** of the post are publicly displayed on the website.
+- **Email** and **date of birth** are only visible on the **account details page**, but only to the logged-in user (when they view their own account).
+- No other **statistics** or **analysis** of the data is performed. All data that is not visible on the account details page remains **hidden**.
 
-### 5. Verwijdering van Gegevens
-- Gebruikers kunnen altijd hun **posts** of hun **account** verwijderen.
-    - Wanneer een gebruiker een post verwijdert, wordt die post **permanent verwijderd**.
-    - Wanneer een gebruiker zijn/haar account verwijdert, wordt zowel het account als **alle posts** van de gebruiker **permanent verwijderd**.
+### 5. Data Deletion
+- Users can always delete their **posts** or their **account**.
+    - When a user deletes a post, that post is **permanently deleted**.
+    - When a user deletes their account, both the account and **all posts** of the user are **permanently deleted**.
 
-### 6. Beveiliging tijdens het Proces
-- **JWT-tokenvalidatie**:
-    - Bij elke postactie (zoals het plaatsen of verwijderen van een post) wordt de gebruiker gecontroleerd via een **JWT-token**. Dit token bepaalt of de gebruiker gerechtigd is om de actie uit te voeren.
-- Alle communicatie tussen frontend en backend vindt plaats via **veilige verbindingen (HTTPS)**, waardoor gegevens onderweg versleuteld zijn.
+### 6. Security During the Process
+- **JWT Token Validation**:
+    - For every post action (such as posting or deleting a post), the user is validated through a **JWT token**. This token determines whether the user is authorized to perform the action.
+- All communication between the frontend and backend occurs through **secure connections (HTTPS)**, ensuring that data is encrypted during transfer.
 
 ----------------------------------------------------------------------------------------------------------------------------
 
-## Tools en Technologieën
+## Tools and Technologies
 
 ### 1. **Database**
-- **Database**: De website maakt gebruik van een **Aiven-managed PostgreSQL database** voor het opslaan van gebruikersgegevens en posts.
-    - **Beheer**: De database wordt beheerd via **Aiven**, een externe service die de database-hosting verzorgt, en is alleen toegankelijk voor beheerders met een account bij Aiven.
+- **Database**: The website uses an **Aiven-managed PostgreSQL database** for storing user data and posts.
+    - **Management**: The database is managed through **Aiven**, an external service that handles the database hosting and is only accessible to administrators with an account on Aiven.
 
 ### 2. **Backend Framework**
-- **Technologieën en Frameworks**:
-    - De **backend** van de website is gebouwd met **Java** en maakt gebruik van het **Spring Boot** framework, gecombineerd met **JPA** (Java Persistence API) voor databasetoegang en -beheer.
-    - De projectafhankelijkheden worden beheerd via **Maven**.
+- **Technologies and Frameworks**:
+    - The **backend** of the website is built using **Java** and utilizes the **Spring Boot** framework, combined with **JPA** (Java Persistence API) for database access and management.
+    - Project dependencies are managed through **Maven**.
 
-### 3. **Externe API's**
-- **Externe API**: De website maakt gebruik van de **CBS Open Data API** om **informatie over gemeenten** in Nederland op te halen, wat wordt gebruikt voor de heatmap-functionaliteit.
+### 3. **External APIs**
+- **External API**: The website uses the **CBS Open Data API** to retrieve **municipality information** in the Netherlands, which is used for the heatmap functionality.
 
-### 4. **Authenticatie**
-- **Authenticatie**: De website maakt gebruik van **JWT (JSON Web Tokens)** voor gebruikersauthenticatie. Dit zorgt ervoor dat elke gebruikersactie die authenticatie vereist, zoals het plaatsen of verwijderen van een post, wordt gecontroleerd aan de hand van een geldig token.
+### 4. **Authentication**
+- **Authentication**: The website uses **JWT (JSON Web Tokens)** for user authentication. This ensures that every user action requiring authentication, such as posting or deleting a post, is validated using a valid token.
 
-### 5. **Encryptie**
-- **Encryptie**:
-    - **Wachtwoorden**: Wachtwoorden worden geëncrypteerd met **bcrypt** voordat ze worden opgeslagen in de database. Dit zorgt ervoor dat wachtwoorden niet in platte tekst worden opgeslagen.
-    - **Communicatie**: Alle communicatie tussen de frontend en backend is beveiligd via **HTTPS**, wat zorgt voor versleuteling van gegevens tijdens de overdracht.
+### 5. **Encryption**
+- **Encryption**:
+    - **Passwords**: Passwords are encrypted with **bcrypt** before being stored in the database, ensuring that passwords are not stored in plain text.
+    - **Communication**: All communication between the frontend and backend is secured via **HTTPS**, ensuring data encryption during transfer.
 
 ### 6. **Frontend Framework**
-- **Frontend**: De website is gebouwd met **Vue.js** en **TypeScript**. De volgende npm-pakketten worden gebruikt:
-    - **ApexCharts** voor het genereren van grafieken en statistieken.
-    - **Leaflet** en **Leaflet-Heat** voor het weergeven van interactieve kaarten en de heatmap-functionaliteit.
+- **Frontend**: The website is built with **Vue.js** and **TypeScript**. The following npm packages are used:
+    - **ApexCharts** for generating charts and statistics.
+    - **Leaflet** and **Leaflet-Heat** for displaying interactive maps and the heatmap functionality.
 
-### 7. **Monitoring en Logging**
-- **Logging**: Op dit moment wordt er **geen logging** uitgevoerd voor de verwerking van gegevens of gebruikersactiviteiten.
+### 7. **Monitoring and Logging**
+- **Logging**: Currently, there is **no logging** performed for data processing or user activities.
 
-### 8. **Beveiliging**
-- **Beveiliging**: Alle gegevensoverdracht tussen de frontend en backend is versleuteld via **HTTPS**, wat de beveiliging van gegevens tijdens communicatie garandeert.
+### 8. **Security**
+- **Security**: All data transfer between the frontend and backend is encrypted via **HTTPS**, ensuring data security during communication.
 
 ----------------------------------------------------------------------------------------------------------------------------
 
-## Beveiligingsmaatregelen
+## Security Measures
 
-### 1. **Encryptie**
-- **Wachtwoordbeveiliging**: Wachtwoorden worden veilig opgeslagen door middel van **bcrypt**, een veilige hashingtechniek. Hierdoor kunnen de wachtwoorden niet in platte tekst worden ingezien, zelfs niet door beheerders.
-- **Versleuteling van gegevens**: Op dit moment worden er geen andere gegevens dan wachtwoorden versleuteld. Alle communicatie tussen de frontend en backend wordt beveiligd via **HTTPS**, wat zorgt voor encryptie van gegevens tijdens de overdracht.
+### 1. **Encryption**
+- **Password Security**: Passwords are securely stored using **bcrypt**, a secure hashing technique. This ensures that passwords cannot be viewed in plain text, even by administrators.
+- **Data Encryption**: Currently, no other data besides passwords is encrypted. All communication between the frontend and backend is secured via **HTTPS**, which ensures data encryption during transfer.
 
-### 2. **Toegangscontrole**
-- **Rolgebaseerde Toegang**:
-    - Er zijn twee hoofdrollen: **admin** en **gebruiker**.
-    - **Admins** hebben de mogelijkheid om gebruikers te beheren, bijvoorbeeld om gebruikers te verbannen. Alleen beheerders kunnen **handmatig accounts aanmaken** in de database.
-    - **Gebruikers** hebben alleen toegang tot hun eigen gegevens en kunnen posts maken en verwijderen.
+### 2. **Access Control**
+- **Role-Based Access**:
+    - There are two main roles: **admin** and **user**.
+    - **Admins** have the ability to manage users, such as banning users. Only administrators can **manually create accounts** in the database.
+    - **Users** only have access to their own data and can create and delete posts.
 
-- **Toegang tot de Database**:
-    - De **database** is beveiligd en alleen toegankelijk voor beheerders met een geldig account bij **Aiven**. Dit voorkomt ongeautoriseerde toegang tot de gegevens in de database.
+- **Database Access**:
+    - The **database** is secured and only accessible to administrators with a valid account on **Aiven**. This prevents unauthorized access to the data in the database.
 
-- **Authenticatie**:
-    - **JWT** wordt gebruikt voor de **authenticatie** van gebruikers. Dit zorgt ervoor dat gebruikers alleen geautoriseerde acties kunnen uitvoeren als ze inloggen en een geldig token hebben.
+- **Authentication**:
+    - **JWT** is used for **user authentication**. This ensures that users can only perform authorized actions when they log in and have a valid token.
 
-### 3. **Gegevensbescherming**
-- **Bescherming tegen Datalekken**:
-    - **Wachtwoorden** zijn geëncrypteerd met bcrypt, waardoor ze niet in platte tekst kunnen worden ingezien. Dit biedt bescherming tegen datalekken van wachtwoorden.
-    - Er is geen aanvullende laag van gegevensbeveiliging, maar de database is alleen toegankelijk met een account dat beheerd wordt door **Aiven**, en er zijn geen bekende mogelijkheden voor onbevoegde toegang.
+### 3. **Data Protection**
+- **Protection Against Data Breaches**:
+    - **Passwords** are encrypted with bcrypt, making them inaccessible in plain text. This provides protection against password breaches.
+    - There is no additional layer of data security, but the database is only accessible through an account managed by **Aiven**, and there are no known means of unauthorized access.
 
-### 4. **Logging en Monitoring**
-- **Logging en Monitoring**:
-    - Momenteel is er **geen logging** van verdachte activiteiten of andere beveiligingsincidenten.
-    - Er zijn geen tools geïmplementeerd om actieve beveiligingsmonitoring te doen.
+### 4. **Logging and Monitoring**
+- **Logging and Monitoring**:
+    - Currently, there is **no logging** of suspicious activities or other security incidents.
+    - No tools have been implemented to actively monitor security.
 
-### 5. **Backups en Herstel**
+### 5. **Backups and Recovery**
 - **Backups**:
-    - Er worden **geen regelmatige back-ups** van de gegevens gemaakt, gezien dit een schoolproject betreft. Dit betekent dat als er gegevens verloren gaan, herstel niet mogelijk is.
+    - **No regular backups** of data are made, as this is a school project. This means that if data is lost, recovery is not possible.
 
-### 6. **API-beveiliging**
-- **Externe API's**:
-    - De website maakt gebruik van de **CBS Open Data API** om **gemeente-informatie** op te halen voor de heatmap-functionaliteit. Deze API is een **GET-request** die geen gebruikersdata vereist.
-    - Omdat deze API alleen openbare gegevens ophaalt, is er geen beveiligingsrisico voor gebruikersdata.
+### 6. **API Security**
+- **External APIs**:
+    - The website uses the **CBS Open Data API** to retrieve **municipality information** for the heatmap functionality. This API is a **GET request** that does not require user data.
+    - Since this API only retrieves public data, there is no security risk for user data.
 
 ----------------------------------------------------------------------------------------------------------------------------
 
-### Gegevensstromen
+### Data Flows
 
-#### 1. **Gebruikersregistratie**:
-- **Input**: Gebruiker voert in:
+#### 1. **User Registration**:
+- **Input**: User enters:
     - Username
     - Email
-    - Leeftijd
-    - Wachtwoord
-- **Validatie**:
-    - Backend controleert of het email of username al bestaat.
-    - Wachtwoord wordt gehashed (bcrypt) voordat het in de database wordt opgeslagen.
-- **Opslag**:
-    - De gegevens worden opgeslagen in de **Aiven database**, inclusief gehashte wachtwoorden.
+    - Age
+    - Password
+- **Validation**:
+    - Backend checks if the email or username already exists.
+    - Password is hashed (bcrypt) before being stored in the database.
+- **Storage**:
+    - The data is stored in the **Aiven database**, including hashed passwords.
 - **Output**:
-    - Gebruiker ontvangt een JWT-token voor toekomstige authenticatie.
+    - User receives a JWT token for future authentication.
 
 #### 2. **Login**:
-- **Input**: Gebruiker voert in:
+- **Input**: User enters:
     - Email
-    - Wachtwoord
-- **Validatie**:
-    - Backend vergelijkt de ingevoerde gegevens met de gegevens in de database.
-    - Als geldig, ontvangt de gebruiker een JWT-token.
-- **Opslag**:
-    - Geen extra gegevens worden opgeslagen, maar de gebruiker heeft nu toegang tot zijn/haar account en bijbehorende data.
+    - Password
+- **Validation**:
+    - Backend compares the entered data with the data in the database.
+    - If valid, the user receives a JWT token.
+- **Storage**:
+    - No additional data is stored, but the user now has access to their account and associated data.
 - **Output**:
-    - JWT-token wordt opgeslagen in de frontend (voor authenticatie bij toekomstige acties).
+    - JWT token is stored in the frontend (for authentication of future actions).
 
-#### 3. **Gegevensopslag**:
-- **Opslaglocatie**:
-    - Gegevens van gebruikers (username, email, leeftijd, en gehashte wachtwoorden) worden opgeslagen in de **Aiven database**.
-    - Geen gegevens worden lokaal opgeslagen in de frontend, behalve het JWT-token, dat alleen dient voor authenticatie.
+#### 3. **Data Storage**:
+- **Storage Location**:
+    - User data (username, email, age, and hashed passwords) is stored in the **Aiven database**.
+    - No data is stored locally in the frontend, except the JWT token, which is used only for authentication.
 
-#### 4. **Gegevensoverdracht**:
+#### 4. **Data Transfer**:
 - **Input**:
-    - Frontend vraagt via **GET**-requests data op voor tools zoals de **heatmap** en **grafieken**.
-    - Backend levert aangepaste data voor de **chart** en **leaflet** via unieke controllers.
-- **Gegevensverwerking**:
-    - CBS data (gemeentegegevens, bevolkingsaantallen, etc.) wordt opgehaald via een externe API zonder gebruikersdata.
-    - Geen gebruikersdata wordt gedeeld met de CBS API; de backend vergelijkt enkel de gegevens.
-- **Beveiliging**:
-    - Alle communicatie tussen de frontend en backend is beveiligd via **HTTPS**.
-    - JWT-token wordt gebruikt voor het valideren van requests.
+    - Frontend requests data via **GET** requests for tools such as the **heatmap** and **charts**.
+    - Backend provides customized data for the **chart** and **leaflet** via unique controllers.
+- **Data Processing**:
+    - CBS data (municipality data, population numbers, etc.) is fetched via an external API without user data.
+    - No user data is shared with the CBS API; the backend only compares the data.
+- **Security**:
+    - All communication between the frontend and backend is secured via **HTTPS**.
+    - JWT token is used to validate requests.
 
-#### 5. **Gegevensverwijdering**:
-- **Verwijdering van gegevens**:
-    - Als een gebruiker zijn/haar account verwijdert, worden alle gegevens van die gebruiker (inclusief posts) direct uit de database verwijderd.
-    - Gebruikers kunnen hun eigen posts ook verwijderen via de website.
-- **Validatie**:
-    - Gebruikers moeten zijn ingelogd met een geldig JWT-token om hun account te kunnen verwijderen.
+#### 5. **Data Deletion**:
+- **Data Deletion**:
+    - If a user deletes their account, all data related to that user (including posts) is immediately removed from the database.
+    - Users can also delete their individual posts through the website.
+- **Validation**:
+    - Users must be logged in with a valid JWT token to delete their account.
 
-#### 6. **Gebruik van Externe API’s (CBS)**:
+#### 6. **Use of External APIs (CBS)**:
 - **Input**:
-    - Gemeente- en bevolkingsdata wordt opgevraagd via de **CBS Open Data API**.
-    - Deze API levert openbare gegevens zoals gemeentecordinaten en bevolkingsaantallen.
+    - Municipality and population data is requested via the **CBS Open Data API**.
+    - This API provides public data such as municipality coordinates and population numbers.
 - **Output**:
-    - Gegevens worden verwerkt door de backend en gebruikt voor de tools (zoals de heatmap en de vergelijkingsfunctie).
-    - Er wordt geen gebruikersdata gedeeld met de CBS API, en gebruikers hoeven niet ingelogd te zijn om de tools te gebruiken.
+    - Data is processed by the backend and used for tools (such as the heatmap and comparison function).
+    - No user data is shared with the CBS API, and users do not need to be logged in to use the tools.
 
 ---
 
-### Visuele Gegevensstroom
+### Visual Data Flow
 
-Als we deze gegevensstromen visueel zouden weergeven in een flowchart, ziet het er ongeveer als volgt uit:
+If we were to represent these data flows visually in a flowchart, it would look approximately like this:
 
-1. **Registratie**:
-    - Gebruiker → Website (input) → Validatie (Backend) → Opslag in Aiven DB → JWT-token → Gebruiker (output).
+1. **Registration**:
+    - User → Website (input) → Validation (Backend) → Storage in Aiven DB → JWT Token → User (output).
 
 2. **Login**:
-    - Gebruiker → Website (input) → Validatie (Backend) → JWT-token → Gebruiker (output).
+    - User → Website (input) → Validation (Backend) → JWT Token → User (output).
 
-3. **Data-opvraging voor Tools**:
-    - Frontend → Backend (via GET-requests) → Backend verwerkt CBS-gegevens → Frontend ontvangt aangepaste data (bijv. voor heatmap/grafieken).
+3. **Data Retrieval for Tools**:
+    - Frontend → Backend (via GET requests) → Backend processes CBS data → Frontend receives customized data (e.g., for heatmap/charts).
 
-4. **Gegevensverwijdering**:
-    - Gebruiker → Website (verwijder verzoek) → Validatie JWT-token → Verwijdering uit Aiven DB → Gebruiker (output).
+4. **Data Deletion**:
+    - User → Website (delete request) → JWT token validation → Deletion from Aiven DB → User (output).
