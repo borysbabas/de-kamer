@@ -5,16 +5,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 
+import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
-/**
- * public class that represents a jwt for users authentication and authorization.
- * It provides methods to encode,decode and validate JWT.
- */
 public class JWToken {
     public static final String JWT_ATTRIBUTE_NAME ="jwtAttribute" ;
     private static final String JWT_ROLE_CLAIM="role";
@@ -24,25 +21,12 @@ public class JWToken {
     private final Long accountId;
     private final String role;
 
-    /**
-     * The constructor that instantiates the actual token
-     * @param callName the name of the caller or user.
-     * @param accountId the unique id of the account.
-     * @param role the role of the user. Used to regulate certain parts of the website.
-     */
     public JWToken(String callName, Long accountId, String role){
         this.callName = callName;
         this.accountId = accountId;
         this.role = role;
     }
 
-    /**
-     * Method to encode the token into a signed string.
-     * @param issuer the entity issuing the token.
-     * @param passphrase a secret to sign the token
-     * @param expiration the time when the token expires
-     * @return A signed jwt.
-     */
     public String encode(String issuer, String passphrase, int expiration){
         Key key = getKey(passphrase);
 
@@ -57,13 +41,6 @@ public class JWToken {
                 .compact();
 
     }
-
-    /**
-     * Generates a signed key using the SHA-512 algorithm.
-     * Note: the use of the byte array is essential as it doesn't work without.
-     * @param passphrase the secret used to obtain the key.
-     * @return
-     */
     private static Key getKey(String passphrase) {
         try{
             MessageDigest digest = MessageDigest.getInstance("SHA-512");
@@ -76,15 +53,7 @@ public class JWToken {
         }
     }
 
-    /**
-     * Decodes a JWT string into a JWtoken object.
-     * @param token the jwt string to decode
-     * @param issuer the entity that issued the call.
-     * @param passphrase the secretkey used to verify the tokens validity
-     * @return a new jwt token that has been decoded to authenticate the token.
-     * @throws ExpiredJwtException exception to throw when the token is expired
-     * @throws MalformedJwtException exception to throw when the token has been altered.
-     */
+
     public static JWToken decode(String token, String issuer, String passphrase)throws ExpiredJwtException, MalformedJwtException{
         Key key = getKey(passphrase);
 
@@ -98,10 +67,6 @@ public class JWToken {
         return new JWToken(claims.getSubject(),Long.valueOf(claims.getId()),claims.get(JWT_ROLE_CLAIM).toString());
     }
 
-    /**
-     * helper method to check whether entity that issued the token has the role admin.
-     * @return the role of the token.
-     */
     public boolean isAdmin() {
         return role != null && role.contains("admin");
 

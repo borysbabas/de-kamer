@@ -3,7 +3,7 @@
     <h2>
       Voorkeursstemmen tabel
     </h2>
-    <select v-model="selectedConstituency" @change="handleConstituencyChange" class="table-select">
+    <select @change="handleConstituencyChange" class="table-select">
       <option selected disabled value="">Selecteer een kieskring</option>
       <option v-for="constituency in constituencies" :key="constituency.constituencyId"
               :value="constituency.constituencyId">
@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref, onMounted} from "vue";
+import {ref} from "vue";
 import type {Constituency} from "@/types/Constituency";
 import type {ConstituencyVotes} from "@/types/ConstituencyVotes";
 import type {Municipality} from "@/types/Municipality";
@@ -243,15 +243,15 @@ async function fetchPollingStationVotes(pollingStationId, pagination, page) {
 }
 
 // Handle functions
-function handleConstituencyChange() {
+function handleConstituencyChange(event) {
   currentPage.value = 1;
   selectedMunicipality.value = 0;
   municipalities.value = [];
   selectedPollingStation.value = 0;
   pollingStations.value = [];
-  fetchConstituencyVotesCount(selectedConstituency.value);
-  fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value);
-  fetchMunicipalities(selectedConstituency.value);
+  fetchConstituencyVotesCount(event.target.value);
+  fetchConstituencyVotes(event.target.value, pagination.value, currentPage.value);
+  fetchMunicipalities(event.target.value);
 }
 
 function handleMunicipalityChange(event) {
@@ -306,12 +306,7 @@ function handlePaginationChange() {
   }
 }
 
-// On initial load of the component it pulls the list of constituencies and loads the table with data of the first constituency
-onMounted(() => {
-  fetchConstituencies();
-  selectedConstituency.value = 1;
-  handleConstituencyChange();
-});
+void fetchConstituencies();
 </script>
 
 <style scoped>

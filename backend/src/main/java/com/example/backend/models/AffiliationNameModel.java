@@ -1,5 +1,6 @@
 package com.example.backend.models;
 
+import com.example.backend.entities.Candidate;
 import lombok.Getter;
 
 @Getter

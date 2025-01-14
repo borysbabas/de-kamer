@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.entities.Constituency;
 import com.example.backend.entities.ConstituencyVotes;
 import com.example.backend.models.ConstituencyVotesModel;
 import com.example.backend.repositories.ConstituencyVotesRepository;
@@ -21,6 +22,13 @@ public class ConstituencyVotesService {
         constituencyVotesRepository.save(constituencyVotes);
     }
 
+    public int getConstituencyVotesCountByConstituency(Constituency constituency) {
+        return constituencyVotesRepository.countByConstituency(constituency);
+    }
+
+    public List<ConstituencyVotes> getConstituencyVotesByConstituencyByPage(Constituency constituency, int pagination, int page) {
+        return constituencyVotesRepository.findByConstituencyByPageOrderByTotalVotesDesc(constituency, pagination, (page - 1) * pagination);
+    }
     public List<ConstituencyVotesModel> getConstituencyVotesByAffiliationId(Long affiliationId) {
         return constituencyVotesRepository.findTotalVotesByAffiliationGroupedByConstituency(affiliationId);
     }

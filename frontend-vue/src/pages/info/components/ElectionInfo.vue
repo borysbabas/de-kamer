@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <section class="info-section-inner">
+  <section>
     <h1 class="info-title">Het Nederlandse kiesstelsel: Uitleg voor iedereen</h1>
     <p class="info-text">
       Het Nederlandse kiesstelsel is ontworpen om ervoor te zorgen dat iedereen, ongeacht hun politieke voorkeur,
@@ -108,8 +108,14 @@
 </template>
 
 <style scoped>
-.info-section-inner {
-  padding-top: 0 !important;
+.main {
+  min-height: calc(100vh - 150px);
+  object-fit: cover;
+  background-color: var(--dark-primary);
+  color: var(--light-primary);
+  padding: 20px var(--page-padding);
+  position: relative;
+  z-index: 0;
 }
 
 .info-title {
@@ -135,14 +141,6 @@ h2 {
 ul {
   margin-left: 20px;
   letter-spacing: 0;
-}
-
-ul li {
-  border-right: 1px solid var(--light-primary);
-}
-
-ul li:last-of-type {
-  border-right: none;
 }
 
 .info-styling-container {
