@@ -17,6 +17,8 @@ import AccountDetailsPage from "@/pages/account-details/AccountDetailsPage.vue";
 import AddPostPage from "@/pages/forum/pages/AddPostPage.vue";
 import InfoPage from "@/pages/info/InfoPage.vue";
 import PostDetailsPage from "@/pages/forum/pages/PostDetailsPage.vue";
+import AdminPage from "@/pages/admin/AdminPage.vue";
+import {useJWToken} from "@/composables/useJWToken";
 
 const router: Router = createRouter({
     history: createWebHistory(),
@@ -29,6 +31,7 @@ const router: Router = createRouter({
         {path: "/forum/register", component: RegisterPage, name: "Register"},
         {path:"/forum/account-details", component:AccountDetailsPage, name:"AccountDetails", meta:{requiresAuth:true}},
         {path: "/forum/add-post", component: AddPostPage, name: "AddPost", meta: {requiresAuth: true}},
+        {path: "/admin", component: AdminPage, name: "AdminPage", meta: {requiresAdmin: true}},
         {path: "/forum/post/:postId", name: "PostDetails", component: PostDetailsPage},
         {path: "/candidate/:candidateId", name: "CandidateDetails", component: CandidateDetailsPage, props: true},
         {path: '/party/:partyId', name: 'PartyDetails', component: PartyDetailsPage},
@@ -39,11 +42,21 @@ const router: Router = createRouter({
 })
 router.beforeEach((to,from,next)=>{
     if(to.matched.some(record=>record.meta.requiresAuth)){
+
         const token = localStorage.getItem("JWT_STORAGE_ITEM")
         if(!token){
             return next({path:"/forum/login"})
         }
+    }if(to.matched.some(record=>record.meta.requiresAdmin)){
+        const payload = useJWToken();
+        console.log(payload)
+
+        if (payload && payload.value && payload.value.role == "admin") {
+            return next();
+        }
+        return next({path: "/forum"})
     }
+
     next();
 });
 
