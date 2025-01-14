@@ -35,7 +35,6 @@ public class CandidateReader {
            document.getDocumentElement().normalize();
 
            NodeList candidateFullNameList = document.getElementsByTagName("CandidateFullName");
-
            for (int i = 0 ; i < candidateFullNameList.getLength(); i++){
                Node candidate = candidateFullNameList.item(i);
                if (candidate.getNodeType() == Node.ELEMENT_NODE){
