@@ -45,15 +45,23 @@ public class AdminController {
 
     @PutMapping(ApiPaths.BAN_ACCOUNT)
     public ResponseEntity<?> banAccount(@RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account, @PathVariable Long id) {
-        if (!Objects.equals(account.getRole(), "admin")) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
         Account accountToBan = accountService.getAccountById(id);
         if (accountToBan == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         accountToBan.setBanned(true);
         accountService.saveAccount(accountToBan);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(ApiPaths.UNBAN_ACCOUNT)
+    public ResponseEntity<?> unbanAccount(@RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account, @PathVariable Long id) {
+        Account accountToUnban = accountService.getAccountById(id);
+        if (accountToUnban == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        accountToUnban.setBanned(false);
+        accountService.saveAccount(accountToUnban);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

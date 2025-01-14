@@ -1,81 +1,78 @@
 <script setup lang="ts">
 import {getAllAccounts} from "@/composables/useAdmin";
+import type {AdminViewAccount} from "@/types/Account";
 
-const {accounts, banAccount} = getAllAccounts();
+const {accounts, banAccount, unbanAccount} = getAllAccounts();
+
+function banAccountHandler(account: AdminViewAccount) {
+  if (account.banned) {
+    unbanAccount(account.id);
+    return;
+  }
+  banAccount(account.id);
+}
 
 </script>
 
 <template>
   <div>
     <h2>Account lijst</h2>
-    <table>
-      <thead>
-      <tr>
-        <th>Id</th>
-        <th>Gebruikersnaam</th>
-        <th>E-mail</th>
-        <th>Account type</th>
-        <th>Status</th>
-        <th>Beheren</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="account in accounts" :key="account.id">
-        <td>{{ account.id }}</td>
-        <td>{{ account.userName }}</td>
-        <td>{{ account.email }}</td>
-        <td>{{ account.role }}</td>
-        <td>{{ account.banned
-            ? "Verbannen"
-            : "Actief" }}
-        </td>
-        <td class="manage-buttons">
-          <button @click="() => {
-            banAccount(account.id)
-          }" :class="account.banned">Verbannen</button>
-<!--          <button>Verwijderen</button>-->
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="account-list">
+      <div class="account-row heading">
+        <div>Id</div>
+        <div>Gebruikersnaam</div>
+        <div>E-mail</div>
+        <div>Account type</div>
+        <div>Status</div>
+        <div>Beheren</div>
+      </div>
+      <div v-for="account in accounts" :key="account.id" class="account-row">
+        <div>{{ account.id }}</div>
+        <div>{{ account.userName }}</div>
+        <div>{{ account.email }}</div>
+        <div>{{ account.role }}</div>
+        <div>{{ account.banned ? "Geblokkeerd" : "Actief" }}</div>
+        <div class="manage-buttons">
+          <button @click="banAccountHandler(account)">
+            {{ account.banned ? "Deblokkeren" : "Blokkeren" }}
+          </button>
+<!--          <button>-->
+<!--            Wijzigen-->
+<!--          </button>-->
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-table, th, td {
-  border: 1px solid var(--light-primary);
-
-}
-
-th, td {
-  padding: 15px;
-  text-align: left;
-}
-
-th {
-  background-color: var(--button);
-  color: var(--light-primary);
-  font-weight: 700;
-  font-size: 1.1rem;
-}
-
-.manage-buttons {
+.account-list {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  width: 100%;
+
+}
+
+.account-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  padding: 10px;
   align-items: center;
+  border-bottom: 1px solid var(--light-primary);
+}
+
+.account-row.heading {
+  font-weight: bold;
+  font-size: 1.2rem;
+  background-color: var(--button);
 }
 
 .manage-buttons button {
   margin: 0;
+  width: 100%;
 }
 
-table {
-  margin-top: 20px;
-}
+
 </style>

@@ -33,7 +33,21 @@ export function getAllAccounts() {
         await getAccounts();
     }
 
+    async function unbanAccount(accountId: number) {
+        isLoading.value = true;
+        const response = await fetch(import.meta.env.VITE_API_URL + "/admin/account/unban/" + accountId, {
+            method: "PUT",
+        });
+
+        if (!response.ok) {
+            isLoading.value = false;
+            return {accounts, isLoading};
+        }
+
+        await getAccounts();
+    }
+
     void getAccounts();
 
-    return {accounts, isLoading, banAccount};
+    return {accounts, isLoading, banAccount, unbanAccount};
 }
