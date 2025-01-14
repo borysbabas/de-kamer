@@ -4,7 +4,7 @@ import{inject} from "vue";
 
 
 const sessionService: any = inject("sessionService")
-const buttonText=ref("Log in");
+const buttonText=ref("Inloggen");
 const buttonColor=ref("")
 
 const loginCredentials = ref({
@@ -25,10 +25,10 @@ const submitLogin = async () => {
       loginCredentials.value.password
   );
   if (succes){
-    buttonText.value="Succesfully logged in!"
+    buttonText.value="Succesvol ingelogd!"
     buttonColor.value="green"
   } else {
-    buttonText.value="Login failed"
+    buttonText.value="Log-in gefaald"
     buttonColor.value="red"
   }
 
@@ -39,11 +39,11 @@ const submitLogin = async () => {
   <section class="login">
     <form @submit.prevent>
       <div class="wrapper">
-        <h2>Enter your credentials</h2>
+        <h2>Inloggen</h2>
         <input required v-model="loginCredentials.email" placeholder="E-mail" type="email" autocomplete="email">
-        <input required v-model="loginCredentials.password" placeholder="Password" type="password" autocomplete="current-password">
+        <input required v-model="loginCredentials.password" placeholder="Wachtwoord" type="password" autocomplete="current-password">
         <button id="submit-btn" :style="{backgroundColor: buttonColor}" @click="submitLogin">{{buttonText}}</button>
-        <router-link to="/forum/registreer"><a>Create account</a></router-link>
+        <router-link to="/forum/registreer"><a>Maak een nieuw account aan</a></router-link>
       </div>
     </form>
   </section>
