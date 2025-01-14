@@ -17,7 +17,7 @@ import AccountDetailsPage from "@/pages/account-details/AccountDetailsPage.vue";
 import AddPostPage from "@/pages/forum/pages/AddPostPage.vue";
 import InfoPage from "@/pages/info/InfoPage.vue";
 import PostDetailsPage from "@/pages/forum/pages/PostDetailsPage.vue";
-import Discover from "@/pages/Discover/Discover.vue";
+import Discover from "@/pages/discover/Discover.vue";
 
 const router: Router = createRouter({
     history: createWebHistory(),
