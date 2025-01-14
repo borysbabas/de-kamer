@@ -11,6 +11,15 @@ public class MunicipalityModel {
     private String name;
     private long constituencyId;
 
+    // Constructor needed for tests
+    public MunicipalityModel(){}
+
+    public MunicipalityModel(long municipalityId, String name, long constituencyId) {
+        this.municipalityId = municipalityId;
+        this.name = name;
+        this.constituencyId = constituencyId;
+    }
+
     public MunicipalityModel(Municipality municipality) {
         this.municipalityId = municipality.getMunicipalityId();
         this.name = municipality.getMunicipalityName();
