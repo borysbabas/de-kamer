@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import {getAllAccounts} from "@/composables/useAdmin";
 import type {AdminViewAccount} from "@/types/Account";
+import {useAccount} from "@/composables/useAccount";
 
 const {accounts, banAccount, unbanAccount} = getAllAccounts();
+const {adminAccount} = useAccount();
 
 function banAccountHandler(account: AdminViewAccount) {
+  if (!confirm(`Weet je zeker dat je ${account.userName} wilt ${account.banned ? "deblokkeren" : "blokkeren"}?`)) {
+    return;
+  }
   if (account.banned) {
     unbanAccount(account.id);
     return;
@@ -33,7 +38,8 @@ function banAccountHandler(account: AdminViewAccount) {
         <div>{{ account.role }}</div>
         <div>{{ account.banned ? "Geblokkeerd" : "Actief" }}</div>
         <div class="manage-buttons">
-          <button @click="banAccountHandler(account)" :class="{banned: account.banned}">
+          <button @click="banAccountHandler(account)" :class="{banned: account.banned}"
+          v-if="adminAccount && account.id !== adminAccount.id">
             {{ account.banned ? "Deblokkeren" : "Blokkeren" }}
           </button>
 <!--          <button>-->
