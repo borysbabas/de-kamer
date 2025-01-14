@@ -13,6 +13,7 @@
         <a href="/">Landingspagina</a>
         <a href="/uitslagen">Uitslagen</a>
         <a href="/info">Info</a>
+        <a href="/ontdekken">Ontdekken</a>
       </div>
 
       <div class="sitemap-section">
