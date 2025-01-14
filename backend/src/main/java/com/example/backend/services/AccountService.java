@@ -128,6 +128,6 @@ public class AccountService {
      * @return a list of registered accounts
      */
     public List<Account> getAllAccounts() {
-        return accountRepository.getAccounts();
+        return accountRepository.findAll();
     }
 }
