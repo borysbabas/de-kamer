@@ -2,6 +2,7 @@
 import {inject, onMounted, onUnmounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import Searchbar from "@/pages/navbar/components/Searchbar.vue";
+import {useAccount} from "@/composables/useAccount";
 
 //navbar status
 const navbarMargin = ref("50px");
@@ -16,6 +17,7 @@ const toggleSearchBar = () => {
 const sessionService = inject("sessionService")
 const userName = ref(sessionService.getUsernameFormBrowserStorage())
 const Authenticated = ref(sessionService.getTokenFromBrowserStorage())
+const {adminAccount} = useAccount();
 
 function handleSignOut() {
   sessionService.clearToken()
@@ -59,6 +61,7 @@ onUnmounted(() => {
         </li>
         <li class="buttons">
 
+          <router-link to="/forum/admin" v-if="adminAccount && adminAccount.role === 'admin'"><p class="nav-text clickable">Admin</p></router-link>
           <router-link to="/forum"><p class="nav-text clickable">Forum</p></router-link>
           <template v-if="isForumPage">
             <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text clickable">Login</p></router-link>
