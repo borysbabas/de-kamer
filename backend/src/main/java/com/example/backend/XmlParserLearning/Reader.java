@@ -14,8 +14,8 @@ public class Reader {
         CandidateReader reader = new CandidateReader("res");
         System.out.println("started parsing Candidates");
         reader.parseCandidatesXML();
+        System.out.println("started parsing affiliation votes");
         AffiliationListParser parser = new AffiliationListParser("res");
-        System.out.println("started parsing affiliations");
         parser.readAffiliationList();
 
 
