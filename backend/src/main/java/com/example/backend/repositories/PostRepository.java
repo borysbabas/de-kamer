@@ -20,4 +20,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT p FROM Post p ORDER BY p.dateCreated DESC LIMIT :limit OFFSET :offset")
     List<Post> findAllByPageOrderByDateCreatedDesc(@Param("limit") int limit, @Param("offset") int offset);
     Post getPostByPostId(long postId);
+    void deletePostsByAccountId(long accountId);
 }

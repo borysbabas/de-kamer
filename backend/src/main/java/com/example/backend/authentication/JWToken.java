@@ -1,18 +1,15 @@
 package com.example.backend.authentication;
 
-import com.example.backend.config.ApiConfig;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * public class that represents a jwt for users authentication and authorization.

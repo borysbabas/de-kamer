@@ -2,11 +2,8 @@ package com.example.backend.authentication;
 
 import com.example.backend.config.ApiConfig;
 import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Objects;
 
 @Component
 public class AuthenticateJWToken {

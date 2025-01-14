@@ -20,7 +20,7 @@ export class FetchInterceptor {
      */
     constructor(sessionService) {
         this.sessionService = sessionService;
-//Bind instance methods to ensure they maintain the correct context using the singleton principle.
+        //Bind instance methods to ensure they maintain the correct context using the singleton principle.
         this.request = this.request.bind(this);
         this.response = this.response.bind(this);
         this.responseError = this.responseError.bind(this);
@@ -45,6 +45,7 @@ export class FetchInterceptor {
         if (!token) {
             return [url, options];
         }
+
         //add the Bearer token to the request.
         const newOptions: FetchOptions = { ...options };
         newOptions.headers = {
@@ -70,7 +71,8 @@ export class FetchInterceptor {
 
         return response;
     }
-//handle response error.
+
+    //handle response error.
     responseError(error) {
         console.error("Fetch response error: ", error);
         return Promise.reject(error);
