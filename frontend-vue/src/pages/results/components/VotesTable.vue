@@ -1,9 +1,9 @@
 <template>
-  <div class="table-container">
+  <div class="table-container" id="listingTool">
     <h2>
       Voorkeursstemmen tabel
     </h2>
-    <select @change="handleConstituencyChange" class="table-select">
+    <select v-model="selectedConstituency" @change="handleConstituencyChange" class="table-select">
       <option selected disabled value="">Selecteer een kieskring</option>
       <option v-for="constituency in constituencies" :key="constituency.constituencyId"
               :value="constituency.constituencyId">
@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {ref, onMounted} from "vue";
 import type {Constituency} from "@/types/Constituency";
 import type {ConstituencyVotes} from "@/types/ConstituencyVotes";
 import type {Municipality} from "@/types/Municipality";
@@ -243,15 +243,15 @@ async function fetchPollingStationVotes(pollingStationId, pagination, page) {
 }
 
 // Handle functions
-function handleConstituencyChange(event) {
+function handleConstituencyChange() {
   currentPage.value = 1;
   selectedMunicipality.value = 0;
   municipalities.value = [];
   selectedPollingStation.value = 0;
   pollingStations.value = [];
-  fetchConstituencyVotesCount(event.target.value);
-  fetchConstituencyVotes(event.target.value, pagination.value, currentPage.value);
-  fetchMunicipalities(event.target.value);
+  fetchConstituencyVotesCount(selectedConstituency.value);
+  fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value);
+  fetchMunicipalities(selectedConstituency.value);
 }
 
 function handleMunicipalityChange(event) {
@@ -301,12 +301,22 @@ function handlePaginationChange() {
     pagination.value = 5;
   }
   currentPage.value = 1;
-  if (selectedConstituency.value) {
+
+  if (selectedPollingStation.value > 0) {
+    fetchPollingStationVotes(selectedPollingStation.value, pagination.value, currentPage.value)
+  } else if (selectedMunicipality.value > 0) {
+    fetchMunicipalityVotes(selectedMunicipality.value, pagination.value, currentPage.value)
+  } else {
     fetchConstituencyVotes(selectedConstituency.value, pagination.value, currentPage.value)
   }
 }
 
-void fetchConstituencies();
+// On initial load of the component it pulls the list of constituencies and loads the table with data of the first constituency
+onMounted(() => {
+  fetchConstituencies();
+  selectedConstituency.value = 1;
+  handleConstituencyChange();
+});
 </script>
 
 <style scoped>

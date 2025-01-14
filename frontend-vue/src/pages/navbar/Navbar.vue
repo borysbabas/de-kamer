@@ -2,6 +2,7 @@
 import {inject, onMounted, onUnmounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import Searchbar from "@/pages/navbar/components/Searchbar.vue";
+import {useAccount} from "@/composables/useAccount";
 
 //navbar status
 const navbarMargin = ref("50px");
@@ -16,6 +17,7 @@ const toggleSearchBar = () => {
 const sessionService = inject("sessionService")
 const userName = ref(sessionService.getUsernameFormBrowserStorage())
 const Authenticated = ref(sessionService.getTokenFromBrowserStorage())
+const {adminAccount} = useAccount();
 
 function handleSignOut() {
   sessionService.clearToken()
@@ -58,18 +60,20 @@ onUnmounted(() => {
           <Searchbar></Searchbar>
         </li>
         <li class="buttons">
+
+          <router-link to="/forum/admin" v-if="adminAccount && adminAccount.role === 'admin'"><p class="nav-text clickable">Admin</p></router-link>
+          <router-link to="/forum"><p class="nav-text clickable">Forum</p></router-link>
           <template v-if="isForumPage">
-            <router-link v-if="!Authenticated" to="/forum/login"><p class="nav-text clickable">Login</p></router-link>
-            <router-link v-if="!Authenticated" to="/forum/register"><p class="nav-text clickable">Register</p>
+            <router-link v-if="!Authenticated" to="/forum/log-in"><p class="nav-text clickable">Log in</p></router-link>
+            <router-link v-if="!Authenticated" to="/forum/registreer"><p class="nav-text clickable">Registreer</p>
             </router-link>
-            <router-link to="/forum/account-details" v-if="Authenticated"><p class="nav-text clickable"> Welkom,
+            <router-link to="/forum/accountgegevens" v-if="Authenticated"><p class="nav-text clickable"> Welkom,
               {{ userName }}</p></router-link>
             <div v-if="Authenticated"><p @click="handleSignOut" class="nav-text clickable">Uitloggen</p></div>
           </template>
           <template v-else>
             <router-link to="/uitslagen"><p class="nav-text clickable">Uitslagen</p></router-link>
             <router-link to="/info"><p class="nav-text clickable">Info</p></router-link>
-            <router-link to="/forum"><p class="nav-text clickable">Forum</p></router-link>
           </template>
         </li>
         <li>

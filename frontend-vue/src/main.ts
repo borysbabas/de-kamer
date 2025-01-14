@@ -1,5 +1,5 @@
 import './assets/reset.css'
-import {createApp, inject} from 'vue'
+import {createApp} from 'vue'
 import App from "./App.vue"
 import type {Router} from "vue-router";
 import {createRouter, createWebHistory} from "vue-router";
@@ -16,34 +16,61 @@ import SitemapPage from "@/pages/sitemap/SitemapPage.vue";
 import AccountDetailsPage from "@/pages/account-details/AccountDetailsPage.vue";
 import AddPostPage from "@/pages/forum/pages/AddPostPage.vue";
 import InfoPage from "@/pages/info/InfoPage.vue";
+import PostDetailsPage from "@/pages/forum/pages/PostDetailsPage.vue";
+import AdminPage from "@/pages/admin/ForumAdminPage.vue";
+import {useJWToken} from "@/composables/useJWToken";
+import Discover from "@/pages/discover/Discover.vue";
 
-const sessionsService = inject("sessionService")
 const router: Router = createRouter({
-    //test
     history: createWebHistory(),
     routes: [
         {path: "/", component: HomePage, name: "Home"},
         {path: "/uitslagen", component: ResultsPage, name: "Results"},
+        {path: "/ontdekken", component: Discover, name: "Ontdekken"},
         {path: "/info", component: InfoPage, name: "Info"},
         {path: "/forum", component: ForumPage, name: "Forum"},
         {path: "/forum/login", component: LoginPage, name: "Login"},
         {path: "/forum/register", component: RegisterPage, name: "Register"},
-        {path:"/forum/account-details", component:AccountDetailsPage, name:"AccountDetails", meta:{requiresAuth:true}},
-        {path: "/forum/add-post", component: AddPostPage, name: "AddPost"},
-        {path: "/candidate/:candidateId", name: "CandidateDetails", component: CandidateDetailsPage, props: true},
-        {path: '/party/:partyId', name: 'PartyDetails', component: PartyDetailsPage},
+        {path: "/forum/account-details", component:AccountDetailsPage, name:"AccountDetails", meta:{requiresAuth:true}},
+        {path: "/forum/add-post", component: AddPostPage, name: "AddPost", meta: {requiresAuth: true}},
+        {path: "/forum/admin", component: AdminPage, name: "AdminPage", meta: {requiresAdmin: true}},
+        {path: "/forum/log-in", component: LoginPage, name: "Login"},
+        {path: "/forum/registreer", component: RegisterPage, name: "Register"},
+        {path: "/forum/accountgegevens", component:AccountDetailsPage, name:"AccountDetails", meta: {requiresAuth: true}},
+        {path: "/forum/nieuwe-post", component: AddPostPage, name: "AddPost", meta: {requiresAuth: true}},
+        {path: "/forum/post/:postId", name: "PostDetails", component: PostDetailsPage},
+        {path: "/kandidaat/:candidateId", name: "CandidateDetails", component: CandidateDetailsPage, props: true},
+        {path: "/partij/:partyId", name: "PartyDetails", component: PartyDetailsPage},
         {path: "/algemene-voorwaarden", name: "TermsOfService", component: TermsOfServicePage},
         {path: "/privacyverklaring", name:"PrivacyPolicy", component: PrivacyPolicyPage},
         {path: "/sitemap", name: "Sitemap", component: SitemapPage},
-    ]
+    ],
+    scrollBehavior(to, from, savedPosition) {
+        if (to.hash) {
+            return {
+                el: to.hash,
+                behavior: 'smooth'
+            };
+        }
+        return {top: 0};
+    }
 })
 router.beforeEach((to,from,next)=>{
     if(to.matched.some(record=>record.meta.requiresAuth)){
+
         const token = localStorage.getItem("JWT_STORAGE_ITEM")
         if(!token){
-            return next({path:"/forum/login"})
+            return next({path:"/forum/log-in"})
         }
+    }if(to.matched.some(record=>record.meta.requiresAdmin)){
+        const payload = useJWToken();
+
+        if (payload && payload.value && payload.value.role == "admin") {
+            return next();
+        }
+        return next({path: "/forum"})
     }
+
     next();
 });
 

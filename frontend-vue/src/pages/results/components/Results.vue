@@ -10,12 +10,22 @@
   <section>
     <votes-table></votes-table>
   </section>
+  <section>
+    <leaflet-template></leaflet-template>
+  </section>
+  <section>
+    <data-selector-bar></data-selector-bar>
+    <ApexChartTemplate :interface="true"></ApexChartTemplate>
+  </section>
 </template>
 
 <script setup lang="ts">
 
 import VotesTable from "@/pages/results/components/VotesTable.vue";
 import CompareMunicipalities from "@/pages/compare-municipalities/CompareMunicipalities.vue";
+import DataSelectorBar from "@/components/tools/DataSelectorBar.vue";
+import LeafletTemplate from "@/components/tools/LeafletTemplate.vue";
+import ApexChartTemplate from "@/components/tools/ApexChartTemplate.vue";
 </script>
 
 <style scoped>

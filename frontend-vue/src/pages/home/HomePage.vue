@@ -5,6 +5,7 @@ import Footer from "@/pages/footer/Footer.vue";
 import AboutUs from "@/pages/home/components/AboutUs.vue";
 import {onMounted} from "vue";
 import {fetchCandidateVotes, fetchParties} from "@/composables/useFetch";
+import WelcomeBar from "@/pages/home/components/WelcomeBar.vue";
 
 onMounted(() => {
   fetchParties()

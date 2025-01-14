@@ -7,7 +7,12 @@ import lombok.Getter;
 import lombok.Setter;
 @Setter
 @Getter
+/**
+ * class that is used as a singleton data transfer object for the candidate entity.
+ * Constructor overload is used for different usages of the candidate entity.
+ */
 public class CandidateDTO {
+    //private fields to store current candidate values
     private  Long candidateId;
     private String firstName;
     private String prefix;
@@ -15,7 +20,7 @@ public class CandidateDTO {
     private String affiliationName;
     private String gender;
     private Long votes;
-
+// constructor for actual candidates
     public CandidateDTO(Candidate candidate) {
 
         this.candidateId = candidate.getCandidateId();
@@ -26,7 +31,7 @@ public class CandidateDTO {
         this.gender=candidate.getGender();
 
     }
-
+//constructor that is used in relation with countryvotes.
     public CandidateDTO(CountryVotes countryVotes) {
         Candidate candidate = countryVotes.getCandidate();
         this.candidateId = candidate.getCandidateId();
