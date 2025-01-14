@@ -35,6 +35,14 @@ public class ApiConfig implements WebMvcConfigurer {
     @Getter
     private final static String developmentOrigin = "http://localhost:3000";
 
+    @Getter
+    private final static String[] privateApiPaths = {
+            "/account",
+            "/admin",
+    };
+
+    public static final String ACCOUNT_HEADER = "account";
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

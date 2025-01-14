@@ -16,7 +16,7 @@ const addPost = async () => {
       title: postTitle.value,
       description: postDescription.value,
     };
-    const response = await fetch(import.meta.env.VITE_API_URL + "/posts/add", {
+    const response = await fetch(import.meta.env.VITE_API_URL + "/account/posts/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

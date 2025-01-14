@@ -1,9 +1,6 @@
 <template>
   <Navbar></Navbar>
   <Results></Results>
-  <leaflet-template></leaflet-template>
-  <data-selector-bar></data-selector-bar>
-  <ApexChartTemplate :interface="true"></ApexChartTemplate>
   <Footer></Footer>
 </template>
 
