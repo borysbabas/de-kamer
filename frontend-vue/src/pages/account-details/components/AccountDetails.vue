@@ -157,7 +157,7 @@ onMounted(async () => {
       <h1>Accountgegevens</h1>
       <div class="container">
         <div class="box">
-          Email: {{ fetchedEmail }}
+          E-mail: {{ fetchedEmail }}
           <div class="box-button">
             <button @click="handleBtnClick('email')">Wijzig</button>
           </div>
