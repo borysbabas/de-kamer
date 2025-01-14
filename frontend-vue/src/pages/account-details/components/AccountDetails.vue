@@ -182,7 +182,7 @@ onMounted(async () => {
         </div>
         <div class="box">
           <div class="delete-container">
-            <button @click="deleteAccount" class="delete-btn">Verwijder huidig account</button>
+            <button @click="deleteAccount" class="delete-btn">Verwijder mijn account</button>
           </div>
         </div>
       </div>
