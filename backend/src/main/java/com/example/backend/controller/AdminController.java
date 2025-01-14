@@ -45,10 +45,7 @@ public class AdminController {
     }
 
     @PutMapping(ApiPaths.BAN_ACCOUNT)
-    public ResponseEntity<?> banAccount(@RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account, @PathVariable Long id) {
-        if (!Objects.equals(account.getRole(), "admin")) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+    public ResponseEntity<?> banAccount(@PathVariable Long id) {
         Account accountToBan = accountService.getAccountById(id);
         if (accountToBan == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -59,10 +56,7 @@ public class AdminController {
     }
 
     @PutMapping(ApiPaths.UNBAN_ACCOUNT)
-    public ResponseEntity<?> unbanAccount(@RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account, @PathVariable Long id) {
-        if (!Objects.equals(account.getRole(), "admin")) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+    public ResponseEntity<?> unbanAccount(@PathVariable Long id) {
         Account accountToUnban = accountService.getAccountById(id);
         if (accountToUnban == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
