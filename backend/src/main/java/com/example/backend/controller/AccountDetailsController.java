@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
  */
 @RestController
 public class AccountDetailsController {
-    private final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private final AccountService accountService;
     private final PostService postService;
