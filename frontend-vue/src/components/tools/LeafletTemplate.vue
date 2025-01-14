@@ -1,5 +1,5 @@
 <template>
-  <div class="heatmap">
+  <div class="heatmap" id="heatmap">
       <div class="tootbar">
           <label for="affiliation">Partij:</label>
           <select v-model="selectedAffiliation" @change="select" id="affiliation">
