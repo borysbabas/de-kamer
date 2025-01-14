@@ -3,11 +3,8 @@ package com.example.backend;
 import com.example.backend.controller.PostController;
 import com.example.backend.entities.Account;
 import com.example.backend.entities.Post;
-import com.example.backend.services.AccountService;
 import com.example.backend.services.PostService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
@@ -83,7 +80,7 @@ public class PostTest {
             mockPost.setDescription("This is a test post");
             mockPost.setAccount(null);
 
-            mockMvc.perform(post("/posts/add")
+            mockMvc.perform(post("/account/posts/add")
                             .header(HttpHeaders.AUTHORIZATION, "Bearer invalidToken")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(mockPost)))
@@ -98,7 +95,7 @@ public class PostTest {
             mockPost.setDescription("This is a test post");
             mockPost.setAccount(null);
 
-            mockMvc.perform(post("/posts/add")
+            mockMvc.perform(post("/account/posts/add")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(mockPost)))
                     .andExpect(status().isForbidden());
@@ -174,7 +171,7 @@ public class PostTest {
             mockPost.setDescription("This is a test post");
             mockPost.setAccount(mockAccount);
 
-            mockMvc.perform(post("/posts/add")
+            mockMvc.perform(post("/account/posts/add")
                     .header(HttpHeaders.AUTHORIZATION, token)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(mockPost)))

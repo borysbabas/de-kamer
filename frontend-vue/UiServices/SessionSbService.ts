@@ -11,11 +11,10 @@ export default class SessionSbService {
      * @param resourcesURL The base url for authentication and session -related API calls.
      * @param browserStorageItemName the place wheree the current jwt token is stored
      */
-    constructor(resourcesURL, browserStorageItemName) {
+    constructor(resourcesURL: string, browserStorageItemName: string) {
         this.RESOURCES_URL = resourcesURL;
         this.BROWSER_STORAGE_ITEM_NAME = browserStorageItemName;
         this._currentToken = null;
-        // get  the token from the localstorage.
         this.getTokenFromBrowserStorage();
     }
 
@@ -33,7 +32,7 @@ export default class SessionSbService {
      *saves or removes the JWT token in the browser's localstorage.
      * @param token
      */
-    saveTokenIntoBrowserStorage(token) {
+    saveTokenIntoBrowserStorage(token: string) {
         if (token === null) {
             localStorage.removeItem(this.BROWSER_STORAGE_ITEM_NAME);
         } else {
@@ -41,19 +40,19 @@ export default class SessionSbService {
         }
         this._currentToken = token;
     }
-// function to save the username into to storage
-    saveUserNameIntoBrowserStorage(username){
+
+    saveUserNameIntoBrowserStorage(username: string){
         localStorage.setItem("username", username);
     }
-// function to retrieve the username from the storage
+
     getUsernameFormBrowserStorage(){
         return localStorage.getItem("username");
     }
-// helper function to clear the token that is located in the storage
+
     clearToken(){
         localStorage.removeItem(this.BROWSER_STORAGE_ITEM_NAME);
     }
-//helper function to clear the username from the local storage
+
     clearUserName(){
         localStorage.removeItem("username");
     }
@@ -66,7 +65,7 @@ export default class SessionSbService {
      * @returns {Promise<boolean>} a boolean value that returns true if the account credentials match with one in the database
      * returns false if not.
      */
-    async asyncSignIn(email, password) {
+    async asyncSignIn(email: string, password: string) {
         //variable that holds the  client's credentials.
         const body = JSON.stringify({ email, password });
         // constructs the response object using fetch method.
@@ -76,9 +75,10 @@ export default class SessionSbService {
             body: body,
             credentials: "include",
         });
-//checks if the credentials are correct by checking the response.
+
+        //checks if the credentials are correct by checking the response.
         if (response.ok) {
-            const responseData: Account = await response.json();
+            const responseData: any = await response.json();
             const token = responseData.jwtToken;
             const username = responseData.userName;
 
@@ -86,6 +86,7 @@ export default class SessionSbService {
                 this.saveTokenIntoBrowserStorage(token);
                 this.saveUserNameIntoBrowserStorage(username);
             }
+            location.href="/forum";
             return true;
         }
         return false;
@@ -97,7 +98,7 @@ export default class SessionSbService {
      * @returns {Promise<boolean>}  a boolean value that returns true if the account credentials are valid,
      * returns false if not.
      */
-    async asyncSignUp(registerForm){
+    async asyncSignUp(registerForm: any){
         const body = JSON.stringify(registerForm);
         const response = await fetch(`${this.RESOURCES_URL}/register`,{
             method:"POST",

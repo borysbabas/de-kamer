@@ -3,6 +3,7 @@ package com.example.backend.services;
 import com.example.backend.entities.Post;
 import com.example.backend.models.PostModel;
 import com.example.backend.repositories.PostRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +41,10 @@ public class PostService {
 
     public PostModel getPostById(long postId) {
         return new PostModel(postRepository.getPostByPostId(postId));
+    }
+
+    @Transactional
+    public void deletePostsByAccountId(long accountId) {
+        postRepository.deletePostsByAccountId(accountId);
     }
 }
