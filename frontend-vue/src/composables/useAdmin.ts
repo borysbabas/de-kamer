@@ -17,11 +17,23 @@ export function getAllAccounts() {
         }
 
         accounts.value = await response.json();
+    }
 
-        console.log(accounts.value);
+    async function banAccount(accountId: number) {
+        isLoading.value = true;
+        const response = await fetch(import.meta.env.VITE_API_URL + "/admin/account/ban/" + accountId, {
+            method: "PUT",
+        });
+
+        if (!response.ok) {
+            isLoading.value = false;
+            return {accounts, isLoading};
+        }
+
+        await getAccounts();
     }
 
     void getAccounts();
 
-    return {accounts, isLoading};
+    return {accounts, isLoading, banAccount};
 }

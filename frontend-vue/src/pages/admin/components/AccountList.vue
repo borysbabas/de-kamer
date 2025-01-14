@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {getAllAccounts} from "@/composables/useAdmin";
 
-const {accounts} = getAllAccounts();
+const {accounts, banAccount} = getAllAccounts();
+
 </script>
 
 <template>
@@ -29,7 +30,9 @@ const {accounts} = getAllAccounts();
             : "Actief" }}
         </td>
         <td class="manage-buttons">
-          <button>Verbannen</button>
+          <button @click="() => {
+            banAccount(account.id)
+          }" :class="account.banned">Verbannen</button>
 <!--          <button>Verwijderen</button>-->
         </td>
       </tr>

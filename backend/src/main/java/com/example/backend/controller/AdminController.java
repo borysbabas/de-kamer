@@ -7,10 +7,7 @@ import com.example.backend.entities.Account;
 import com.example.backend.services.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -46,7 +43,7 @@ public class AdminController {
         return new ResponseEntity<>(accountService.getAllAccounts().stream().map(AdminViewAccountDTO::new), HttpStatus.OK);
     }
 
-    @GetMapping(ApiPaths.BAN_ACCOUNT)
+    @PutMapping(ApiPaths.BAN_ACCOUNT)
     public ResponseEntity<?> banAccount(@RequestAttribute(ApiConfig.ACCOUNT_HEADER) Account account, @PathVariable Long id) {
         if (!Objects.equals(account.getRole(), "admin")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
