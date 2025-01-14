@@ -28,6 +28,10 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     private final String[] adminApiPaths = {
             "/admin",
     };
+    private final String[] bannedApiPaths = {
+            "/admin",
+            "/account/posts/add",
+    };
     private final String[] preflightHeaders = {
             HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD,
             HttpHeaders.ORIGIN,
@@ -86,6 +90,11 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
             if (account == null) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+
+            if (account.isBanned() && Arrays.stream(bannedApiPaths).anyMatch(request.getRequestURI()::startsWith)) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
 
