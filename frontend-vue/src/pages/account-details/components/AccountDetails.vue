@@ -154,35 +154,35 @@ onMounted(async () => {
   </section>
   <section class="account-details">
     <div class="wrapper">
-      <h1>Account details</h1>
+      <h1>Accountgegevens</h1>
       <div class="container">
         <div class="box">
-          email: {{ fetchedEmail }}
+          E-mail: {{ fetchedEmail }}
           <div class="box-button">
-            <button @click="handleBtnClick('email')">wijzig</button>
+            <button @click="handleBtnClick('email')">Wijzig</button>
           </div>
         </div>
         <div class="box">
-          gebruikersnaam: {{ fetchedUsername }}
+          Gebruikersnaam: {{ fetchedUsername }}
           <div class="box-button">
-            <button @click="handleBtnClick('userName')">wijzig</button>
+            <button @click="handleBtnClick('userName')">Wijzig</button>
           </div>
         </div>
         <div class="box">
-          wachtwoord: *********
+          Wachtwoord: *********
           <div class="box-button">
-            <button @click="handleBtnClick('password')">wijzig</button>
+            <button @click="handleBtnClick('password')">Wijzig</button>
           </div>
         </div>
         <div class="box">
-          geboortedatum: {{ fetchedDateOfBirth }}
+          Geboortedatum: {{ fetchedDateOfBirth }}
           <div class="box-button">
-            <button @click="handleBtnClick('dateOfBirth')">wijzig</button>
+            <button @click="handleBtnClick('dateOfBirth')">Wijzig</button>
           </div>
         </div>
         <div class="box">
           <div class="delete-container">
-            <button @click="deleteAccount" class="delete-btn">verwijder huidig account</button>
+            <button @click="deleteAccount" class="delete-btn">Verwijder mijn account</button>
           </div>
         </div>
       </div>

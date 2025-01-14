@@ -18,8 +18,8 @@
       <div class="sitemap-section">
         <h2>Forum</h2>
         <a href="/forum">Forum home</a>
-        <a href="/forum/login">Inloggen</a>
-        <a href="/forum/register">Registreren</a>
+        <a href="/forum/log-in">Inloggen</a>
+        <a href="/forum/registreer">Registreren</a>
       </div>
 
       <div class="sitemap-section">

@@ -66,7 +66,7 @@ onMounted(() => {
   const token = sessionService.getTokenFromBrowserStorage();
   if (!token) {
     alert("You need to be logged in");
-    window.location.href = "/forum/login";
+    window.location.href = "/forum/log-in";
   }
 });
 </script>

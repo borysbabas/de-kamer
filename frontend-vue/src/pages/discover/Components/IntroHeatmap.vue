@@ -16,8 +16,7 @@ const goToHeatmap = () => {
       <img class="intro-img" alt="desc" src="../../../assets/img/intro/heatmap.PNG">
     </div>
   <p class="intro-text">Met deze heatmap kun je snel en gemakkelijk zien waar een partij veel stemmen heeft gekregen. Gebruik de selector linksboven om een partij te kiezen.
-    De heatmap biedt ook de mogelijkheid om in en uit te zoomen. Ben je Nederland kwijtgeraakt? Klik op "Reset" en de kaart zal zichzelf weer centreren.
-  </p>
+    De heatmap biedt ook de mogelijkheid om in en uit te zoomen. Ben je Nederland kwijtgeraakt? Klik op "Centreer" en de kaart zal zichzelf weer centreren.</p>
   <button @click="goToHeatmap">Naar heatmap</button>
 </div>
 </template>
