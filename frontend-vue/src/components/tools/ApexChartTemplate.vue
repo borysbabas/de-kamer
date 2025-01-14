@@ -1,5 +1,5 @@
 <template>
-  <div class="background">
+  <div class="background" id="chart-box">
     <div class="border">
       <div class="layer">
         <button

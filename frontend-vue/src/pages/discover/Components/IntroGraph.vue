@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+
+const goToChart = () => {
+  router.push({ path: '/uitslagen', hash: '#chart-box' });
+};
+
+</script>
+
+
 <template>
   <div class="intro-item-container">
     <h1>Intro Grafiek</h1>
@@ -19,6 +31,7 @@
       Wilt u de grafiek downloaden of exporteren? Klik dan rechtsboven in de grafiek.
       Exporteren is mogelijk in de formaten SVG, PNG en CSV.
     </p>
+    <button @click="goToChart">Naar Grafiek</button>
   </div>
 </template>
 
