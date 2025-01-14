@@ -84,7 +84,7 @@ public class PostTest {
                             .header(HttpHeaders.AUTHORIZATION, "Bearer invalidToken")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(mockPost)))
-                    .andExpect(status().isForbidden());
+                    .andExpect(status().isUnauthorized());
         }
 
         @Test
@@ -98,7 +98,7 @@ public class PostTest {
             mockMvc.perform(post("/account/posts/add")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(mockPost)))
-                    .andExpect(status().isForbidden());
+                    .andExpect(status().isUnauthorized());
         }
 
         @Test
