@@ -18,7 +18,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(ApiPaths.ADMIN_SERVICE)
 public class AdminController {
 
     private final RequestMappingHandlerMapping handlerMapping;

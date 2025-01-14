@@ -11,6 +11,7 @@ public class ApiPaths {
     public static final String LEAFLET_SERVICE = "/leaflet";
 
     public static final String ADMIN_SERVICE = "/admin";
+    public static final String ROUTES = ADMIN_SERVICE + "/routes";
     public static final String ACCOUNTS = ADMIN_SERVICE + "/accounts";
 
     public static final String CANDIDATE_SERVICE_GET_AFFILIATION_VOTES = "/votes/{affiliationId}";
@@ -20,8 +21,6 @@ public class ApiPaths {
     public static final String AUTHENTICATION_SERVICE = "/authentication";
 
     public static final String CANDIDATES_SERVICE = "/candidates";
-
-    public static final String ROUTES = "/routes";
 
     public static final String AUTHENTICATION_SERVICE_LOGIN = AUTHENTICATION_SERVICE + "/login";
     public static final String AUTHENTICATION_SERVICE_REGISTER = AUTHENTICATION_SERVICE + "/register";
